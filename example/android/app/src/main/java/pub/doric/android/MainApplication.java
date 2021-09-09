@@ -6,14 +6,14 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import pub.doric.Doric;
-import pub.doric.library.DangleLibrary1;
+import pub.doric.library.DangleLibrary;
 
 public class MainApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
         Doric.init(this);
-        Doric.registerLibrary(new DangleLibrary1());
+        Doric.registerLibrary(new DangleLibrary());
     }
 
     @Override
