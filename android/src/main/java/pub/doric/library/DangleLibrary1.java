@@ -9,7 +9,7 @@ import pub.doric.DoricLibrary;
 import pub.doric.DoricRegistry;
 
 @DoricComponent
-public class dangleLibrary extends DoricLibrary {
+public class DangleLibrary1 extends DoricLibrary {
     @Override
     public void load(DoricRegistry registry) {
         try {
