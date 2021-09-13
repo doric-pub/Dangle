@@ -93,7 +93,7 @@ class Example extends Panel {
 
             // Draw the scene repeatedly
             setInterval(() => {
-              drawScene(gl, programInfo, buffers, 16);
+              drawScene(gl, programInfo, buffers, 0.016);
               gl.flush();
               gl.endFrameEXP();
             }, 16)
