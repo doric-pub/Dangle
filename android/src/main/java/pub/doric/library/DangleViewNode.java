@@ -62,7 +62,7 @@ public class DangleViewNode extends ViewNode<GLView> {
         glView.setOnSurfaceAvailable(new Runnable() {
             @Override
             public void run() {
-                callJSResponse("onPrepared");
+                callJSResponse("onPrepared", glView.getEXGLCtxId());
             }
         });
         return glView;

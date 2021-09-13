@@ -36,8 +36,8 @@ class Example extends Panel {
       }),
       stack([
         dangleView({
-          onPrepared: () => {
-            let gl = getGl(1) as any
+          onPrepared: (glContextId) => {
+            let gl = getGl(glContextId) as any
 
             gl.viewport(0, 0, 825, 825);
             gl.clearColor(0, 1, 1, 1);
