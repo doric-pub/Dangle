@@ -8,3 +8,5 @@ Pods/
 *.lock
 *.xcworkspace/xcshareddata/xcdebugger/
 package-lock.json
+.DS_Store 
+*/.DS_Store
