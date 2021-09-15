@@ -59,10 +59,10 @@ public class DangleViewNode extends ViewNode<GLView> {
     @Override
     protected GLView build() {
         GLView glView = new GLView(getContext());
-        glView.setOnSurfaceAvailable(new Runnable() {
+        glView.setOnSurfaceAvailable(new GLView.OnSurfaceAvailable() {
             @Override
-            public void run() {
-                callJSResponse("onPrepared", glView.getEXGLCtxId());
+            public void invoke(int width, int height) {
+                callJSResponse("onPrepared", glView.getEXGLCtxId(), width, height);
             }
         });
         return glView;

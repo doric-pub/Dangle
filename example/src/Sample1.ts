@@ -4,7 +4,6 @@ import {
   vlayout,
   layoutConfig,
   Gravity,
-  Color,
   navbar,
   stack,
 } from "doric";

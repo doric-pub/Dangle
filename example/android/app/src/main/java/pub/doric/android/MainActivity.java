@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView sampleRV = findViewById(R.id.sample_rv);
 
         String[] dataSet = new String[]{
-                "Sample1"
+                "Sample1",
+                "Sample2",
         };
         CustomAdapter customAdapter = new CustomAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

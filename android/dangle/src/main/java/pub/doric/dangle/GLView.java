@@ -14,8 +14,11 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
 
   private GLContext mGLContext;
 
-  private Runnable mOnSurfaceAvailable;
-  public void setOnSurfaceAvailable(Runnable onSurfaceAvailable) {
+  public interface OnSurfaceAvailable {
+    void invoke(int width, int height);
+  }
+  private OnSurfaceAvailable mOnSurfaceAvailable;
+  public void setOnSurfaceAvailable(OnSurfaceAvailable onSurfaceAvailable) {
     this.mOnSurfaceAvailable = onSurfaceAvailable;
   }
 
@@ -59,7 +62,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
       }
 
       if (!mOnSurfaceTextureCreatedWithZeroSize) {
-        initializeSurfaceInGLContext(surfaceTexture);
+        initializeSurfaceInGLContext(surfaceTexture, width, height);
       }
 
       mOnSurfaceCreateCalled = true;
@@ -79,7 +82,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
   @Override
   synchronized public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
     if (mOnSurfaceTextureCreatedWithZeroSize && (width != 0 || height != 0)) {
-      initializeSurfaceInGLContext(surfaceTexture);
+      initializeSurfaceInGLContext(surfaceTexture, width, height);
       mOnSurfaceTextureCreatedWithZeroSize = false;
     }
   }
@@ -96,7 +99,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
     return mGLContext.getContextId();
   }
 
-  private void initializeSurfaceInGLContext(SurfaceTexture surfaceTexture) {
+  private void initializeSurfaceInGLContext(SurfaceTexture surfaceTexture, int width, int height) {
     mGLContext.initialize(surfaceTexture, new Runnable() {
       @Override
       public void run() {
@@ -105,7 +108,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
         event.putInt("exglCtxId", mGLContext.getContextId());
 
         if (mOnSurfaceAvailable != null) {
-          mOnSurfaceAvailable.run();
+          mOnSurfaceAvailable.invoke(width, height);
         }
       }
     });
