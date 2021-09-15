@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         String[] dataSet = new String[]{
                 "Sample1",
                 "Sample2",
+                "Sample3",
         };
         CustomAdapter customAdapter = new CustomAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
