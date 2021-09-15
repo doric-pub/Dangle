@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
                 "Sample2",
                 "Sample3",
                 "Sample4",
+                "Sample5",
         };
         CustomAdapter customAdapter = new CustomAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

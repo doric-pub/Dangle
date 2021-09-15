@@ -3,4 +3,5 @@ export default [
     "src/Sample2",
     "src/Sample3",
     "src/Sample4",
+    "src/Sample5",
 ];
