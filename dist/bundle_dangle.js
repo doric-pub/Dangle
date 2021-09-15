@@ -4,14 +4,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var doric = require('doric');
 
-function demoPlugin(context) {
-    return {
-        call: () => {
-            return context.callNative("demoPlugin", "call");
-        },
-    };
-}
-
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -450,6 +442,5 @@ global.WebGLVertexArrayObject = WebGLVertexArrayObject;
 exports.DangleView = DangleView;
 exports.WebGLObject = WebGLObject;
 exports.dangleView = dangleView;
-exports.demoPlugin = demoPlugin;
 exports.getGl = getGl;
 //# sourceMappingURL=bundle_dangle.js.map

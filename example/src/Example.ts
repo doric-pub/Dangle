@@ -10,7 +10,7 @@ import {
   modal,
   stack,
 } from "doric";
-import { demoPlugin, dangleView, getGl } from "dangle";
+import { dangleView, getGl } from "dangle";
 import { mat4 } from "gl-matrix";
 
 var squareRotation = 0.0;
@@ -22,18 +22,6 @@ class Example extends Panel {
   }
   build(rootView: Group) {
     vlayout([
-      text({
-        text: "Click to call native plugin",
-        textSize: 20,
-        backgroundColor: Color.parse("#70a1ff"),
-        textColor: Color.WHITE,
-        onClick: async () => {
-          const result = await demoPlugin(this.context).call();
-          await modal(this.context).alert(result);
-        },
-        layoutConfig: layoutConfig().fit(),
-        padding: { left: 20, right: 20, top: 20, bottom: 20 },
-      }),
       stack([
         dangleView({
           onPrepared: (glContextId) => {
