@@ -4,10 +4,7 @@ import {
   vlayout,
   layoutConfig,
   Gravity,
-  text,
-  Color,
   navbar,
-  modal,
   stack,
 } from "doric";
 import { dangleView, getGl } from "dangle";
@@ -16,87 +13,90 @@ import { mat4 } from "gl-matrix";
 var squareRotation = 0.0;
 
 @Entry
-class Example extends Panel {
+class Sample4 extends Panel {
   onShow() {
-    navbar(context).setTitle("Example");
+    navbar(context).setTitle("Sample4");
   }
   build(rootView: Group) {
     vlayout([
-      stack([
-        dangleView({
-          onPrepared: (glContextId) => {
-            let gl = getGl(glContextId) as any
-
-            gl.viewport(0, 0, 825, 825);
-            gl.clearColor(0, 1, 1, 1);
-  
-            // Vertex shader program
-
-            const vsSource = `
-              attribute vec4 aVertexPosition;
-              attribute vec4 aVertexColor;
-              uniform mat4 uModelViewMatrix;
-              uniform mat4 uProjectionMatrix;
-              varying lowp vec4 vColor;
-              void main(void) {
-                gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-                vColor = aVertexColor;
+      stack(
+        [
+          dangleView({
+            onPrepared: (glContextId, width, height) => {
+              let gl = getGl(glContextId) as any;
+              gl.canvas = {
+                clientWidth: width,
+                clientHeight: height,
               }
-            `;
 
-            // Fragment shader program
+              //#region code to impl
+              
+              // Vertex shader program
 
-            const fsSource = `
-              varying lowp vec4 vColor;
-              void main(void) {
-                gl_FragColor = vColor;
-              }
-            `;
+              const vsSource = `
+                attribute vec4 aVertexPosition;
+                attribute vec4 aVertexColor;
+                uniform mat4 uModelViewMatrix;
+                uniform mat4 uProjectionMatrix;
+                varying lowp vec4 vColor;
+                void main(void) {
+                  gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+                  vColor = aVertexColor;
+                }
+              `;
 
-            // Initialize a shader program; this is where all the lighting
-            // for the vertices and so forth is established.
-            const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
+              // Fragment shader program
 
-            // Collect all the info needed to use the shader program.
-            // Look up which attributes our shader program is using
-            // for aVertexPosition, aVertexColor and also
-            // look up uniform locations.
-            const programInfo = {
-              program: shaderProgram,
-              attribLocations: {
-                vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-                vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
-              },
-              uniformLocations: {
-                projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-                modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-              },
-            };
+              const fsSource = `
+                varying lowp vec4 vColor;
+                void main(void) {
+                  gl_FragColor = vColor;
+                }
+              `;
 
-            // Here's where we call the routine that builds all the
-            // objects we'll be drawing.
-            const buffers = initBuffers(gl);
+              // Initialize a shader program; this is where all the lighting
+              // for the vertices and so forth is established.
+              const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
 
-            var then = 0;
+              // Collect all the info needed to use the shader program.
+              // Look up which attributes our shader program is using
+              // for aVertexPosition, aVertexColor and also
+              // look up uniform locations.
+              const programInfo = {
+                program: shaderProgram,
+                attribLocations: {
+                  vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+                  vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
+                },
+                uniformLocations: {
+                  projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+                  modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+                },
+              };
 
-            // Draw the scene repeatedly
-            setInterval(() => {
-              drawScene(gl, programInfo, buffers, 0.016);
-              gl.flush();
-              gl.endFrameEXP();
-            }, 16)
-          }
-        }).apply({
+              // Here's where we call the routine that builds all the
+              // objects we'll be drawing.
+              const buffers = initBuffers(gl);
+
+              // Draw the scene repeatedly
+              setInterval(() => {
+                drawScene(gl, programInfo, buffers, 0.016);
+                gl.flush();
+                gl.endFrameEXP();
+              }, 16);
+            },
+          }).apply({
+            layoutConfig: layoutConfig().just(),
+            width: 300,
+            height: 300,
+          }),
+        ],
+        {
           layoutConfig: layoutConfig().just(),
           width: 300,
-          height: 300
-        })
-      ], {
-        layoutConfig: layoutConfig().just(),
-        width: 300,
-        height: 300,
-        backgroundColor: Color.BLACK
-      })
+          height: 300,
+        }
+      ),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -106,8 +106,7 @@ class Example extends Panel {
       .in(rootView);
   }
 }
-
-
+  
 //
 // initBuffers
 //
@@ -180,7 +179,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
   // and 100 units away from the camera.
 
   const fieldOfView = 45 * Math.PI / 180;   // in radians
-  const aspect = 825 / 825;
+  const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
   const zNear = 0.1;
   const zFar = 100.0;
   const projectionMatrix = mat4.create();
