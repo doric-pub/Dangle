@@ -6,12 +6,12 @@ def doricSDKVersion = model.dependencies.doric.replace("^", "").replace(">=","")
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "31.0.0"
     defaultConfig {
         applicationId "pub.doric.android.example"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
