@@ -19,6 +19,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(JSI_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../../common)
 include_directories(${JSI_INCLUDE})
 
+set(EXGL_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../../common/exgl)
+include_directories(${EXGL_INCLUDE})
+
 add_library( # Sets the name of the library.
         dangle
 
@@ -29,11 +32,11 @@ add_library( # Sets the name of the library.
         ${CMAKE_SOURCE_DIR}../../../../../../common/jsi/jsi.cpp
 
         EXGL.cpp
-        EXGLContext.cpp
-        EXGLImageUtils.cpp
-        EXGLNativeMethods.cpp
-        TypedArrayApi.cpp
-        UEXGL.cpp)
+        ${CMAKE_SOURCE_DIR}../../../../../../common/exgl/EXGLContext.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../../common/exgl/EXGLImageUtils.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../../common/exgl/EXGLNativeMethods.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../../common/exgl/TypedArrayApi.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../../common/exgl/UEXGL.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
