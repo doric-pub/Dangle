@@ -1,4 +1,4 @@
-#import "DangleLibrary1.h"
+#import "DangleLibrary.h"
 
 @implementation DangleLibrary
 - (void)load:(DoricRegistry *)registry {

@@ -1,6 +1,6 @@
 #import "SceneDelegate.h"
 #import <DoricCore/Doric.h>
-#import "DangleLibrary1.h"
+#import "DangleLibrary.h"
 
 #if DEBUG
 
