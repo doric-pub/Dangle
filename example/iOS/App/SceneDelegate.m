@@ -15,7 +15,7 @@
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     [Doric registerLibrary:[DangleLibrary new]];
     UIWindowScene *windowScene = (UIWindowScene *) scene;
-    NSString *bundleName = @"Sample1";
+    NSString *bundleName = @"Sample5";
     DoricViewController *doricViewController = [[DoricViewController alloc] initWithSource:[NSString stringWithFormat:@"assets://src/%@.js", bundleName]
                                                                                      alias:bundleName
                                                                                      extra:@""];
