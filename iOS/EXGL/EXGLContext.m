@@ -71,7 +71,7 @@
 - (void)initialize:(void(^)(BOOL))callback
 {
 
-    void *jsRuntimePtr = NULL;//[jsContextProvider javaScriptRuntimePointer];
+  void *jsRuntimePtr = DangleSingleton.instance.jsRuntimePtr;
 
   if (jsRuntimePtr) {
     __weak __typeof__(self) weakSelf = self;
