@@ -21,7 +21,7 @@
     __weak EXGLView* weakView = exglView;
     exglView.onSurfaceAvailable = ^void(int width, int height) {
         __strong EXGLView* strongView = weakView;
-        [self callJSResponse:@"onPrepared", @(strongView.glContext.contextId), @(width), @(height), nil];
+        [self callJSResponse:self.onPrepared, @(strongView.glContext.contextId), @(width), @(height), nil];
     };
     return exglView;
 }
