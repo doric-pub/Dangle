@@ -93,6 +93,8 @@ static EXGLObjectManager* _objectManager = nil;
     UEXGLContextId exglCtxId = _glContext.contextId;
     UEXGLContextSetDefaultFramebuffer(exglCtxId, _msaaFramebuffer);
     @{ @"exglCtxId": @(exglCtxId) };
+      
+    self.onSurfaceAvailable(_layerWidth, _layerHeight);
   }
 }
 

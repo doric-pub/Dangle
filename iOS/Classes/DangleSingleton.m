@@ -22,8 +22,10 @@
     return _instance;
 }
 
-- (void)setJsThread:(NSThread *)jsThread {
-    _jsThread = jsThread;
+- (void)setupJsThread {
+    DoricNativeDriver *nativeDriver = DoricSingleton.instance.nativeDriver;
+    DoricJSEngine *engine = nativeDriver.jsExecutor;
+    _jsThread = engine.jsThread;
 }
 
 - (void)setupJSIRuntime {

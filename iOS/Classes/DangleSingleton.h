@@ -7,7 +7,7 @@
 
 + (instancetype)instance;
 
-- (void)setJsThread:(NSThread *)jsThread;
+- (void)setupJsThread;
 
 - (void)setupJSIRuntime;
 @end

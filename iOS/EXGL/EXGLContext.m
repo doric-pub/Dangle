@@ -80,7 +80,7 @@
       EXGLContext *self = weakSelf;
 
       if (!self) {
-        BLOCK_SAFE_RUN(callback, NO);
+//        BLOCK_SAFE_RUN(callback, NO);
         return;
       }
 
@@ -94,10 +94,10 @@
       if ([self.delegate respondsToSelector:@selector(glContextInitialized:)]) {
         [self.delegate glContextInitialized:self];
       }
-      BLOCK_SAFE_RUN(callback, YES);
+//      BLOCK_SAFE_RUN(callback, YES);
     }];
   } else {
-    BLOCK_SAFE_RUN(callback, NO);
+//    BLOCK_SAFE_RUN(callback, NO);
     NSLog(@"EXGL: Can only run on JavaScriptCore! Do you have 'Remote Debugging' enabled in your app's Developer Menu (https://reactnative.dev/docs/debugging)? EXGL is not supported while using Remote Debugging, you will need to disable it to use EXGL.");
   }
 }
