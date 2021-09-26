@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-    s.name             = 'dangle'
+    s.name             = 'Dangle'
     s.version          = '0.1.0'
     s.summary          = 'Doric extension library'
   

@@ -22,5 +22,5 @@ target 'Example' do
 
   pod 'PINCache'
   
-  pod 'dangle',           :path => '../../'
+  pod 'Dangle',           :path => '../../'
 end
