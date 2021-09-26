@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
     s.compiler_flags = '-x objective-c++ -std=c++1z -fno-aligned-allocation'
   
-    s.ios.deployment_target = '9.0'
+    s.ios.deployment_target = '10.0'
   
     s.source_files = 'iOS/Classes/**/*'
     
