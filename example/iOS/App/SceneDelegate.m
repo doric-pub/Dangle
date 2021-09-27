@@ -1,6 +1,8 @@
-#import "SceneDelegate.h"
 #import <DoricCore/Doric.h>
+
+#import "SceneDelegate.h"
 #import "DangleLibrary.h"
+#import "ViewController.h"
 
 #if DEBUG
 
@@ -14,17 +16,14 @@
 @implementation SceneDelegate
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     [Doric registerLibrary:[DangleLibrary new]];
+    
     UIWindowScene *windowScene = (UIWindowScene *) scene;
-    NSString *bundleName = @"Sample5";
-    DoricViewController *doricViewController = [[DoricViewController alloc] initWithSource:[NSString stringWithFormat:@"assets://src/%@.js", bundleName]
-                                                                                     alias:bundleName
-                                                                                     extra:@""];
-    doricViewController.view.backgroundColor = [UIColor whiteColor];
+    ViewController *viewController = [[ViewController alloc] init];
 #if DEBUG
     UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Devkit" style:UIBarButtonItemStylePlain target:self action:@selector(onOpenDevkit)];
-    doricViewController.navigationItem.rightBarButtonItem = rightBarItem;
+    viewController.navigationItem.rightBarButtonItem = rightBarItem;
 #endif
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:doricViewController];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     UIWindow *window = [[UIWindow alloc] initWithWindowScene:windowScene];
     window.frame = windowScene.coordinateSpace.bounds;
     window.rootViewController = navigationController;

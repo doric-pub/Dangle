@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		89ECE884CE4B563A091D6AD3 /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 435113A53785539DAF219B19 /* libPods-Example.a */; };
+		8B96BC7227019BD6006CC52F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B96BC7127019BD6006CC52F /* ViewController.m */; };
 		E2B059BF23C452BB007555C7 /* src in Resources */ = {isa = PBXBuildFile; fileRef = E2B059BE23C452BB007555C7 /* src */; };
 		E2F64CEF2399359C0006BD9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F64CEE2399359C0006BD9A /* AppDelegate.m */; };
 		E2F64CF22399359C0006BD9A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F64CF12399359C0006BD9A /* SceneDelegate.m */; };
@@ -21,6 +22,8 @@
 		435113A53785539DAF219B19 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D47A9D4EA2836D57373FDF6 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		8B65D8E3CB45345BA0554208 /* Pods-TemplateLibrary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateLibrary.release.xcconfig"; path = "Target Support Files/Pods-TemplateLibrary/Pods-TemplateLibrary.release.xcconfig"; sourceTree = "<group>"; };
+		8B96BC7027019BD6006CC52F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8B96BC7127019BD6006CC52F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8CBFE74FB341E5BB3349F209 /* Pods-TemplateLibrary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateLibrary.debug.xcconfig"; path = "Target Support Files/Pods-TemplateLibrary/Pods-TemplateLibrary.debug.xcconfig"; sourceTree = "<group>"; };
 		E2B059BE23C452BB007555C7 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../bundle/src; sourceTree = "<group>"; };
 		E2F64CEA2399359C0006BD9A /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +90,8 @@
 				E2F64CFB2399359E0006BD9A /* LaunchScreen.storyboard */,
 				E2F64CFE2399359E0006BD9A /* Info.plist */,
 				E2F64CFF2399359E0006BD9A /* main.m */,
+				8B96BC7027019BD6006CC52F /* ViewController.h */,
+				8B96BC7127019BD6006CC52F /* ViewController.m */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 			files = (
 				E2F64CEF2399359C0006BD9A /* AppDelegate.m in Sources */,
 				E2F64D002399359E0006BD9A /* main.m in Sources */,
+				8B96BC7227019BD6006CC52F /* ViewController.m in Sources */,
 				E2F64CF22399359C0006BD9A /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
