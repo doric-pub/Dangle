@@ -5,5 +5,6 @@ export default [
     "src/Sample4",
     "src/Sample5",
     "src/Sample6",
+    "src/misc_lookat",
     "src/webgl_lines_colors",
 ];

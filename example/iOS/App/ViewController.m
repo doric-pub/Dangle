@@ -24,6 +24,7 @@
     for(int i = 1; i <= 6; i++) {
         [self.tableDataArr addObject:[NSString stringWithFormat:@"Sample%i", i]];
     }
+    [self.tableDataArr addObject:@"misc_lookat"];
     [self.tableDataArr addObject:@"webgl_lines_colors"];
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
