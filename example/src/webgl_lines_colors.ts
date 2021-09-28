@@ -6,6 +6,7 @@ import {
   Gravity,
   navbar,
   stack,
+  Color,
 } from "doric";
 import { dangleView, getGl } from "dangle";
 import * as THREE from "three"
@@ -54,7 +55,7 @@ class webgl_lines_colors extends Panel {
                 scene = new THREE.Scene();
 
                 renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-                renderer.setPixelRatio( 2 );
+                renderer.setPixelRatio( 1 );
                 renderer.setSize( width, height );
                 // document.body.appendChild( renderer.domElement );
 
@@ -250,6 +251,7 @@ class webgl_lines_colors extends Panel {
           layoutConfig: layoutConfig().just(),
           width: 300,
           height: 300,
+          backgroundColor: Color.BLACK
         }
       ),
     ])
