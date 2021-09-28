@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 "Sample4",
                 "Sample5",
                 "Sample6",
+                "webgl_lines_colors",
         };
         CustomAdapter customAdapter = new CustomAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
