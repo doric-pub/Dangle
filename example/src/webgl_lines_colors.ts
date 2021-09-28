@@ -201,9 +201,13 @@ class webgl_lines_colors extends Panel {
 
             // window.addEventListener( 'resize', onWindowResize );
 
-            self.gestureView!!.onTouchMove = ({x, y}) => {
-              onPointerMove({clientX: x, clientY: y, isPrimary: true})
-            }
+            self.gestureView!!.onTouchMove = ({ x, y }) => {
+              onPointerMove({
+                clientX: x * Environment.screenScale,
+                clientY: y * Environment.screenScale,
+                isPrimary: true,
+              });
+            };
           }
 
           function onWindowResize() {
