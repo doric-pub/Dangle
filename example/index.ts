@@ -10,6 +10,7 @@ export default [
     "src/misc_controls_drag",
     "src/misc_lookat",
     "src/webgl_camera",
+    "src/webgl_camera_array",
     "src/webgl_effects_peppersghost",
     "src/webgl_lines_colors",
 ];

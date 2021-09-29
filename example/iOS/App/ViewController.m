@@ -30,6 +30,7 @@
     [self.tableDataArr addObject:@"misc_controls_drag"];
     [self.tableDataArr addObject:@"misc_lookat"];
     [self.tableDataArr addObject:@"webgl_camera"];
+    [self.tableDataArr addObject:@"webgl_camera_array"];
     [self.tableDataArr addObject:@"webgl_effects_peppersghost"];
     [self.tableDataArr addObject:@"webgl_lines_colors"];
     

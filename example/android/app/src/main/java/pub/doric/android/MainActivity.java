@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 "misc_controls_drag",
                 "misc_lookat",
                 "webgl_camera",
+                "webgl_camera_array",
                 "webgl_effects_peppersghost",
                 "webgl_lines_colors",
         };
