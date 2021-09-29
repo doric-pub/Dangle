@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 "Sample6",
                 "misc_animation_groups",
                 "misc_animation_keys",
+                "misc_controls_drag",
                 "misc_lookat",
                 "webgl_camera",
                 "webgl_effects_peppersghost",
