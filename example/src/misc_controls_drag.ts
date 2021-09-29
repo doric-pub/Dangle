@@ -37,6 +37,13 @@ class misc_controls_drag extends Panel {
                 getContext: (() => {return gl}) as any,
               } as HTMLCanvasElement);
 
+              let window = {
+                innerWidth: width,
+                innerHeight: height,
+                devicePixelRatio: 1,
+                addEventListener: (() => {}) as any
+              }
+
               //#region code to impl
 
               let container;
@@ -44,7 +51,7 @@ class misc_controls_drag extends Panel {
               let controls, group;
               let enableSelection = false;
 
-              const objects: any[] = [];
+              const objects = [];
 
               const mouse = new THREE.Vector2(), raycaster = new THREE.Raycaster();
 
@@ -55,7 +62,7 @@ class misc_controls_drag extends Panel {
                 // container = document.createElement( 'div' );
                 // document.body.appendChild( container );
 
-                camera = new THREE.PerspectiveCamera( 70, width / height, 1, 5000 );
+                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 5000 );
                 camera.position.z = 1000;
 
                 scene = new THREE.Scene();
@@ -101,13 +108,13 @@ class misc_controls_drag extends Panel {
 
                   scene.add( object );
 
-                  objects.push( object );
+                  (<any[]>objects).push( object );
 
                 }
 
                 renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-                renderer.setPixelRatio( 1 );
-                renderer.setSize( width, height );
+                renderer.setPixelRatio( window.devicePixelRatio );
+                renderer.setSize( window.innerWidth, window.innerHeight );
 
                 renderer.shadowMap.enabled = true;
                 renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -119,11 +126,11 @@ class misc_controls_drag extends Panel {
 
                 //
 
-                // window.addEventListener( 'resize', onWindowResize );
+                window.addEventListener( 'resize', onWindowResize );
 
                 // document.addEventListener( 'click', onClick );
-                // window.addEventListener( 'keydown', onKeyDown );
-                // window.addEventListener( 'keyup', onKeyUp );
+                window.addEventListener( 'keydown', onKeyDown );
+                window.addEventListener( 'keyup', onKeyUp );
 
                 render();
 
@@ -170,16 +177,16 @@ class misc_controls_drag extends Panel {
 
                   if ( intersections.length > 0 ) {
 
-                    const object = intersections[ 0 ].object as any;
+                    const object = intersections[ 0 ].object;
 
                     if ( group.children.includes( object ) === true ) {
 
-                      object.material.emissive.set( 0x000000 );
+                      (<any>object).material.emissive.set( 0x000000 );
                       scene.attach( object );
 
                     } else {
 
-                      object.material.emissive.set( 0xaaaaaa );
+                      (<any>object).material.emissive.set( 0xaaaaaa );
                       group.attach( object );
 
                     }
