@@ -58,28 +58,35 @@ class webgl_lines_colors extends Panel {
             clientHeight: height,
             getContext: (() => {return gl}) as any,
           } as HTMLCanvasElement);
+          let window = {
+            innerWidth: width,
+            innerHeight: height,
+            devicePixelRatio: 1,
+            addEventListener: (() => {}) as any
+          }
+
 
           //#region code to impl
           let mouseX = 0, mouseY = 0;
 
-          let windowHalfX = width / 2;
-          let windowHalfY = height / 2;
+          let windowHalfX = window.innerWidth / 2;
+          let windowHalfY = window.innerHeight / 2;
 
-          let camera, scene, renderer; 
+          let camera, scene, renderer;
 
           init();
           animate();
 
           function init() {
 
-            camera = new THREE.PerspectiveCamera( 33, width / height, 1, 10000 );
+            camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 10000 );
             camera.position.z = 1000;
 
             scene = new THREE.Scene();
 
             renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-            renderer.setPixelRatio( 1 );
-            renderer.setSize( width, height );
+            renderer.setPixelRatio( window.devicePixelRatio );
+            renderer.setSize( window.innerWidth, window.innerHeight );
             // document.body.appendChild( renderer.domElement );
 
             //
@@ -197,18 +204,17 @@ class webgl_lines_colors extends Panel {
 
             // document.body.style.touchAction = 'none';
             // document.body.addEventListener( 'pointermove', onPointerMove );
-
-            //
-
-            // window.addEventListener( 'resize', onWindowResize );
-
             self.gestureView!!.onTouchMove = ({ x, y }) => {
               onPointerMove({
                 clientX: x * Environment.screenScale,
                 clientY: y * Environment.screenScale,
-                isPrimary: true,
               });
             };
+
+            //
+
+            window.addEventListener( 'resize', onWindowResize );
+
           }
 
           function onWindowResize() {
@@ -235,11 +241,12 @@ class webgl_lines_colors extends Panel {
           }
 
           //
+
           function animate() {
 
             requestAnimationFrame( animate );
             render();
-    
+
             gl.flush();
             gl.endFrameEXP();
           }
@@ -268,6 +275,7 @@ class webgl_lines_colors extends Panel {
             renderer.render( scene, camera );
 
           }
+          
           //#endregion
         },
       }).apply({
