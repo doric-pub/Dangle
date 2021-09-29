@@ -24,6 +24,7 @@
     for(int i = 1; i <= 6; i++) {
         [self.tableDataArr addObject:[NSString stringWithFormat:@"Sample%i", i]];
     }
+    [self.tableDataArr addObject:@"misc_animation_groups"];
     [self.tableDataArr addObject:@"misc_lookat"];
     [self.tableDataArr addObject:@"webgl_effects_peppersghost"];
     [self.tableDataArr addObject:@"webgl_lines_colors"];

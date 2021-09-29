@@ -5,6 +5,7 @@ export default [
     "src/Sample4",
     "src/Sample5",
     "src/Sample6",
+    "src/misc_animation_groups",
     "src/misc_lookat",
     "src/webgl_camera",
     "src/webgl_effects_peppersghost",
