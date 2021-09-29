@@ -8,9 +8,10 @@ import {
   Color,
   gestureContainer,
   GestureContainer,
-  modal,
 } from "doric";
 import { dangleView, getGl } from "dangle";
+import { requestAnimationFrame } from "./utils";
+
 import * as THREE from "three"
 import * as GeometryUtils from './jsm/utils/GeometryUtils'
 
@@ -236,12 +237,11 @@ class webgl_lines_colors extends Panel {
           //
           function animate() {
 
-            setInterval(() => {
-              render();
-
-              gl.flush();
-              gl.endFrameEXP();
-            }, 16);
+            requestAnimationFrame( animate );
+            render();
+    
+            gl.flush();
+            gl.endFrameEXP();
           }
 
           function render() {

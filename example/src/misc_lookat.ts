@@ -10,6 +10,8 @@ import {
   Color,
 } from "doric";
 import { dangleView, getGl } from "dangle";
+import { requestAnimationFrame } from "./utils";
+
 import * as THREE from "three"
 
 @Entry
@@ -142,18 +144,16 @@ class misc_lookat extends Panel {
           //
     
           function animate() {
-    
             // requestAnimationFrame( animate );
     
-            // render();
+            render();
+
             // stats.update();
 
-            setInterval(() => {
-              render();
+            gl.flush();
+            gl.endFrameEXP();
 
-              gl.flush();
-              gl.endFrameEXP();
-            }, 16);
+            requestAnimationFrame(animate);
           }
     
           function render() {

@@ -6,8 +6,11 @@ import {
   Gravity,
   navbar,
   stack,
+  Color,
 } from "doric";
 import { dangleView, getGl } from "dangle";
+import { requestAnimationFrame } from "./utils";
+
 import * as THREE from "three"
 import { PeppersGhostEffect } from "./jsm/effects/PeppersGhostEffect"
 
@@ -115,22 +118,20 @@ class webgl_effects_peppersghost extends Panel {
                 effect.setSize( window.innerWidth, window.innerHeight );
         
               }
-        
+
               function animate() {
-                setInterval(() => {
-                  group.rotation.y += 0.01;
         
-                  effect.render( scene, camera );
-    
-                  gl.flush();
-                  gl.endFrameEXP();
-                }, 16);
+                requestAnimationFrame( animate );
+        
+                group.rotation.y += 0.01;
+        
+                effect.render( scene, camera );
+  
+                gl.flush();
+                gl.endFrameEXP();
               }
 
               //#endregion
-
-              gl.flush();
-              gl.endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),
@@ -142,6 +143,7 @@ class webgl_effects_peppersghost extends Panel {
           layoutConfig: layoutConfig().just(),
           width: 300,
           height: 300,
+          backgroundColor: Color.BLACK,
         }
       ),
     ])

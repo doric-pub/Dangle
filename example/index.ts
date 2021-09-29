@@ -6,6 +6,7 @@ export default [
     "src/Sample5",
     "src/Sample6",
     "src/misc_lookat",
+    "src/webgl_camera",
     "src/webgl_effects_peppersghost",
     "src/webgl_lines_colors",
 ];
