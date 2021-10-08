@@ -20,12 +20,23 @@ __decorate([
     __metadata("design:type", Function)
 ], DangleView.prototype, "onPrepared", void 0);
 function dangleView(config) {
-    const ret = new DangleView;
+    const ret = new DangleView();
     ret.layoutConfig = doric.layoutConfig().fit();
     for (let key in config) {
         Reflect.set(ret, key, Reflect.get(config, key, config), ret);
     }
     return ret;
+}
+function vsync(context) {
+    return {
+        requestAnimationFrame: (fn) => {
+            return context.callNative("vsync", "requestAnimationFrame", context.function2Id(fn));
+        },
+        cancelAnimationFrame: (requestID) => {
+            context.removeFuncById(requestID);
+            return context.callNative("vsync", "cancelAnimationFrame", requestID);
+        },
+    };
 }
 
 var GLErrors = {
@@ -443,4 +454,5 @@ exports.DangleView = DangleView;
 exports.WebGLObject = WebGLObject;
 exports.dangleView = dangleView;
 exports.getGl = getGl;
+exports.vsync = vsync;
 //# sourceMappingURL=bundle_dangle.js.map

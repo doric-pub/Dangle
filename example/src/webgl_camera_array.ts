@@ -7,8 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl } from "dangle";
-import { requestAnimationFrame } from "./utils";
+import { dangleView, getGl, vsync } from "dangle";
 
 import * as THREE from 'three'
 
@@ -162,7 +161,7 @@ class webgl_camera_array extends Panel {
                 gl.flush();
                 gl.endFrameEXP();
 
-                requestAnimationFrame( animate );
+                vsync(context).requestAnimationFrame( animate );
 
               }
 

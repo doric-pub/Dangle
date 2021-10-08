@@ -9,8 +9,7 @@ import {
   gestureContainer,
   GestureContainer,
 } from "doric";
-import { dangleView, getGl } from "dangle";
-import { requestAnimationFrame } from "./utils";
+import { dangleView, getGl, vsync } from "dangle";
 
 import * as THREE from "three"
 import * as GeometryUtils from './jsm/utils/GeometryUtils'
@@ -244,7 +243,7 @@ class webgl_lines_colors extends Panel {
 
           function animate() {
 
-            requestAnimationFrame( animate );
+            vsync(context).requestAnimationFrame( animate );
             render();
 
             gl.flush();

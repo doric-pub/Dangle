@@ -7,8 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl } from "dangle";
-import { requestAnimationFrame } from "./utils";
+import { dangleView, getGl, vsync } from "dangle";
 
 import * as THREE from 'three'
 import { DragControls } from './jsm/controls/DragControls';

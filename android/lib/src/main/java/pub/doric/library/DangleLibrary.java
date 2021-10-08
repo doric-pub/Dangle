@@ -21,6 +21,8 @@ public class DangleLibrary extends DoricLibrary {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         registry.registerViewNode(DangleViewNode.class);
+        registry.registerNativePlugin(VsyncPlugin.class);
     }
 }

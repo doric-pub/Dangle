@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl } from "dangle";
+import { dangleView, getGl, vsync } from "dangle";
 import { mat4 } from "gl-matrix";
 
 var cubeRotation = 0.0;
@@ -78,17 +78,24 @@ class Sample5 extends Panel {
               // objects we'll be drawing.
               const buffers = initBuffers(gl);
 
+              var then = 0;
+
               // Draw the scene repeatedly
-              setInterval(() => {
-                drawScene(gl, programInfo, buffers, 0.016);
+              function render(now) {
+                now *= 0.001;  // convert to seconds
+                const deltaTime = now - then;
+                then = now;
+
+                drawScene(gl, programInfo, buffers, deltaTime);
+
                 gl.flush();
-                gl.endFrameEXP();
-              }, 16);
+                gl.endFrameEXP()
+
+                vsync(context).requestAnimationFrame(render);
+              }
+              vsync(context).requestAnimationFrame(render);
 
               //#endregion
-
-              gl.flush();
-              gl.endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

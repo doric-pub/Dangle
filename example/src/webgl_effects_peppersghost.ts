@@ -8,8 +8,7 @@ import {
   stack,
   Color,
 } from "doric";
-import { dangleView, getGl } from "dangle";
-import { requestAnimationFrame } from "./utils";
+import { dangleView, getGl, vsync } from "dangle";
 
 import * as THREE from "three"
 import { PeppersGhostEffect } from "./jsm/effects/PeppersGhostEffect"
@@ -132,7 +131,7 @@ class webgl_effects_peppersghost extends Panel {
 
               function animate() {
 
-                requestAnimationFrame( animate );
+                vsync(context).requestAnimationFrame( animate );
 
                 group.rotation.y += 0.01;
 

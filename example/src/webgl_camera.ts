@@ -8,8 +8,7 @@ import {
   stack,
   Color,
 } from "doric";
-import { dangleView, getGl } from "dangle";
-import { requestAnimationFrame } from "./utils";
+import { dangleView, getGl, vsync } from "dangle";
 
 import * as THREE from "three"
 
@@ -214,7 +213,7 @@ class webgl_camera extends Panel {
 
               function animate() {
 
-                requestAnimationFrame( animate );
+                vsync(context).requestAnimationFrame( animate );
 
                 render();
                 // stats.update();
