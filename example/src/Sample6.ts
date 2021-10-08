@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl } from "dangle";
+import { dangleView, getGl, vsync } from "dangle";
 import { mat4 } from "gl-matrix";
 
 var cubeRotation = 0.0;
@@ -92,14 +92,14 @@ class Sample6 extends Panel {
 
                 drawScene(gl, programInfo, buffers, texture, deltaTime);
 
-                requestAnimationFrame(render);
+                gl.flush();
+                gl.endFrameEXP();
+
+                vsync(context).requestAnimationFrame(render);
               }
-              requestAnimationFrame(render);
+              vsync(context).requestAnimationFrame(render);
 
               //#endregion
-
-              gl.flush();
-              gl.endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),
