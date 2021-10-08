@@ -7,6 +7,9 @@ import {
   navbar,
   stack,
   Color,
+  hlayout,
+  text,
+  Text,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -14,10 +17,16 @@ import * as THREE from "three"
 
 @Entry
 class webgl_camera extends Panel {
+
+  private orthographic?: Text
+  private perspective?: Text
+
   onShow() {
     navbar(context).setTitle("webgl_camera");
   }
   build(rootView: Group) {
+    let self = this
+
     vlayout([
       stack(
         [
@@ -158,7 +167,17 @@ class webgl_camera extends Panel {
 
                 window.addEventListener( 'resize', onWindowResize );
                 // document.addEventListener( 'keydown', onKeyDown );
+                self.orthographic!!.onClick = () => {
+                  onKeyDown({
+                    keyCode: 79
+                  })
+                }
 
+                self.perspective!!.onClick = () => {
+                  onKeyDown({
+                    keyCode: 80
+                  })
+                }
               }
 
               //
@@ -288,6 +307,16 @@ class webgl_camera extends Panel {
           backgroundColor: Color.BLACK,
         }
       ),
+      hlayout([
+        this.orthographic = text({
+          text: "orthographic"
+        }),
+        this.perspective = text({
+          text: "perspective"
+        })
+      ], {
+        space: 40
+      })
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
