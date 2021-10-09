@@ -41,10 +41,10 @@
 }
 
 - (void)handleDisplayLink: (CADisplayLink*)displayLink {
-    __weak typeof(self) _self = self;
+    __weak __typeof(self) _self = self;
     
     dispatch_async(self.syncQueue, ^{
-        __strong typeof(_self) self = _self;
+        __strong __typeof(_self) self = _self;
         
         [self.requestIDs enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSString * _Nonnull obj, BOOL * _Nonnull stop) {
             DoricPromise *currentPromise = [[DoricPromise alloc] initWithContext:self.doricContext callbackId:obj];
@@ -56,10 +56,10 @@
 }
 
 - (void)requestAnimationFrame:(NSString *)requestID withPromise:(DoricPromise *)promise {
-    __weak typeof(self) _self = self;
+    __weak __typeof(self) _self = self;
     
     dispatch_async(self.syncQueue, ^{
-        __strong typeof(_self) self = _self;
+        __strong __typeof(_self) self = _self;
         
         [self.requestIDs addObject:requestID];
     });
@@ -67,10 +67,10 @@
 }
 
 - (void)cancelAnimationFrame:(NSString *)requestID withPromise:(DoricPromise *)promise {
-    __weak typeof(self) _self = self;
+    __weak __typeof(self) _self = self;
     
     dispatch_async(self.syncQueue, ^{
-        __strong typeof(_self) self = _self;
+        __strong __typeof(_self) self = _self;
         
         BOOL result = [self.requestIDs containsObject:requestID];
         

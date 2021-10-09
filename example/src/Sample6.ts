@@ -11,6 +11,7 @@ import { dangleView, getGl, vsync } from "dangle";
 import { mat4 } from "gl-matrix";
 
 var cubeRotation = 0.0;
+;
 
 @Entry
 class Sample6 extends Panel {
@@ -283,16 +284,22 @@ function loadTexture(gl, url) {
                 width, height, border, srcFormat, srcType,
                 pixel);
 
-  const image = new Image();
-  image.onload = function() {
+  var cubeTexture = new Uint8Array([255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255, 255, 255, 255, 255])
+
+  // const image = new Image();
+  // image.onload = function() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-                  srcFormat, srcType, image);
+      2, 2, border, srcFormat, srcType,
+      cubeTexture);
+    
+    // gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+    //               srcFormat, srcType, image);
 
     // WebGL1 has different requirements for power of 2 images
     // vs non power of 2 images so check if the image is a
     // power of 2 in both dimensions.
-    if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+    if (isPowerOf2(256) && isPowerOf2(256)) {
        // Yes, it's a power of 2. Generate mips.
        gl.generateMipmap(gl.TEXTURE_2D);
     } else {
@@ -302,8 +309,8 @@ function loadTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
-  };
-  image.src = url;
+  // };
+  // image.src = url;
 
   return texture;
 }

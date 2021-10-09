@@ -45,7 +45,13 @@ android {
 }
 
 afterEvaluate {
+    cleanJSBundle.exec()
     buildJSBundle.exec()
+}
+
+task cleanJSBundle(type: Exec) {
+    workingDir project.rootDir.getParent()
+    commandLine 'npm', 'run', 'clean'
 }
 
 task buildJSBundle(type: Exec) {
