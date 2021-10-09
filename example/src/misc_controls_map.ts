@@ -8,6 +8,10 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
+  Switch,
+  switchView,
+  hlayout,
+  text
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -18,6 +22,7 @@ import { MapControls } from "./jsm/controls/OrbitControls";
 class misc_controls_map extends Panel {
 
   private gestureView?: GestureContainer
+  private switchView?: Switch
 
   onShow() {
     navbar(context).setTitle("misc_controls_map");
@@ -30,6 +35,14 @@ class misc_controls_map extends Panel {
         height: 300,
         backgroundColor: Color.BLACK,
       }),
+      hlayout([
+        text({
+          text: 'screenSpacePanning'
+        }),
+        this.switchView = switchView({})
+      ]).apply({
+        gravity: Gravity.Center,
+      })
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -163,7 +176,9 @@ class misc_controls_map extends Panel {
 
             // const gui = new GUI();
             // gui.add( controls, 'screenSpacePanning' );
-
+            self.switchView!!.onSwitch = (state) => {
+              controls.screenSpacePanning = state
+            }
           }
 
           function onWindowResize() {
