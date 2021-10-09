@@ -33,6 +33,7 @@
     [self.tableDataArr addObject:@"webgl_camera_array"];
     [self.tableDataArr addObject:@"webgl_clipping_intersection"];
     [self.tableDataArr addObject:@"webgl_effects_peppersghost"];
+    [self.tableDataArr addObject:@"webgl_interactive_buffergeometry"];
     [self.tableDataArr addObject:@"webgl_interactive_raycasting_points"];
     [self.tableDataArr addObject:@"webgl_lines_colors"];
     

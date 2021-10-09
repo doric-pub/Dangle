@@ -5,7 +5,6 @@ import {
   layoutConfig,
   Gravity,
   navbar,
-  stack,
   GestureContainer,
   gestureContainer,
   Color,
