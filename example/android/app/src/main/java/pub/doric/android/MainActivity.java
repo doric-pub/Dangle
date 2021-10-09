@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 "misc_animation_groups",
                 "misc_animation_keys",
                 "misc_controls_drag",
+                "misc_controls_map",
                 "misc_controls_orbit",
                 "misc_lookat",
                 "webgl_camera",

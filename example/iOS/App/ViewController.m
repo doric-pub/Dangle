@@ -28,6 +28,7 @@
     [self.tableDataArr addObject:@"misc_animation_groups"];
     [self.tableDataArr addObject:@"misc_animation_keys"];
     [self.tableDataArr addObject:@"misc_controls_drag"];
+    [self.tableDataArr addObject:@"misc_controls_map"];
     [self.tableDataArr addObject:@"misc_controls_orbit"];
     [self.tableDataArr addObject:@"misc_lookat"];
     [self.tableDataArr addObject:@"webgl_camera"];
