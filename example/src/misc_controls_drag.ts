@@ -50,8 +50,32 @@ class misc_controls_drag extends Panel {
             width: width,
             height: height,
             style: {},
-            addEventListener: (() => {}) as any,
+            addEventListener: ((
+              name: string,
+              fn: (event: { clientX: number; clientY: number }) => void
+            ) => {
+              if (name == "pointerdown") {
+                self.gestureView!!.onTouchDown = ({x, y}) => {
+                  fn({clientX: x * Environment.screenScale, clientY: y * Environment.screenScale})
+                };
+              } else if (name == "pointerup") {
+                self.gestureView!!.onTouchUp = ({x, y}) => {
+                  fn({clientX: x * Environment.screenScale, clientY: y * Environment.screenScale})
+                };
+              } else if (name == "pointermove") {
+                self.gestureView!!.onTouchMove = ({x, y}) => {
+                  fn({clientX: x * Environment.screenScale, clientY: y * Environment.screenScale})
+                };
+              } else if (name == "pointerleave") {
+                self.gestureView!!.onTouchCancel = ({x, y}) => {
+                  fn({clientX: x * Environment.screenScale, clientY: y * Environment.screenScale})
+                };
+              }
+            }) as any,
             removeEventListener: (() => {}) as any,
+            getBoundingClientRect: () => {
+              return {left: 0, top: 0, width: width, height: height}
+            },
             clientHeight: height,
             getContext: (() => {return gl}) as any,
           } as HTMLCanvasElement);
