@@ -13,5 +13,6 @@ export default [
     "src/webgl_camera_array",
     "src/webgl_clipping_intersection",
     "src/webgl_effects_peppersghost",
+    "src/webgl_interactive_raycasting_points",
     "src/webgl_lines_colors",
 ];

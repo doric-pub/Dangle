@@ -7,6 +7,7 @@ import {
   navbar,
   gestureContainer,
   GestureContainer,
+  Color,
 } from "doric";
 import { dangleView, getGl } from "dangle";
 
@@ -27,6 +28,7 @@ class webgl_clipping_intersection extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
+        backgroundColor: Color.BLACK,
       }),
     ])
       .apply({
