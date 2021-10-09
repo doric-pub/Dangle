@@ -12,6 +12,9 @@ import {
   hlayout,
   text,
   switchView,
+  input,
+  Input,
+  Text,
 } from "doric";
 import { dangleView, getGl } from "dangle";
 
@@ -23,6 +26,12 @@ class webgl_clipping_intersection extends Panel {
 
   private gestureView?: GestureContainer
   private clipIntersectionView?: Switch
+
+  private planeConstantInput?: Input
+  private confirmButton?: Text
+  private planeConstant?: string
+
+  private showHelpersView?: Switch
 
   onShow() {
     navbar(context).setTitle("webgl_clipping_intersection");
@@ -37,12 +46,40 @@ class webgl_clipping_intersection extends Panel {
       }),
       hlayout([
         text({
-          text: 'clipIntersection'
+          text: 'clip intersection'
         }),
         this.clipIntersectionView = switchView({state: true})
       ]).apply({
         gravity: Gravity.Center,
-      })
+      }),
+      hlayout([
+        this.planeConstantInput = input({
+          hintText: "-1 to 1, step 0.01",
+          onTextChange: (text) => {
+            self.planeConstant = text
+          }
+        }).apply({
+          layoutConfig: layoutConfig().fit(),
+          padding: {left: 0, right: 0, top: 0, bottom: 0},
+        }),
+        this.confirmButton = text({text: "Go"}).apply({
+          layoutConfig: layoutConfig().just(),
+          width: 50,
+          height: 30,
+          backgroundColor: Color.YELLOW
+        })
+      ]).apply({
+        space: 20,
+        gravity: Gravity.Center,
+      }),
+      hlayout([
+        text({
+          text: 'show helpers'
+        }),
+        this.showHelpersView = switchView({})
+      ]).apply({
+        gravity: Gravity.Center,
+      }),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -221,6 +258,24 @@ class webgl_clipping_intersection extends Panel {
                 (<any>children[ i ]).material.clipIntersection = state;
 
               }
+
+              render();
+            }
+
+            self.confirmButton!!.onClick = () => {
+              let value = parseFloat(self.planeConstant!!)
+
+              for ( let j = 0; j < clipPlanes.length; j ++ ) {
+
+                clipPlanes[ j ].constant = value;
+
+              }
+
+              render();
+            }
+
+            self.showHelpersView!!.onSwitch = (state) => {
+              helpers.visible = state;
 
               render();
             }
