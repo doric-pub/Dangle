@@ -8,6 +8,10 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
+  Switch,
+  hlayout,
+  text,
+  switchView,
 } from "doric";
 import { dangleView, getGl } from "dangle";
 
@@ -18,6 +22,7 @@ import { OrbitControls } from "./jsm/controls/OrbitControls";
 class webgl_clipping_intersection extends Panel {
 
   private gestureView?: GestureContainer
+  private clipIntersectionView?: Switch
 
   onShow() {
     navbar(context).setTitle("webgl_clipping_intersection");
@@ -30,6 +35,14 @@ class webgl_clipping_intersection extends Panel {
         height: 300,
         backgroundColor: Color.BLACK,
       }),
+      hlayout([
+        text({
+          text: 'clipIntersection'
+        }),
+        this.clipIntersectionView = switchView({state: true})
+      ]).apply({
+        gravity: Gravity.Center,
+      })
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -200,6 +213,17 @@ class webgl_clipping_intersection extends Panel {
 
             // } );
 
+            self.clipIntersectionView!!.onSwitch = (state) => {
+              const children = group.children;
+
+              for ( let i = 0; i < children.length; i ++ ) {
+
+                (<any>children[ i ]).material.clipIntersection = state;
+
+              }
+
+              render();
+            }
             //
 
             window.addEventListener( 'resize', onWindowResize );
