@@ -11,6 +11,7 @@ export default [
     "src/misc_lookat",
     "src/webgl_camera",
     "src/webgl_camera_array",
+    "src/webgl_clipping_intersection",
     "src/webgl_effects_peppersghost",
     "src/webgl_lines_colors",
 ];
