@@ -8,6 +8,7 @@ export default [
     "src/misc_animation_groups",
     "src/misc_animation_keys",
     "src/misc_controls_drag",
+    "src/misc_controls_orbit",
     "src/misc_lookat",
     "src/webgl_camera",
     "src/webgl_camera_array",
