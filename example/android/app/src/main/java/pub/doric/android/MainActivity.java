@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 "webgl_camera",
                 "webgl_camera_array",
                 "webgl_clipping_intersection",
+                "webgl_clipping",
                 "webgl_effects_peppersghost",
                 "webgl_interactive_buffergeometry",
                 "webgl_interactive_raycasting_points",

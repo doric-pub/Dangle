@@ -14,6 +14,7 @@ export default [
     "src/webgl_camera",
     "src/webgl_camera_array",
     "src/webgl_clipping_intersection",
+    "src/webgl_clipping",
     "src/webgl_effects_peppersghost",
     "src/webgl_interactive_buffergeometry",
     "src/webgl_interactive_raycasting_points",
