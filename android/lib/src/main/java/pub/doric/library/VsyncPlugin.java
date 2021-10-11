@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import pub.doric.DoricContext;
+import pub.doric.DoricContextManager;
+import pub.doric.DoricSingleton;
 import pub.doric.extension.bridge.DoricMethod;
 import pub.doric.extension.bridge.DoricPlugin;
 import pub.doric.extension.bridge.DoricPromise;
@@ -33,6 +35,12 @@ public class VsyncPlugin extends DoricJavaPlugin {
         Choreographer.getInstance().postFrameCallback(new Choreographer.FrameCallback() {
             @Override
             public void doFrame(long frameTimeNanos) {
+                if (DoricContextManager.getContext(getDoricContext().getContextId()) == null) {
+                    DoricSingleton.getInstance().getNativeDriver().getRegistry()
+                            .onException(getDoricContext(), new Exception("doric context destroyed when vsync"));
+                    return;
+                }
+
                 Iterator<String> it = requestIDs.iterator();
                 if (it.hasNext()) {
                     do {
