@@ -13,8 +13,8 @@ import {
   text,
   switchView,
   input,
-  Input,
   Text,
+  VLayout,
 } from "doric";
 import { dangleView, getGl } from "dangle";
 
@@ -23,6 +23,8 @@ import { OrbitControls } from "./jsm/controls/OrbitControls";
 
 @Entry
 class webgl_clipping_intersection extends Panel {
+
+  private container?: VLayout
 
   private gestureView?: GestureContainer
   private clipIntersectionView?: Switch
@@ -36,48 +38,12 @@ class webgl_clipping_intersection extends Panel {
     navbar(context).setTitle("webgl_clipping_intersection");
   }
   build(rootView: Group) {
-    vlayout([
+    this.container = vlayout([
       this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
-      }),
-      hlayout([
-        text({
-          text: 'clip intersection'
-        }),
-        this.clipIntersectionView = switchView({state: true})
-      ]).apply({
-        gravity: Gravity.Center,
-      }),
-      hlayout([
-        input({
-          hintText: "-1 to 1, step 0.01",
-          onTextChange: (text) => {
-            self.planeConstant = text
-          }
-        }).apply({
-          layoutConfig: layoutConfig().fit(),
-          padding: {left: 0, right: 0, top: 0, bottom: 0},
-        }),
-        this.confirmButton = text({text: "Go"}).apply({
-          layoutConfig: layoutConfig().just(),
-          width: 50,
-          height: 30,
-          backgroundColor: Color.YELLOW
-        })
-      ]).apply({
-        space: 20,
-        gravity: Gravity.Center,
-      }),
-      hlayout([
-        text({
-          text: 'show helpers'
-        }),
-        this.showHelpersView = switchView({})
-      ]).apply({
-        gravity: Gravity.Center,
       }),
     ])
       .apply({
@@ -249,35 +215,82 @@ class webgl_clipping_intersection extends Panel {
 
             // } );
 
-            self.clipIntersectionView!!.onSwitch = (state) => {
-              const children = group.children;
+            setTimeout(() => {
+              self.container!!.addChild(
+                hlayout([
+                  text({
+                    text: 'clip intersection'
+                  }),
+                  self.clipIntersectionView = switchView({state: true})
+                ]).apply({
+                  gravity: Gravity.Center,
+                }),
+              )
 
-              for ( let i = 0; i < children.length; i ++ ) {
+              self.container!!.addChild(
+                hlayout([
+                  input({
+                    hintText: "-1 to 1, step 0.01",
+                    onTextChange: (text) => {
+                      self.planeConstant = text
+                    }
+                  }).apply({
+                    layoutConfig: layoutConfig().fit(),
+                    padding: {left: 0, right: 0, top: 0, bottom: 0},
+                  }),
+                  self.confirmButton = text({text: "Go"}).apply({
+                    layoutConfig: layoutConfig().just(),
+                    width: 50,
+                    height: 30,
+                    backgroundColor: Color.YELLOW
+                  })
+                ]).apply({
+                  space: 20,
+                  gravity: Gravity.Center,
+                }),
+              )
 
-                (<any>children[ i ]).material.clipIntersection = state;
+              self.container!!.addChild(
+                hlayout([
+                  text({
+                    text: 'show helpers'
+                  }),
+                  self.showHelpersView = switchView({})
+                ]).apply({
+                  gravity: Gravity.Center,
+                }),    
+              )
 
+              self.clipIntersectionView!!.onSwitch = (state) => {
+                const children = group.children;
+  
+                for ( let i = 0; i < children.length; i ++ ) {
+  
+                  (<any>children[ i ]).material.clipIntersection = state;
+  
+                }
+  
+                render();
               }
-
-              render();
-            }
-
-            self.confirmButton!!.onClick = () => {
-              let value = parseFloat(self.planeConstant!!)
-
-              for ( let j = 0; j < clipPlanes.length; j ++ ) {
-
-                clipPlanes[ j ].constant = value;
-
+  
+              self.confirmButton!!.onClick = () => {
+                let value = parseFloat(self.planeConstant!!)
+  
+                for ( let j = 0; j < clipPlanes.length; j ++ ) {
+  
+                  clipPlanes[ j ].constant = value;
+  
+                }
+  
+                render();
               }
-
-              render();
-            }
-
-            self.showHelpersView!!.onSwitch = (state) => {
-              helpers.visible = state;
-
-              render();
-            }
+  
+              self.showHelpersView!!.onSwitch = (state) => {
+                helpers.visible = state;
+  
+                render();
+              }
+            })            
             //
 
             window.addEventListener( 'resize', onWindowResize );
