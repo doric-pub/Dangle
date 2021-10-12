@@ -15,6 +15,7 @@ export default [
     "src/misc_controls_drag",
     "src/misc_controls_map",
     "src/misc_controls_orbit",
+    "src/misc_controls_pointerlock",
 
     "src/misc_lookat",
 

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 "misc_controls_drag",
                 "misc_controls_map",
                 "misc_controls_orbit",
+                "misc_controls_pointerlock",
                 "misc_lookat",
                 "webgl_camera",
                 "webgl_camera_array",
