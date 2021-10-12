@@ -27,7 +27,6 @@ class webgl_clipping_intersection extends Panel {
   private gestureView?: GestureContainer
   private clipIntersectionView?: Switch
 
-  private planeConstantInput?: Input
   private confirmButton?: Text
   private planeConstant?: string
 
@@ -53,7 +52,7 @@ class webgl_clipping_intersection extends Panel {
         gravity: Gravity.Center,
       }),
       hlayout([
-        this.planeConstantInput = input({
+        input({
           hintText: "-1 to 1, step 0.01",
           onTextChange: (text) => {
             self.planeConstant = text
