@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 "misc_lookat",
                 "webgl_camera",
                 "webgl_camera_array",
+                "webgl_clipping_advanced",
                 "webgl_clipping_intersection",
                 "webgl_clipping",
                 "webgl_effects_peppersghost",

@@ -33,6 +33,7 @@
     [self.tableDataArr addObject:@"misc_lookat"];
     [self.tableDataArr addObject:@"webgl_camera"];
     [self.tableDataArr addObject:@"webgl_camera_array"];
+    [self.tableDataArr addObject:@"webgl_clipping_advanced"];
     [self.tableDataArr addObject:@"webgl_clipping_intersection"];
     [self.tableDataArr addObject:@"webgl_clipping"];
     [self.tableDataArr addObject:@"webgl_effects_peppersghost"];
