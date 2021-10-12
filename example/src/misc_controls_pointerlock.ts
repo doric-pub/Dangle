@@ -5,12 +5,12 @@ import {
   layoutConfig,
   Gravity,
   navbar,
-  stack,
   gestureContainer,
   GestureContainer,
   text,
   VLayout,
   Color,
+  hlayout,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -23,6 +23,15 @@ class misc_controls_pointerlock extends Panel {
   private gestureView?: GestureContainer;
   private instructions?: VLayout;
 
+  private w?: GestureContainer;
+  private a?: GestureContainer;
+  private s?: GestureContainer;
+  private d?: GestureContainer;
+  private space?: GestureContainer;
+
+  private lastX: number = 0
+  private lastY: number = 0
+
   onShow() {
     navbar(context).setTitle("misc_controls_pointerlock");
   }
@@ -33,10 +42,69 @@ class misc_controls_pointerlock extends Panel {
         width: 300,
         height: 300,
       }),
+      this.w = gestureContainer([
+        text({
+          width: 50,
+          height: 50,
+          text: "W",
+          textSize: 30,
+          textAlignment: new Gravity().center(),
+          backgroundColor: Color.parse('#ffff00'),
+          layoutConfig: layoutConfig().just(),
+        })
+      ]),
+      hlayout([
+        this.a = gestureContainer([
+          text({
+            width: 50,
+            height: 50,
+            text: "A",
+            textSize: 30,
+            textAlignment: new Gravity().center(),
+            backgroundColor: Color.parse('#ffff00'),
+            layoutConfig: layoutConfig().just(),
+          })
+        ]),
+        this.space = gestureContainer([
+          text({
+            width: 50,
+            height: 50,
+            text: "○",
+            textSize: 30,
+            textAlignment: new Gravity().center(),
+            backgroundColor: Color.parse('#ffff00'),
+            layoutConfig: layoutConfig().just(),
+          }),
+        ]),
+        this.d = gestureContainer([
+          text({
+            width: 50,
+            height: 50,
+            text: "D",
+            textSize: 30,
+            textAlignment: new Gravity().center(),
+            backgroundColor: Color.parse('#ffff00'),
+            layoutConfig: layoutConfig().just(),
+          }),
+        ]),
+      ]).also(it => {
+          it.space = 10
+      }),
+      this.s = gestureContainer([
+        text({
+          width: 50,
+          height: 50,
+          text: "S",
+          textSize: 30,
+          textAlignment: new Gravity().center(),
+          backgroundColor: Color.parse('#ffff00'),
+          layoutConfig: layoutConfig().just(),
+        })
+      ]),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
-        space: 20,
+        space: 10,
         gravity: Gravity.Center,
       })
       .in(rootView);
@@ -47,8 +115,10 @@ class misc_controls_pointerlock extends Panel {
         onPrepared: (glContextId, width, height) => {
           let gl = getGl(glContextId) as any;
 
-          const inputCanvas = 
+          let inputCanvas
+          inputCanvas = 
           ({
+            functions: {},
             width: width,
             height: height,
             style: {},
@@ -57,12 +127,32 @@ class misc_controls_pointerlock extends Panel {
             clientHeight: height,
             getContext: (() => {return gl}) as any,
             ownerDocument: {
-              addEventListener: (() => {}) as any,
+              pointerLockElement: null,
+              addEventListener: ((name: string, fn: Function) => {
+                if (name == "mousemove") {
+                  self.gestureView!!.onTouchMove = ({x, y}) => {
+                    fn({
+                      movementX: (x - self.lastX) * Environment.screenScale,
+                      movementY: (y - self.lastY) * Environment.screenScale
+                    })
+                    self.lastX = x
+                    self.lastY = y
+                  }
+                  inputCanvas.functions.mousemove = fn
+                } else if (name == "pointerlockchange") {
+                  inputCanvas.functions.pointerlockchange = fn
+                } else if (name == "pointerlockerror") {
+                  inputCanvas.functions.pointerlockerror = fn
+                }
+              }) as any,
               removeEventListener: (() => {}) as any,
-              exitPointerLock: (() => {}) as any, 
+              exitPointerLock: (() => {}) as any,
             },
-            requestPointerLock: (() => {}) as any,
-          } as HTMLCanvasElement);
+            requestPointerLock: (() => {
+              inputCanvas.ownerDocument.pointerLockElement = inputCanvas
+              inputCanvas.functions.pointerlockchange()
+            }),
+          });
 
           let window = {
             innerWidth: width,
@@ -189,6 +279,34 @@ class misc_controls_pointerlock extends Panel {
               }
 
             };
+
+            self.w!!.onTouchDown = () => {
+              onKeyDown({code: "KeyW"})
+            }
+            self.w!!.onTouchUp = () => {
+              onKeyUp({code: "KeyW"})
+            }
+            self.a!!.onTouchDown = () => {
+              onKeyDown({code: "KeyA"})
+            }
+            self.a!!.onTouchUp = () => {
+              onKeyUp({code: "KeyA"})
+            }
+            self.s!!.onTouchDown = () => {
+              onKeyDown({code: "KeyS"})
+            }
+            self.s!!.onTouchUp = () => {
+              onKeyUp({code: "KeyS"})
+            }
+            self.d!!.onTouchDown = () => {
+              onKeyDown({code: "KeyD"})
+            }
+            self.d!!.onTouchUp = () => {
+              onKeyUp({code: "KeyD"})
+            }
+            self.space!!.onTouchDown = () => {
+              onKeyDown({code: "Space"})
+            }
 
             // document.addEventListener( 'keydown', onKeyDown );
             // document.addEventListener( 'keyup', onKeyUp );
