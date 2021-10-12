@@ -46,6 +46,12 @@
     dispatch_async(self.syncQueue, ^{
         __strong __typeof(_self) self = _self;
         
+        if (self.doricContext.destroyed) {
+            NSException *exception = [NSException exceptionWithName:@"" reason:@"doric context destroyed when vsync" userInfo:@{}];
+            [self.doricContext.driver.registry onException:exception inContext:self.doricContext];
+            return;
+        }
+        
         [self.requestIDs enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSString * _Nonnull obj, BOOL * _Nonnull stop) {
             DoricPromise *currentPromise = [[DoricPromise alloc] initWithContext:self.doricContext callbackId:obj];
             [currentPromise resolve:@(displayLink.timestamp * 1000L)];
