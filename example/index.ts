@@ -33,4 +33,7 @@ export default [
     "src/webgl_interactive_raycasting_points",
 
     "src/webgl_lines_colors",
+
+    // Stardust
+    "src/stardust_hello_world",
 ];

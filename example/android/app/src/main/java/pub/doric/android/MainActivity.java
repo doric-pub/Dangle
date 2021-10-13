@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 "webgl_interactive_buffergeometry",
                 "webgl_interactive_raycasting_points",
                 "webgl_lines_colors",
+
+                "stardust_hello_world",
         };
         CustomAdapter customAdapter = new CustomAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
