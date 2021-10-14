@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 "webgl_lines_colors",
 
                 "stardust_hello_world",
+                "stardust_daily_activities",
         };
         CustomAdapter customAdapter = new CustomAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

@@ -36,4 +36,5 @@ export default [
 
     // Stardust
     "src/stardust_hello_world",
+    "src/stardust_daily_activities",
 ];
