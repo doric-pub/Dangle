@@ -18,12 +18,12 @@ import { WebGLCanvasPlatform3D } from 'stardust-webgl'
 const global = new Function('return this')()
 
 @Entry
-class stardust_hello_world extends Panel {
+class hello_world extends Panel {
 
   private changeButton?: Text
 
   onShow() {
-    navbar(context).setTitle("stardust_hello_world");
+    navbar(context).setTitle("hello_world");
   }
   build(rootView: Group) {
     let self = this

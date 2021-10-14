@@ -1,40 +1,40 @@
 export default [
 
     // MDN WebGL
-    "src/Sample1",
-    "src/Sample2",
-    "src/Sample3",
-    "src/Sample4",
-    "src/Sample5",
-    "src/Sample6",
+    "src/mdn_webgl/Sample1",
+    "src/mdn_webgl/Sample2",
+    "src/mdn_webgl/Sample3",
+    "src/mdn_webgl/Sample4",
+    "src/mdn_webgl/Sample5",
+    "src/mdn_webgl/Sample6",
 
     // Three.js
-    "src/misc_animation_groups",
-    "src/misc_animation_keys",
+    "src/three.js/misc_animation_groups",
+    "src/three.js/misc_animation_keys",
 
-    "src/misc_controls_drag",
-    "src/misc_controls_map",
-    "src/misc_controls_orbit",
-    "src/misc_controls_pointerlock",
+    "src/three.js/misc_controls_drag",
+    "src/three.js/misc_controls_map",
+    "src/three.js/misc_controls_orbit",
+    "src/three.js/misc_controls_pointerlock",
 
-    "src/misc_lookat",
+    "src/three.js/misc_lookat",
 
-    "src/webgl_camera",
-    "src/webgl_camera_array",
-    "src/webgl_camera_cinematic",
+    "src/three.js/webgl_camera",
+    "src/three.js/webgl_camera_array",
+    "src/three.js/webgl_camera_cinematic",
 
-    "src/webgl_clipping",
-    "src/webgl_clipping_advanced",
-    "src/webgl_clipping_intersection",
+    "src/three.js/webgl_clipping",
+    "src/three.js/webgl_clipping_advanced",
+    "src/three.js/webgl_clipping_intersection",
 
-    "src/webgl_effects_peppersghost",
+    "src/three.js/webgl_effects_peppersghost",
 
-    "src/webgl_interactive_buffergeometry",
-    "src/webgl_interactive_raycasting_points",
+    "src/three.js/webgl_interactive_buffergeometry",
+    "src/three.js/webgl_interactive_raycasting_points",
 
-    "src/webgl_lines_colors",
+    "src/three.js/webgl_lines_colors",
 
     // Stardust
-    "src/stardust_hello_world",
-    "src/stardust_daily_activities",
+    "src/stardust/hello_world",
+    "src/stardust/daily_activities",
 ];

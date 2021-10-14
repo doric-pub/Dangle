@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class EngineTypeAdapter extends RecyclerView.Adapter<EngineTypeAdapter.ViewHolder> {
 
     private final String[] localDataSet;
 
@@ -27,7 +27,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    public CustomAdapter(String[] dataSet) {
+    public EngineTypeAdapter(String[] dataSet) {
         localDataSet = dataSet;
     }
 
@@ -46,8 +46,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SampleActivity.class);
-                intent.putExtra(SampleActivity.TAG, localDataSet[viewHolder.getAdapterPosition()]);
+                Intent intent = new Intent(v.getContext(), EngineTypeActivity.class);
+                intent.putExtra(EngineTypeActivity.TAG, localDataSet[viewHolder.getAdapterPosition()]);
                 v.getContext().startActivity(intent);
             }
         });

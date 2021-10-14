@@ -20,13 +20,13 @@ import data from './data.json'
 const global = new Function('return this')()
 
 @Entry
-class stardust_daily_activities extends Panel {
+class daily_activities extends Panel {
 
   private mode1Button?: Text
   private mode2Button?: Text
 
   onShow() {
-    navbar(context).setTitle("stardust_daily_activities");
+    navbar(context).setTitle("daily_activities");
   }
   build(rootView: Group) {
     var _previousTransition = null;

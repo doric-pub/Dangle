@@ -18,41 +18,18 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView sampleRV = findViewById(R.id.sample_rv);
 
         String[] dataSet = new String[]{
-                "Sample1",
-                "Sample2",
-                "Sample3",
-                "Sample4",
-                "Sample5",
-                "Sample6",
-
-                "misc_animation_groups",
-                "misc_animation_keys",
-                "misc_controls_drag",
-                "misc_controls_map",
-                "misc_controls_orbit",
-                "misc_controls_pointerlock",
-                "misc_lookat",
-                "webgl_camera",
-                "webgl_camera_array",
-                "webgl_camera_cinematic",
-                "webgl_clipping",
-                "webgl_clipping_advanced",
-                "webgl_clipping_intersection",
-                "webgl_effects_peppersghost",
-                "webgl_interactive_buffergeometry",
-                "webgl_interactive_raycasting_points",
-                "webgl_lines_colors",
-
-                "stardust_hello_world",
-                "stardust_daily_activities",
+                EngineTypeActivity.TYPE_MDN_WEBGL,
+                EngineTypeActivity.TYPE_THREE_JS,
+                EngineTypeActivity.TYPE_STARTDUST,
         };
-        CustomAdapter customAdapter = new CustomAdapter(dataSet);
+        EngineTypeAdapter engineTypeAdapter = new EngineTypeAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         sampleRV.setLayoutManager(layoutManager);
-        sampleRV.setAdapter(customAdapter);
+        sampleRV.setAdapter(engineTypeAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(sampleRV.getContext(),
                 layoutManager.getOrientation());
         sampleRV.addItemDecoration(dividerItemDecoration);
     }
+
 }
