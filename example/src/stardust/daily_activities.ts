@@ -8,6 +8,7 @@ import {
   stack,
   Text,
   text,
+  hlayout,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -206,14 +207,16 @@ class daily_activities extends Panel {
           height: 300,
         }
       ),
-      this.mode1Button = text({
-        text: "Mode 1",
-        textSize: 20,
-      }),
-      this.mode2Button = text({
-        text: "Mode2",
-        textSize: 20,
-      })
+      hlayout([
+        this.mode1Button = text({
+          text: "Circular",
+          textSize: 20,
+        }),
+        this.mode2Button = text({
+          text: "Linear",
+          textSize: 20,
+        })
+      ], {space: 20})
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
