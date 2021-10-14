@@ -8,39 +8,53 @@
 #import <UIKit/UILabel.h>
 #import <DoricCore/Doric.h>
 
-#import "ViewController.h"
+#import "SampleViewController.h"
 
-@interface ViewController ()
+@interface SampleViewController ()
 
 @property (nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *tableDataArr;
 
 @end
 
-@implementation ViewController
+@implementation SampleViewController
 
 - (void)viewDidLoad {
     self.tableDataArr = [NSMutableArray array];
-    for(int i = 1; i <= 6; i++) {
-        [self.tableDataArr addObject:[NSString stringWithFormat:@"Sample%i", i]];
-    }
     
-    [self.tableDataArr addObject:@"misc_animation_groups"];
-    [self.tableDataArr addObject:@"misc_animation_keys"];
-    [self.tableDataArr addObject:@"misc_controls_drag"];
-    [self.tableDataArr addObject:@"misc_controls_map"];
-    [self.tableDataArr addObject:@"misc_controls_orbit"];
-    [self.tableDataArr addObject:@"misc_lookat"];
-    [self.tableDataArr addObject:@"webgl_camera"];
-    [self.tableDataArr addObject:@"webgl_camera_array"];
-    [self.tableDataArr addObject:@"webgl_camera_cinematic"];
-    [self.tableDataArr addObject:@"webgl_clipping"];
-    [self.tableDataArr addObject:@"webgl_clipping_advanced"];
-    [self.tableDataArr addObject:@"webgl_clipping_intersection"];
-    [self.tableDataArr addObject:@"webgl_effects_peppersghost"];
-    [self.tableDataArr addObject:@"webgl_interactive_buffergeometry"];
-    [self.tableDataArr addObject:@"webgl_interactive_raycasting_points"];
-    [self.tableDataArr addObject:@"webgl_lines_colors"];
+    if ([self.engineType isEqual: @"MDN_WebGL"]) {
+        for(int i = 1; i <= 6; i++) {
+            [self.tableDataArr addObject:[NSString stringWithFormat:@"mdn_webgl/Sample%i", i]];
+        }
+    } else if ([self.engineType isEqual: @"Three.js"]) {
+        [self.tableDataArr addObject:@"three.js/misc_animation_groups"];
+        [self.tableDataArr addObject:@"three.js/misc_animation_keys"];
+        
+        [self.tableDataArr addObject:@"three.js/misc_controls_drag"];
+        [self.tableDataArr addObject:@"three.js/misc_controls_map"];
+        [self.tableDataArr addObject:@"three.js/misc_controls_orbit"];
+        [self.tableDataArr addObject:@"three.js/misc_controls_pointerlock"];
+        
+        [self.tableDataArr addObject:@"three.js/misc_lookat"];
+        
+        [self.tableDataArr addObject:@"three.js/webgl_camera"];
+        [self.tableDataArr addObject:@"three.js/webgl_camera_array"];
+        [self.tableDataArr addObject:@"three.js/webgl_camera_cinematic"];
+        
+        [self.tableDataArr addObject:@"three.js/webgl_clipping"];
+        [self.tableDataArr addObject:@"three.js/webgl_clipping_advanced"];
+        [self.tableDataArr addObject:@"three.js/webgl_clipping_intersection"];
+        
+        [self.tableDataArr addObject:@"three.js/webgl_effects_peppersghost"];
+        
+        [self.tableDataArr addObject:@"three.js/webgl_interactive_buffergeometry"];
+        [self.tableDataArr addObject:@"three.js/webgl_interactive_raycasting_points"];
+        
+        [self.tableDataArr addObject:@"three.js/webgl_lines_colors"];
+    } else if ([self.engineType isEqual: @"Stardust"]) {
+        [self.tableDataArr addObject:@"stardust/hello_world"];
+        [self.tableDataArr addObject:@"stardust/daily_activities"];
+    }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
         it.width = self.view.width;
@@ -54,7 +68,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.textLabel.text = [self.tableDataArr objectAtIndex:indexPath.row];
+    NSArray *components = [[self.tableDataArr objectAtIndex:indexPath.row] componentsSeparatedByString:@"/"];
+    cell.textLabel.text = components[components.count - 1];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     return cell;
 }

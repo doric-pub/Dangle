@@ -2,7 +2,7 @@
 
 #import "SceneDelegate.h"
 #import "DangleLibrary.h"
-#import "ViewController.h"
+#import "EngineTypeViewController.h"
 
 #if DEBUG
 
@@ -18,7 +18,7 @@
     [Doric registerLibrary:[DangleLibrary new]];
     
     UIWindowScene *windowScene = (UIWindowScene *) scene;
-    ViewController *viewController = [[ViewController alloc] init];
+    EngineTypeViewController *viewController = [[EngineTypeViewController alloc] init];
 #if DEBUG
     UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Devkit" style:UIBarButtonItemStylePlain target:self action:@selector(onOpenDevkit)];
     viewController.navigationItem.rightBarButtonItem = rightBarItem;

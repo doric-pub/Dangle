@@ -12,7 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface SampleViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) NSString* engineType;
+
 @end
 
 NS_ASSUME_NONNULL_END
