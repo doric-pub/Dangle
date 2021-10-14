@@ -34,6 +34,8 @@ export default [
 
     "src/three.js/webgl_lines_colors",
 
+    "src/three.js/webgl_points_waves",
+
     // Stardust
     "src/stardust/hello_world",
     "src/stardust/daily_activities",

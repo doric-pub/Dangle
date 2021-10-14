@@ -62,6 +62,8 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_interactive_raycasting_points",
 
                         "three.js/webgl_lines_colors",
+
+                        "three.js/webgl_points_waves",
                 };
                 break;
             case TYPE_STARTDUST:

@@ -51,10 +51,14 @@
         [self.tableDataArr addObject:@"three.js/webgl_interactive_raycasting_points"];
         
         [self.tableDataArr addObject:@"three.js/webgl_lines_colors"];
+
+        [self.tableDataArr addObject:@"three.js/webgl_points_waves"];
+
     } else if ([self.engineType isEqual: @"Stardust"]) {
         [self.tableDataArr addObject:@"stardust/hello_world"];
         [self.tableDataArr addObject:@"stardust/daily_activities"];
         [self.tableDataArr addObject:@"stardust/sanddance"];
+        
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
