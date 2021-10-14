@@ -9,7 +9,7 @@ android {
     compileSdkVersion 31
     buildToolsVersion "31.0.0"
     defaultConfig {
-        applicationId "pub.doric.android.example"
+        applicationId "pub.doric.dangle.android"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1
