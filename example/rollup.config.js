@@ -3,53 +3,101 @@ import commonjs from "@rollup/plugin-commonjs";
 import bundles from "./build/index";
 import fs from "fs";
 import path from "path";
-import buble from "@rollup/plugin-buble";
 import json from "@rollup/plugin-json";
 import image from "@rollup/plugin-image";
+import dsv from '@rollup/plugin-dsv';
 
-function searchImages(dir, images) {
-  const files = fs.readdirSync(dir);
-  files.forEach((item, index) => {
-    var fullPath = path.join(dir, item);
-    const stat = fs.statSync(fullPath);
-    if (stat.isDirectory()) {
-      searchImages(path.join(dir, item), images);
+{
+  function searchImages(dir, images) {
+    const files = fs.readdirSync(dir);
+    files.forEach((item, index) => {
+      var fullPath = path.join(dir, item);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        searchImages(path.join(dir, item), images);
+      } else {
+        if (fullPath.endsWith(".png")) {
+          images.push(fullPath);
+        }
+      }
+    });
+    return images;
+  }
+  
+  const allImages = [];
+  searchImages("src", allImages);
+  
+  function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
+      return true;
     } else {
-      if (fullPath.endsWith(".png")) {
-        images.push(fullPath);
+      if (mkdirsSync(path.dirname(dirname))) {
+        fs.mkdirSync(dirname);
+        return true;
       }
     }
+  }
+  
+  allImages.forEach((value) => {
+    let path = __dirname + "/build/" + value;
+    let index = path.lastIndexOf("/");
+    mkdirsSync(path.substring(0, index));
+  
+    fs.copyFile(
+      __dirname + "/" + value,
+      __dirname + "/build/" + value,
+      (error) => {
+        console.log(error);
+      }
+    );
   });
-  return images;
 }
 
-const allImages = [];
-searchImages("src", allImages);
-
-function mkdirsSync(dirname) {
-  if (fs.existsSync(dirname)) {
-    return true;
-  } else {
-    if (mkdirsSync(path.dirname(dirname))) {
-      fs.mkdirSync(dirname);
+{
+  function searchDSVs(dir, dsvs) {
+    const files = fs.readdirSync(dir);
+    files.forEach((item, index) => {
+      var fullPath = path.join(dir, item);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        searchDSVs(path.join(dir, item), dsvs);
+      } else {
+        if (fullPath.endsWith(".tsv")) {
+          dsvs.push(fullPath);
+        }
+      }
+    });
+    return dsvs;
+  }
+  
+  const allDSVs = [];
+  searchDSVs("src", allDSVs);
+  
+  function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
       return true;
+    } else {
+      if (mkdirsSync(path.dirname(dirname))) {
+        fs.mkdirSync(dirname);
+        return true;
+      }
     }
   }
+  
+  allDSVs.forEach((value) => {
+    let path = __dirname + "/build/" + value;
+    let index = path.lastIndexOf("/");
+    mkdirsSync(path.substring(0, index));
+  
+    fs.copyFile(
+      __dirname + "/" + value,
+      __dirname + "/build/" + value,
+      (error) => {
+        console.log(error);
+      }
+    );
+  });
 }
-
-allImages.forEach((value) => {
-  let path = __dirname + "/build/" + value;
-  let index = path.lastIndexOf("/");
-  mkdirsSync(path.substring(0, index));
-
-  fs.copyFile(
-    __dirname + "/" + value,
-    __dirname + "/build/" + value,
-    (error) => {
-      console.log(error);
-    }
-  );
-});
 
 function readDirs(dirPath, files) {
   if (fs.statSync(dirPath).isDirectory()) {
@@ -94,6 +142,7 @@ export default allFiles
         commonjs(),
         json(),
         image(),
+        dsv(),
       ],
       external: ["reflect-metadata", "doric", "templatelibrary"],
       onwarn: function (warning) {

@@ -68,6 +68,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                 dataSet = new String[]{
                         "stardust/hello_world",
                         "stardust/daily_activities",
+                        "stardust/sanddance",
                 };
                 break;
             default:

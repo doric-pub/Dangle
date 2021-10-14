@@ -26,5 +26,8 @@
   },
   "optionalDependencies": {
     "ios-deploy": "^1.11.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-dsv": "^2.0.2"
   }
 }

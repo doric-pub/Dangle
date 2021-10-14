@@ -54,6 +54,7 @@
     } else if ([self.engineType isEqual: @"Stardust"]) {
         [self.tableDataArr addObject:@"stardust/hello_world"];
         [self.tableDataArr addObject:@"stardust/daily_activities"];
+        [self.tableDataArr addObject:@"stardust/sanddance"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
