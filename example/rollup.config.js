@@ -47,7 +47,7 @@ import dsv from '@rollup/plugin-dsv';
       __dirname + "/" + value,
       __dirname + "/build/" + value,
       (error) => {
-        console.log(error);
+        if (error) console.log(error);
       }
     );
   });
@@ -93,7 +93,7 @@ import dsv from '@rollup/plugin-dsv';
       __dirname + "/" + value,
       __dirname + "/build/" + value,
       (error) => {
-        console.log(error);
+        if (error) console.log(error);
       }
     );
   });
@@ -147,6 +147,9 @@ export default allFiles
       external: ["reflect-metadata", "doric", "templatelibrary"],
       onwarn: function (warning) {
         if (warning.code === "THIS_IS_UNDEFINED") {
+          return;
+        }
+        if (warning.code === 'CIRCULAR_DEPENDENCY') {
           return;
         }
         console.warn(warning.message);
