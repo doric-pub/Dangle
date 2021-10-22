@@ -79,4 +79,7 @@ export default [
     "src/playcanvas/hello_world",
     "src/playcanvas/lines",
     "src/playcanvas/shapes",
+    
+    // Cocos
+    "src/cocos/pkgame_star"
 ];

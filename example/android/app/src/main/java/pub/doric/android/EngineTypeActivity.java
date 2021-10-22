@@ -15,6 +15,7 @@ public class EngineTypeActivity extends AppCompatActivity {
     public static final String TYPE_THREE_JS = "Three.js";
     public static final String TYPE_STARTDUST = "Stardust";
     public static final String TYPE_PLAYCANVAS = "PlayCanvas";
+    public static final String TYPE_COCOS = "Cocos";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,12 +108,18 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "stardust/sanddance",
                 };
                 break;
+<<<<<<< master
             case TYPE_PLAYCANVAS:
                 dataSet = new String[]{
                         "playcanvas/grab_pass",
                         "playcanvas/hello_world",
                         "playcanvas/lines",
                         "playcanvas/shapes",
+=======
+            case TYPE_COCOS:
+                dataSet = new String[]{
+                        "cocos/pkgame_star",
+>>>>>>> add cocos demo
                 };
                 break;
             default:
