@@ -27,6 +27,8 @@ export default [
     "src/three.js/webgl_clipping_advanced",
     "src/three.js/webgl_clipping_intersection",
 
+    "src/three.js/webgl_depth_texture",
+
     "src/three.js/webgl_effects_peppersghost",
 
     "src/three.js/webgl_geometry_text_shapes",

@@ -44,6 +44,8 @@
         [self.tableDataArr addObject:@"three.js/webgl_clipping"];
         [self.tableDataArr addObject:@"three.js/webgl_clipping_advanced"];
         [self.tableDataArr addObject:@"three.js/webgl_clipping_intersection"];
+
+        [self.tableDataArr addObject:@"three.js/webgl_depth_texture"];
         
         [self.tableDataArr addObject:@"three.js/webgl_effects_peppersghost"];
         
