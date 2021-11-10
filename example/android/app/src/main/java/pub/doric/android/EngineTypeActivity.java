@@ -58,6 +58,8 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/webgl_effects_peppersghost",
 
+                        "three.js/webgl_geometry_text_shapes",
+
                         "three.js/webgl_interactive_buffergeometry",
                         "three.js/webgl_interactive_raycasting_points",
 

@@ -47,6 +47,8 @@
         
         [self.tableDataArr addObject:@"three.js/webgl_effects_peppersghost"];
         
+        [self.tableDataArr addObject:@"three.js/webgl_geometry_text_shapes"];
+        
         [self.tableDataArr addObject:@"three.js/webgl_interactive_buffergeometry"];
         [self.tableDataArr addObject:@"three.js/webgl_interactive_raycasting_points"];
         
