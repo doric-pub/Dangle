@@ -16,6 +16,7 @@ public class EngineTypeActivity extends AppCompatActivity {
     public static final String TYPE_STARTDUST = "Stardust";
     public static final String TYPE_PLAYCANVAS = "PlayCanvas";
     public static final String TYPE_BABYLON_JS = "Babylon.js";
+    public static final String TYPE_PIXIJS = "PixiJS";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,6 +120,9 @@ public class EngineTypeActivity extends AppCompatActivity {
             case TYPE_BABYLON_JS:
                 dataSet = new String[]{
                         "babylon.js/hello_world",
+            case TYPE_PIXIJS:
+                dataSet = new String[]{
+                        "pixijs/hello_world",
                 };
                 break;
             default:
