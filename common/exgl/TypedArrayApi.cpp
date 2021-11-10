@@ -102,7 +102,8 @@ bool TypedArrayBase::hasBuffer(jsi::Runtime &runtime) const {
 }
 
 std::vector<uint8_t> TypedArrayBase::toVector(jsi::Runtime &runtime) {
-  auto start = reinterpret_cast<uint8_t *>(getBuffer(runtime).data(runtime) + byteOffset(runtime));
+  auto start =
+      reinterpret_cast<uint8_t *>(getBuffer(runtime).data(runtime) + byteOffset(runtime));
   auto end = start + byteLength(runtime);
   return std::vector<uint8_t>(start, end);
 }

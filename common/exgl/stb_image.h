@@ -1738,87 +1738,86 @@ stbi_inline static int stbi__jpeg_get_bit(stbi__jpeg *j) {
 
 // given a value that's at position X in the zigzag stream,
 // where does it appear in the 8x8 matrix coded as row-major?
-static stbi_uc stbi__jpeg_dezigzag[64 + 15] = {
-    0,
-    1,
-    8,
-    16,
-    9,
-    2,
-    3,
-    10,
-    17,
-    24,
-    32,
-    25,
-    18,
-    11,
-    4,
-    5,
-    12,
-    19,
-    26,
-    33,
-    40,
-    48,
-    41,
-    34,
-    27,
-    20,
-    13,
-    6,
-    7,
-    14,
-    21,
-    28,
-    35,
-    42,
-    49,
-    56,
-    57,
-    50,
-    43,
-    36,
-    29,
-    22,
-    15,
-    23,
-    30,
-    37,
-    44,
-    51,
-    58,
-    59,
-    52,
-    45,
-    38,
-    31,
-    39,
-    46,
-    53,
-    60,
-    61,
-    54,
-    47,
-    55,
-    62,
-    63,
-    // let corrupt input sample past end
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63,
-    63};
+static stbi_uc stbi__jpeg_dezigzag[64 + 15] = {0,
+                                               1,
+                                               8,
+                                               16,
+                                               9,
+                                               2,
+                                               3,
+                                               10,
+                                               17,
+                                               24,
+                                               32,
+                                               25,
+                                               18,
+                                               11,
+                                               4,
+                                               5,
+                                               12,
+                                               19,
+                                               26,
+                                               33,
+                                               40,
+                                               48,
+                                               41,
+                                               34,
+                                               27,
+                                               20,
+                                               13,
+                                               6,
+                                               7,
+                                               14,
+                                               21,
+                                               28,
+                                               35,
+                                               42,
+                                               49,
+                                               56,
+                                               57,
+                                               50,
+                                               43,
+                                               36,
+                                               29,
+                                               22,
+                                               15,
+                                               23,
+                                               30,
+                                               37,
+                                               44,
+                                               51,
+                                               58,
+                                               59,
+                                               52,
+                                               45,
+                                               38,
+                                               31,
+                                               39,
+                                               46,
+                                               53,
+                                               60,
+                                               61,
+                                               54,
+                                               47,
+                                               55,
+                                               62,
+                                               63,
+                                               // let corrupt input sample past end
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63,
+                                               63};
 
 // decode one 64-entry block--
 static int stbi__jpeg_decode_block(
@@ -4337,8 +4336,11 @@ enum {
   STBI__F_paeth_first
 };
 
-static stbi_uc first_row_filter[5] =
-    {STBI__F_none, STBI__F_sub, STBI__F_none, STBI__F_avg_first, STBI__F_paeth_first};
+static stbi_uc first_row_filter[5] = {STBI__F_none,
+                                      STBI__F_sub,
+                                      STBI__F_none,
+                                      STBI__F_avg_first,
+                                      STBI__F_paeth_first};
 
 static int stbi__paeth(int a, int b, int c) {
   int p = a + b - c;
@@ -4781,8 +4783,8 @@ static int stbi__reduce_png(stbi__png *p) {
     return stbi__err("outofmem", "Out of memory");
 
   for (i = 0; i < img_len; ++i)
-    reduced[i] = (stbi_uc)((orig[i] >> 8) & 0xFF); // top half of each byte is a decent approx of
-                                                   // 16->8 bit scaling
+    reduced[i] = (stbi_uc)(
+        (orig[i] >> 8) & 0xFF); // top half of each byte is a decent approx of 16->8 bit scaling
 
   p->out = reduced;
   STBI_FREE(orig);
@@ -5463,7 +5465,7 @@ static stbi_uc *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int 
 
   if (flip_vertically) {
     stbi_uc t;
-    for (j = 0; j < (int)s->img_y >> 1; ++j) {
+    for (j = 0; j<(int)s->img_y>> 1; ++j) {
       stbi_uc *p1 = out + j * s->img_x * target;
       stbi_uc *p2 = out + (s->img_y - 1 - j) * s->img_x * target;
       for (i = 0; i < (int)s->img_x * target; ++i) {

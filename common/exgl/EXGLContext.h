@@ -14,10 +14,10 @@
 
 #include <exception>
 #include <future>
-#include <set>
 #include <sstream>
 #include <unordered_map>
 #include <vector>
+#include <set>
 
 #include <jsi/jsi.h>
 
@@ -200,14 +200,13 @@ class EXGLContext {
     if (jsContextMap.isNull() || jsContextMap.isUndefined()) {
       runtime.global().setProperty(runtime, "__EXGLContexts", jsi::Object(runtime));
 
-      // Property `__EXGLOnDestroyHostObject` of the global object will be released when entire
-      // `jsi::Runtime` is being destroyed and that will trigger destructor of
-      // `InvalidateOnDestroyHostObject` class which will invalidate JSI PropNameID cache.
+      // Property `__EXGLOnDestroyHostObject` of the global object will be released when entire `jsi::Runtime`
+      // is being destroyed and that will trigger destructor of `InvalidateOnDestroyHostObject` class which
+      // will invalidate JSI PropNameID cache.
       runtime.global().setProperty(
           runtime,
           "__EXGLOnDestroyHostObject",
-          jsi::Object::createFromHostObject(
-              runtime, std::make_shared<InvalidateOnDestroyHostObject>()));
+          jsi::Object::createFromHostObject(runtime, std::make_shared<InvalidateOnDestroyHostObject>()));
     }
     runtime.global()
         .getProperty(runtime, "__EXGLContexts")
@@ -268,7 +267,7 @@ class EXGLContext {
   //  helpers used in implementation of some of the glNativeMethod_#name
 
   template <typename Func, typename... T>
-  inline jsi::Value exglCall(Func func, T &&...args);
+  inline jsi::Value exglCall(Func func, T &&... args);
 
   template <typename Func>
   inline jsi::Value exglGetActiveInfo(jsi::Runtime &, UEXGLObjectId, GLuint, GLenum, Func);
