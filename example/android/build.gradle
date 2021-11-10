@@ -20,6 +20,13 @@ allprojects {
         mavenCentral()
         maven { url 'https://jitpack.io' }
     }
+    configurations.all {
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module('com.github.penfeizhou:jsc4a') with project(":jsc4a")
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {

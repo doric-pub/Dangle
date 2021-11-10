@@ -6,3 +6,6 @@ project(":lib").projectDir = file("../../android/lib")
 
 include ":dangle"
 project(":dangle").projectDir = file("../../android/dangle")
+
+include ":jsc4a"
+project(":jsc4a").projectDir = file("/Users/maverick/Workspace/JSC4A/lib")
