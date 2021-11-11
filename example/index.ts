@@ -26,6 +26,7 @@ export default [
     "src/three.js/webgl_clipping",
     "src/three.js/webgl_clipping_advanced",
     "src/three.js/webgl_clipping_intersection",
+    "src/three.js/webgl_clipping_stencil",
 
     "src/three.js/webgl_depth_texture",
 

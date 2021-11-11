@@ -55,6 +55,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_clipping",
                         "three.js/webgl_clipping_advanced",
                         "three.js/webgl_clipping_intersection",
+                        "three.js/webgl_clipping_stencil",
 
                         "three.js/webgl_depth_texture",
 
