@@ -92,6 +92,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
   }
 
   public void flush() {
+    if (!mOnSurfaceCreateCalled) return;
     mGLContext.flush();
   }
 
