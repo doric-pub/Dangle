@@ -7,6 +7,14 @@ import {
   navbar,
   gestureContainer,
   GestureContainer,
+  Color,
+  stack,
+  Stack,
+  hlayout,
+  text,
+  VLayout,
+  Switch,
+  switchView,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -16,13 +24,18 @@ import { CinematicCamera } from "./jsm/cameras/CinematicCamera";
 @Entry
 class webgl_camera_cinematic extends Panel {
 
+  private vContainer?: VLayout
   private gestureView?: GestureContainer
+  private focalLengthValue?: Stack
+  private fstopValue?: Stack
+  private focalDepthValue?: Stack
+  private showFocusValue?: Switch
 
   onShow() {
     navbar(context).setTitle("webgl_camera_cinematic");
   }
   build(rootView: Group) {
-    vlayout([
+    this.vContainer = vlayout([
       this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
@@ -37,6 +50,8 @@ class webgl_camera_cinematic extends Panel {
       .in(rootView);
 
     let self = this
+    let effectController
+    let matChanger
     this.gestureView.addChild(
       dangleView({
         onPrepared: (glContextId, width, height) => {
@@ -120,7 +135,7 @@ class webgl_camera_cinematic extends Panel {
     
             window.addEventListener( 'resize', onWindowResize );
     
-            const effectController = {
+            effectController = {
     
               focalLength: 15,
               // jsDepthCalculation: true,
@@ -148,7 +163,7 @@ class webgl_camera_cinematic extends Panel {
     
             };
     
-            const matChanger = function ( ) {
+            matChanger = function ( ) {
     
               for ( const e in effectController ) {
     
@@ -278,6 +293,132 @@ class webgl_camera_cinematic extends Panel {
         width: 300,
         height: 300,
       }),
+    )
+
+    this.vContainer.addChild(
+      hlayout([
+        text({
+          text: "focalLength",
+          layoutConfig: layoutConfig().justWidth().fitHeight(),
+          width: 90,
+        }),
+        gestureContainer([
+          this.focalLengthValue = stack([], {
+            layoutConfig: layoutConfig().just(),
+            width: 135,
+            height: 25,
+            x: 15 - 135,
+            backgroundColor: Color.parse("#2FA1D6"),
+          })
+        ], {
+          onPan: (dx, dy) => {
+            this.focalLengthValue!!.x -= dx
+            if (this.focalLengthValue!!.x <= 1 - 135) {
+              this.focalLengthValue!!.x = 1 - 135
+            } else if (this.focalLengthValue!!.x >= 0) {
+              this.focalLengthValue!!.x = 0
+            }
+            effectController.focalLength = this.focalLengthValue!!.x + 135
+            matChanger()
+          },
+          layoutConfig: layoutConfig().just(),
+          width: 135,
+          height: 25,
+          backgroundColor: Color.parse("#303030"),
+        })
+      ], {
+        space: 20,
+      })
+    )
+
+    this.vContainer.addChild(
+      hlayout([
+        text({
+          text: "fstop",
+          layoutConfig: layoutConfig().justWidth().fitHeight(),
+          width: 90,
+        }),
+        gestureContainer([
+          this.fstopValue = stack([], {
+            layoutConfig: layoutConfig().just(),
+            width: 135 ,
+            height: 25,
+            x: 2.8 * 135 / 22 - 135,
+            backgroundColor: Color.parse("#2FA1D6"),
+          })
+        ], {
+          onPan: (dx, dy) => {
+            this.fstopValue!!.x -= dx
+            if (this.fstopValue!!.x <= 1.8 * 135 / 22 - 135) {
+              this.fstopValue!!.x = 1.8 * 135 / 22 - 135
+            } else if (this.fstopValue!!.x >= 0) {
+              this.fstopValue!!.x = 0
+            }
+            effectController.fstop = (this.fstopValue!!.x + 135) * 22 / 135
+            matChanger()
+          },
+          layoutConfig: layoutConfig().just(),
+          width: 135,
+          height: 25,
+          backgroundColor: Color.parse("#303030"),
+        })
+      ], {
+        space: 20,
+      })
+    )
+
+    this.vContainer.addChild(
+      hlayout([
+        text({
+          text: "focalDepth",
+          layoutConfig: layoutConfig().justWidth().fitHeight(),
+          width: 90,
+        }),
+        gestureContainer([
+          this.focalDepthValue = stack([], {
+            layoutConfig: layoutConfig().just(),
+            width: 135 ,
+            height: 25,
+            x: 3 * 135 / 100 - 135,
+            backgroundColor: Color.parse("#2FA1D6"),
+          })
+        ], {
+          onPan: (dx, dy) => {
+            this.focalDepthValue!!.x -= dx
+            if (this.focalDepthValue!!.x <= 0.1 * 135 / 100 - 135) {
+              this.focalDepthValue!!.x = 0.1 * 135 / 100 - 135
+            } else if (this.focalDepthValue!!.x >= 0) {
+              this.focalDepthValue!!.x = 0
+            }
+            effectController.focalDepth = (this.focalDepthValue!!.x + 135) * 100 / 135
+            matChanger()
+          },
+          layoutConfig: layoutConfig().just(),
+          width: 135,
+          height: 25,
+          backgroundColor: Color.parse("#303030"),
+        })
+      ], {
+        space: 20,
+      })
+    )
+
+    this.vContainer.addChild(
+      hlayout([
+        text({
+          text: "showFocus",
+          layoutConfig: layoutConfig().justWidth().fitHeight(),
+          width: 90,
+        }),
+        this.showFocusValue = switchView({
+          onSwitch: (state) => {
+            effectController.showFocus = state
+            matChanger()
+          }
+        })
+      ], {
+        space: 20,
+      })
     )
   }
 }
