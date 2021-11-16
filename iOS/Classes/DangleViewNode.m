@@ -19,8 +19,11 @@
 - (UIView *)build {
     EXGLView *exglView = [[EXGLView alloc] init];
     __weak EXGLView* weakView = exglView;
+    __weak __typeof(self) _self = self;
     exglView.onSurfaceAvailable = ^void(int width, int height) {
         __strong EXGLView* strongView = weakView;
+        __strong __typeof(_self) self = _self;
+        
         [self callJSResponse:self.onPrepared, @(strongView.glContext.contextId), @(width), @(height), nil];
     };
     return exglView;
