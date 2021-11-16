@@ -6,6 +6,7 @@
 //
 
 #import "DangleVSyncPlugin.h"
+#import "DangleWeakProxy.h"
 
 @interface DangleVSyncPlugin ()
 
@@ -20,7 +21,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
+        _displayLink = [CADisplayLink displayLinkWithTarget:[DangleWeakProxy proxyWithTarget:self] selector:@selector(handleDisplayLink:)];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     }
     return self;
