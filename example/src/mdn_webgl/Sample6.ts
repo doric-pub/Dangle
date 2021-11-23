@@ -6,6 +6,8 @@ import {
   Gravity,
   navbar,
   stack,
+  imageDecoder,
+  RemoteResource,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 import { mat4 } from "gl-matrix";
@@ -23,7 +25,7 @@ class Sample6 extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
+            onPrepared: async (glContextId, width, height) => {
               let gl = getGl(glContextId) as any;
               gl.canvas = {
                 clientWidth: width,
@@ -81,7 +83,7 @@ class Sample6 extends Panel {
               // objects we'll be drawing.
               const buffers = initBuffers(gl);
 
-              const texture = loadTexture(gl, 'cubetexture.png');
+              const texture = await loadTexture(gl, 'cubetexture.png');
 
               var then = 0;
 
@@ -263,7 +265,7 @@ function initBuffers(gl) {
 // Initialize a texture and load an image.
 // When the image finished loading copy it into the texture.
 //
-function loadTexture(gl, url) {
+async function loadTexture(gl, url) {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
 
@@ -284,14 +286,19 @@ function loadTexture(gl, url) {
                 width, height, border, srcFormat, srcType,
                 pixel);
 
-  var cubeTexture = new Uint8Array([255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255, 255, 255, 255, 255])
+  const remoteResource = new RemoteResource("https://raw.githubusercontent.com/mdn/webgl-examples/gh-pages/tutorial/sample6/cubetexture.png")
+  const info = await imageDecoder(context).getImageInfo(remoteResource)
+
+  const w = info.width;
+  const h = info.height;
+  const arrayBuffer = await imageDecoder(context).decodeToPixels(remoteResource);
 
   // const image = new Image();
   // image.onload = function() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-      2, 2, border, srcFormat, srcType,
-      cubeTexture);
+      w, h, border, srcFormat, srcType,
+      arrayBuffer);
     
     // gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
     //               srcFormat, srcType, image);
