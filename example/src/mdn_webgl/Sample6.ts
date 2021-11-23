@@ -286,7 +286,7 @@ async function loadTexture(gl, url) {
                 width, height, border, srcFormat, srcType,
                 pixel);
 
-  const remoteResource = new RemoteResource("https://raw.githubusercontent.com/mdn/webgl-examples/gh-pages/tutorial/sample6/cubetexture.png")
+  const remoteResource = new RemoteResource("https://doric.pub/about/The_Parthenon_in_Athens.jpg")
   const info = await imageDecoder(context).getImageInfo(remoteResource)
 
   const w = info.width;
@@ -306,7 +306,7 @@ async function loadTexture(gl, url) {
     // WebGL1 has different requirements for power of 2 images
     // vs non power of 2 images so check if the image is a
     // power of 2 in both dimensions.
-    if (isPowerOf2(256) && isPowerOf2(256)) {
+    if (isPowerOf2(w) && isPowerOf2(h)) {
        // Yes, it's a power of 2. Generate mips.
        gl.generateMipmap(gl.TEXTURE_2D);
     } else {
