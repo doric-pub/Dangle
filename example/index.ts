@@ -40,6 +40,7 @@ export default [
     "src/three.js/webgl_interactive_raycasting_points",
 
     "src/three.js/webgl_lines_colors",
+    "src/three.js/webgl_loader_obj",
 
     "src/three.js/webgl_points_waves",
 

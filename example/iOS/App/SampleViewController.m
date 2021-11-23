@@ -58,6 +58,7 @@
         [self.tableDataArr addObject:@"three.js/webgl_interactive_raycasting_points"];
         
         [self.tableDataArr addObject:@"three.js/webgl_lines_colors"];
+        [self.tableDataArr addObject:@"three.js/webgl_loader_obj"];
 
         [self.tableDataArr addObject:@"three.js/webgl_points_waves"];
 
