@@ -8,14 +8,20 @@ import {
   GestureContainer,
   gestureContainer,
   Color,
+  hlayout,
+  text,
+  Text,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
 import * as THREE from "three"
 
+let lastTime = Date.now()
+
 @Entry
 class misc_lookat extends Panel {
 
+  private fpsText?: Text
   private gestureView?: GestureContainer
 
   onShow() {
@@ -23,6 +29,12 @@ class misc_lookat extends Panel {
   }
   build(rootView: Group) {
     vlayout([
+      hlayout([
+        text({text: "fps: "}),
+        this.fpsText = text({})
+      ], {
+        space: 20,
+      }),
       this.gestureView = gestureContainer(
         [],
         {
@@ -150,6 +162,10 @@ class misc_lookat extends Panel {
           //
 
           function animate() {
+            let current = Date.now()
+            let diff = current - lastTime
+            self.fpsText!!.text = Math.ceil(1000 / diff).toString()
+            lastTime = current
 
             vsync(context).requestAnimationFrame( animate );
 

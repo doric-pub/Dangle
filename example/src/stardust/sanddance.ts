@@ -22,8 +22,12 @@ import data from "./demovoteclean.tsv";
 
 const global = new Function('return this')()
 
+let lastTime = Date.now()
+
 @Entry
 class sanddance extends Panel {
+
+  private fpsText?: Text
 
   private mode1Button?: Text
   private mode2Button?: Text
@@ -56,6 +60,12 @@ class sanddance extends Panel {
         }
         func(t);
         totalFrames += 1;
+
+        let current = Date.now()
+        let diff = current - lastTime
+        self.fpsText!!.text = Math.ceil(1000 / diff).toString()
+        lastTime = current
+
         if (!shouldStop) {
           req = await vsync(context).requestAnimationFrame(rerender) as any;
         } else {
@@ -65,6 +75,7 @@ class sanddance extends Panel {
           });
         }
       };
+
       req = await vsync(context).requestAnimationFrame(rerender) as any;
       (<any>_previousTransition) = {
         stop: function() {
@@ -76,6 +87,12 @@ class sanddance extends Panel {
 
     let self = this
     vlayout([
+      hlayout([
+        text({text: "fps: "}),
+        this.fpsText = text({})
+      ], {
+        space: 20,
+      }),
       stack(
         [
           dangleView({
