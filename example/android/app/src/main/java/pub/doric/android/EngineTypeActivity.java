@@ -85,6 +85,7 @@ public class EngineTypeActivity extends AppCompatActivity {
             case TYPE_PLAYCANVAS:
                 dataSet = new String[]{
                         "playcanvas/hello_world",
+                        "playcanvas/shapes",
                 };
                 break;
             default:

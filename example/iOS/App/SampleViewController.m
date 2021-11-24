@@ -69,6 +69,7 @@
         
     } else if ([self.engineType isEqual: @"PlayCanvas"]) {
         [self.tableDataArr addObject:@"playcanvas/hello_world"];
+        [self.tableDataArr addObject:@"playcanvas/shapes"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {

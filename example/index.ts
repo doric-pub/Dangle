@@ -51,4 +51,5 @@ export default [
 
     // PlayCanvas
     "src/playcanvas/hello_world",
+    "src/playcanvas/shapes",
 ];
