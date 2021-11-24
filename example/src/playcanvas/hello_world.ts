@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl } from "dangle";
+import { dangleView, getGl, vsync } from "dangle";
 
 import * as pc from 'playcanvas'
 
@@ -45,8 +45,15 @@ class hello_world extends Panel {
                 innerWidth: width,
                 innerHeight: height,
                 devicePixelRatio: 1,
-                addEventListener: (() => {}) as any
+                addEventListener: (() => {}) as any,
+                navigator: {
+                  appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
+                  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+                },
+                requestAnimationFrame: vsync(context).requestAnimationFrame,
+                cancelAnimationFrame: vsync(context).cancelAnimationFrame
               }
+              global.navigator = global.window.navigator
 
               //#region code to impl
               const app = new pc.Application(canvas, {});
