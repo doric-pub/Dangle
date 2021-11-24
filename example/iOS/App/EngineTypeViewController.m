@@ -26,6 +26,7 @@
     [self.tableDataArr addObject:@"MDN_WebGL"];
     [self.tableDataArr addObject:@"Three.js"];
     [self.tableDataArr addObject:@"Stardust"];
+    [self.tableDataArr addObject:@"PlayCanvas"];
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
         it.width = self.view.width;

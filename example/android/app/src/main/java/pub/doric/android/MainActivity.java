@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
                 EngineTypeActivity.TYPE_MDN_WEBGL,
                 EngineTypeActivity.TYPE_THREE_JS,
                 EngineTypeActivity.TYPE_STARTDUST,
+                EngineTypeActivity.TYPE_PLAYCANVAS,
         };
         EngineTypeAdapter engineTypeAdapter = new EngineTypeAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

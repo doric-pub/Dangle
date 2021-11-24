@@ -67,6 +67,8 @@
         [self.tableDataArr addObject:@"stardust/daily_activities"];
         [self.tableDataArr addObject:@"stardust/sanddance"];
         
+    } else if ([self.engineType isEqual: @"PlayCanvas"]) {
+        [self.tableDataArr addObject:@"playcanvas/hello_world"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
