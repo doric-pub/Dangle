@@ -12,10 +12,10 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "doric": "^0.9.10",
-    "doric-cli": "^0.9.10",
-    "rollup": "^2.58.0",
-    "typescript": "^4.4.4"
+    "doric": "^0.9.22",
+    "doric-cli": "^0.9.22",
+    "rollup": "^2.60.1",
+    "typescript": "^4.5.2"
   },
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
