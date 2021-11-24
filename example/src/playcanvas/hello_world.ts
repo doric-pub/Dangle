@@ -9,9 +9,20 @@ import {
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
-import * as pc from 'playcanvas'
-
 const global = new Function('return this')()
+global.window = {
+  devicePixelRatio: 1,
+  addEventListener: (() => {}) as any,
+  navigator: {
+    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+  },
+  requestAnimationFrame: vsync(context).requestAnimationFrame,
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame
+}
+global.navigator = global.window.navigator
+
+import * as pc from 'playcanvas'
 
 @Entry
 class hello_world extends Panel {
@@ -41,19 +52,8 @@ class hello_world extends Panel {
                 }}) as any
               } as HTMLCanvasElement);
 
-              global.window = {
-                innerWidth: width,
-                innerHeight: height,
-                devicePixelRatio: 1,
-                addEventListener: (() => {}) as any,
-                navigator: {
-                  appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-                  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
-                },
-                requestAnimationFrame: vsync(context).requestAnimationFrame,
-                cancelAnimationFrame: vsync(context).cancelAnimationFrame
-              }
-              global.navigator = global.window.navigator
+              global.window.innerWidth = width
+              global.window.innerHeight = height
 
               //#region code to impl
               const app = new pc.Application(canvas, {});
