@@ -50,6 +50,7 @@ export default [
     "src/stardust/sanddance",
 
     // PlayCanvas
+    "src/playcanvas/grab_pass",
     "src/playcanvas/hello_world",
     "src/playcanvas/shapes",
 ];

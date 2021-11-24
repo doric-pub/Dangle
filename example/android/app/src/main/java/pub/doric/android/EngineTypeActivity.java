@@ -84,6 +84,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                 break;
             case TYPE_PLAYCANVAS:
                 dataSet = new String[]{
+                        "playcanvas/grab_pass",
                         "playcanvas/hello_world",
                         "playcanvas/shapes",
                 };
