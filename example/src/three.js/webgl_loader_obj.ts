@@ -143,19 +143,22 @@ class webgl_loader_obj extends Panel {
 
             const loader = new OBJLoader( manager );
 
+            loge('begin fetch array buffer')
             const resource = new RemoteResource('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/obj/male02/male02.obj')
             resourceLoader(context).load(resource)
             .then((arrayBuffer) => {
-              loge('then')
+              loge('got array buffer')
               const array = new Uint8Array(arrayBuffer)
               let text = ""
               for (let index = 0; index < array.length; index++) {
                 text += String.fromCharCode(array[index]);
               }
-              loge('decode')
+              loge('begin parse obj')
               object = loader.parse(text);
+              loge('end parse obj')
 
               loadModel()
+              loge('loadModel')
             })
             .catch(() => {
               loge('catch')
