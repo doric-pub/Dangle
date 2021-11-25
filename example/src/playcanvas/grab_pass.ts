@@ -6,6 +6,8 @@ import {
   Gravity,
   navbar,
   stack,
+  RemoteResource,
+  imageDecoder,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -34,7 +36,7 @@ class grab_pass extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
+            onPrepared: async (glContextId, width, height) => {
               let gl = getGl(glContextId) as any;
 
               const canvas = 
@@ -55,9 +57,35 @@ class grab_pass extends Panel {
               global.window.innerWidth = width
               global.window.innerHeight = height
 
+              const remoteResource = new RemoteResource('https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/normal-map.png')
+              const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
+              const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
+              const array = new Uint8Array(imagePixels)
+
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
+
+              const graphicsDevice = new pc.GraphicsDevice(canvas)
+
+              const texture = new pc.Texture(graphicsDevice, {
+                width: imageInfo.width,
+                height: imageInfo.height,
+                format: pc.PIXELFORMAT_R8_G8_B8_A8,
+              })
+
+              var pixels = texture.lock();
+              for (var i = 0; i < pixels.length; i++) {
+                pixels[i] = array[i]
+              }
+              texture.unlock();
+              
+
+              let assets = {
+                normal: {
+                  resource: texture
+                }
+              }
 
               // Set the canvas to fill the window and automatically change resolution to be the same as the canvas size
               app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
@@ -230,7 +258,7 @@ class grab_pass extends Panel {
               worldLayer.opaqueSortMode = pc.SORTMODE_BACK2FRONT;
 
               // set it as offset map on the material
-              // refractionMaterial.setParameter("uOffsetMap", assets.normal.resource);
+              refractionMaterial.setParameter("uOffsetMap", assets.normal.resource);
               refractionMaterial.update();
               app.start();
 
