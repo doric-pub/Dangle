@@ -12,6 +12,7 @@ import {
   resourceLoader,
   RemoteResource,
   loge,
+  imageDecoder,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -45,7 +46,7 @@ class webgl_loader_obj extends Panel {
     let self = this
     self.gestureView?.addChild(
       dangleView({
-        onPrepared: (glContextId, width, height) => {
+        onPrepared: async (glContextId, width, height) => {
           let gl = getGl(glContextId) as any;
 
           const inputCanvas = 
@@ -78,11 +79,11 @@ class webgl_loader_obj extends Panel {
 
           let object;
 
-          init();
+          await init();
           animate();
 
 
-          function init() {
+          async function init() {
 
             camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
             camera.position.z = 250;
@@ -104,7 +105,7 @@ class webgl_loader_obj extends Panel {
 
               object.traverse( function ( child ) {
 
-                // if ( child.isMesh ) child.material.map = texture;
+                if ( child.isMesh ) child.material.map = texture;
 
               } );
 
@@ -122,6 +123,11 @@ class webgl_loader_obj extends Panel {
             };
 
             // texture
+            const remoteResource = new RemoteResource('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/uv_grid_opengl.jpg')
+            const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
+            const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
+
+            const texture = new THREE.DataTexture(imagePixels, imageInfo.width, imageInfo.height, THREE.RGBAFormat);
 
             // const textureLoader = new THREE.TextureLoader( manager );
             // const texture = textureLoader.load( 'textures/uv_grid_opengl.jpg' );
