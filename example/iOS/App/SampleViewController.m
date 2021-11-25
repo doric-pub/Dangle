@@ -48,6 +48,7 @@
 
         [self.tableDataArr addObject:@"three.js/webgl_depth_texture"];
         
+        [self.tableDataArr addObject:@"three.js/webgl_effects_anaglyph"];
         [self.tableDataArr addObject:@"three.js/webgl_effects_peppersghost"];
 
         [self.tableDataArr addObject:@"three.js/webgl_framebuffer_texture"];

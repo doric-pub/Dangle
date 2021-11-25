@@ -60,6 +60,7 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/webgl_depth_texture",
 
+                        "three.js/webgl_effects_anaglyph",
                         "three.js/webgl_effects_peppersghost",
 
                         "three.js/webgl_framebuffer_texture",

@@ -30,6 +30,7 @@ export default [
 
     "src/three.js/webgl_depth_texture",
 
+    "src/three.js/webgl_effects_anaglyph",
     "src/three.js/webgl_effects_peppersghost",
 
     "src/three.js/webgl_framebuffer_texture",
