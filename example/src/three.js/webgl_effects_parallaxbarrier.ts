@@ -14,15 +14,15 @@ import {
 import { dangleView, getGl, vsync } from "dangle";
 
 import * as THREE from "three"
-import { AnaglyphEffect } from "./jsm/effects/AnaglyphEffect"
+import { ParallaxBarrierEffect } from "./jsm/effects/ParallaxBarrierEffect"
 
 @Entry
-class webgl_effects_anaglyph extends Panel {
+class webgl_effects_parallaxbarrier extends Panel {
 
   private gestureView?: GestureContainer
 
   onShow() {
-    navbar(context).setTitle("webgl_effects_anaglyph");
+    navbar(context).setTitle("webgl_effects_parallaxbarrier");
   }
   build(rootView: Group) {
     vlayout([
@@ -100,6 +100,7 @@ class webgl_effects_anaglyph extends Panel {
             camera.position.z = 3;
             camera.focalLength = 3;
 
+            
             const path = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/cube/pisa/";
             const format = '.png';
             const urls = [
@@ -153,7 +154,7 @@ class webgl_effects_anaglyph extends Panel {
             const width = window.innerWidth || 2;
             const height = window.innerHeight || 2;
 
-            effect = new AnaglyphEffect( renderer );
+            effect = new ParallaxBarrierEffect( renderer );
             effect.setSize( width, height );
 
             //
@@ -213,7 +214,6 @@ class webgl_effects_anaglyph extends Panel {
 
             gl.flush();
             gl.endFrameEXP();
-
           }
 
           //#endregion
