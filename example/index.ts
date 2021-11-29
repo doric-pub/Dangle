@@ -19,6 +19,8 @@ export default [
 
     "src/three.js/misc_lookat",
 
+    "src/three.js/webgl_animation_keyframes",
+
     "src/three.js/webgl_camera",
     "src/three.js/webgl_camera_array",
     "src/three.js/webgl_camera_cinematic",

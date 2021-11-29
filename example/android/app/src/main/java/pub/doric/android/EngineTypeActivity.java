@@ -49,6 +49,8 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/misc_lookat",
 
+                        "three.js/webgl_animation_keyframes",
+
                         "three.js/webgl_camera",
                         "three.js/webgl_camera_array",
                         "three.js/webgl_camera_cinematic",
