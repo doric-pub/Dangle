@@ -72,6 +72,7 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/webgl_interactive_buffergeometry",
                         "three.js/webgl_interactive_raycasting_points",
+                        "three.js/webgl_interactive_voxelpainter",
 
                         "three.js/webgl_lines_colors",
                         "three.js/webgl_loader_fbx",

@@ -60,6 +60,7 @@
         
         [self.tableDataArr addObject:@"three.js/webgl_interactive_buffergeometry"];
         [self.tableDataArr addObject:@"three.js/webgl_interactive_raycasting_points"];
+        [self.tableDataArr addObject:@"three.js/webgl_interactive_voxelpainter"];
         
         [self.tableDataArr addObject:@"three.js/webgl_lines_colors"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_fbx"];
