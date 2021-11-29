@@ -9,3 +9,6 @@ project(":dangle").projectDir = file("../../android/dangle")
 
 include ":jsc4a"
 project(":jsc4a").projectDir = file("/Users/maverick/Workspace/JSC4A/lib")
+
+include ":doric"
+project(":doric").projectDir = file("/Users/maverick/Workspace/Doric/doric-android/doric")
