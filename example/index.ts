@@ -22,6 +22,7 @@ export default [
     "src/three.js/physics_oimo_instancing",
 
     "src/three.js/webgl_animation_keyframes",
+    "src/three.js/webgl_animation_skinning_blending",
 
     "src/three.js/webgl_camera",
     "src/three.js/webgl_camera_array",
