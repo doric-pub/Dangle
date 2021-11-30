@@ -10,6 +10,11 @@ import {
   Color,
   RemoteResource,
   imageDecoder,
+  Switch,
+  VLayout,
+  hlayout,
+  text,
+  switchView,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -18,13 +23,15 @@ import * as THREE from "three";
 @Entry
 class webgl_points_sprites extends Panel {
 
+  private container?: VLayout
   private gestureView?: GestureContainer
+  private textureSwitch?: Switch
 
   onShow() {
     navbar(context).setTitle("webgl_points_sprites");
   }
   build(rootView: Group) {
-    vlayout([
+    this.container = vlayout([
       this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
@@ -216,6 +223,27 @@ class webgl_points_sprites extends Panel {
 
             window.addEventListener( 'resize', onWindowResize );
 
+            setTimeout(() => {
+              self.container!!.addChild(
+                hlayout([
+                  text({
+                    text: 'texture'
+                  }),
+                  self.textureSwitch = switchView({state: true})
+                ]).apply({
+                  gravity: Gravity.Center,
+                })
+              )
+
+              self.textureSwitch!!.onSwitch = (state) => {
+                for ( let i = 0; i < materials.length; i ++ ) {
+
+                  materials[ i ].map = ( state === true ) ? parameters[ i ][ 1 ] : null;
+                  materials[ i ].needsUpdate = true;
+
+                }
+              }
+            }, 0)
           }
 
           function onWindowResize() {
