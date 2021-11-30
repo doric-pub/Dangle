@@ -43,6 +43,7 @@ export default [
 
     "src/three.js/webgl_geometry_convex",
     "src/three.js/webgl_geometry_cube",
+    "src/three.js/webgl_geometry_minecraft",
     "src/three.js/webgl_geometry_text_shapes",
 
     "src/three.js/webgl_interactive_buffergeometry",
