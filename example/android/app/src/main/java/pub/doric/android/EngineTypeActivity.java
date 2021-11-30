@@ -71,6 +71,7 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/webgl_framebuffer_texture",
 
+                        "three.js/webgl_geometry_convex",
                         "three.js/webgl_geometry_text_shapes",
 
                         "three.js/webgl_interactive_buffergeometry",
