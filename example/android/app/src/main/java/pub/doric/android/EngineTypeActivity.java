@@ -81,6 +81,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_loader_fbx",
                         "three.js/webgl_loader_obj",
 
+                        "three.js/webgl_points_dynamic",
                         "three.js/webgl_points_sprites",
                         "three.js/webgl_points_waves",
 
