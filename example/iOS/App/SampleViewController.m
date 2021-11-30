@@ -60,6 +60,7 @@
         [self.tableDataArr addObject:@"three.js/webgl_framebuffer_texture"];
         
         [self.tableDataArr addObject:@"three.js/webgl_geometry_convex"];
+        [self.tableDataArr addObject:@"three.js/webgl_geometry_cube"];
         [self.tableDataArr addObject:@"three.js/webgl_geometry_text_shapes"];
         
         [self.tableDataArr addObject:@"three.js/webgl_interactive_buffergeometry"];
