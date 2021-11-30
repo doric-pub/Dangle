@@ -51,6 +51,7 @@ export default [
     "src/three.js/webgl_loader_fbx",
     "src/three.js/webgl_loader_obj",
 
+    "src/three.js/webgl_points_sprites",
     "src/three.js/webgl_points_waves",
 
     "src/three.js/webxr_vr_rollercoaster",
