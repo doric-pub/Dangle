@@ -37,6 +37,8 @@
         
         [self.tableDataArr addObject:@"three.js/misc_lookat"];
         
+        [self.tableDataArr addObject:@"three.js/physics_oimo_instancing"];
+
         [self.tableDataArr addObject:@"three.js/webgl_animation_keyframes"];
 
         [self.tableDataArr addObject:@"three.js/webgl_camera"];
