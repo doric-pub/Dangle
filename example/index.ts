@@ -51,6 +51,8 @@ export default [
 
     "src/three.js/webgl_points_waves",
 
+    "src/three.js/webxr_vr_rollercoaster",
+
     // Stardust
     "src/stardust/hello_world",
     "src/stardust/daily_activities",

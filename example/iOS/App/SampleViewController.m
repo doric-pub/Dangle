@@ -69,6 +69,8 @@
 
         [self.tableDataArr addObject:@"three.js/webgl_points_waves"];
 
+        [self.tableDataArr addObject:@"three.js/webxr_vr_rollercoaster"];
+
     } else if ([self.engineType isEqual: @"Stardust"]) {
         [self.tableDataArr addObject:@"stardust/hello_world"];
         [self.tableDataArr addObject:@"stardust/daily_activities"];
