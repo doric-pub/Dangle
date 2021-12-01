@@ -8,9 +8,13 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
-  loge,
   RemoteResource,
   imageDecoder,
+  hlayout,
+  text,
+  input,
+  Text,
+  Input,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -24,6 +28,13 @@ class webgl_materials_car extends Panel {
 
   private gestureView?: GestureContainer
 
+  private bodyBtn?: Text
+  private bodyInput?: Input
+  private detailsBtn?: Text
+  private detailsInput?: Input
+  private glassBtn?: Text
+  private glassInput?: Input
+
   onShow() {
     navbar(context).setTitle("webgl_materials_car");
   }
@@ -34,6 +45,81 @@ class webgl_materials_car extends Panel {
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
+      }),
+      hlayout([
+        text({
+          text: 'Body',
+          layoutConfig: layoutConfig().fitHeight().justWidth(),
+          width: 60,
+        }),
+        this.bodyInput = input({
+          layoutConfig: layoutConfig().fitHeight().justWidth(),
+          width: 100,
+          border: {
+            width: 1,
+            color: Color.GRAY,
+          }
+        }),
+        this.bodyBtn = text({
+          text: 'Go',
+          width: 50,
+          height: 50,
+          layoutConfig: layoutConfig().just(),
+          backgroundColor: Color.GRAY
+        })
+      ], {
+        gravity: Gravity.CenterY,
+        space: 10,
+      }),
+      hlayout([
+        text({
+          text: 'Details',
+          layoutConfig: layoutConfig().fitHeight().justWidth(),
+          width: 60,
+        }),
+        this.detailsInput = input({
+          layoutConfig: layoutConfig().fitHeight().justWidth(),
+          width: 100,
+          border: {
+            width: 1,
+            color: Color.GRAY,
+          }
+        }),
+        this.detailsBtn = text({
+          text: 'Go',
+          width: 50,
+          height: 50,
+          layoutConfig: layoutConfig().just(),
+          backgroundColor: Color.GRAY
+        })
+      ], {
+        gravity: Gravity.CenterY,
+        space: 10,
+      }),
+      hlayout([
+        text({
+          text: 'Glass',
+          layoutConfig: layoutConfig().fitHeight().justWidth(),
+          width: 60,
+        }),
+        this.glassInput = input({
+          layoutConfig: layoutConfig().fitHeight().justWidth(),
+          width: 100,
+          border: {
+            width: 1,
+            color: Color.GRAY,
+          }
+        }),
+        this.glassBtn = text({
+          text: 'Go',
+          width: 50,
+          height: 50,
+          layoutConfig: layoutConfig().just(),
+          backgroundColor: Color.GRAY
+        })
+      ], {
+        gravity: Gravity.CenterY,
+        space: 10,
       }),
     ])
       .apply({
@@ -177,6 +263,11 @@ class webgl_materials_car extends Panel {
             //   bodyMaterial.color.set( this.value );
 
             // } );
+            self.bodyBtn!!.onClick = () => {
+              self.bodyInput?.getText(context).then((value) => {
+                bodyMaterial.color.set( parseInt(value, 16) );
+              })
+            }
 
             // const detailsColorInput = document.getElementById( 'details-color' );
             // detailsColorInput.addEventListener( 'input', function () {
@@ -184,6 +275,11 @@ class webgl_materials_car extends Panel {
             //   detailsMaterial.color.set( this.value );
 
             // } );
+            self.detailsBtn!!.onClick = () => {
+              self.detailsInput?.getText(context).then((value) => {
+                detailsMaterial.color.set( parseInt(value, 16) );
+              })
+            }
 
             // const glassColorInput = document.getElementById( 'glass-color' );
             // glassColorInput.addEventListener( 'input', function () {
@@ -191,6 +287,11 @@ class webgl_materials_car extends Panel {
             //   glassMaterial.color.set( this.value );
 
             // } );
+            self.glassBtn!!.onClick = () => {
+              self.glassInput?.getText(context).then((value) => {
+                glassMaterial.color.set( parseInt(value, 16) );
+              })
+            }
 
             // Car
 
