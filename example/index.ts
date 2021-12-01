@@ -54,6 +54,7 @@ export default [
     "src/three.js/webgl_lines_colors",
     "src/three.js/webgl_loader_fbx",
     "src/three.js/webgl_loader_obj",
+    "src/three.js/webgl_loader_ttf",
 
     "src/three.js/webgl_materials_car",
 

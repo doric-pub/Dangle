@@ -84,6 +84,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_lines_colors",
                         "three.js/webgl_loader_fbx",
                         "three.js/webgl_loader_obj",
+                        "three.js/webgl_loader_ttf",
 
                         "three.js/webgl_materials_car",
 

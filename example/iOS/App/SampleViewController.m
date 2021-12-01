@@ -72,6 +72,7 @@
         [self.tableDataArr addObject:@"three.js/webgl_lines_colors"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_fbx"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_obj"];
+        [self.tableDataArr addObject:@"three.js/webgl_loader_ttf"];
 
         [self.tableDataArr addObject:@"three.js/webgl_materials_car"];
 
