@@ -8,6 +8,8 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
+  input,
+  Input,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -22,6 +24,8 @@ class webgl_loader_ttf extends Panel {
 
   private gestureView?: GestureContainer
 
+  private inputView?: Input
+
   onShow() {
     navbar(context).setTitle("webgl_loader_ttf");
   }
@@ -33,6 +37,15 @@ class webgl_loader_ttf extends Panel {
         height: 300,
         backgroundColor: Color.BLACK,
       }),
+      this.inputView = input({
+        layoutConfig: layoutConfig().justWidth().justHeight(),
+        width: 150,
+        height: 40,
+        border: {
+          width: 1,
+          color: Color.GRAY,
+        }
+      })
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -163,6 +176,24 @@ class webgl_loader_ttf extends Panel {
 
             // container.style.touchAction = 'none';
             // container.addEventListener( 'pointerdown', onPointerDown );
+            self.gestureView!!.onTouchDown = (event: {x, y}) => {
+              onPointerDown({
+                isPrimary: true,
+                clientX: event.x * Environment.screenScale,
+              })
+            }
+            self.gestureView!!.onTouchMove = (event: {x, y}) => {
+              onPointerMove({
+                isPrimary: true,
+                clientX: event.x * Environment.screenScale,
+              })
+            }
+
+            self.inputView!!.onTextChange = (value) => {
+              text = value;
+
+              refreshText();
+            }
 
             // document.addEventListener( 'keypress', onDocumentKeyPress );
             // document.addEventListener( 'keydown', onDocumentKeyDown );
@@ -296,8 +327,8 @@ class webgl_loader_ttf extends Panel {
             pointerXOnPointerDown = event.clientX - windowHalfX;
             targetRotationOnPointerDown = targetRotation;
 
-            document.addEventListener( 'pointermove', onPointerMove );
-            document.addEventListener( 'pointerup', onPointerUp );
+            // document.addEventListener( 'pointermove', onPointerMove );
+            // document.addEventListener( 'pointerup', onPointerUp );
 
           }
 
@@ -315,8 +346,8 @@ class webgl_loader_ttf extends Panel {
 
             if ( event.isPrimary === false ) return;
 
-            document.removeEventListener( 'pointermove', onPointerMove );
-            document.removeEventListener( 'pointerup', onPointerUp );
+            // document.removeEventListener( 'pointermove', onPointerMove );
+            // document.removeEventListener( 'pointerup', onPointerUp );
 
           }
 
