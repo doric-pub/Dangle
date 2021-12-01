@@ -73,6 +73,8 @@
         [self.tableDataArr addObject:@"three.js/webgl_loader_fbx"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_obj"];
 
+        [self.tableDataArr addObject:@"three.js/webgl_materials_car"];
+
         [self.tableDataArr addObject:@"three.js/webgl_points_dynamic"];
         [self.tableDataArr addObject:@"three.js/webgl_points_sprites"];
         [self.tableDataArr addObject:@"three.js/webgl_points_waves"];
