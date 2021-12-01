@@ -1,17 +1,19 @@
-// @ts-nocheck
+//@ts-nocheck
+import { loge } from 'doric';
 import {
-	FileLoader,
 	Loader,
 	ShapePath
 } from 'three';
 
+import { FileLoader } from '../../dangle/FileLoader'
+
 class FontLoader extends Loader {
 
-	// constructor( manager ) {
+	constructor( manager ) {
 
-	// 	super( manager );
+		super( manager );
 
-	// }
+	}
 
 	load( url, onLoad, onProgress, onError ) {
 
@@ -21,7 +23,12 @@ class FontLoader extends Loader {
 		loader.setPath( this.path );
 		loader.setRequestHeader( this.requestHeader );
 		loader.setWithCredentials( scope.withCredentials );
-		loader.load( url, function ( text ) {
+		loader.load( url, function ( arrayBuffer ) {
+			const array = new Uint8Array(arrayBuffer)
+			let text = ""
+			for (let index = 0; index < array.length; index++) {
+				text += String.fromCharCode(array[index]);
+			}
 
 			let json;
 
@@ -43,14 +50,6 @@ class FontLoader extends Loader {
 		}, onProgress, onError );
 
 	}
-
-    loadData(data, onLoad) {
-        const scope = this;
-
-        const font = scope.parse( data );
-
-        if ( onLoad ) onLoad( font );
-    }
 
 	parse( json ) {
 
