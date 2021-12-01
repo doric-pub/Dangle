@@ -516,7 +516,20 @@ NATIVE_METHOD(getInternalformatParameter) {
   return TypedArray<TypedArrayKind::Int32Array>(runtime, glResults);
 }
 
-UNIMPL_NATIVE_METHOD(renderbufferStorageMultisample)
+NATIVE_METHOD(renderbufferStorageMultisample) {
+  auto target = ARG(0, GLenum);
+  auto samples = ARG(1, GLint);
+  auto internalformat = ARG(2, GLint);
+  auto width = ARG(3, GLsizei);
+  auto height = ARG(4, GLsizei);
+
+  // WebGL allows `GL_DEPTH_STENCIL` flag to be passed here,
+  // however OpenGL ES seems to require sized format, so we fall back to `GL_DEPTH24_STENCIL8`.
+  internalformat = internalformat == GL_DEPTH_STENCIL ? GL_DEPTH24_STENCIL8 : internalformat;
+
+  addToNextBatch([=] { glRenderbufferStorageMultisample(target, samples, internalformat, width, height); });
+  return nullptr;
+}
 
 // Textures
 // --------
