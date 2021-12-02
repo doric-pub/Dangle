@@ -22,6 +22,7 @@ export default [
     "src/three.js/misc_lookat",
 
     "src/three.js/physics_ammo_break",
+    "src/three.js/physics_ammo_cloth",
     
     "src/three.js/physics_oimo_instancing",
 

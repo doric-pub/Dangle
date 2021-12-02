@@ -40,6 +40,7 @@
         [self.tableDataArr addObject:@"three.js/misc_lookat"];
 
         [self.tableDataArr addObject:@"three.js/physics_ammo_break"];
+        [self.tableDataArr addObject:@"three.js/physics_ammo_cloth"];
         
         [self.tableDataArr addObject:@"three.js/physics_oimo_instancing"];
 
