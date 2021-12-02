@@ -38,6 +38,8 @@
         [self.tableDataArr addObject:@"three.js/misc_controls_pointerlock"];
         
         [self.tableDataArr addObject:@"three.js/misc_lookat"];
+
+        [self.tableDataArr addObject:@"three.js/physics_ammo_break"];
         
         [self.tableDataArr addObject:@"three.js/physics_oimo_instancing"];
 

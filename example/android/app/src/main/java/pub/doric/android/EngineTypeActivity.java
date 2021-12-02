@@ -51,6 +51,8 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/misc_lookat",
 
+                        "three.js/physics_ammo_break",
+
                         "three.js/physics_oimo_instancing",
 
                         "three.js/webgl_animation_keyframes",
