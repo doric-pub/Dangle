@@ -9,6 +9,8 @@ export default [
     "src/mdn_webgl/Sample6",
 
     // Three.js
+    "src/three.js/games_fps",
+
     "src/three.js/misc_animation_groups",
     "src/three.js/misc_animation_keys",
 

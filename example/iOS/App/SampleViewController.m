@@ -27,6 +27,8 @@
             [self.tableDataArr addObject:[NSString stringWithFormat:@"mdn_webgl/Sample%i", i]];
         }
     } else if ([self.engineType isEqual: @"Three.js"]) {
+        [self.tableDataArr addObject:@"three.js/games_fps"];
+
         [self.tableDataArr addObject:@"three.js/misc_animation_groups"];
         [self.tableDataArr addObject:@"three.js/misc_animation_keys"];
         
