@@ -95,6 +95,7 @@
     } else if ([self.engineType isEqual: @"PlayCanvas"]) {
         [self.tableDataArr addObject:@"playcanvas/grab_pass"];
         [self.tableDataArr addObject:@"playcanvas/hello_world"];
+        [self.tableDataArr addObject:@"playcanvas/lines"];
         [self.tableDataArr addObject:@"playcanvas/shapes"];
     }
     

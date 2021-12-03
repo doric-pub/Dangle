@@ -111,6 +111,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                 dataSet = new String[]{
                         "playcanvas/grab_pass",
                         "playcanvas/hello_world",
+                        "playcanvas/lines",
                         "playcanvas/shapes",
                 };
                 break;
