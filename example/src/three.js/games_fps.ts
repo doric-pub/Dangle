@@ -330,7 +330,7 @@ class games_fps extends Panel {
 
             // throw the ball with more force if we hold the button longer, and if we move forward
 
-            const impulse = 15 + 30 * ( 1 - Math.exp( ( mouseTime - performance.now() ) * 0.001 ) );
+            const impulse = 15 + 30 * ( 1 - Math.exp( ( mouseTime - Date.now() ) * 0.001 ) );
 
             sphere.velocity.copy( playerDirection ).multiplyScalar( impulse );
             sphere.velocity.addScaledVector( playerVelocity, 2 );
