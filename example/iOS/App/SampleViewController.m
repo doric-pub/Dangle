@@ -97,6 +97,8 @@
         [self.tableDataArr addObject:@"playcanvas/hello_world"];
         [self.tableDataArr addObject:@"playcanvas/lines"];
         [self.tableDataArr addObject:@"playcanvas/shapes"];
+    } else if ([self.engineType isEqual: @"Babylon.js"]) {
+        [self.tableDataArr addObject:@"babylon.js/hello_world"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
