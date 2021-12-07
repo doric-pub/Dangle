@@ -1,6 +1,5 @@
 package pub.doric.library;
 
-
 import com.github.pengfeizhou.jscore.JSExecutor;
 import com.github.pengfeizhou.jscore.JSIRuntime;
 import com.github.pengfeizhou.jscore.JSValue;
@@ -33,19 +32,13 @@ public class DangleViewNode extends ViewNode<GLView> {
             if (jsiPtr == 0L) {
                 try {
                     DoricNativeDriver doricNativeDriver = DoricSingleton.getInstance().getNativeDriver();
-                    Field doricJSEngineField = doricNativeDriver.getClass().getDeclaredField("doricJSEngine");
-                    doricJSEngineField.setAccessible(true);
-                    DoricJSEngine doricJSEngine = (DoricJSEngine) doricJSEngineField.get(doricNativeDriver);
+                    DoricJSEngine doricJSEngine = doricNativeDriver.getDoricJSEngine();
                     assert doricJSEngine != null;
                     Dangle.getInstance().setJSHandler(doricJSEngine.getJSHandler());
 
-                    Field mDoricJSEField = doricJSEngine.getClass().getDeclaredField("mDoricJSE");
-                    mDoricJSEField.setAccessible(true);
-                    DoricNativeJSExecutor doricNativeJSExecutor = (DoricNativeJSExecutor) mDoricJSEField.get(doricJSEngine);
+                    DoricNativeJSExecutor doricNativeJSExecutor = (DoricNativeJSExecutor) doricJSEngine.getDoricJSE();
                     assert doricNativeJSExecutor != null;
-                    Field mJSExecutorField = doricNativeJSExecutor.getClass().getDeclaredField("mJSExecutor");
-                    mJSExecutorField.setAccessible(true);
-                    JSExecutor jsExecutor = (JSExecutor) mJSExecutorField.get(doricNativeJSExecutor);
+                    JSExecutor jsExecutor = doricNativeJSExecutor.getJSExecutor();
                     assert jsExecutor != null;
                     Field ptrField = jsExecutor.getClass().getDeclaredField("ptr");
                     ptrField.setAccessible(true);
