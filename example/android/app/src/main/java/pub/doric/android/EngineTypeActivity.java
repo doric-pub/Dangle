@@ -120,6 +120,7 @@ public class EngineTypeActivity extends AppCompatActivity {
             case TYPE_BABYLON_JS:
                 dataSet = new String[]{
                         "babylon.js/hello_world",
+                };
             case TYPE_PIXIJS:
                 dataSet = new String[]{
                         "pixijs/hello_world",
