@@ -13,15 +13,16 @@
   "license": "Apache-2.0",
   "dependencies": {
     "babylonjs": "^4.2.0",
-    "d3": "^7.1.1",
+    "d3": "^7.2.0",
     "dangle": "file:../",
     "gl-matrix": "^3.4.3",
     "opentype.js": "^1.3.4",
+    "pixi.js": "^6.2.0",
     "playcanvas": "^1.50.0",
-    "rollup": "^2.60.1",
+    "rollup": "^2.60.2",
     "stardust-core": "^0.2.4",
     "stardust-webgl": "^0.2.4",
-    "three": "^0.134.0",
+    "three": "^0.135.0",
     "typescript": "^4.5.2"
   },
   "optionalDependencies": {
@@ -30,6 +31,6 @@
   "devDependencies": {
     "@rollup/plugin-dsv": "^2.0.2",
     "@types/d3": "^7.1.0",
-    "@types/three": "^0.134.0"
+    "@types/three": "^0.135.0"
   }
 }
