@@ -8,6 +8,10 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
+  VLayout,
+  hlayout,
+  text,
+  Text,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -18,13 +22,19 @@ import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 @Entry
 class webgl_animation_skinning_additive_blending extends Panel {
 
+  private vlayoutView?: VLayout
   private gestureView?: GestureContainer
+
+  private noneText?: Text
+  private idleText?: Text
+  private walkText?: Text
+  private runText?: Text
 
   onShow() {
     navbar(context).setTitle("webgl_animation_skinning_additive_blending");
   }
   build(rootView: Group) {
-    vlayout([
+    this.vlayoutView = vlayout([
       this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
@@ -34,7 +44,7 @@ class webgl_animation_skinning_additive_blending extends Panel {
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
-        space: 20,
+        space: 10,
         gravity: Gravity.Center,
       })
       .in(rootView);
@@ -244,6 +254,100 @@ class webgl_animation_skinning_additive_blending extends Panel {
             // };
 
             // const baseNames = [ 'None', ...Object.keys( baseActions ) ];
+
+            self.vlayoutView?.addChild(
+              text({text: 'Base Actions'})
+            )
+            self.vlayoutView?.addChild(
+              hlayout([
+                self.noneText = text({
+                  text: 'None',
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 60,
+                  backgroundColor: Color.GRAY,
+                  textColor: Color.BLACK,
+
+                  onClick: () => {
+                    const currentSettings = baseActions[ currentBaseAction ]
+                    const currentAction = currentSettings ? currentSettings.action : null;
+                    const settings = baseActions[ 'None' ]
+                    const action = settings ? settings.action : null;
+                    prepareCrossFade( currentAction, action, 0.35 );
+
+                    self.noneText!!.textColor = Color.WHITE
+                    self.idleText!!.textColor = Color.BLACK
+                    self.walkText!!.textColor = Color.BLACK
+                    self.runText!!.textColor = Color.BLACK
+                  }
+                }),
+                self.idleText = text({
+                  text: 'idle',
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 60,
+                  backgroundColor: Color.GRAY,
+                  textColor: Color.WHITE,
+
+                  onClick: () => {
+                    const currentSettings = baseActions[ currentBaseAction ]
+                    const currentAction = currentSettings ? currentSettings.action : null;
+                    const settings = baseActions[ 'idle' ]
+                    //@ts-ignore
+                    const action = settings ? settings.action : null;
+                    prepareCrossFade( currentAction, action, 0.35 );
+
+                    self.noneText!!.textColor = Color.BLACK
+                    self.idleText!!.textColor = Color.WHITE
+                    self.walkText!!.textColor = Color.BLACK
+                    self.runText!!.textColor = Color.BLACK
+                  }
+                }),
+                self.walkText = text({
+                  text: 'walk',
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 60,
+                  backgroundColor: Color.GRAY,
+                  textColor: Color.BLACK,
+
+                  onClick: () => {
+                    const currentSettings = baseActions[ currentBaseAction ]
+                    const currentAction = currentSettings ? currentSettings.action : null;
+                    const settings = baseActions[ 'walk' ]
+                    //@ts-ignore
+                    const action = settings ? settings.action : null;
+                    prepareCrossFade( currentAction, action, 0.35 );
+
+                    self.noneText!!.textColor = Color.BLACK
+                    self.idleText!!.textColor = Color.BLACK
+                    self.walkText!!.textColor = Color.WHITE
+                    self.runText!!.textColor = Color.BLACK
+                  }
+                }),
+                self.runText = text({
+                  text: 'run',
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 60,
+                  backgroundColor: Color.GRAY,
+                  textColor: Color.BLACK,
+
+                  onClick: () => {
+                    const currentSettings = baseActions[ currentBaseAction ]
+                    const currentAction = currentSettings ? currentSettings.action : null;
+                    const settings = baseActions[ 'run' ]
+                    //@ts-ignore
+                    const action = settings ? settings.action : null;
+                    prepareCrossFade( currentAction, action, 0.35 );
+
+                    self.noneText!!.textColor = Color.BLACK
+                    self.idleText!!.textColor = Color.BLACK
+                    self.walkText!!.textColor = Color.BLACK
+                    self.runText!!.textColor = Color.WHITE
+                  }
+                }),
+              ], {
+                space: 10,
+                gravity: Gravity.CenterY,
+              })
+            )
 
             // for ( let i = 0, l = baseNames.length; i !== l; ++ i ) {
 
