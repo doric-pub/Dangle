@@ -90,7 +90,10 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_interactive_raycasting_points",
                         "three.js/webgl_interactive_voxelpainter",
 
+                        "three.js/webgl_lights_hemisphere",
+
                         "three.js/webgl_lines_colors",
+
                         "three.js/webgl_loader_fbx",
                         "three.js/webgl_loader_obj",
                         "three.js/webgl_loader_ttf",
