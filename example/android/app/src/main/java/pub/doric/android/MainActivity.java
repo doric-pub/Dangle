@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
                 EngineTypeActivity.TYPE_STARTDUST,
                 EngineTypeActivity.TYPE_PLAYCANVAS,
                 EngineTypeActivity.TYPE_BABYLON_JS,
-                EngineTypeActivity.TYPE_PIXIJS,
         };
         EngineTypeAdapter engineTypeAdapter = new EngineTypeAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

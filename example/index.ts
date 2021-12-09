@@ -82,7 +82,4 @@ export default [
 
     // Babylon.js
     "src/babylon.js/hello_world",
-    
-    // PixiJS
-    "src/pixijs/hello_world"
 ];
