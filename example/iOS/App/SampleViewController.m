@@ -57,6 +57,8 @@
         [self.tableDataArr addObject:@"three.js/webgl_clipping_intersection"];
         [self.tableDataArr addObject:@"three.js/webgl_clipping_stencil"];
 
+        [self.tableDataArr addObject:@"three.js/webgl_decals"];
+
         [self.tableDataArr addObject:@"three.js/webgl_depth_texture"];
         
         [self.tableDataArr addObject:@"three.js/webgl_effects_anaglyph"];

@@ -39,6 +39,8 @@ export default [
     "src/three.js/webgl_clipping_intersection",
     "src/three.js/webgl_clipping_stencil",
 
+    "src/three.js/webgl_decals",
+
     "src/three.js/webgl_depth_texture",
 
     "src/three.js/webgl_effects_anaglyph",
