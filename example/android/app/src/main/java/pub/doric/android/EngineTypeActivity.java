@@ -121,6 +121,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                 dataSet = new String[]{
                         "babylon.js/hello_world",
                 };
+                break;
             case TYPE_PIXIJS:
                 dataSet = new String[]{
                         "pixijs/hello_world",
