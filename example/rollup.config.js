@@ -99,6 +99,52 @@ import dsv from '@rollup/plugin-dsv';
   });
 }
 
+{
+  function searchJSFiles(dir, jsFiles) {
+    const files = fs.readdirSync(dir);
+    files.forEach((item, index) => {
+      var fullPath = path.join(dir, item);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        searchJSFiles(path.join(dir, item), jsFiles);
+      } else {
+        if (fullPath.endsWith(".js")) {
+          jsFiles.push(fullPath);
+        }
+      }
+    });
+    return jsFiles;
+  }
+  
+  const allJSFiles = [];
+  searchJSFiles("src", allJSFiles);
+  
+  function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
+      return true;
+    } else {
+      if (mkdirsSync(path.dirname(dirname))) {
+        fs.mkdirSync(dirname);
+        return true;
+      }
+    }
+  }
+  
+  allJSFiles.forEach((value) => {
+    let path = __dirname + "/build/" + value;
+    let index = path.lastIndexOf("/");
+    mkdirsSync(path.substring(0, index));
+  
+    fs.copyFile(
+      __dirname + "/" + value,
+      __dirname + "/build/" + value,
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+  });
+}
+
 function readDirs(dirPath, files) {
   if (fs.statSync(dirPath).isDirectory()) {
     fs.readdirSync(dirPath).forEach((e) => {
