@@ -12,6 +12,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@xmldom/xmldom": "^0.7.5",
     "babylonjs": "^4.2.0",
     "d3": "^7.2.0",
     "dangle": "file:../",
