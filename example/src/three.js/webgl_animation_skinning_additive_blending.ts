@@ -12,6 +12,8 @@ import {
   hlayout,
   text,
   Text,
+  stack,
+  Stack,
 } from "doric";
 import { dangleView, getGl, vsync } from "dangle";
 
@@ -29,6 +31,13 @@ class webgl_animation_skinning_additive_blending extends Panel {
   private idleText?: Text
   private walkText?: Text
   private runText?: Text
+
+  private sneakPoseValue?: Stack
+  private sadPoseValue?: Stack
+  private agreeValue?: Stack
+  private headShakeValue?: Stack
+
+  private modifyTimeScaleValue?: Stack
 
   onShow() {
     navbar(context).setTitle("webgl_animation_skinning_additive_blending");
@@ -343,6 +352,208 @@ class webgl_animation_skinning_additive_blending extends Panel {
                     self.runText!!.textColor = Color.WHITE
                   }
                 }),
+              ], {
+                space: 10,
+                gravity: Gravity.CenterY,
+              })
+            )
+
+            self.vlayoutView?.addChild(
+              hlayout([
+                text({
+                  text: "sneak_pose",
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 90,
+                }),
+                gestureContainer([
+                  self.sneakPoseValue = stack([], {
+                    layoutConfig: layoutConfig().just(),
+                    width: 135 ,
+                    height: 25,
+                    x: 0 * 135 / 1 - 135,
+                    backgroundColor: Color.parse("#2FA1D6"),
+                  })
+                ], {
+                  onPan: (dx, dy) => {
+                    self.sneakPoseValue!!.x -= dx
+                    if (self.sneakPoseValue!!.x <= 0 * 135 / 1 - 135) {
+                      self.sneakPoseValue!!.x = 0 * 135 / 1 - 135
+                    } else if (self.sneakPoseValue!!.x >= 0) {
+                      self.sneakPoseValue!!.x = 0
+                    }
+                    let sneakPose = (self.sneakPoseValue!!.x + 135) * 1 / 135
+  
+                    const settings = additiveActions[ 'sneak_pose' ]
+                    //@ts-ignore
+                    setWeight( settings.action, sneakPose );
+                    settings.weight = sneakPose;
+                  },
+                  layoutConfig: layoutConfig().just(),
+                  width: 135,
+                  height: 25,
+                  backgroundColor: Color.parse("#303030"),
+                })
+              ], {
+                space: 10,
+                gravity: Gravity.CenterY,
+              })
+            )
+
+            self.vlayoutView?.addChild(
+              hlayout([
+                text({
+                  text: "sad_pose",
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 90,
+                }),
+                gestureContainer([
+                  self.sadPoseValue = stack([], {
+                    layoutConfig: layoutConfig().just(),
+                    width: 135 ,
+                    height: 25,
+                    x: 0 * 135 / 1 - 135,
+                    backgroundColor: Color.parse("#2FA1D6"),
+                  })
+                ], {
+                  onPan: (dx, dy) => {
+                    self.sadPoseValue!!.x -= dx
+                    if (self.sadPoseValue!!.x <= 0 * 135 / 1 - 135) {
+                      self.sadPoseValue!!.x = 0 * 135 / 1 - 135
+                    } else if (self.sadPoseValue!!.x >= 0) {
+                      self.sadPoseValue!!.x = 0
+                    }
+                    let sadPose = (self.sadPoseValue!!.x + 135) * 1 / 135
+  
+                    const settings = additiveActions[ 'sad_pose' ]
+                    //@ts-ignore
+                    setWeight( settings.action, sadPose );
+                    settings.weight = sadPose;
+                  },
+                  layoutConfig: layoutConfig().just(),
+                  width: 135,
+                  height: 25,
+                  backgroundColor: Color.parse("#303030"),
+                })
+              ], {
+                space: 10,
+                gravity: Gravity.CenterY,
+              })
+            )
+
+            self.vlayoutView?.addChild(
+              hlayout([
+                text({
+                  text: "agree",
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 90,
+                }),
+                gestureContainer([
+                  self.agreeValue = stack([], {
+                    layoutConfig: layoutConfig().just(),
+                    width: 135 ,
+                    height: 25,
+                    x: 0 * 135 / 1 - 135,
+                    backgroundColor: Color.parse("#2FA1D6"),
+                  })
+                ], {
+                  onPan: (dx, dy) => {
+                    self.agreeValue!!.x -= dx
+                    if (self.agreeValue!!.x <= 0 * 135 / 1 - 135) {
+                      self.agreeValue!!.x = 0 * 135 / 1 - 135
+                    } else if (self.agreeValue!!.x >= 0) {
+                      self.agreeValue!!.x = 0
+                    }
+                    let agree = (self.agreeValue!!.x + 135) * 1 / 135
+  
+                    const settings = additiveActions[ 'agree' ]
+                    //@ts-ignore
+                    setWeight( settings.action, agree );
+                    settings.weight = agree;
+                  },
+                  layoutConfig: layoutConfig().just(),
+                  width: 135,
+                  height: 25,
+                  backgroundColor: Color.parse("#303030"),
+                })
+              ], {
+                space: 10,
+                gravity: Gravity.CenterY,
+              })
+            )
+
+            self.vlayoutView?.addChild(
+              hlayout([
+                text({
+                  text: "headShake",
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 90,
+                }),
+                gestureContainer([
+                  self.headShakeValue = stack([], {
+                    layoutConfig: layoutConfig().just(),
+                    width: 135 ,
+                    height: 25,
+                    x: 0 * 135 / 1 - 135,
+                    backgroundColor: Color.parse("#2FA1D6"),
+                  })
+                ], {
+                  onPan: (dx, dy) => {
+                    self.headShakeValue!!.x -= dx
+                    if (self.headShakeValue!!.x <= 0 * 135 / 1 - 135) {
+                      self.headShakeValue!!.x = 0 * 135 / 1 - 135
+                    } else if (self.headShakeValue!!.x >= 0) {
+                      self.headShakeValue!!.x = 0
+                    }
+                    let headShake = (self.headShakeValue!!.x + 135) * 1 / 135
+  
+                    const settings = additiveActions[ 'headShake' ]
+                    //@ts-ignore
+                    setWeight( settings.action, headShake );
+                    settings.weight = headShake;
+                  },
+                  layoutConfig: layoutConfig().just(),
+                  width: 135,
+                  height: 25,
+                  backgroundColor: Color.parse("#303030"),
+                })
+              ], {
+                space: 10,
+                gravity: Gravity.CenterY,
+              })
+            )
+
+            self.vlayoutView?.addChild(
+              hlayout([
+                text({
+                  text: "time scale",
+                  layoutConfig: layoutConfig().justWidth().fitHeight(),
+                  width: 90,
+                }),
+                gestureContainer([
+                  self.modifyTimeScaleValue = stack([], {
+                    layoutConfig: layoutConfig().just(),
+                    width: 135 ,
+                    height: 25,
+                    x: 1 * 135 / 1.5 - 135,
+                    backgroundColor: Color.parse("#2FA1D6"),
+                  })
+                ], {
+                  onPan: (dx, dy) => {
+                    self.modifyTimeScaleValue!!.x -= dx
+                    if (self.modifyTimeScaleValue!!.x <= 0 * 135 / 1.5 - 135) {
+                      self.modifyTimeScaleValue!!.x = 0 * 135 / 1.5 - 135
+                    } else if (self.modifyTimeScaleValue!!.x >= 0) {
+                      self.modifyTimeScaleValue!!.x = 0
+                    }
+                    let value = (self.modifyTimeScaleValue!!.x + 135) * 1.5 / 135
+  
+                    modifyTimeScale(value)
+                  },
+                  layoutConfig: layoutConfig().just(),
+                  width: 135,
+                  height: 25,
+                  backgroundColor: Color.parse("#303030"),
+                })
               ], {
                 space: 10,
                 gravity: Gravity.CenterY,
