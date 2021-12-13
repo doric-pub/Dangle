@@ -19,7 +19,7 @@ import pub.doric.shader.ViewNode;
 @DoricPlugin(name = "DangleView")
 public class DangleViewNode extends ViewNode<GLView> {
 
-    private String onReady;
+    private String onPrepared;
 
     public DangleViewNode(DoricContext doricContext) {
         super(doricContext);
@@ -55,11 +55,11 @@ public class DangleViewNode extends ViewNode<GLView> {
 
     @Override
     protected void blend(GLView view, String name, JSValue prop) {
-        if ("onReady".equals(name)) {
+        if ("onPrepared".equals(name)) {
             if (prop.isString()) {
-                onReady = prop.asString().value();
+                onPrepared = prop.asString().value();
             } else {
-                onReady = null;
+                onPrepared = null;
             }
         } else {
             super.blend(view, name, prop);
@@ -72,8 +72,8 @@ public class DangleViewNode extends ViewNode<GLView> {
         glView.setOnSurfaceAvailable(new GLView.OnSurfaceAvailable() {
             @Override
             public void invoke() {
-                if (onReady != null) {
-                    callJSResponse("onPrepared", glView.getEXGLCtxId());
+                if (onPrepared != null) {
+                    callJSResponse(onPrepared, glView.getEXGLCtxId());
                 }
             }
         });

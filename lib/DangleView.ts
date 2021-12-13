@@ -6,13 +6,13 @@ export interface IDangleView {
 }
 
 export class DangleView extends View implements IDangleView {
-  onPrepared = (contextId: number) => {
+  @Property
+  private onPrepared = (contextId: number) => {
     if (this.onReady) {
       this.onReady(getGl(contextId) as unknown as WebGL2RenderingContext);
     }
   };
 
-  @Property
   onReady?: (gl: WebGL2RenderingContext) => void;
 }
 

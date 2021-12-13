@@ -436,8 +436,8 @@ class DangleView extends doric.View {
 }
 __decorate([
     doric.Property,
-    __metadata("design:type", Function)
-], DangleView.prototype, "onReady", void 0);
+    __metadata("design:type", Object)
+], DangleView.prototype, "onPrepared", void 0);
 function dangleView(config) {
     const ret = new DangleView();
     ret.layoutConfig = doric.layoutConfig().fit();
