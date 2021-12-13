@@ -104,10 +104,6 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
     mGLContext.initialize(surfaceTexture, new Runnable() {
       @Override
       public void run() {
-        final Bundle event = new Bundle();
-
-        event.putInt("exglCtxId", mGLContext.getContextId());
-
         if (mOnSurfaceAvailable != null) {
           mOnSurfaceAvailable.invoke();
         }

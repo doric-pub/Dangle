@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) EXGLContext *glContext;
 @property (nonatomic, strong, nullable) EAGLContext *uiEaglCtx;
 
-@property (nonatomic, copy) void (^onSurfaceAvailable)(int width, int height);
+@property (nonatomic, copy) void (^onSurfaceAvailable)();
 
 @end
 
