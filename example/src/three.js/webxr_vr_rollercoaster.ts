@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 import {
@@ -28,8 +28,9 @@ class webxr_vr_rollercoaster extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
-              let gl = getGl(glContextId) as any;
+            onReady: async (gl: WebGL2RenderingContext) => {
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               const inputCanvas = 
               ({
@@ -266,7 +267,7 @@ class webxr_vr_rollercoaster extends Panel {
                 prevTime = time;
 
                 gl.flush();
-                gl.endFrameEXP();
+                (<any>gl).endFrameEXP();
               }
 
               // renderer.setAnimationLoop( render );
@@ -279,9 +280,6 @@ class webxr_vr_rollercoaster extends Panel {
               animate()
               
               //#endregion
-
-              gl.flush();
-              gl.endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

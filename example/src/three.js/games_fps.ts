@@ -5,14 +5,13 @@ import {
   layoutConfig,
   Gravity,
   navbar,
-  stack,
   gestureContainer,
   Color,
   text,
   GestureContainer,
   hlayout,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -111,8 +110,10 @@ class games_fps extends Panel {
     let self = this
     self.gestureView?.addChild(
       dangleView({
-        onPrepared: (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: (gl: WebGL2RenderingContext) => {
+
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -620,13 +621,10 @@ class games_fps extends Panel {
             requestAnimationFrame( animate );
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
           }
 
           //#endregion
-
-          gl.flush();
-          gl.endFrameEXP();
         },
       }).apply({
         layoutConfig: layoutConfig().just(),

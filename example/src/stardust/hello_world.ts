@@ -9,7 +9,7 @@ import {
   Text,
   text,
 } from "doric";
-import { dangleView, getGl } from "dangle";
+import { dangleView } from "dangle";
 
 import * as Stardust from 'stardust-core'
 import 'stardust-webgl'
@@ -31,8 +31,9 @@ class hello_world extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
-              let gl = getGl(glContextId) as any;
+            onReady: async (gl: WebGL2RenderingContext) => {
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               const inputCanvas = 
               ({
@@ -78,13 +79,12 @@ class hello_world extends Panel {
                 circles.render();
 
                 gl.flush();
-                gl.endFrameEXP();
+                (<any>gl).endFrameEXP();
               }
 
               //#endregion
-
               gl.flush();
-              gl.endFrameEXP();
+              (<any>gl).endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

@@ -9,7 +9,7 @@ import {
   GestureContainer,
   Color,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
@@ -41,8 +41,9 @@ class webgl_clipping_stencil extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onPrepared: (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: (gl: WebGL2RenderingContext) => {
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas =
               ({
@@ -348,7 +349,7 @@ class webgl_clipping_stencil extends Panel {
             // stats.end();
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
           }
 
           //#endregion

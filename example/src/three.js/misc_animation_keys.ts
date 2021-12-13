@@ -8,7 +8,7 @@ import {
   stack,
   Color,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -22,8 +22,9 @@ class misc_animation_keys extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
-              let gl = getGl(glContextId) as any;
+            onReady: (gl: WebGL2RenderingContext) => {
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               const inputCanvas = 
               ({
@@ -148,7 +149,7 @@ class misc_animation_keys extends Panel {
                 render();
 
                 gl.flush();
-                gl.endFrameEXP();
+                (<any>gl).endFrameEXP();
               }
 
               function render() {

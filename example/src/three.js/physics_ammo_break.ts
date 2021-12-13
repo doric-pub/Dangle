@@ -10,7 +10,7 @@ import {
   Color,
   loge,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -51,8 +51,9 @@ class physics_ammo_break extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onPrepared: (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: (gl: WebGL2RenderingContext) => {
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -538,7 +539,7 @@ class physics_ammo_break extends Panel {
             // stats.update();
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
           }
 
           function render() {

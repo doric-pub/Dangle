@@ -15,7 +15,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
   private GLContext mGLContext;
 
   public interface OnSurfaceAvailable {
-    void invoke(int width, int height);
+    void invoke();
   }
   private OnSurfaceAvailable mOnSurfaceAvailable;
   public void setOnSurfaceAvailable(OnSurfaceAvailable onSurfaceAvailable) {
@@ -62,7 +62,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
       }
 
       if (!mOnSurfaceTextureCreatedWithZeroSize) {
-        initializeSurfaceInGLContext(surfaceTexture, width, height);
+        initializeSurfaceInGLContext(surfaceTexture);
       }
 
       mOnSurfaceCreateCalled = true;
@@ -82,7 +82,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
   @Override
   synchronized public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
     if (mOnSurfaceTextureCreatedWithZeroSize && (width != 0 || height != 0)) {
-      initializeSurfaceInGLContext(surfaceTexture, width, height);
+      initializeSurfaceInGLContext(surfaceTexture);
       mOnSurfaceTextureCreatedWithZeroSize = false;
     }
   }
@@ -100,7 +100,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
     return mGLContext.getContextId();
   }
 
-  private void initializeSurfaceInGLContext(SurfaceTexture surfaceTexture, int width, int height) {
+  private void initializeSurfaceInGLContext(SurfaceTexture surfaceTexture) {
     mGLContext.initialize(surfaceTexture, new Runnable() {
       @Override
       public void run() {
@@ -109,7 +109,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
         event.putInt("exglCtxId", mGLContext.getContextId());
 
         if (mOnSurfaceAvailable != null) {
-          mOnSurfaceAvailable.invoke(width, height);
+          mOnSurfaceAvailable.invoke();
         }
       }
     });

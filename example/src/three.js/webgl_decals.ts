@@ -11,7 +11,7 @@ import {
   RemoteResource,
   imageDecoder,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
@@ -45,8 +45,9 @@ class webgl_decals extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onPrepared: async (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: async (gl: WebGL2RenderingContext) => {
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -423,7 +424,7 @@ class webgl_decals extends Panel {
             // stats.update();
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
           }
 
           //#endregion

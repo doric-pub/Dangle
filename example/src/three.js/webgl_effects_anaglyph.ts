@@ -11,7 +11,7 @@ import {
   RemoteResource,
   imageDecoder,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three"
 import { AnaglyphEffect } from "./jsm/effects/AnaglyphEffect"
@@ -46,8 +46,9 @@ class webgl_effects_anaglyph extends Panel {
     let self = this
     this.gestureView?.addChild(
       dangleView({
-        onPrepared: async (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: async (gl: WebGL2RenderingContext) => {
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -212,7 +213,7 @@ class webgl_effects_anaglyph extends Panel {
             effect.render( scene, camera );
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
 
           }
 

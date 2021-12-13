@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl } from "dangle";
+import { dangleView } from "dangle";
 
 @Entry
 class Sample1 extends Panel {
@@ -19,8 +19,9 @@ class Sample1 extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId) => {
-              let gl = getGl(glContextId) as any;
+            onReady: async (gl: WebGL2RenderingContext) => {
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               //#region code to impl
               // Set clear color to black, fully opaque
@@ -30,7 +31,7 @@ class Sample1 extends Panel {
               //#endregion
 
               gl.flush();
-              gl.endFrameEXP();
+              (<any>gl).endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

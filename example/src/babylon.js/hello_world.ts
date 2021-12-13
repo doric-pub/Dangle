@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 const global = new Function('return this')()
 global.window = {
@@ -37,8 +37,9 @@ class hello_world extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
-              let gl = getGl(glContextId) as any;
+            onReady: (gl: WebGL2RenderingContext) => {
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               const canvas = 
               ({
@@ -60,7 +61,7 @@ class hello_world extends Panel {
 
               //#region code to impl
               // Load the 3D engine
-              var engine = new BABYLON.Engine(gl, true, {preserveDrawingBuffer: true, stencil: true});
+              var engine = new BABYLON.Engine(gl as any, true, {preserveDrawingBuffer: true, stencil: true});
               // CreateScene function that creates and return the scene
               var createScene = function(){
                 // Create a basic BJS Scene object
@@ -89,7 +90,7 @@ class hello_world extends Panel {
                 scene.render();
 
                 gl.flush();
-                gl.endFrameEXP();
+                (<any>gl).endFrameEXP();
               });
               // the canvas/window resize event handler
               window.addEventListener('resize', function(){
@@ -97,9 +98,6 @@ class hello_world extends Panel {
               });
 
               //#endregion
-
-              gl.flush();
-              gl.endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

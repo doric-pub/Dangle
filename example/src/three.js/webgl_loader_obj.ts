@@ -14,7 +14,7 @@ import {
   loge,
   imageDecoder,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OBJLoader } from "./jsm/loaders/OBJLoader";
@@ -46,8 +46,9 @@ class webgl_loader_obj extends Panel {
     let self = this
     self.gestureView?.addChild(
       dangleView({
-        onPrepared: async (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: async (gl: WebGL2RenderingContext) => {
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -228,7 +229,7 @@ class webgl_loader_obj extends Panel {
             renderer.render( scene, camera );
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
 
           }
 

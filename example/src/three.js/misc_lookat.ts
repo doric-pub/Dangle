@@ -12,7 +12,7 @@ import {
   text,
   Text,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three"
 
@@ -55,8 +55,9 @@ class misc_lookat extends Panel {
     let self = this
     this.gestureView?.addChild(
       dangleView({
-        onPrepared: (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: (gl: WebGL2RenderingContext) => {
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -173,7 +174,7 @@ class misc_lookat extends Panel {
             // stats.update();
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
           }
 
           function render() {

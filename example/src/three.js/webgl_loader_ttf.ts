@@ -11,7 +11,7 @@ import {
   input,
   Input,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -57,8 +57,9 @@ class webgl_loader_ttf extends Panel {
     let self = this
     self.gestureView?.addChild(
       dangleView({
-        onPrepared: (glContextId, glWidth, glHeight) => {
-          let gl = getGl(glContextId) as any;
+        onReady: (gl: WebGL2RenderingContext) => {
+          const glWidth = gl.drawingBufferWidth
+          const glHeight = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -364,14 +365,11 @@ class webgl_loader_ttf extends Panel {
             renderer.render( scene, camera );
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
 
           }
 
           //#endregion
-
-          gl.flush();
-          gl.endFrameEXP();
         },
       }).apply({
         layoutConfig: layoutConfig().just(),

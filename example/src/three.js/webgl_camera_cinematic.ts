@@ -16,7 +16,7 @@ import {
   Switch,
   switchView,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 import { CinematicCamera } from "./jsm/cameras/CinematicCamera";
@@ -54,8 +54,9 @@ class webgl_camera_cinematic extends Panel {
     let matChanger
     this.gestureView.addChild(
       dangleView({
-        onPrepared: (glContextId, width, height) => {
-          let gl = getGl(glContextId) as any;
+        onReady: (gl: WebGL2RenderingContext) => {
+          const width = gl.drawingBufferWidth
+          const height = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -224,7 +225,7 @@ class webgl_camera_cinematic extends Panel {
             // stats.update();
     
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
           }
     
     

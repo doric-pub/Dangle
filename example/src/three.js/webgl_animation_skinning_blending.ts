@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from 'three'
 import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
@@ -22,8 +22,9 @@ class webgl_animation_skinning_blending extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
-              let gl = getGl(glContextId) as any;
+            onReady: (gl: WebGL2RenderingContext) => {
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               const inputCanvas = 
               ({
@@ -529,14 +530,11 @@ class webgl_animation_skinning_blending extends Panel {
                 renderer.render( scene, camera );
 
                 gl.flush();
-                gl.endFrameEXP();
+                (<any>gl).endFrameEXP();
         
               }
 
               //#endregion
-
-              gl.flush();
-              gl.endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

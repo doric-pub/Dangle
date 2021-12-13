@@ -13,7 +13,7 @@ import {
   hlayout,
   Text,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -35,8 +35,10 @@ class games_crossy_road extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
-              let gl = getGl(glContextId) as any;
+            onReady: (gl: WebGL2RenderingContext) => {
+
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               const inputCanvas = {
                 width: width,
@@ -477,7 +479,7 @@ class games_crossy_road extends Panel {
                 trunk.receiveShadow = true;
                 three.add(trunk);
 
-                height =
+                let height =
                   threeHeights[Math.floor(Math.random() * threeHeights.length)];
 
                 const crown = new THREE.Mesh(
@@ -971,15 +973,12 @@ class games_crossy_road extends Panel {
                 renderer.render(scene, camera);
 
                 gl.flush();
-                gl.endFrameEXP();
+                (gl as any).endFrameEXP();
               }
 
               requestAnimationFrame(animate);
 
               //#endregion
-
-              gl.flush();
-              gl.endFrameEXP();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

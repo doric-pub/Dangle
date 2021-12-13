@@ -4,41 +4,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var doric = require('doric');
 
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-class DangleView extends doric.View {
-}
-__decorate([
-    doric.Property,
-    __metadata("design:type", Function)
-], DangleView.prototype, "onPrepared", void 0);
-function dangleView(config) {
-    const ret = new DangleView();
-    ret.layoutConfig = doric.layoutConfig().fit();
-    for (let key in config) {
-        Reflect.set(ret, key, Reflect.get(config, key, config), ret);
-    }
-    return ret;
-}
-function vsync(context) {
-    return {
-        requestAnimationFrame: (fn) => {
-            return context.callNative("vsync", "requestAnimationFrame", context.function2Id(fn));
-        },
-        cancelAnimationFrame: (requestID) => {
-            context.removeFuncById(requestID);
-            return context.callNative("vsync", "cancelAnimationFrame", requestID);
-        },
-    };
-}
-
 var GLErrors = {
     1280: 'INVALID ENUM: An unacceptable value has been specified for an enumerated argument.',
     1281: 'INVALID_VALUE: A numeric argument is out of range.',
@@ -449,6 +414,49 @@ global.WebGLSampler = WebGLSampler;
 global.WebGLSync = WebGLSync;
 global.WebGLTransformFeedback = WebGLTransformFeedback;
 global.WebGLVertexArrayObject = WebGLVertexArrayObject;
+
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+class DangleView extends doric.View {
+    constructor() {
+        super(...arguments);
+        this.onPrepared = (contextId) => {
+            if (this.onReady) {
+                this.onReady(getGl(contextId));
+            }
+        };
+    }
+}
+__decorate([
+    doric.Property,
+    __metadata("design:type", Function)
+], DangleView.prototype, "onReady", void 0);
+function dangleView(config) {
+    const ret = new DangleView();
+    ret.layoutConfig = doric.layoutConfig().fit();
+    for (let key in config) {
+        Reflect.set(ret, key, Reflect.get(config, key, config), ret);
+    }
+    return ret;
+}
+function vsync(context) {
+    return {
+        requestAnimationFrame: (fn) => {
+            return context.callNative("vsync", "requestAnimationFrame", context.function2Id(fn));
+        },
+        cancelAnimationFrame: (requestID) => {
+            context.removeFuncById(requestID);
+            return context.callNative("vsync", "cancelAnimationFrame", requestID);
+        },
+    };
+}
 
 exports.DangleView = DangleView;
 exports.WebGLObject = WebGLObject;

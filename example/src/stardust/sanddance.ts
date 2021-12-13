@@ -10,7 +10,7 @@ import {
   text,
   hlayout,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as Stardust from 'stardust-core'
 import 'stardust-webgl'
@@ -96,8 +96,9 @@ class sanddance extends Panel {
       stack(
         [
           dangleView({
-            onPrepared: (glContextId, width, height) => {
-              let gl = getGl(glContextId) as any;
+            onReady: async (gl: WebGL2RenderingContext) => {
+              const width = gl.drawingBufferWidth
+              const height = gl.drawingBufferHeight
 
               const inputCanvas = 
               ({
@@ -301,7 +302,7 @@ class sanddance extends Panel {
                 marks.render();
 
                 gl.flush();
-                gl.endFrameEXP();
+                (<any>gl).endFrameEXP();
               }
 
               transition12(0);

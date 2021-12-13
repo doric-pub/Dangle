@@ -9,7 +9,7 @@ import {
   gestureContainer,
   Color,
 } from "doric";
-import { dangleView, getGl, vsync } from "dangle";
+import { dangleView, vsync } from "dangle";
 
 import * as THREE from "three"
 
@@ -40,8 +40,9 @@ class webgl_interactive_buffergeometry extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onPrepared: (glContextId, viewWidth, viewHeight) => {
-          let gl = getGl(glContextId) as any;
+        onReady: (gl: WebGL2RenderingContext) => {
+          const viewWidth = gl.drawingBufferWidth
+          const viewHeight = gl.drawingBufferHeight
 
           const inputCanvas = 
           ({
@@ -280,7 +281,7 @@ class webgl_interactive_buffergeometry extends Panel {
             // stats.update();
 
             gl.flush();
-            gl.endFrameEXP();
+            (<any>gl).endFrameEXP();
           }
 
           function render() {
