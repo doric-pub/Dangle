@@ -25,6 +25,7 @@ class games_crossy_road extends Panel {
   private d?: GestureContainer;
 
   private end?: Text
+  private counter?: Text
 
   onShow() {
     navbar(context).setTitle("games_crossy_road");
@@ -925,11 +926,13 @@ class games_crossy_road extends Panel {
                       case "forward": {
                         currentLane++;
                         // counterDOM.innerHTML = currentLane;
+                        self.counter!!.text = '' + currentLane
                         break;
                       }
                       case "backward": {
                         currentLane--;
                         // counterDOM.innerHTML = currentLane;
+                        self.counter!!.text = '' + currentLane
                         break;
                       }
                       case "left": {
@@ -988,10 +991,17 @@ class games_crossy_road extends Panel {
           this.end = text({
             text: 'Retry',
             width: 100,
-            height: 100,
+            height: 60,
             backgroundColor: Color.RED,
             layoutConfig: layoutConfig().just().configAlignment(Gravity.Center),
-          })
+          }),
+          this.counter = text({
+            text: '0',
+            width: 50,
+            height: 20,
+            backgroundColor: Color.WHITE,
+            layoutConfig: layoutConfig().just().configAlignment(Gravity.Right),
+          }),
         ],
         {
           layoutConfig: layoutConfig().just(),
