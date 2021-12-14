@@ -34,7 +34,7 @@ public class GLContext {
     private EGLConfig mEGLConfig;
     private EGL10 mEGL;
 
-    private BlockingQueue<Runnable> mEventQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Runnable> mEventQueue = new LinkedBlockingQueue<>();
 
     public int getContextId() {
         return mEXGLCtxId;
@@ -64,44 +64,38 @@ public class GLContext {
         final GLContext glContext = this;
 
         {
-            Dangle.getInstance().getJSHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Field ptrField = JSIRuntime.class.getDeclaredField("jsiPtr");
-                        ptrField.setAccessible(true);
-                        long jsContextRef = ptrField.getLong(JSIRuntime.class);
+            Dangle.getInstance().getJSHandler().post(() -> {
+                try {
+                    Field ptrField = JSIRuntime.class.getDeclaredField("jsiPtr");
+                    ptrField.setAccessible(true);
+                    long jsContextRef = ptrField.getLong(JSIRuntime.class);
 
-                        if (jsContextRef != 0) {
-                            mEXGLCtxId = EXGLContextCreate(jsContextRef);
-                        }
-
-                        EXGLContextSetFlushMethod(mEXGLCtxId, glContext);
-                        completionCallback.run();
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
-                        e.printStackTrace();
+                    if (jsContextRef != 0) {
+                        mEXGLCtxId = EXGLContextCreate(jsContextRef);
                     }
+
+                    EXGLContextSetFlushMethod(mEXGLCtxId, glContext);
+                    completionCallback.run();
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             });
         }
     }
 
     public void flush() {
-        runAsync(new Runnable() {
-            @Override
-            public void run() {
-                // mEXGLCtxId may be unset if we get here (on the GL thread) before EXGLContextCreate(...) is
-                // called on the JS thread (see above in the implementation of `initialize(...)`)
+        runAsync(() -> {
+            // mEXGLCtxId may be unset if we get here (on the GL thread) before EXGLContextCreate(...) is
+            // called on the JS thread (see above in the implementation of `initialize(...)`)
 
-                if (mEXGLCtxId > 0) {
-                    EXGLContextFlush(mEXGLCtxId);
+            if (mEXGLCtxId > 0) {
+                EXGLContextFlush(mEXGLCtxId);
 
-                    if (!isHeadless() && EXGLContextNeedsRedraw(mEXGLCtxId)) {
-                        if (!swapBuffers(mEGLSurface)) {
-                            Log.e("EXGL", "Cannot swap buffers!");
-                        }
-                        EXGLContextDrawEnded(mEXGLCtxId);
+                if (!isHeadless() && EXGLContextNeedsRedraw(mEXGLCtxId)) {
+                    if (!swapBuffers(mEGLSurface)) {
+                        Log.e("EXGL", "Cannot swap buffers!");
                     }
+                    EXGLContextDrawEnded(mEXGLCtxId);
                 }
             }
         });
@@ -130,8 +124,8 @@ public class GLContext {
         }
     }
 
-    public boolean destroySurface(EGLSurface eglSurface) {
-        return mEGL.eglDestroySurface(mEGLDisplay, eglSurface);
+    public void destroySurface(EGLSurface eglSurface) {
+        mEGL.eglDestroySurface(mEGLDisplay, eglSurface);
     }
 
     public void destroy() {
@@ -151,7 +145,7 @@ public class GLContext {
     // All actual GL calls are made on this thread
 
     private class GLThread extends Thread {
-        private SurfaceTexture mSurfaceTexture;
+        private final SurfaceTexture mSurfaceTexture;
 
         private static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
 
