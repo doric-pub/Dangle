@@ -596,28 +596,7 @@ NATIVE_METHOD(texImage2D, 6) {
         glTexImage2D(
             target, level, internalformat, width, height, border, format, type, vec.data());
       });
-    } else {
-      auto image = loadImage(runtime, data, &width, &height, nullptr);
-      if (unpackFLipY) {
-        flipPixels(image.get(), width * bytesPerPixel(type, format), height);
-      }
-      addToNextBatch([=] {
-        glTexImage2D(
-            target, level, internalformat, width, height, border, format, type, image.get());
-      });
     }
-  } else if (argc == 6) {
-    auto format = ARG(3, GLenum);
-    auto type = ARG(4, GLenum);
-    auto data = ARG(5, jsi::Object);
-    GLsizei width = 0, height = 0, border = 0;
-    auto image = loadImage(runtime, data, &width, &height, nullptr);
-    if (unpackFLipY) {
-      flipPixels(image.get(), width * bytesPerPixel(type, format), height);
-    }
-    addToNextBatch([=] {
-      glTexImage2D(target, level, internalformat, width, height, border, format, type, image.get());
-    });
   } else {
     throw std::runtime_error("EXGL: Invalid number of arguments to gl.texImage2D()!");
   }
@@ -653,27 +632,7 @@ NATIVE_METHOD(texSubImage2D, 6) {
       addToNextBatch([=, vec{std::move(vec)}] {
         glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, vec.data());
       });
-    } else {
-      auto image = loadImage(runtime, data, &width, &height, nullptr);
-      if (unpackFLipY) {
-        flipPixels(image.get(), width * bytesPerPixel(type, format), height);
-      }
-      addToNextBatch([=] {
-        glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, image.get());
-      });
     }
-  } else if (argc == 7) {
-    auto format = ARG(4, GLenum);
-    auto type = ARG(5, GLenum);
-    auto data = ARG(6, jsi::Object);
-    GLsizei width = 0, height = 0;
-    auto image = loadImage(runtime, data, &width, &height, nullptr);
-    if (unpackFLipY) {
-      flipPixels(image.get(), width * bytesPerPixel(type, format), height);
-    }
-    addToNextBatch([=] {
-      glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, image.get());
-    });
   } else {
     throw std::runtime_error("EXGL: Invalid number of arguments to gl.texSubImage2D()!");
   }
@@ -729,15 +688,6 @@ NATIVE_METHOD(texImage3D) {
       glTexImage3D(
           target, level, internalformat, width, height, depth, border, format, type, vec.data());
     });
-  } else {
-    auto image = loadImage(runtime, data, &width, &height, nullptr);
-    if (unpackFLipY) {
-      flip(image.get());
-    }
-    addToNextBatch([=] {
-      glTexImage3D(
-          target, level, internalformat, width, height, depth, border, format, type, image.get());
-    });
   }
   return nullptr;
 }
@@ -781,25 +731,6 @@ NATIVE_METHOD(texSubImage3D) {
     addToNextBatch([=, vec{std::move(vec)}] {
       glTexSubImage3D(
           target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, vec.data());
-    });
-  } else {
-    auto image = loadImage(runtime, data, &width, &height, nullptr);
-    if (unpackFLipY) {
-      flip(image.get());
-    }
-    addToNextBatch([=] {
-      glTexSubImage3D(
-          target,
-          level,
-          xoffset,
-          yoffset,
-          zoffset,
-          width,
-          height,
-          depth,
-          format,
-          type,
-          image.get());
     });
   }
   return nullptr;

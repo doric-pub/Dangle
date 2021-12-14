@@ -1,8 +1,5 @@
 #include "EXGLImageUtils.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 namespace jsi = facebook::jsi;
 
 namespace expo {
@@ -114,26 +111,5 @@ void decodeURI(char *dst, const char *src) {
   *dst++ = '\0';
 }
 
-std::shared_ptr<uint8_t> loadImage(
-    jsi::Runtime &runtime,
-    const jsi::Object &jsPixels,
-    int *fileWidth,
-    int *fileHeight,
-    int *fileComp) {
-  auto localUriProp = jsPixels.getProperty(runtime, "localUri");
-  if (localUriProp.isString()) {
-    auto localUri = localUriProp.asString(runtime).utf8(runtime);
-    if (strncmp(localUri.c_str(), "file://", 7) != 0) {
-      return std::shared_ptr<uint8_t>(nullptr);
-    }
-    char localPath[localUri.size()];
-    decodeURI(localPath, localUri.c_str() + 7);
-
-    return std::shared_ptr<uint8_t>(
-        stbi_load(localPath, fileWidth, fileHeight, fileComp, STBI_rgb_alpha),
-        [](void *data) { stbi_image_free(data); });
-  }
-  return std::shared_ptr<uint8_t>(nullptr);
-}
 } // namespace gl_cpp
 } // namespace expo
