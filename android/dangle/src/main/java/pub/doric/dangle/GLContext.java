@@ -1,7 +1,5 @@
 package pub.doric.dangle;
 
-import static android.opengl.GLES30.GL_VIEWPORT;
-import static android.opengl.GLES30.glGetIntegerv;
 import static pub.doric.dangle.EXGL.EXGLContextCreate;
 import static pub.doric.dangle.EXGL.EXGLContextDestroy;
 import static pub.doric.dangle.EXGL.EXGLContextDrawEnded;
@@ -17,8 +15,6 @@ import android.util.Log;
 import com.github.pengfeizhou.jscore.JSIRuntime;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -152,24 +148,6 @@ public class GLContext {
         }
     }
 
-    // must be called in GL thread
-    public Map<String, Object> getViewportRect() {
-        int[] viewport = new int[4];
-        glGetIntegerv(GL_VIEWPORT, viewport, 0);
-
-        Map<String, Object> results = new HashMap<>();
-        results.put("x", viewport[0]);
-        results.put("y", viewport[1]);
-        results.put("width", viewport[2]);
-        results.put("height", viewport[3]);
-
-        return results;
-    }
-
-    public EGLConfig getEGLConfig() {
-        return mEGLConfig;
-    }
-
     // All actual GL calls are made on this thread
 
     private class GLThread extends Thread {
@@ -284,13 +262,5 @@ public class GLContext {
                 Log.e("EXGL", "EGL error = 0x" + Integer.toHexString(error));
             }
         }
-    }
-
-    // Solves number casting problem as number values can come as Integer or Double.
-    private int castNumberToInt(Object value) {
-        if (value instanceof Double) {
-            return ((Double) value).intValue();
-        }
-        return (Integer) value;
     }
 }
