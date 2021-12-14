@@ -32,15 +32,6 @@
 
 @implementation EXGLView
 
-static EXGLObjectManager* _objectManager = nil;
-
-+(EXGLObjectManager*) objectManager{
-  if (_objectManager == nil) {
-    _objectManager = [[EXGLObjectManager alloc] init];
-  }
-  return _objectManager;
-}
-
 // Specify that we want this UIView to be backed by a CAEAGLLayer
 + (Class)layerClass {
   return [CAEAGLLayer class];
@@ -64,7 +55,7 @@ static EXGLObjectManager* _objectManager = nil;
     };
 
     // Initialize GL context
-    _glContext = [[EXGLContext alloc] initWithDelegate:self andObjectManager:EXGLView.objectManager];
+    _glContext = [[EXGLContext alloc] initWithDelegate:self];
     _uiEaglCtx = [_glContext createSharedEAGLContext];
     [_glContext initialize:nil];
 

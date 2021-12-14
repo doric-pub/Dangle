@@ -2,7 +2,6 @@
 
 #import <EXGL_CPP/UEXGL.h>
 #import <EXGL/EXGLContext.h>
-#import <EXGL/EXGLObjectManager.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

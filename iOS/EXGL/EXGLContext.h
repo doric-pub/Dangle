@@ -2,7 +2,6 @@
 
 #import <OpenGLES/EAGL.h>
 #import <EXGL_CPP/UEXGL.h>
-#import <EXGL/EXGLObjectManager.h>
 
 @class EXGLContext;
 
@@ -17,7 +16,7 @@
 
 @interface EXGLContext : NSObject
 
-- (instancetype)initWithDelegate:(id<EXGLContextDelegate>)delegate andObjectManager:(nonnull EXGLObjectManager *)objectManager;
+- (instancetype)initWithDelegate:(id<EXGLContextDelegate>)delegate;
 - (void)initialize:(nullable void(^)(BOOL))callback;
 - (BOOL)isInitialized;
 - (nullable EAGLContext *)createSharedEAGLContext;
