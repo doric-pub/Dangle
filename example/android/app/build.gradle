@@ -1,7 +1,7 @@
 import groovy.json.JsonSlurper
 
 def model = new JsonSlurper().parse(new File(project.rootDir.parentFile.parent + File.separator + "package.json"))
-def doricSDKVersion = model.dependencies.doric.replace("^", "").replace(">=","")
+def doricSDKVersion = '0.9.24'//model.dependencies.doric.replace("^", "").replace(">=","")
 
 apply plugin: 'com.android.application'
 
@@ -45,8 +45,8 @@ android {
 }
 
 afterEvaluate {
-    cleanJSBundle.exec()
-    buildJSBundle.exec()
+//    cleanJSBundle.exec()
+//    buildJSBundle.exec()
 }
 
 task cleanJSBundle(type: Exec) {

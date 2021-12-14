@@ -24,6 +24,7 @@ allprojects {
         resolutionStrategy {
             dependencySubstitution {
                 substitute module('com.github.penfeizhou:jsc4a') with project(":jsc4a")
+                substitute module('pub.doric:core') with project(":doric")
             }
         }
     }
