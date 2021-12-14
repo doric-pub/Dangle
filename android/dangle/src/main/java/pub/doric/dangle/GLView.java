@@ -2,13 +2,11 @@ package pub.doric.dangle;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.TextureView;
 
 public class GLView extends TextureView implements TextureView.SurfaceTextureListener {
 
-  static GLObjectManagerModule objectManager = new GLObjectManagerModule();
   private boolean mOnSurfaceCreateCalled = false;
   private boolean mOnSurfaceTextureCreatedWithZeroSize = false;
 
@@ -36,19 +34,8 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
     setSurfaceTextureListener(this);
     setOpaque(false);
 
-    mGLContext = new GLContext(objectManager);
+    mGLContext = new GLContext();
   }
-
-  // Public interface to allow running events on GL thread
-
-  public void runOnGLThread(Runnable r) {
-    mGLContext.runAsync(r);
-  }
-
-  public GLContext getGLContext() {
-    return mGLContext;
-  }
-
 
   // `TextureView.SurfaceTextureListener` events
 

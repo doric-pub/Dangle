@@ -1,35 +1,21 @@
 package pub.doric.dangle;
 
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
-import android.net.Uri;
 import android.opengl.EGL14;
 import android.opengl.GLUtils;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
-import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.LockSupport;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
-
-import pub.doric.dangle.utils.FileSystemUtils;
 
 import static android.opengl.GLES30.*;
 import static pub.doric.dangle.EXGL.*;
@@ -39,7 +25,6 @@ import com.github.pengfeizhou.jscore.JSIRuntime;
 public class GLContext {
   private int mEXGLCtxId = -1;
 
-  private final GLObjectManagerModule mManager;
   private GLThread mGLThread;
   private EGLDisplay mEGLDisplay;
   private EGLSurface mEGLSurface;
@@ -48,11 +33,6 @@ public class GLContext {
   private EGL10 mEGL;
 
   private BlockingQueue<Runnable> mEventQueue = new LinkedBlockingQueue<>();
-
-  public GLContext(GLObjectManagerModule manager) {
-    super();
-    mManager = manager;
-  }
 
   public int getContextId() {
     return mEXGLCtxId;
@@ -95,7 +75,6 @@ public class GLContext {
             }
 
             EXGLContextSetFlushMethod(mEXGLCtxId, glContext);
-            mManager.saveContext(glContext);
             completionCallback.run();
           } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
@@ -155,7 +134,6 @@ public class GLContext {
 
   public void destroy() {
     if (mGLThread != null) {
-      mManager.deleteContextWithId(mEXGLCtxId);
       EXGLContextDestroy(mEXGLCtxId);
 
       try {
