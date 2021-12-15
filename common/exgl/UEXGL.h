@@ -64,18 +64,6 @@ void UEXGLContextFlush(UEXGLContextId exglCtxId);
 // platform-specific extensions on the default framebuffer, such as MSAA.
 void UEXGLContextSetDefaultFramebuffer(UEXGLContextId exglCtxId, GLint framebuffer);
 
-// [Any thread] Create an EXGL object. Initially maps to the OpenGL object zero.
-UEXGLObjectId UEXGLContextCreateObject(UEXGLContextId exglCtxId);
-
-// [GL thread] Destroy an EXGL object.
-void UEXGLContextDestroyObject(UEXGLContextId exglCtxId, UEXGLObjectId exglObjId);
-
-// [GL thread] Set the underlying OpenGL object an EXGL object maps to.
-void UEXGLContextMapObject(UEXGLContextId exglCtxId, UEXGLObjectId exglObjId, GLuint glObj);
-
-// [GL thread] Get the underlying OpenGL object an EXGL object maps to.
-GLuint UEXGLContextGetObject(UEXGLContextId exglCtxId, UEXGLObjectId exglObjId);
-
 #ifdef __cplusplus
 }
 #endif

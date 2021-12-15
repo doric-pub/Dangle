@@ -52,33 +52,3 @@ void UEXGLContextSetDefaultFramebuffer(UEXGLContextId exglCtxId, GLint framebuff
     exglCtx->setDefaultFramebuffer(framebuffer);
   }
 }
-
-UEXGLObjectId UEXGLContextCreateObject(UEXGLContextId exglCtxId) {
-  auto exglCtx = EXGLContext::ContextGet(exglCtxId);
-  if (exglCtx) {
-    return exglCtx->createObject();
-  }
-  return 0;
-}
-
-void UEXGLContextDestroyObject(UEXGLContextId exglCtxId, UEXGLObjectId exglObjId) {
-  auto exglCtx = EXGLContext::ContextGet(exglCtxId);
-  if (exglCtx) {
-    exglCtx->destroyObject(exglObjId);
-  }
-}
-
-void UEXGLContextMapObject(UEXGLContextId exglCtxId, UEXGLObjectId exglObjId, GLuint glObj) {
-  auto exglCtx = EXGLContext::ContextGet(exglCtxId);
-  if (exglCtx) {
-    exglCtx->mapObject(exglObjId, glObj);
-  }
-}
-
-GLuint UEXGLContextGetObject(UEXGLContextId exglCtxId, UEXGLObjectId exglObjId) {
-  auto exglCtx = EXGLContext::ContextGet(exglCtxId);
-  if (exglCtx) {
-    return exglCtx->lookupObject(exglObjId);
-  }
-  return 0;
-}

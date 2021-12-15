@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 
 #include <android/log.h>
 #include <jni.h>
@@ -24,36 +24,6 @@ Java_pub_doric_dangle_EXGL_EXGLContextFlush(JNIEnv *env, jclass clazz, jint exgl
   UEXGLContextFlush(exglCtxId);
 }
 
-JNIEXPORT jint JNICALL
-Java_pub_doric_dangle_EXGL_EXGLContextCreateObject(JNIEnv *env, jclass clazz, jint exglCtxId) {
-  return UEXGLContextCreateObject(exglCtxId);
-}
-
-JNIEXPORT void JNICALL Java_pub_doric_dangle_EXGL_EXGLContextDestroyObject(
-    JNIEnv *env,
-    jclass clazz,
-    jint exglCtxId,
-    jint exglObjId) {
-  UEXGLContextDestroyObject(exglCtxId, exglObjId);
-}
-
-JNIEXPORT void JNICALL Java_pub_doric_dangle_EXGL_EXGLContextMapObject(
-    JNIEnv *env,
-    jclass clazz,
-    jint exglCtxId,
-    jint exglObjId,
-    jint glObj) {
-  UEXGLContextMapObject(exglCtxId, exglObjId, glObj);
-}
-
-JNIEXPORT jint JNICALL Java_pub_doric_dangle_EXGL_EXGLContextGetObject(
-    JNIEnv *env,
-    jclass clazz,
-    jint exglCtxId,
-    jint exglObjId) {
-  return UEXGLContextGetObject(exglCtxId, exglObjId);
-}
-
 JNIEXPORT void JNICALL Java_pub_doric_dangle_EXGL_EXGLContextSetFlushMethod(
     JNIEnv *env,
     jclass clazz,
@@ -69,7 +39,7 @@ JNIEXPORT void JNICALL Java_pub_doric_dangle_EXGL_EXGLContextSetFlushMethod(
   UEXGLContextSetFlushMethod(exglCtxId, flushMethod);
 }
 
-JNIEXPORT bool JNICALL
+JNIEXPORT jboolean JNICALL
 Java_pub_doric_dangle_EXGL_EXGLContextNeedsRedraw(JNIEnv *env, jclass clazz, jint exglCtxId) {
   return UEXGLContextNeedsRedraw(exglCtxId);
 }

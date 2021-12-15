@@ -169,10 +169,6 @@ class EXGLContext {
     return nextObjectId++;
   }
 
-  inline void destroyObject(UEXGLObjectId exglObjId) noexcept {
-    objects.erase(exglObjId);
-  }
-
   inline void mapObject(UEXGLObjectId exglObjId, GLuint glObj) noexcept {
     objects[exglObjId] = glObj;
   }
