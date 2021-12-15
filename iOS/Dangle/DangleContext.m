@@ -1,21 +1,21 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
-#import <EXGL/EXGLContext.h>
+#import "DangleContext.h"
 
 #include <OpenGLES/ES3/gl.h>
 #include <OpenGLES/ES3/glext.h>
 
 #include "DangleSingleton.h"
 
-@interface EXGLContext ()
+@interface DangleContext ()
 
 @property (nonatomic, strong) dispatch_queue_t glQueue;
 
 @end
 
-@implementation EXGLContext
+@implementation DangleContext
 
-- (instancetype)initWithDelegate:(id<EXGLContextDelegate>)delegate
+- (instancetype)initWithDelegate:(id<DangleContextDelegate>)delegate
 {
   if (self = [super init]) {
     self.delegate = delegate;
@@ -73,15 +73,15 @@
     __weak __typeof__(self) weakSelf = self;
 
     [self ensureRunOnJSThread:^{
-      EXGLContext *self = weakSelf;
+      DangleContext *self = weakSelf;
 
       if (!self) {
         return;
       }
 
-      self->_contextId = UEXGLContextCreate(jsRuntimePtr);
+      self->_contextId = UDangleContextCreate(jsRuntimePtr);
 
-      UEXGLContextSetFlushMethodObjc(self->_contextId, ^{
+      UDangleContextSetFlushMethodObjc(self->_contextId, ^{
         [self flush];
       });
 
@@ -90,14 +90,14 @@
       }
     }];
   } else {
-    NSLog(@"EXGL: Can only run on JavaScriptCore! Do you have 'Remote Debugging' enabled in your app's Developer Menu (https://reactnative.dev/docs/debugging)? EXGL is not supported while using Remote Debugging, you will need to disable it to use EXGL.");
+    NSLog(@"Dangle: Can only run on JavaScriptCore! Do you have 'Remote Debugging' enabled in your app's Developer Menu (https://reactnative.dev/docs/debugging)? Dangle is not supported while using Remote Debugging, you will need to disable it to use Dangle.");
   }
 }
 
 - (void)flush
 {
   [self runAsync:^{
-    UEXGLContextFlush(self->_contextId);
+    UDangleContextFlush(self->_contextId);
 
     if ([self.delegate respondsToSelector:@selector(glContextFlushed:)]) {
       [self.delegate glContextFlushed:self];
@@ -113,10 +113,10 @@
     }
 
     // Flush all the stuff
-    UEXGLContextFlush(self->_contextId);
+    UDangleContextFlush(self->_contextId);
 
     // Destroy JS binding
-    UEXGLContextDestroy(self->_contextId);
+    UDangleContextDestroy(self->_contextId);
   }];
 }
 

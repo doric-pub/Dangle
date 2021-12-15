@@ -7,13 +7,13 @@ import { DangleWebGLRenderingContext, GLLoggingOption } from './GLView.types';
 const MAX_STRING_LENGTH = 20;
 
 /**
- * Sets up `__expoSetLogging` method providing some logging options useful when debugging GL calls.
+ * Sets up `__dangleSetLogging` method providing some logging options useful when debugging GL calls.
  */
 export function configureLogging(gl: DangleWebGLRenderingContext): void {
   // Enable/disable logging of all GL function calls
   let loggingOption = GLLoggingOption.DISABLED;
 
-  gl.__expoSetLogging = (option: GLLoggingOption): void => {
+  gl.__dangleSetLogging = (option: GLLoggingOption): void => {
     // If boolean values are the same, just change the internal value,
     // there is no need to wrap/unwrap functions in this case.
     if (!loggingOption === !option) {
@@ -34,7 +34,7 @@ export function configureLogging(gl: DangleWebGLRenderingContext): void {
 
     // Turn on logging.
     Object.entries(gl).forEach(([key, originalValue]) => {
-      if (typeof originalValue !== 'function' || key === '__expoSetLogging') {
+      if (typeof originalValue !== 'function' || key === '__dangleSetLogging') {
         return;
       }
 

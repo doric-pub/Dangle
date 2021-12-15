@@ -1,19 +1,19 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
-#import <EXGL_CPP/UEXGL.h>
-#import <EXGL/EXGLContext.h>
+#import <DANGLE_CPP/UDangle.h>
+#import "DangleContext.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface EXGLView : UIView <EXGLContextDelegate>
+@interface DangleView : UIView <DangleContextDelegate>
 
 - (instancetype)init;
-- (UEXGLContextId)exglCtxId;
+- (UDangleContextId)dangleCtxId;
 
 @property (nonatomic, assign) NSNumber *msaaSamples;
 
 // "protected"
-@property (nonatomic, strong, nullable) EXGLContext *glContext;
+@property (nonatomic, strong, nullable) DangleContext *glContext;
 @property (nonatomic, strong, nullable) EAGLContext *uiEaglCtx;
 
 @property (nonatomic, copy) void (^onSurfaceAvailable)();

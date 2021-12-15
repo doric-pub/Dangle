@@ -1,11 +1,11 @@
 package pub.doric.dangle;
 
-import static pub.doric.dangle.EXGL.EXGLContextCreate;
-import static pub.doric.dangle.EXGL.EXGLContextDestroy;
-import static pub.doric.dangle.EXGL.EXGLContextDrawEnded;
-import static pub.doric.dangle.EXGL.EXGLContextFlush;
-import static pub.doric.dangle.EXGL.EXGLContextNeedsRedraw;
-import static pub.doric.dangle.EXGL.EXGLContextSetFlushMethod;
+import static pub.doric.dangle.DangleJNI.ContextCreate;
+import static pub.doric.dangle.DangleJNI.ContextDestroy;
+import static pub.doric.dangle.DangleJNI.ContextDrawEnded;
+import static pub.doric.dangle.DangleJNI.ContextFlush;
+import static pub.doric.dangle.DangleJNI.ContextNeedsRedraw;
+import static pub.doric.dangle.DangleJNI.ContextSetFlushMethod;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
@@ -25,7 +25,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 
 public class GLContext {
-    private int mEXGLCtxId = -1;
+    private int mDangleCtxId = -1;
 
     private GLThread mGLThread;
     private EGLDisplay mEGLDisplay;
@@ -37,7 +37,7 @@ public class GLContext {
     private final BlockingQueue<Runnable> mEventQueue = new LinkedBlockingQueue<>();
 
     public int getContextId() {
-        return mEXGLCtxId;
+        return mDangleCtxId;
     }
 
     public boolean isHeadless() {
@@ -60,7 +60,7 @@ public class GLContext {
         mGLThread.setName("Dangle GLThread");
         mGLThread.start();
 
-        // On JS thread, get JavaScriptCore context, create EXGL context, call JS callback
+        // On JS thread, get JavaScriptCore context, create Dangle context, call JS callback
         final GLContext glContext = this;
 
         {
@@ -71,10 +71,10 @@ public class GLContext {
                     long jsContextRef = ptrField.getLong(JSIRuntime.class);
 
                     if (jsContextRef != 0) {
-                        mEXGLCtxId = EXGLContextCreate(jsContextRef);
+                        mDangleCtxId = ContextCreate(jsContextRef);
                     }
 
-                    EXGLContextSetFlushMethod(mEXGLCtxId, glContext);
+                    ContextSetFlushMethod(mDangleCtxId, glContext);
                     completionCallback.run();
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
@@ -85,17 +85,17 @@ public class GLContext {
 
     public void flush() {
         runAsync(() -> {
-            // mEXGLCtxId may be unset if we get here (on the GL thread) before EXGLContextCreate(...) is
+            // mDangleCtxId may be unset if we get here (on the GL thread) before DangleContextCreate(...) is
             // called on the JS thread (see above in the implementation of `initialize(...)`)
 
-            if (mEXGLCtxId > 0) {
-                EXGLContextFlush(mEXGLCtxId);
+            if (mDangleCtxId > 0) {
+                ContextFlush(mDangleCtxId);
 
-                if (!isHeadless() && EXGLContextNeedsRedraw(mEXGLCtxId)) {
+                if (!isHeadless() && ContextNeedsRedraw(mDangleCtxId)) {
                     if (!swapBuffers(mEGLSurface)) {
-                        Log.e("EXGL", "Cannot swap buffers!");
+                        Log.e("DANGLE", "Cannot swap buffers!");
                     }
-                    EXGLContextDrawEnded(mEXGLCtxId);
+                    ContextDrawEnded(mDangleCtxId);
                 }
             }
         });
@@ -130,13 +130,13 @@ public class GLContext {
 
     public void destroy() {
         if (mGLThread != null) {
-            EXGLContextDestroy(mEXGLCtxId);
+            ContextDestroy(mDangleCtxId);
 
             try {
                 mGLThread.interrupt();
                 mGLThread.join();
             } catch (InterruptedException e) {
-                Log.e("EXGL", "Can't interrupt GL thread.", e);
+                Log.e("DANGLE", "Can't interrupt GL thread.", e);
             }
             mGLThread = null;
         }
@@ -253,7 +253,7 @@ public class GLContext {
         private void checkEGLError() {
             final int error = mEGL.eglGetError();
             if (error != EGL10.EGL_SUCCESS) {
-                Log.e("EXGL", "EGL error = 0x" + Integer.toHexString(error));
+                Log.e("DANGLE", "EGL error = 0x" + Integer.toHexString(error));
             }
         }
     }

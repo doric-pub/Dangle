@@ -3,7 +3,7 @@
 #include <jsi/jsi.h>
 
 namespace jsi = facebook::jsi;
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
 enum class TypedArrayKind {
@@ -150,4 +150,4 @@ TypedArray<T> TypedArrayBase::as(jsi::Runtime &runtime) && {
   return std::move(*this).get<T>(runtime);
 }
 } // namespace gl_cpp
-} // namespace expo
+} // namespace dangle

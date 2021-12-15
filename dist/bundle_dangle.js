@@ -48,12 +48,12 @@ exports.GLLoggingOption = void 0;
  */
 const MAX_STRING_LENGTH = 20;
 /**
- * Sets up `__expoSetLogging` method providing some logging options useful when debugging GL calls.
+ * Sets up `__dangleSetLogging` method providing some logging options useful when debugging GL calls.
  */
 function configureLogging(gl) {
     // Enable/disable logging of all GL function calls
     let loggingOption = exports.GLLoggingOption.DISABLED;
-    gl.__expoSetLogging = (option) => {
+    gl.__dangleSetLogging = (option) => {
         // If boolean values are the same, just change the internal value,
         // there is no need to wrap/unwrap functions in this case.
         if (!loggingOption === !option) {
@@ -72,7 +72,7 @@ function configureLogging(gl) {
         }
         // Turn on logging.
         Object.entries(gl).forEach(([key, originalValue]) => {
-            if (typeof originalValue !== 'function' || key === '__expoSetLogging') {
+            if (typeof originalValue !== 'function' || key === '__dangleSetLogging') {
                 return;
             }
             gl[key] = (...args) => {
@@ -131,7 +131,7 @@ const idToObject = {};
 class WebGLObject {
     constructor(id) {
         if (idToObject[id]) {
-            throw new Error(`WebGL object with underlying EXGLObjectId '${id}' already exists!`);
+            throw new Error(`WebGL object with underlying DangleObjectId '${id}' already exists!`);
         }
         this.id = id; // Native GL object id
     }
@@ -363,7 +363,7 @@ const wrapMethods = gl => {
     wrap('deleteVertexArray', orig => vertexArray => Reflect.apply(orig, gl, [vertexArray && vertexArray.id]));
     wrap('isVertexArray', orig => vertexArray => vertexArray instanceof WebGLVertexArrayObject && Reflect.apply(orig, gl, [vertexArray.id]));
 };
-// Get the GL interface from an EXGLContextID and do JS-side setup
+// Get the GL interface from an DangleContextID and do JS-side setup
 const getGl = (dangleCtxId) => {
     if (!global.__DANGLEContexts) {
         throw new Error('ERR_GL_NOT_AVAILABLE' + " " +

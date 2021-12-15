@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
 template <TypedArrayKind T>
@@ -297,4 +297,4 @@ template class TypedArray<TypedArrayKind::Float32Array>;
 template class TypedArray<TypedArrayKind::Float64Array>;
 
 } // namespace gl_cpp
-} // namespace expo
+} // namespace dangle

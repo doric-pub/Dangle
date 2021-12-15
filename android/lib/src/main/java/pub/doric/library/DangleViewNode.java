@@ -73,7 +73,7 @@ public class DangleViewNode extends ViewNode<GLView> {
             @Override
             public void invoke() {
                 if (onPrepared != null) {
-                    callJSResponse(onPrepared, glView.getEXGLCtxId());
+                    callJSResponse(onPrepared, glView.getDangleCtxId());
                 }
             }
         });

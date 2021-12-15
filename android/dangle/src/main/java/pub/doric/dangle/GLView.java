@@ -88,7 +88,7 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
         mGLContext.flush();
     }
 
-    public int getEXGLCtxId() {
+    public int getDangleCtxId() {
         return mGLContext.getContextId();
     }
 

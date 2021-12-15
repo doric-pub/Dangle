@@ -23,7 +23,7 @@ export class WebGLObject {
 
   constructor(id: WebGLObjectId) {
     if (idToObject[id]) {
-      throw new Error(`WebGL object with underlying EXGLObjectId '${id}' already exists!`);
+      throw new Error(`WebGL object with underlying DangleObjectId '${id}' already exists!`);
     }
     this.id = id; // Native GL object id
   }
@@ -356,7 +356,7 @@ const wrapMethods = gl => {
   );
 };
 
-// Get the GL interface from an EXGLContextID and do JS-side setup
+// Get the GL interface from an DangleContextID and do JS-side setup
 export const getGl = (dangleCtxId: number): DangleWebGLRenderingContext => {
   if (!global.__DANGLEContexts) {
     throw new Error(

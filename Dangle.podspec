@@ -18,14 +18,14 @@ Pod::Spec.new do |s|
   
     s.source_files = 'iOS/Classes/**/*'
     
-    s.subspec 'EXGL_CPP' do |mm|
-        mm.source_files = 'common/exgl/**/*'
-        mm.header_dir = 'EXGL_CPP'
+    s.subspec 'DANGLE_CPP' do |mm|
+        mm.source_files = 'common/dangle/**/*'
+        mm.header_dir = 'DANGLE_CPP'
     end
 
-    s.subspec 'EXGL' do |mm|
-        mm.source_files = 'iOS/EXGL/**/*'
-        mm.header_dir = 'EXGL'
+    s.subspec 'DANGLE' do |mm|
+        mm.source_files = 'iOS/Dangle/**/*'
+        mm.header_dir = 'DANGLE'
     end
 
     s.subspec 'jsi' do |mm|

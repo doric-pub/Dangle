@@ -1,11 +1,11 @@
 #import <Foundation/Foundation.h>
 
-#include <EXGL_CPP/EXPlatformUtils.h>
+#include <DANGLE_CPP/DanglePlatformUtils.h>
 
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
-void EXiOSLog(const char *msg, ...) {
+void DangleiOSLog(const char *msg, ...) {
   va_list args;
   va_start(args, msg);
   NSLog(@"%@", [[NSString alloc] initWithFormat:[NSString stringWithUTF8String:msg]
@@ -13,9 +13,9 @@ void EXiOSLog(const char *msg, ...) {
   va_end(args);
 }
 
-EXiOSOperatingSystemVersion EXiOSGetOperatingSystemVersion() {
+DangleiOSOperatingSystemVersion DangleiOSGetOperatingSystemVersion() {
   NSOperatingSystemVersion version = NSProcessInfo.processInfo.operatingSystemVersion;
-  return EXiOSOperatingSystemVersion {
+  return DangleiOSOperatingSystemVersion {
     version.majorVersion,
     version.minorVersion,
     version.patchVersion,

@@ -1,14 +1,14 @@
-#include "EXGLContext.h"
-#include "EXGLImageUtils.h"
+#include "DangleContext.h"
+#include "DangleImageUtils.h"
 
 #include <algorithm>
 
 #define ARG(index, type)                                   \
   (argc > index ? unpackArg<type>(runtime, jsArgv + index) \
-                : throw std::runtime_error("EXGL: Too few arguments"))
+                : throw std::runtime_error("Dangle: Too few arguments"))
 
 #define NATIVE_METHOD(name, ...)                 \
-  jsi::Value EXGLContext::glNativeMethod_##name( \
+  jsi::Value DangleContext::glNativeMethod_##name( \
       jsi::Runtime &runtime, const jsi::Value &jsThis, const jsi::Value *jsArgv, size_t argc)
 
 #define SIMPLE_NATIVE_METHOD(name, func)                               \
@@ -19,10 +19,10 @@
 
 #define UNIMPL_NATIVE_METHOD(name)   \
   NATIVE_METHOD(name) {              \
-    return exglUnimplemented(#name); \
+    return dangleUnimplemented(#name); \
   }
 
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
 // This listing follows the order in
@@ -177,7 +177,7 @@ NATIVE_METHOD(getParameter) {
       return static_cast<double>(glFloat);
     }
 
-      // UEXGLObjectId
+      // UDangleObjectId
     case GL_ARRAY_BUFFER_BINDING:
     case GL_ELEMENT_ARRAY_BUFFER_BINDING:
     case GL_CURRENT_PROGRAM: {
@@ -207,7 +207,7 @@ NATIVE_METHOD(getParameter) {
     case GL_UNIFORM_BUFFER_BINDING:
     case GL_VERTEX_ARRAY_BINDING:
       throw std::runtime_error(
-          "EXGL: getParameter() doesn't support gl." + std::to_string(pname) + " yet!");
+          "Dangle: getParameter() doesn't support gl." + std::to_string(pname) + " yet!");
 
       // int
     default: {
@@ -243,7 +243,7 @@ NATIVE_METHOD(pixelStorei) {
       break;
     }
     default:
-      jsConsoleLog(runtime, "EXGL: gl.pixelStorei() doesn't support this parameter yet!");
+      jsConsoleLog(runtime, "Dangle: gl.pixelStorei() doesn't support this parameter yet!");
   }
   return nullptr;
 }
@@ -269,7 +269,7 @@ SIMPLE_NATIVE_METHOD(stencilOpSeparate, glStencilOpSeparate); // face, fail, zfa
 
 NATIVE_METHOD(bindBuffer) {
   auto target = ARG(0, GLenum);
-  auto buffer = ARG(1, UEXGLObjectId);
+  auto buffer = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glBindBuffer(target, lookupObject(buffer)); });
   return nullptr;
 }
@@ -306,11 +306,11 @@ NATIVE_METHOD(bufferSubData) {
 }
 
 NATIVE_METHOD(createBuffer) {
-  return exglGenObject(runtime, glGenBuffers);
+  return dangleGenObject(runtime, glGenBuffers);
 }
 
 NATIVE_METHOD(deleteBuffer) {
-  return exglDeleteObject(ARG(0, UEXGLObjectId), glDeleteBuffers);
+  return dangleDeleteObject(ARG(0, UDangleObjectId), glDeleteBuffers);
 }
 
 NATIVE_METHOD(getBufferParameter) {
@@ -322,7 +322,7 @@ NATIVE_METHOD(getBufferParameter) {
 }
 
 NATIVE_METHOD(isBuffer) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsBuffer);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsBuffer);
 }
 
 // Buffers (WebGL2)
@@ -339,7 +339,7 @@ UNIMPL_NATIVE_METHOD(getBufferSubData);
 
 NATIVE_METHOD(bindFramebuffer) {
   auto target = ARG(0, GLenum);
-  auto framebuffer = ARG(1, UEXGLObjectId);
+  auto framebuffer = ARG(1, UDangleObjectId);
   addToNextBatch([=] {
     glBindFramebuffer(target, framebuffer == 0 ? defaultFramebuffer : lookupObject(framebuffer));
   });
@@ -354,18 +354,18 @@ NATIVE_METHOD(checkFramebufferStatus) {
 }
 
 NATIVE_METHOD(createFramebuffer) {
-  return exglGenObject(runtime, glGenFramebuffers);
+  return dangleGenObject(runtime, glGenFramebuffers);
 }
 
 NATIVE_METHOD(deleteFramebuffer) {
-  return exglDeleteObject(ARG(0, UEXGLObjectId), glDeleteFramebuffers);
+  return dangleDeleteObject(ARG(0, UDangleObjectId), glDeleteFramebuffers);
 }
 
 NATIVE_METHOD(framebufferRenderbuffer) {
   auto target = ARG(0, GLenum);
   auto attachment = ARG(1, GLenum);
   auto renderbuffertarget = ARG(2, GLenum);
-  auto fRenderbuffer = ARG(3, UEXGLObjectId);
+  auto fRenderbuffer = ARG(3, UDangleObjectId);
   addToNextBatch([=] {
     GLuint renderbuffer = lookupObject(fRenderbuffer);
     glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
@@ -377,7 +377,7 @@ NATIVE_METHOD(framebufferTexture2D, 5) {
   auto target = ARG(0, GLenum);
   auto attachment = ARG(1, GLenum);
   auto textarget = ARG(2, GLenum);
-  auto fTexture = ARG(3, UEXGLObjectId);
+  auto fTexture = ARG(3, UDangleObjectId);
   auto level = ARG(4, GLint);
   addToNextBatch([=] {
     glFramebufferTexture2D(target, attachment, textarget, lookupObject(fTexture), level);
@@ -388,7 +388,7 @@ NATIVE_METHOD(framebufferTexture2D, 5) {
 UNIMPL_NATIVE_METHOD(getFramebufferAttachmentParameter)
 
 NATIVE_METHOD(isFramebuffer) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsFramebuffer);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsFramebuffer);
 }
 
 NATIVE_METHOD(readPixels) {
@@ -417,7 +417,7 @@ SIMPLE_NATIVE_METHOD(blitFramebuffer, glBlitFramebuffer);
 NATIVE_METHOD(framebufferTextureLayer) {
   auto target = ARG(0, GLenum);
   auto attachment = ARG(1, GLenum);
-  auto texture = ARG(2, UEXGLObjectId);
+  auto texture = ARG(2, UDangleObjectId);
   auto level = ARG(3, GLint);
   auto layer = ARG(4, GLint);
   addToNextBatch(
@@ -464,23 +464,23 @@ SIMPLE_NATIVE_METHOD(readBuffer, glReadBuffer); // mode
 
 NATIVE_METHOD(bindRenderbuffer) {
   auto target = ARG(0, GLenum);
-  auto fRenderbuffer = ARG(1, UEXGLObjectId);
+  auto fRenderbuffer = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glBindRenderbuffer(target, lookupObject(fRenderbuffer)); });
   return nullptr;
 }
 
 NATIVE_METHOD(createRenderbuffer) {
-  return exglGenObject(runtime, glGenRenderbuffers);
+  return dangleGenObject(runtime, glGenRenderbuffers);
 }
 
 NATIVE_METHOD(deleteRenderbuffer) {
-  return exglDeleteObject(ARG(0, UEXGLObjectId), glDeleteRenderbuffers);
+  return dangleDeleteObject(ARG(0, UDangleObjectId), glDeleteRenderbuffers);
 }
 
 UNIMPL_NATIVE_METHOD(getRenderbufferParameter)
 
 NATIVE_METHOD(isRenderbuffer) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsRenderbuffer);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsRenderbuffer);
 }
 
 NATIVE_METHOD(renderbufferStorage) {
@@ -536,7 +536,7 @@ NATIVE_METHOD(renderbufferStorageMultisample) {
 
 NATIVE_METHOD(bindTexture) {
   auto target = ARG(0, GLenum);
-  auto texture = ARG(1, UEXGLObjectId);
+  auto texture = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glBindTexture(target, lookupObject(texture)); });
   return nullptr;
 }
@@ -554,11 +554,11 @@ SIMPLE_NATIVE_METHOD(
     glCopyTexSubImage2D) // target, level, xoffset, yoffset, x, y, width, height
 
 NATIVE_METHOD(createTexture) {
-  return exglGenObject(runtime, glGenTextures);
+  return dangleGenObject(runtime, glGenTextures);
 }
 
 NATIVE_METHOD(deleteTexture) {
-  return exglDeleteObject(ARG(0, UEXGLObjectId), glDeleteTextures);
+  return dangleDeleteObject(ARG(0, UDangleObjectId), glDeleteTextures);
 }
 
 SIMPLE_NATIVE_METHOD(generateMipmap, glGenerateMipmap) // target
@@ -566,7 +566,7 @@ SIMPLE_NATIVE_METHOD(generateMipmap, glGenerateMipmap) // target
 UNIMPL_NATIVE_METHOD(getTexParameter)
 
 NATIVE_METHOD(isTexture) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsTexture);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsTexture);
 }
 
 NATIVE_METHOD(texImage2D, 6) {
@@ -598,7 +598,7 @@ NATIVE_METHOD(texImage2D, 6) {
       });
     }
   } else {
-    throw std::runtime_error("EXGL: Invalid number of arguments to gl.texImage2D()!");
+    throw std::runtime_error("Dangle: Invalid number of arguments to gl.texImage2D()!");
   }
   return nullptr;
 }
@@ -634,7 +634,7 @@ NATIVE_METHOD(texSubImage2D, 6) {
       });
     }
   } else {
-    throw std::runtime_error("EXGL: Invalid number of arguments to gl.texSubImage2D()!");
+    throw std::runtime_error("Dangle: Invalid number of arguments to gl.texSubImage2D()!");
   }
   return nullptr;
 }
@@ -748,14 +748,14 @@ UNIMPL_NATIVE_METHOD(compressedTexSubImage3D)
 // --------------------
 
 NATIVE_METHOD(attachShader) {
-  auto program = ARG(0, UEXGLObjectId);
-  auto shader = ARG(1, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
+  auto shader = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glAttachShader(lookupObject(program), lookupObject(shader)); });
   return nullptr;
 }
 
 NATIVE_METHOD(bindAttribLocation) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   auto index = ARG(1, GLuint);
   auto name = ARG(2, std::string);
   addToNextBatch([=, name{std::move(name)}] {
@@ -765,41 +765,41 @@ NATIVE_METHOD(bindAttribLocation) {
 }
 
 NATIVE_METHOD(compileShader) {
-  auto shader = ARG(0, UEXGLObjectId);
+  auto shader = ARG(0, UDangleObjectId);
   addToNextBatch([=] { glCompileShader(lookupObject(shader)); });
   return nullptr;
 }
 
 NATIVE_METHOD(createProgram) {
-  return exglCreateObject(runtime, glCreateProgram);
+  return dangleCreateObject(runtime, glCreateProgram);
 }
 
 NATIVE_METHOD(createShader) {
   auto type = ARG(0, GLenum);
   if (type == GL_VERTEX_SHADER || type == GL_FRAGMENT_SHADER) {
-    return exglCreateObject(runtime, std::bind(glCreateShader, type));
+    return dangleCreateObject(runtime, std::bind(glCreateShader, type));
   } else {
     throw std::runtime_error("unknown shader type passed to function");
   }
 }
 
 NATIVE_METHOD(deleteProgram) {
-  return exglDeleteObject(ARG(0, UEXGLContextId), glDeleteProgram);
+  return dangleDeleteObject(ARG(0, UDangleContextId), glDeleteProgram);
 }
 
 NATIVE_METHOD(deleteShader) {
-  return exglDeleteObject(ARG(0, UEXGLContextId), glDeleteShader);
+  return dangleDeleteObject(ARG(0, UDangleContextId), glDeleteShader);
 }
 
 NATIVE_METHOD(detachShader) {
-  auto program = ARG(0, UEXGLObjectId);
-  auto shader = ARG(1, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
+  auto shader = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glDetachShader(lookupObject(program), lookupObject(shader)); });
   return nullptr;
 }
 
 NATIVE_METHOD(getAttachedShaders) {
-  auto fProgram = ARG(0, UEXGLObjectId);
+  auto fProgram = ARG(0, UDangleObjectId);
 
   GLint count;
   std::vector<GLuint> glResults;
@@ -812,24 +812,24 @@ NATIVE_METHOD(getAttachedShaders) {
 
   jsi::Array jsResults(runtime, count);
   for (auto i = 0; i < count; ++i) {
-    UEXGLObjectId exglObjId = 0;
+    UDangleObjectId dangleObjId = 0;
     for (const auto &pair : objects) {
       if (pair.second == glResults[i]) {
-        exglObjId = pair.first;
+        dangleObjId = pair.first;
       }
     }
-    if (exglObjId == 0) {
+    if (dangleObjId == 0) {
       throw std::runtime_error(
-          "EXGL: Internal error: couldn't find UEXGLObjectId "
+          "Dangle: Internal error: couldn't find UDangleObjectId "
           "associated with shader in getAttachedShaders()!");
     }
-    jsResults.setValueAtIndex(runtime, i, static_cast<double>(exglObjId));
+    jsResults.setValueAtIndex(runtime, i, static_cast<double>(dangleObjId));
   }
   return jsResults;
 }
 
 NATIVE_METHOD(getProgramParameter) {
-  auto fProgram = ARG(0, UEXGLObjectId);
+  auto fProgram = ARG(0, UDangleObjectId);
   auto pname = ARG(1, GLenum);
   GLint glResult;
   addBlockingToNextBatch([&] { glGetProgramiv(lookupObject(fProgram), pname, &glResult); });
@@ -841,7 +841,7 @@ NATIVE_METHOD(getProgramParameter) {
 }
 
 NATIVE_METHOD(getShaderParameter) {
-  auto fShader = ARG(0, UEXGLObjectId);
+  auto fShader = ARG(0, UDangleObjectId);
   auto pname = ARG(1, GLenum);
   GLint glResult;
   addBlockingToNextBatch([&] { glGetShaderiv(lookupObject(fShader), pname, &glResult); });
@@ -868,7 +868,7 @@ NATIVE_METHOD(getShaderPrecisionFormat) {
 }
 
 NATIVE_METHOD(getProgramInfoLog) {
-  auto fObj = ARG(0, UEXGLObjectId);
+  auto fObj = ARG(0, UDangleObjectId);
   std::string str;
   addBlockingToNextBatch([&] {
     GLuint obj = lookupObject(fObj);
@@ -881,7 +881,7 @@ NATIVE_METHOD(getProgramInfoLog) {
 }
 
 NATIVE_METHOD(getShaderInfoLog) {
-  auto fObj = ARG(0, UEXGLObjectId);
+  auto fObj = ARG(0, UDangleObjectId);
   std::string str;
   addBlockingToNextBatch([&] {
     GLuint obj = lookupObject(fObj);
@@ -894,7 +894,7 @@ NATIVE_METHOD(getShaderInfoLog) {
 }
 
 NATIVE_METHOD(getShaderSource) {
-  auto fObj = ARG(0, UEXGLObjectId);
+  auto fObj = ARG(0, UDangleObjectId);
   std::string str;
   addBlockingToNextBatch([&] {
     GLuint obj = lookupObject(fObj);
@@ -907,21 +907,21 @@ NATIVE_METHOD(getShaderSource) {
 }
 
 NATIVE_METHOD(isShader) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsShader);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsShader);
 }
 
 NATIVE_METHOD(isProgram) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsProgram);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsProgram);
 }
 
 NATIVE_METHOD(linkProgram) {
-  auto fProgram = ARG(0, UEXGLObjectId);
+  auto fProgram = ARG(0, UDangleObjectId);
   addToNextBatch([=] { glLinkProgram(lookupObject(fProgram)); });
   return nullptr;
 }
 
 NATIVE_METHOD(shaderSource) {
-  auto fShader = ARG(0, UEXGLObjectId);
+  auto fShader = ARG(0, UDangleObjectId);
   auto str = ARG(1, std::string);
   addToNextBatch([=, str{std::move(str)}] {
     const char *cstr = str.c_str();
@@ -931,13 +931,13 @@ NATIVE_METHOD(shaderSource) {
 }
 
 NATIVE_METHOD(useProgram) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   addToNextBatch([=] { glUseProgram(lookupObject(program)); });
   return nullptr;
 }
 
 NATIVE_METHOD(validateProgram) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   addToNextBatch([=] { glValidateProgram(lookupObject(program)); });
   return nullptr;
 }
@@ -945,7 +945,7 @@ NATIVE_METHOD(validateProgram) {
 // Programs and shaders (WebGL2)
 
 NATIVE_METHOD(getFragDataLocation) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   auto name = ARG(1, std::string);
   GLint location;
   addBlockingToNextBatch(
@@ -961,25 +961,25 @@ SIMPLE_NATIVE_METHOD(disableVertexAttribArray, glDisableVertexAttribArray); // i
 SIMPLE_NATIVE_METHOD(enableVertexAttribArray, glEnableVertexAttribArray); // index
 
 NATIVE_METHOD(getActiveAttrib) {
-  return exglGetActiveInfo(
-      runtime,
-      ARG(0, UEXGLObjectId),
-      ARG(1, GLuint),
-      GL_ACTIVE_ATTRIBUTE_MAX_LENGTH,
-      glGetActiveAttrib);
+  return dangleGetActiveInfo(
+          runtime,
+          ARG(0, UDangleObjectId),
+          ARG(1, GLuint),
+          GL_ACTIVE_ATTRIBUTE_MAX_LENGTH,
+          glGetActiveAttrib);
 }
 
 NATIVE_METHOD(getActiveUniform) {
-  return exglGetActiveInfo(
-      runtime,
-      ARG(0, UEXGLObjectId),
-      ARG(1, GLuint),
-      GL_ACTIVE_UNIFORM_MAX_LENGTH,
-      glGetActiveUniform);
+  return dangleGetActiveInfo(
+          runtime,
+          ARG(0, UDangleObjectId),
+          ARG(1, GLuint),
+          GL_ACTIVE_UNIFORM_MAX_LENGTH,
+          glGetActiveUniform);
 }
 
 NATIVE_METHOD(getAttribLocation) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   auto name = ARG(1, std::string);
   GLint location;
   addBlockingToNextBatch(
@@ -990,7 +990,7 @@ NATIVE_METHOD(getAttribLocation) {
 UNIMPL_NATIVE_METHOD(getUniform)
 
 NATIVE_METHOD(getUniformLocation) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   auto name = ARG(1, std::string);
   GLint location;
   addBlockingToNextBatch(
@@ -1012,66 +1012,66 @@ SIMPLE_NATIVE_METHOD(uniform3i, glUniform3i); // uniform, x, y, z
 SIMPLE_NATIVE_METHOD(uniform4i, glUniform4i); // uniform, x, y, z, w
 
 NATIVE_METHOD(uniform1fv) {
-  return exglUniformv(glUniform1fv, ARG(0, GLuint), 1, ARG(1, std::vector<float>));
+  return dangleUniformv(glUniform1fv, ARG(0, GLuint), 1, ARG(1, std::vector<float>));
 };
 
 NATIVE_METHOD(uniform2fv) {
-  return exglUniformv(glUniform2fv, ARG(0, GLuint), 2, ARG(1, std::vector<float>));
+  return dangleUniformv(glUniform2fv, ARG(0, GLuint), 2, ARG(1, std::vector<float>));
 };
 
 NATIVE_METHOD(uniform3fv) {
-  return exglUniformv(glUniform3fv, ARG(0, GLuint), 3, ARG(1, std::vector<float>));
+  return dangleUniformv(glUniform3fv, ARG(0, GLuint), 3, ARG(1, std::vector<float>));
 };
 
 NATIVE_METHOD(uniform4fv) {
-  return exglUniformv(glUniform4fv, ARG(0, GLuint), 4, ARG(1, std::vector<float>));
+  return dangleUniformv(glUniform4fv, ARG(0, GLuint), 4, ARG(1, std::vector<float>));
 };
 
 NATIVE_METHOD(uniform1iv) {
-  return exglUniformv(glUniform1iv, ARG(0, GLuint), 1, ARG(1, std::vector<int32_t>));
+  return dangleUniformv(glUniform1iv, ARG(0, GLuint), 1, ARG(1, std::vector<int32_t>));
 };
 
 NATIVE_METHOD(uniform2iv) {
-  return exglUniformv(glUniform2iv, ARG(0, GLuint), 2, ARG(1, std::vector<int32_t>));
+  return dangleUniformv(glUniform2iv, ARG(0, GLuint), 2, ARG(1, std::vector<int32_t>));
 };
 
 NATIVE_METHOD(uniform3iv) {
-  return exglUniformv(glUniform3iv, ARG(0, GLuint), 3, ARG(1, std::vector<int32_t>));
+  return dangleUniformv(glUniform3iv, ARG(0, GLuint), 3, ARG(1, std::vector<int32_t>));
 };
 
 NATIVE_METHOD(uniform4iv) {
-  return exglUniformv(glUniform4iv, ARG(0, GLuint), 4, ARG(1, std::vector<int32_t>));
+  return dangleUniformv(glUniform4iv, ARG(0, GLuint), 4, ARG(1, std::vector<int32_t>));
 };
 
 NATIVE_METHOD(uniformMatrix2fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix2fv, ARG(0, GLuint), ARG(1, GLboolean), 4, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix2fv, ARG(0, GLuint), ARG(1, GLboolean), 4, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(uniformMatrix3fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix3fv, ARG(0, GLuint), ARG(1, GLboolean), 9, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix3fv, ARG(0, GLuint), ARG(1, GLboolean), 9, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(uniformMatrix4fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix4fv, ARG(0, GLuint), ARG(1, GLboolean), 16, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix4fv, ARG(0, GLuint), ARG(1, GLboolean), 16, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(vertexAttrib1fv) {
-  return exglVertexAttribv(glVertexAttrib1fv, ARG(0, GLuint), ARG(1, std::vector<float>));
+  return dangleVertexAttribv(glVertexAttrib1fv, ARG(0, GLuint), ARG(1, std::vector<float>));
 }
 
 NATIVE_METHOD(vertexAttrib2fv) {
-  return exglVertexAttribv(glVertexAttrib2fv, ARG(0, GLuint), ARG(1, std::vector<float>));
+  return dangleVertexAttribv(glVertexAttrib2fv, ARG(0, GLuint), ARG(1, std::vector<float>));
 }
 
 NATIVE_METHOD(vertexAttrib3fv) {
-  return exglVertexAttribv(glVertexAttrib3fv, ARG(0, GLuint), ARG(1, std::vector<float>));
+  return dangleVertexAttribv(glVertexAttrib3fv, ARG(0, GLuint), ARG(1, std::vector<float>));
 }
 
 NATIVE_METHOD(vertexAttrib4fv) {
-  return exglVertexAttribv(glVertexAttrib4fv, ARG(0, GLuint), ARG(1, std::vector<float>));
+  return dangleVertexAttribv(glVertexAttrib4fv, ARG(0, GLuint), ARG(1, std::vector<float>));
 }
 
 SIMPLE_NATIVE_METHOD(vertexAttrib1f, glVertexAttrib1f); // index, x
@@ -1092,60 +1092,60 @@ SIMPLE_NATIVE_METHOD(uniform3ui, glUniform3ui); // location, x, y, z
 SIMPLE_NATIVE_METHOD(uniform4ui, glUniform4ui); // location, x, y, z, w
 
 NATIVE_METHOD(uniform1uiv) {
-  return exglUniformv(glUniform1uiv, ARG(0, GLuint), 1, ARG(1, std::vector<uint32_t>));
+  return dangleUniformv(glUniform1uiv, ARG(0, GLuint), 1, ARG(1, std::vector<uint32_t>));
 };
 
 NATIVE_METHOD(uniform2uiv) {
-  return exglUniformv(glUniform2uiv, ARG(0, GLuint), 2, ARG(1, std::vector<uint32_t>));
+  return dangleUniformv(glUniform2uiv, ARG(0, GLuint), 2, ARG(1, std::vector<uint32_t>));
 };
 
 NATIVE_METHOD(uniform3uiv) {
-  return exglUniformv(glUniform3uiv, ARG(0, GLuint), 3, ARG(1, std::vector<uint32_t>));
+  return dangleUniformv(glUniform3uiv, ARG(0, GLuint), 3, ARG(1, std::vector<uint32_t>));
 };
 
 NATIVE_METHOD(uniform4uiv) {
-  return exglUniformv(glUniform4uiv, ARG(0, GLuint), 4, ARG(1, std::vector<uint32_t>));
+  return dangleUniformv(glUniform4uiv, ARG(0, GLuint), 4, ARG(1, std::vector<uint32_t>));
 };
 
 NATIVE_METHOD(uniformMatrix3x2fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix3x2fv, ARG(0, GLuint), ARG(1, GLboolean), 6, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix3x2fv, ARG(0, GLuint), ARG(1, GLboolean), 6, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(uniformMatrix4x2fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix4x2fv, ARG(0, GLuint), ARG(1, GLboolean), 8, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix4x2fv, ARG(0, GLuint), ARG(1, GLboolean), 8, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(uniformMatrix2x3fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix2x3fv, ARG(0, GLuint), ARG(1, GLboolean), 6, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix2x3fv, ARG(0, GLuint), ARG(1, GLboolean), 6, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(uniformMatrix4x3fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix4x3fv, ARG(0, GLuint), ARG(1, GLboolean), 12, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix4x3fv, ARG(0, GLuint), ARG(1, GLboolean), 12, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(uniformMatrix2x4fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix2x4fv, ARG(0, GLuint), ARG(1, GLboolean), 8, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix2x4fv, ARG(0, GLuint), ARG(1, GLboolean), 8, ARG(2, std::vector<float>));
 }
 
 NATIVE_METHOD(uniformMatrix3x4fv) {
-  return exglUniformMatrixv(
-      glUniformMatrix3x4fv, ARG(0, GLuint), ARG(1, GLboolean), 12, ARG(2, std::vector<float>));
+  return dangleUniformMatrixv(
+          glUniformMatrix3x4fv, ARG(0, GLuint), ARG(1, GLboolean), 12, ARG(2, std::vector<float>));
 }
 
 SIMPLE_NATIVE_METHOD(vertexAttribI4i, glVertexAttribI4i); // index, x, y, z, w
 SIMPLE_NATIVE_METHOD(vertexAttribI4ui, glVertexAttribI4ui); // index, x, y, z, w
 
 NATIVE_METHOD(vertexAttribI4iv) {
-  return exglVertexAttribv(glVertexAttribI4iv, ARG(0, GLuint), ARG(1, std::vector<int32_t>));
+  return dangleVertexAttribv(glVertexAttribI4iv, ARG(0, GLuint), ARG(1, std::vector<int32_t>));
 }
 
 NATIVE_METHOD(vertexAttribI4uiv) {
-  return exglVertexAttribv(glVertexAttribI4uiv, ARG(0, GLuint), ARG(1, std::vector<uint32_t>));
+  return dangleVertexAttribv(glVertexAttribI4uiv, ARG(0, GLuint), ARG(1, std::vector<uint32_t>));
 }
 
 SIMPLE_NATIVE_METHOD(
@@ -1222,20 +1222,20 @@ SIMPLE_NATIVE_METHOD(clearBufferfi, glClearBufferfi); // buffer, drawbuffer, dep
 // ----------------------
 
 NATIVE_METHOD(createQuery) {
-  return exglGenObject(runtime, glGenQueries);
+  return dangleGenObject(runtime, glGenQueries);
 }
 
 NATIVE_METHOD(deleteQuery) {
-  return exglDeleteObject(ARG(0, UEXGLContextId), glDeleteQueries);
+  return dangleDeleteObject(ARG(0, UDangleContextId), glDeleteQueries);
 }
 
 NATIVE_METHOD(isQuery) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsQuery);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsQuery);
 }
 
 NATIVE_METHOD(beginQuery) {
   auto target = ARG(0, GLenum);
-  auto query = ARG(1, UEXGLObjectId);
+  auto query = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glBeginQuery(target, lookupObject(query)); });
   return nullptr;
 }
@@ -1251,7 +1251,7 @@ NATIVE_METHOD(getQuery) {
 }
 
 NATIVE_METHOD(getQueryParameter) {
-  auto query = ARG(0, UEXGLObjectId);
+  auto query = ARG(0, UDangleObjectId);
   auto pname = ARG(1, GLenum);
   GLuint params;
   addBlockingToNextBatch([&] { glGetQueryObjectuiv(lookupObject(query), pname, &params); });
@@ -1262,26 +1262,26 @@ NATIVE_METHOD(getQueryParameter) {
 // -----------------
 
 NATIVE_METHOD(createSampler) {
-  return exglGenObject(runtime, glGenSamplers);
+  return dangleGenObject(runtime, glGenSamplers);
 }
 
 NATIVE_METHOD(deleteSampler) {
-  return exglDeleteObject(ARG(0, UEXGLContextId), glDeleteSamplers);
+  return dangleDeleteObject(ARG(0, UDangleContextId), glDeleteSamplers);
 }
 
 NATIVE_METHOD(bindSampler) {
   auto unit = ARG(0, GLuint);
-  auto sampler = ARG(1, UEXGLObjectId);
+  auto sampler = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glBindSampler(unit, lookupObject(sampler)); });
   return nullptr;
 }
 
 NATIVE_METHOD(isSampler) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsSampler);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsSampler);
 }
 
 NATIVE_METHOD(samplerParameteri) {
-  auto sampler = ARG(0, UEXGLObjectId);
+  auto sampler = ARG(0, UDangleObjectId);
   auto pname = ARG(1, GLenum);
   auto param = ARG(2, GLfloat);
   addToNextBatch([=] { glSamplerParameteri(lookupObject(sampler), pname, param); });
@@ -1289,7 +1289,7 @@ NATIVE_METHOD(samplerParameteri) {
 }
 
 NATIVE_METHOD(samplerParameterf) {
-  auto sampler = ARG(0, UEXGLObjectId);
+  auto sampler = ARG(0, UDangleObjectId);
   auto pname = ARG(1, GLenum);
   auto param = ARG(2, GLfloat);
   addToNextBatch([=] { glSamplerParameterf(lookupObject(sampler), pname, param); });
@@ -1297,7 +1297,7 @@ NATIVE_METHOD(samplerParameterf) {
 }
 
 NATIVE_METHOD(getSamplerParameter) {
-  auto sampler = ARG(0, UEXGLObjectId);
+  auto sampler = ARG(0, UDangleObjectId);
   auto pname = ARG(1, GLenum);
   bool isFloatParam = pname == GL_TEXTURE_MAX_LOD || pname == GL_TEXTURE_MIN_LOD;
   union {
@@ -1334,20 +1334,20 @@ UNIMPL_NATIVE_METHOD(getSyncParameter)
 // ---------------------------
 
 NATIVE_METHOD(createTransformFeedback) {
-  return exglGenObject(runtime, glGenTransformFeedbacks);
+  return dangleGenObject(runtime, glGenTransformFeedbacks);
 }
 
 NATIVE_METHOD(deleteTransformFeedback) {
-  return exglDeleteObject(ARG(0, UEXGLContextId), glDeleteTransformFeedbacks);
+  return dangleDeleteObject(ARG(0, UDangleContextId), glDeleteTransformFeedbacks);
 }
 
 NATIVE_METHOD(isTransformFeedback) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsTransformFeedback);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsTransformFeedback);
 }
 
 NATIVE_METHOD(bindTransformFeedback) {
   auto target = ARG(0, GLenum);
-  auto transformFeedback = ARG(1, UEXGLObjectId);
+  auto transformFeedback = ARG(1, UDangleObjectId);
   addToNextBatch([=] { glBindTransformFeedback(target, lookupObject(transformFeedback)); });
   return nullptr;
 }
@@ -1357,7 +1357,7 @@ SIMPLE_NATIVE_METHOD(beginTransformFeedback, glBeginTransformFeedback); // primi
 SIMPLE_NATIVE_METHOD(endTransformFeedback, glEndTransformFeedback);
 
 NATIVE_METHOD(transformFeedbackVaryings) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   std::vector<std::string> varyings = jsArrayToVector<std::string>(runtime, ARG(1, jsi::Array));
   auto bufferMode = ARG(2, GLenum);
 
@@ -1378,12 +1378,12 @@ NATIVE_METHOD(transformFeedbackVaryings) {
 }
 
 NATIVE_METHOD(getTransformFeedbackVarying) {
-  return exglGetActiveInfo(
-      runtime,
-      ARG(0, UEXGLObjectId),
-      ARG(1, GLuint),
-      GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH,
-      glGetTransformFeedbackVarying);
+  return dangleGetActiveInfo(
+          runtime,
+          ARG(0, UDangleObjectId),
+          ARG(1, GLuint),
+          GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH,
+          glGetTransformFeedbackVarying);
 }
 
 SIMPLE_NATIVE_METHOD(pauseTransformFeedback, glPauseTransformFeedback);
@@ -1396,7 +1396,7 @@ SIMPLE_NATIVE_METHOD(resumeTransformFeedback, glResumeTransformFeedback);
 NATIVE_METHOD(bindBufferBase) {
   auto target = ARG(0, GLenum);
   auto index = ARG(1, GLuint);
-  auto buffer = ARG(2, UEXGLObjectId);
+  auto buffer = ARG(2, UDangleObjectId);
   addToNextBatch([=] { glBindBufferBase(target, index, lookupObject(buffer)); });
   return nullptr;
 }
@@ -1404,7 +1404,7 @@ NATIVE_METHOD(bindBufferBase) {
 NATIVE_METHOD(bindBufferRange) {
   auto target = ARG(0, GLenum);
   auto index = ARG(1, GLuint);
-  auto buffer = ARG(2, UEXGLObjectId);
+  auto buffer = ARG(2, UDangleObjectId);
   auto offset = ARG(3, GLint);
   auto size = ARG(4, GLsizei);
   addToNextBatch([=] { glBindBufferRange(target, index, lookupObject(buffer), offset, size); });
@@ -1412,7 +1412,7 @@ NATIVE_METHOD(bindBufferRange) {
 }
 
 NATIVE_METHOD(getUniformIndices) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   std::vector<std::string> uniformNames = jsArrayToVector<std::string>(runtime, ARG(1, jsi::Array));
 
   std::vector<const char *> uniformNamesRaw(uniformNames.size());
@@ -1431,7 +1431,7 @@ NATIVE_METHOD(getUniformIndices) {
 }
 
 NATIVE_METHOD(getActiveUniforms) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   auto uniformIndices = jsArrayToVector<GLuint>(runtime, ARG(1, jsi::Array));
   auto pname = ARG(2, GLenum);
   std::vector<GLint> params(uniformIndices.size());
@@ -1448,7 +1448,7 @@ NATIVE_METHOD(getActiveUniforms) {
 }
 
 NATIVE_METHOD(getUniformBlockIndex) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   auto uniformBlockName = ARG(1, std::string);
 
   GLuint blockIndex;
@@ -1461,7 +1461,7 @@ NATIVE_METHOD(getUniformBlockIndex) {
 UNIMPL_NATIVE_METHOD(getActiveUniformBlockParameter)
 
 NATIVE_METHOD(getActiveUniformBlockName) {
-  auto fProgram = ARG(0, UEXGLObjectId);
+  auto fProgram = ARG(0, UDangleObjectId);
   auto uniformBlockIndex = ARG(1, GLuint);
 
   std::string blockName;
@@ -1476,7 +1476,7 @@ NATIVE_METHOD(getActiveUniformBlockName) {
 }
 
 NATIVE_METHOD(uniformBlockBinding) {
-  auto program = ARG(0, UEXGLObjectId);
+  auto program = ARG(0, UDangleObjectId);
   auto uniformBlockIndex = ARG(1, GLuint);
   auto uniformBlockBinding = ARG(2, GLuint);
   addToNextBatch([=] {
@@ -1489,19 +1489,19 @@ NATIVE_METHOD(uniformBlockBinding) {
 // ----------------------------
 
 NATIVE_METHOD(createVertexArray) {
-  return exglGenObject(runtime, glGenVertexArrays);
+  return dangleGenObject(runtime, glGenVertexArrays);
 }
 
 NATIVE_METHOD(deleteVertexArray) {
-  return exglDeleteObject(ARG(0, UEXGLContextId), glDeleteVertexArrays);
+  return dangleDeleteObject(ARG(0, UDangleContextId), glDeleteVertexArrays);
 }
 
 NATIVE_METHOD(isVertexArray) {
-  return exglIsObject(ARG(0, UEXGLObjectId), glIsVertexArray);
+  return dangleIsObject(ARG(0, UDangleObjectId), glIsVertexArray);
 }
 
 NATIVE_METHOD(bindVertexArray) {
-  auto vertexArray = ARG(0, UEXGLObjectId);
+  auto vertexArray = ARG(0, UDangleObjectId);
   addToNextBatch([=] { glBindVertexArray(lookupObject(vertexArray)); });
   return nullptr;
 }
@@ -1560,4 +1560,4 @@ NATIVE_METHOD(flushEXP) {
   return nullptr;
 }
 } // namespace gl_cpp
-} // namespace expo
+} // namespace dangle

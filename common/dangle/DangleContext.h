@@ -1,4 +1,4 @@
-#include "UEXGL.h"
+#include "UDangle.h"
 
 #ifdef __ANDROID__
 #include <GLES3/gl3.h>
@@ -21,8 +21,8 @@
 
 #include <jsi/jsi.h>
 
-#include "EXGLNativeMethodsUtils.h"
-#include "EXJSIUtils.h"
+#include "DangleNativeMethodsUtils.h"
+#include "DangleJSIUtils.h"
 #include "TypedArrayApi.h"
 
 // Constants in WebGL that aren't in OpenGL ES
@@ -39,14 +39,14 @@
 #define GL_DEPTH_STENCIL 0x84F9
 #define GL_DEPTH_STENCIL_ATTACHMENT 0x821A
 
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
-// --- EXGLContext -------------------------------------------------------------
+// --- DangleContext -------------------------------------------------------------
 
-// Class of the C++ object representing an EXGL rendering context.
+// Class of the C++ object representing an Dangle rendering context.
 
-class EXGLContext {
+class DangleContext {
   // --- Queue handling --------------------------------------------------------
 
   // There are two threads: the input thread (henceforth "JS thread") feeds new GL
@@ -95,7 +95,7 @@ class EXGLContext {
     future.wait();
   }
 
-  // [JS thread] Enqueue a function and return an EXGL object that will get mapped
+  // [JS thread] Enqueue a function and return an Dangle object that will get mapped
   // to the function's return value when it is called on the GL thread.
   //
   // We call these 'futures': a return value from a GL method call that is simply
@@ -110,12 +110,12 @@ class EXGLContext {
   inline jsi::Value addFutureToNextBatch(
       jsi::Runtime &runtime,
       std::function<unsigned int(void)> &&op) noexcept {
-    auto exglObjId = createObject();
+    auto dangleObjId = createObject();
     addToNextBatch([=] {
-      assert(objects.find(exglObjId) == objects.end());
-      mapObject(exglObjId, op());
+      assert(objects.find(dangleObjId) == objects.end());
+      mapObject(dangleObjId, op());
     });
-    return static_cast<double>(exglObjId);
+    return static_cast<double>(dangleObjId);
   }
 
  public:
@@ -146,20 +146,20 @@ class EXGLContext {
   // mutex on the mapping.
 
  private:
-  std::unordered_map<UEXGLObjectId, GLuint> objects;
+  std::unordered_map<UDangleObjectId, GLuint> objects;
   static std::atomic_uint nextObjectId;
 
  public:
-  inline UEXGLObjectId createObject(void) noexcept {
+  inline UDangleObjectId createObject(void) noexcept {
     return nextObjectId++;
   }
 
-  inline void mapObject(UEXGLObjectId exglObjId, GLuint glObj) noexcept {
-    objects[exglObjId] = glObj;
+  inline void mapObject(UDangleObjectId dangleObjId, GLuint glObj) noexcept {
+    objects[dangleObjId] = glObj;
   }
 
-  inline GLuint lookupObject(UEXGLObjectId exglObjId) noexcept {
-    auto iter = objects.find(exglObjId);
+  inline GLuint lookupObject(UDangleObjectId dangleObjId) noexcept {
+    auto iter = objects.find(dangleObjId);
     return iter == objects.end() ? 0 : iter->second;
   }
 
@@ -169,11 +169,9 @@ class EXGLContext {
   bool supportsWebGL2 = false;
 
  public:
-  EXGLContext(jsi::Runtime &runtime, UEXGLContextId exglCtxId) {
+  DangleContext(jsi::Runtime &runtime, UDangleContextId dangleCtxId) {
     jsi::Object jsGl(runtime);
-    jsGl.setProperty(
-        runtime, jsi::PropNameID::forUtf8(runtime, "exglCtxId"), static_cast<double>(exglCtxId));
-    installMethods(runtime, jsGl, exglCtxId);
+    installMethods(runtime, jsGl, dangleCtxId);
     installConstants(runtime, jsGl);
 
     // Save JavaScript object
@@ -184,7 +182,7 @@ class EXGLContext {
     runtime.global()
         .getProperty(runtime, "__DANGLEContexts")
         .asObject(runtime)
-        .setProperty(runtime, jsi::PropNameID::forUtf8(runtime, std::to_string(exglCtxId)), jsGl);
+        .setProperty(runtime, jsi::PropNameID::forUtf8(runtime, std::to_string(dangleCtxId)), jsGl);
 
     // Clear everything to initial values
     addToNextBatch([this] {
@@ -211,9 +209,9 @@ class EXGLContext {
     });
   }
 
-  static EXGLContext *ContextGet(UEXGLContextId exglCtxId);
-  static UEXGLContextId ContextCreate(jsi::Runtime &runtime);
-  static void ContextDestroy(UEXGLContextId exglCtxId);
+  static DangleContext *ContextGet(UDangleContextId dangleCtxId);
+  static UDangleContextId ContextCreate(jsi::Runtime &runtime);
+  static void ContextDestroy(UDangleContextId dangleCtxId);
 
   // --- GL state --------------------------------------------------------------
  private:
@@ -227,38 +225,38 @@ class EXGLContext {
     defaultFramebuffer = framebuffer;
   }
 
-  void setNeedsRedraw(bool needsRedraw) {
-    this->needsRedraw = needsRedraw;
+  void setNeedsRedraw(bool _needsRedraw) {
+    this->needsRedraw = _needsRedraw;
   }
 
  private:
   // functions used to setup WebGLRenderer object (attaching methods and constants)
 
-  void installMethods(jsi::Runtime &runtime, jsi::Object &jsGl, UEXGLContextId exglCtxId);
-  void installConstants(jsi::Runtime &runtime, jsi::Object &jsGl);
+  void installMethods(jsi::Runtime &runtime, jsi::Object &jsGl, UDangleContextId dangleCtxId);
+  static void installConstants(jsi::Runtime &runtime, jsi::Object &jsGl);
 
   //  helpers used in implementation of some of the glNativeMethod_#name
 
   template <typename Func, typename... T>
-  inline jsi::Value exglCall(Func func, T &&... args);
+  inline jsi::Value dangleCall(Func func, T &&... args);
 
   template <typename Func>
-  inline jsi::Value exglGetActiveInfo(jsi::Runtime &, UEXGLObjectId, GLuint, GLenum, Func);
+  inline jsi::Value dangleGetActiveInfo(jsi::Runtime &runtime, UDangleObjectId fProgram, GLuint index, GLenum lengthParam, Func glFunc);
 
   template <typename Func, typename T>
-  inline jsi::Value exglUniformv(Func, GLuint, size_t, std::vector<T> &&);
+  inline jsi::Value dangleUniformv(Func func, GLuint uniform, size_t dim, std::vector<T> &&data);
   template <typename Func, typename T>
-  inline jsi::Value exglUniformMatrixv(Func, GLuint, GLboolean, size_t, std::vector<T> &&);
+  inline jsi::Value dangleUniformMatrixv(Func func, GLuint uniform, GLboolean transpose, size_t dim, std::vector<T> &&data);
   template <typename Func, typename T>
-  inline jsi::Value exglVertexAttribv(Func func, GLuint, std::vector<T> &&);
+  inline jsi::Value dangleVertexAttribv(Func func, GLuint index, std::vector<T> &&data);
 
-  jsi::Value exglIsObject(UEXGLObjectId id, std::function<GLboolean(GLuint)>);
-  jsi::Value exglCreateObject(jsi::Runtime &, std::function<GLuint()>);
-  jsi::Value exglGenObject(jsi::Runtime &, std::function<void(GLsizei, UEXGLObjectId *)>);
-  jsi::Value exglDeleteObject(UEXGLObjectId id, std::function<void(UEXGLObjectId)>);
-  jsi::Value exglDeleteObject(UEXGLObjectId, std::function<void(GLsizei, const UEXGLObjectId *)>);
+  jsi::Value dangleIsObject(UDangleObjectId id, std::function<GLboolean(GLuint)> func);
+  jsi::Value dangleCreateObject(jsi::Runtime &runtime, const std::function<GLuint()> &func);
+  jsi::Value dangleGenObject(jsi::Runtime &runtime, const std::function<void(GLsizei, UDangleObjectId *)> &func);
+  jsi::Value dangleDeleteObject(UDangleObjectId id, const std::function<void(UDangleObjectId)> &func);
+  jsi::Value dangleDeleteObject(UDangleObjectId id, const std::function<void(GLsizei, const UDangleObjectId *)> &func);
 
-  jsi::Value exglUnimplemented(std::string name);
+  static jsi::Value dangleUnimplemented(const std::string& name);
 
   void maybeReadAndCacheSupportedExtensions();
 
@@ -267,10 +265,10 @@ class EXGLContext {
 #define NATIVE_METHOD(name) \
   jsi::Value glNativeMethod_##name(jsi::Runtime &, const jsi::Value &, const jsi::Value *, size_t);
 #define NATIVE_WEBGL2_METHOD(name) NATIVE_METHOD(name)
-#include "EXGLNativeMethods.def"
+#include "DangleNativeMethods.def"
 #undef NATIVE_METHOD
 #undef NATIVE_WEBGL2_METHOD
 };
 } // namespace gl_cpp
-} // namespace expo
-#include "EXGLContext-inl.h"
+} // namespace dangle
+#include "DangleContext-inl.h"

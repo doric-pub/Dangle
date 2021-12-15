@@ -13,11 +13,11 @@
 #include <jsi/jsi.h>
 #include <type_traits>
 
-#include "EXJSIUtils.h"
+#include "DangleJSIUtils.h"
 #include "TypedArrayApi.h"
 
 namespace jsi = facebook::jsi;
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
 //
@@ -218,12 +218,12 @@ auto generateNativeMethodBind(F fn, Tuple &&tuple, std::index_sequence<I...>) {
 //
 // e.g. usage
 // auto [ arg1, arg2, arg3 ] = unpackArgs<int, string, js::Object>(runtime, jsArgv, argc)
-// used in EXGLNativeMethods wrapped in ARGS macro
+// used in DangleNativeMethods wrapped in ARGS macro
 //
 template <typename... T>
 inline std::tuple<T...> unpackArgs(jsi::Runtime &runtime, const jsi::Value *jsArgv, size_t argc) {
   if (argc < sizeof...(T)) {
-    throw std::runtime_error("EXGL: Too few arguments");
+    throw std::runtime_error("Dangle: Too few arguments");
   }
   // create tuple of Arg<T> structs containg pointer to unprocessed arguments
   auto argTuple = methodHelper::toArgTuple<T...>(jsArgv);
@@ -247,7 +247,7 @@ inline std::tuple<> unpackArgs(jsi::Runtime &, const jsi::Value *, size_t) {
 //   addToNextBatch(generateNativeMethod(runtime, glScissor, jsArgv, argc));
 //   return nullptr;
 // }
-// used in EXGLNativeMethods wrapped in SIMPLE_NATIVE_METHOD macro
+// used in DangleNativeMethods wrapped in SIMPLE_NATIVE_METHOD macro
 //
 template <typename... T>
 auto generateNativeMethod(
@@ -263,4 +263,4 @@ auto generateNativeMethod(
       fn, std::move(argTuple), std::make_index_sequence<sizeof...(T)>());
 }
 } // namespace gl_cpp
-} // namespace expo
+} // namespace dangle

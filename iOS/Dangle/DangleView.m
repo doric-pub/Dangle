@@ -1,13 +1,13 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
-#import <EXGL/EXGLView.h>
-#import <EXGL/EXGLContext.h>
+#import <DANGLE/DangleView.h>
+#import <DANGLE/DangleContext.h>
 
 #include <OpenGLES/ES2/glext.h>
 #include <OpenGLES/ES3/gl.h>
 #include <OpenGLES/ES3/glext.h>
 
-@interface EXGLView ()
+@interface DangleView ()
 
 @property (nonatomic, assign) GLint layerWidth;
 @property (nonatomic, assign) GLint layerHeight;
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation EXGLView
+@implementation DangleView
 
 // Specify that we want this UIView to be backed by a CAEAGLLayer
 + (Class)layerClass {
@@ -51,7 +51,7 @@
     };
 
     // Initialize GL context
-    _glContext = [[EXGLContext alloc] initWithDelegate:self];
+    _glContext = [[DangleContext alloc] initWithDelegate:self];
     _uiEaglCtx = [_glContext createSharedEAGLContext];
     [_glContext initialize:nil];
 
@@ -66,7 +66,7 @@
   return self;
 }
 
-- (UEXGLContextId)exglCtxId
+- (UDangleContextId)dangleCtxId
 {
   return [_glContext contextId];
 }
@@ -77,8 +77,8 @@
   // we need to be sure that they all are done before we pass GL object to JS.
 
   if (_glContext.isInitialized && _isLayouted) {
-    UEXGLContextId exglCtxId = _glContext.contextId;
-    UEXGLContextSetDefaultFramebuffer(exglCtxId, _msaaFramebuffer);
+    UDangleContextId dangleCtxId = _glContext.contextId;
+    UDangleContextSetDefaultFramebuffer(dangleCtxId, _msaaFramebuffer);
       
     self.onSurfaceAvailable();
   }
@@ -179,7 +179,7 @@
                               GL_RENDERBUFFER, self->_msaaRenderbuffer);
 
     if (self->_glContext.isInitialized) {
-      UEXGLContextSetDefaultFramebuffer(self->_glContext.contextId, self->_msaaFramebuffer);
+      UDangleContextSetDefaultFramebuffer(self->_glContext.contextId, self->_msaaFramebuffer);
     }
     
     // Set up new depth+stencil renderbuffer
@@ -208,7 +208,7 @@
 // TODO(nikki): Should all this be done in `dealloc` instead?
 - (void)removeFromSuperview
 {
-  // Destroy EXGLContext
+  // Destroy DangleContext
   [_glContext destroy];
 
   // Stop draw loop
@@ -220,8 +220,8 @@
 
 - (void)draw
 {
-  // exglCtxId may be unset if we get here (on the UI thread) before UEXGLContextCreate(...) is
-  // called on the JS thread to create the EXGL context and save its id (see EXGLContext.initializeContextWithBridge method).
+  // dangleCtxId may be unset if we get here (on the UI thread) before UDangleContextCreate(...) is
+  // called on the JS thread to create the Dangle context and save its id (see DangleContext.initializeContextWithBridge method).
   // In this case no GL work has been sent yet so we skip this frame.
   //
   // _viewFramebuffer may be 0 if we haven't had a layout event yet and so the size of the
@@ -277,34 +277,34 @@
   }
 }
 
-#pragma mark - EXGLContextDelegate
+#pragma mark - DangleContextDelegate
 
 // [GL thread]
-- (void)glContextFlushed:(nonnull EXGLContext *)context
+- (void)glContextFlushed:(nonnull DangleContext *)context
 {
   // blit framebuffers if endFrameEXP was called
-  if (UEXGLContextNeedsRedraw(_glContext.contextId)) {
+  if (UDangleContextNeedsRedraw(_glContext.contextId)) {
     // actually draw isn't yet finished, but it's here to prevent blitting the same thing multiple times
-    UEXGLContextDrawEnded(_glContext.contextId);
+    UDangleContextDrawEnded(_glContext.contextId);
 
     [self blitFramebuffers];
   }
 }
 
 // [JS thread]
-- (void)glContextInitialized:(nonnull EXGLContext *)context
+- (void)glContextInitialized:(nonnull DangleContext *)context
 {
   [self maybeCallSurfaceCreated];
 }
 
 // [GL thread]
-- (void)glContextWillDestroy:(nonnull EXGLContext *)context
+- (void)glContextWillDestroy:(nonnull DangleContext *)context
 {
   // Destroy GL objects owned by us
   [self deleteViewBuffers];
 }
 
-- (UEXGLObjectId)glContextGetDefaultFramebuffer
+- (UDangleObjectId)glContextGetDefaultFramebuffer
 {
   return _viewFramebuffer;
 }

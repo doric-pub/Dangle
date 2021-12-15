@@ -3,10 +3,10 @@
 #include <jsi/jsi.h>
 #include <vector>
 
-#include "EXPlatformUtils.h"
+#include "DanglePlatformUtils.h"
 #include "TypedArrayApi.h"
 
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 namespace jsi = facebook::jsi;
 
@@ -75,8 +75,8 @@ inline jsi::Value unsupportedWebGL2(
     const jsi::Value &jsThis,
     const jsi::Value *jsArgv,
     size_t argc) {
-  throw std::runtime_error("EXGL: This device doesn't support WebGL2 method: " + name + "()!");
+  throw std::runtime_error("Dangle: This device doesn't support WebGL2 method: " + name + "()!");
 }
 
 } // namespace gl_cpp
-} // namespace expo
+} // namespace dangle

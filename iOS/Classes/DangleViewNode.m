@@ -1,4 +1,4 @@
-#import <EXGL/EXGLView.h>
+#import <DANGLE/DangleView.h>
 
 #import "DangleViewNode.h"
 #import "DangleSingleton.h"
@@ -17,16 +17,16 @@
 }
 
 - (UIView *)build {
-    EXGLView *exglView = [[EXGLView alloc] init];
-    __weak EXGLView* weakView = exglView;
+    DangleView *dangleView = [[DangleView alloc] init];
+    __weak DangleView* weakView = dangleView;
     __weak __typeof(self) _self = self;
-    exglView.onSurfaceAvailable = ^void() {
-        __strong EXGLView* strongView = weakView;
+    dangleView.onSurfaceAvailable = ^void() {
+        __strong DangleView* strongView = weakView;
         __strong __typeof(_self) self = _self;
         
         [self callJSResponse:self.onPrepared, @(strongView.glContext.contextId), nil];
     };
-    return exglView;
+    return dangleView;
 }
 
 - (void)blendView:(UIView *)view forPropName:(NSString *)name propValue:(id)prop {

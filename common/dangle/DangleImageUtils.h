@@ -11,7 +11,7 @@
 #include <jsi/jsi.h>
 #include <vector>
 
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
 GLuint bytesPerPixel(GLenum type, GLenum format);
@@ -19,4 +19,4 @@ GLuint bytesPerPixel(GLenum type, GLenum format);
 void flipPixels(GLubyte *pixels, size_t bytesPerRow, size_t rows);
 
 } // namespace gl_cpp
-} // namespace expo
+} // namespace dangle

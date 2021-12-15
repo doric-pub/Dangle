@@ -12,16 +12,16 @@
 
 #include <jsi/jsi.h>
 
-namespace expo {
+namespace dangle {
 namespace gl_cpp {
 
 template <typename Func>
-inline jsi::Value EXGLContext::exglGetActiveInfo(
-    jsi::Runtime &runtime,
-    UEXGLObjectId fProgram,
-    GLuint index,
-    GLenum lengthParam,
-    Func glFunc) {
+inline jsi::Value DangleContext::dangleGetActiveInfo(
+        jsi::Runtime &runtime,
+        UDangleObjectId fProgram,
+        GLuint index,
+        GLenum lengthParam,
+        Func glFunc) {
   if (fProgram == 0) {
     return nullptr;
   }
@@ -53,7 +53,7 @@ inline jsi::Value EXGLContext::exglGetActiveInfo(
 }
 
 template <typename Func, typename... T>
-inline jsi::Value EXGLContext::exglCall(Func func, T &&... args) {
+inline jsi::Value DangleContext::dangleCall(Func func, T &&... args) {
   addToNextBatch([=, args = std::make_tuple(std::forward<T>(args)...)] {
     return std::apply(func, std::move(args));
   });
@@ -61,13 +61,13 @@ inline jsi::Value EXGLContext::exglCall(Func func, T &&... args) {
 
 template <typename Func, typename T>
 inline jsi::Value
-EXGLContext::exglUniformv(Func func, GLuint uniform, size_t dim, std::vector<T> &&data) {
+DangleContext::dangleUniformv(Func func, GLuint uniform, size_t dim, std::vector<T> &&data) {
   addToNextBatch([=, data{std::move(data)}] { func(uniform, static_cast<int>(data.size() / dim), data.data()); });
   return nullptr;
 }
 
 template <typename Func, typename T>
-inline jsi::Value EXGLContext::exglUniformMatrixv(
+inline jsi::Value DangleContext::dangleUniformMatrixv(
     Func func,
     GLuint uniform,
     GLboolean transpose,
@@ -79,9 +79,9 @@ inline jsi::Value EXGLContext::exglUniformMatrixv(
 }
 
 template <typename Func, typename T>
-inline jsi::Value EXGLContext::exglVertexAttribv(Func func, GLuint index, std::vector<T> &&data) {
+inline jsi::Value DangleContext::dangleVertexAttribv(Func func, GLuint index, std::vector<T> &&data) {
   addToNextBatch([=, data{std::move(data)}] { func(index, data.data()); });
   return nullptr;
 }
 } // namespace gl_cpp
-} // namespace expo
+} // namespace dangle
