@@ -364,14 +364,14 @@ const wrapMethods = gl => {
     wrap('isVertexArray', orig => vertexArray => vertexArray instanceof WebGLVertexArrayObject && Reflect.apply(orig, gl, [vertexArray.id]));
 };
 // Get the GL interface from an EXGLContextID and do JS-side setup
-const getGl = (exglCtxId) => {
-    if (!global.__EXGLContexts) {
+const getGl = (dangleCtxId) => {
+    if (!global.__DANGLEContexts) {
         throw new Error('ERR_GL_NOT_AVAILABLE' + " " +
             'GL is currently not available. (Have you enabled remote debugging? GL is not available while debugging remotely.)');
     }
-    const gl = global.__EXGLContexts[exglCtxId];
-    gl.__exglCtxId = exglCtxId;
-    delete global.__EXGLContexts[exglCtxId];
+    const gl = global.__DANGLEContexts[dangleCtxId];
+    gl.__dangleCtxId = dangleCtxId;
+    delete global.__DANGLEContexts[dangleCtxId];
     // determine the prototype to use, depending on OpenGL ES version
     const glesVersion = gl.getParameter(gl.VERSION);
     const supportsWebGL2 = parseFloat(glesVersion.split(/[^\d.]+/g).join(' ')) >= 3.0;

@@ -9,7 +9,7 @@ const global = new Function('return this')()
 // JavaScript WebGL types to wrap around native objects
 
 class WebGLRenderingContext {
-  __exglCtxId?: number;
+  __dangleCtxId?: number;
 }
 
 class WebGL2RenderingContext extends WebGLRenderingContext {}
@@ -357,16 +357,16 @@ const wrapMethods = gl => {
 };
 
 // Get the GL interface from an EXGLContextID and do JS-side setup
-export const getGl = (exglCtxId: number): ExpoWebGLRenderingContext => {
-  if (!global.__EXGLContexts) {
+export const getGl = (dangleCtxId: number): ExpoWebGLRenderingContext => {
+  if (!global.__DANGLEContexts) {
     throw new Error(
       'ERR_GL_NOT_AVAILABLE' + " " +
       'GL is currently not available. (Have you enabled remote debugging? GL is not available while debugging remotely.)'
     );
   }
-  const gl = global.__EXGLContexts[exglCtxId];
-  gl.__exglCtxId = exglCtxId;
-  delete global.__EXGLContexts[exglCtxId];
+  const gl = global.__DANGLEContexts[dangleCtxId];
+  gl.__dangleCtxId = dangleCtxId;
+  delete global.__DANGLEContexts[dangleCtxId];
 
   // determine the prototype to use, depending on OpenGL ES version
   const glesVersion = gl.getParameter(gl.VERSION);
@@ -401,7 +401,7 @@ export const getGl = (exglCtxId: number): ExpoWebGLRenderingContext => {
 };
 
 const getContextId = (exgl?: ExpoWebGLRenderingContext | number): number => {
-  const exglCtxId = exgl && typeof exgl === 'object' ? exgl.__exglCtxId : exgl;
+  const exglCtxId = exgl && typeof exgl === 'object' ? exgl.__dangleCtxId : exgl;
 
   if (!exglCtxId || typeof exglCtxId !== 'number') {
     throw new Error(`Invalid EXGLContext id: ${String(exglCtxId)}`);

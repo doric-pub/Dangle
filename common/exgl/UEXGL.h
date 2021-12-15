@@ -33,7 +33,7 @@ typedef unsigned int UEXGLObjectId;
 
 // [JS thread] Create an EXGL context and return its id number. Saves the
 // JavaScript interface object (has a WebGLRenderingContext-style API) at
-// `global.__EXGLContexts[id]` in JavaScript.
+// `global.__DANGLEContexts[id]` in JavaScript.
 UEXGLContextId UEXGLContextCreate(void *runtime);
 
 #ifdef __cplusplus
