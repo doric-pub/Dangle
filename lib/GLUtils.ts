@@ -1,5 +1,5 @@
 import GLErrors from './GLErrors';
-import { ExpoWebGLRenderingContext, GLLoggingOption } from './GLView.types';
+import { DangleWebGLRenderingContext, GLLoggingOption } from './GLView.types';
 
 /**
  * Maximum length of the strings printed to the console.
@@ -9,7 +9,7 @@ const MAX_STRING_LENGTH = 20;
 /**
  * Sets up `__expoSetLogging` method providing some logging options useful when debugging GL calls.
  */
-export function configureLogging(gl: ExpoWebGLRenderingContext): void {
+export function configureLogging(gl: DangleWebGLRenderingContext): void {
   // Enable/disable logging of all GL function calls
   let loggingOption = GLLoggingOption.DISABLED;
 

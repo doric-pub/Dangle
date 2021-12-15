@@ -1,38 +1,10 @@
 import WebGL2RenderingContext from './WebGL2RenderingContext';
 
-export type SurfaceCreateEvent = {
-  nativeEvent: {
-    exglCtxId: number;
-  };
-};
-
-export type SnapshotOptions = {
-  flip?: boolean;
-  framebuffer?: WebGLFramebuffer;
-  rect?: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-  format?: 'jpeg' | 'png';
-  compress?: number;
-};
-
-export type GLSnapshot = {
-  uri: string | Blob | null;
-  localUri: string;
-  width: number;
-  height: number;
-};
-
-export interface ExpoWebGLRenderingContext extends WebGL2RenderingContext {
+export interface DangleWebGLRenderingContext extends WebGL2RenderingContext {
   __dangleCtxId: number;
   endFrameEXP(): void;
   __expoSetLogging(option: GLLoggingOption): void;
 }
-
-export type ComponentOrHandle = null | number;
 
 export enum GLLoggingOption {
   /**

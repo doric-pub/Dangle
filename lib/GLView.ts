@@ -1,7 +1,7 @@
 
 import { configureLogging } from './GLUtils';
 import {
-  ExpoWebGLRenderingContext,
+  DangleWebGLRenderingContext,
 } from './GLView.types';
 
 const global = new Function('return this')()
@@ -357,7 +357,7 @@ const wrapMethods = gl => {
 };
 
 // Get the GL interface from an EXGLContextID and do JS-side setup
-export const getGl = (dangleCtxId: number): ExpoWebGLRenderingContext => {
+export const getGl = (dangleCtxId: number): DangleWebGLRenderingContext => {
   if (!global.__DANGLEContexts) {
     throw new Error(
       'ERR_GL_NOT_AVAILABLE' + " " +
@@ -398,15 +398,6 @@ export const getGl = (dangleCtxId: number): ExpoWebGLRenderingContext => {
   configureLogging(gl);
 
   return gl;
-};
-
-const getContextId = (exgl?: ExpoWebGLRenderingContext | number): number => {
-  const exglCtxId = exgl && typeof exgl === 'object' ? exgl.__dangleCtxId : exgl;
-
-  if (!exglCtxId || typeof exglCtxId !== 'number') {
-    throw new Error(`Invalid EXGLContext id: ${String(exglCtxId)}`);
-  }
-  return exglCtxId;
 };
 
 global.WebGLRenderingContext = WebGLRenderingContext;
