@@ -30,6 +30,8 @@ class games_fps extends Panel {
   private d?: GestureContainer;
   private space?: GestureContainer;
 
+  private shoot?: GestureContainer;
+
   onShow() {
     navbar(context).setTitle("games_fps");
   }
@@ -93,6 +95,17 @@ class games_fps extends Panel {
           width: 50,
           height: 50,
           text: "S",
+          textSize: 30,
+          textAlignment: new Gravity().center(),
+          backgroundColor: Color.parse('#ffff00'),
+          layoutConfig: layoutConfig().just(),
+        })
+      ]),
+      this.shoot = gestureContainer([
+        text({
+          width: 100,
+          height: 50,
+          text: "Shoot",
           textSize: 30,
           textAlignment: new Gravity().center(),
           backgroundColor: Color.parse('#ffff00'),
@@ -247,7 +260,7 @@ class games_fps extends Panel {
             keyStates[ 'KeyD' ] = true;
           }
           self.space!!.onTouchDown = () => {
-            keyStates[ 'KeyD' ] = true;
+            keyStates[ 'Space' ] = true;
           }
 
           // document.addEventListener( 'keyup', ( event ) => {
@@ -269,7 +282,7 @@ class games_fps extends Panel {
             keyStates[ 'KeyD' ] = false;
           }
           self.space!!.onTouchUp = () => {
-            keyStates[ 'KeyD' ] = false;
+            keyStates[ 'Space' ] = false;
           }
 
           // document.addEventListener( 'mousedown', () => {
@@ -290,7 +303,7 @@ class games_fps extends Panel {
 
           // } );
 
-          self.gestureView!!.onTouchUp = () => {
+          self.shoot!!.onTouchUp = () => {
             throwBall();
           }
 
