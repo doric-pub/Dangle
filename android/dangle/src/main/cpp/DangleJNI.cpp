@@ -10,42 +10,48 @@
 extern "C" {
 
 JNIEXPORT jint JNICALL
-Java_pub_doric_dangle_DangleJNI_ContextCreate(JNIEnv *env, jclass clazz, jlong jsiPtr) {
-  return UDangleContextCreate((void *) jsiPtr);
+Java_pub_doric_dangle_DangleJNI_ContextCreate([[maybe_unused]] JNIEnv *env,
+                                              [[maybe_unused]] jclass clazz, jlong jsiPtr) {
+    return UDangleContextCreate((void *) jsiPtr);
 }
 
 JNIEXPORT void JNICALL
-Java_pub_doric_dangle_DangleJNI_ContextDestroy(JNIEnv *env, jclass clazz, jint dangleCtxId) {
-  UDangleContextDestroy(dangleCtxId);
+Java_pub_doric_dangle_DangleJNI_ContextDestroy([[maybe_unused]] JNIEnv *env,
+                                               [[maybe_unused]] jclass clazz, jint dangleCtxId) {
+    UDangleContextDestroy(dangleCtxId);
 }
 
 JNIEXPORT void JNICALL
-Java_pub_doric_dangle_DangleJNI_ContextFlush(JNIEnv *env, jclass clazz, jint dangleCtxId) {
-  UDangleContextFlush(dangleCtxId);
+Java_pub_doric_dangle_DangleJNI_ContextFlush([[maybe_unused]] JNIEnv *env,
+                                             [[maybe_unused]] jclass clazz, jint dangleCtxId) {
+    UDangleContextFlush(dangleCtxId);
 }
 
 JNIEXPORT void JNICALL Java_pub_doric_dangle_DangleJNI_ContextSetFlushMethod(
-    JNIEnv *env,
-    jclass clazz,
-    jint dangleCtxId,
-    jobject glContext) {
-  jclass GLContextClass = env->GetObjectClass(glContext);
-  jobject glContextRef = env->NewGlobalRef(glContext);
-  jmethodID flushMethodRef = env->GetMethodID(GLContextClass, "flush", "()V");
+        JNIEnv *env,
+        [[maybe_unused]] jclass clazz,
+        jint dangleCtxId,
+        jobject glContext) {
+    jclass GLContextClass = env->GetObjectClass(glContext);
+    jobject glContextRef = env->NewGlobalRef(glContext);
+    jmethodID flushMethodRef = env->GetMethodID(GLContextClass, "flush", "()V");
 
-  std::function<void(void)> flushMethod = [env, glContextRef, flushMethodRef] {
-    env->CallVoidMethod(glContextRef, flushMethodRef);
-  };
-  UDangleContextSetFlushMethod(dangleCtxId, flushMethod);
+    std::function<void(void)> flushMethod = [env, glContextRef, flushMethodRef] {
+        env->CallVoidMethod(glContextRef, flushMethodRef);
+    };
+    UDangleContextSetFlushMethod(dangleCtxId, flushMethod);
 }
 
 JNIEXPORT jboolean JNICALL
-Java_pub_doric_dangle_DangleJNI_ContextNeedsRedraw(JNIEnv *env, jclass clazz, jint dangleCtxId) {
-  return UDangleContextNeedsRedraw(dangleCtxId);
+Java_pub_doric_dangle_DangleJNI_ContextNeedsRedraw([[maybe_unused]] JNIEnv *env,
+                                                   [[maybe_unused]] jclass clazz,
+                                                   jint dangleCtxId) {
+    return UDangleContextNeedsRedraw(dangleCtxId);
 }
 
 JNIEXPORT void JNICALL
-Java_pub_doric_dangle_DangleJNI_ContextDrawEnded(JNIEnv *env, jclass clazz, jint dangleCtxId) {
-  UDangleContextDrawEnded(dangleCtxId);
+Java_pub_doric_dangle_DangleJNI_ContextDrawEnded([[maybe_unused]] JNIEnv *env,
+                                                 [[maybe_unused]] jclass clazz, jint dangleCtxId) {
+    UDangleContextDrawEnded(dangleCtxId);
 }
 }
