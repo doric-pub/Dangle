@@ -13,7 +13,7 @@ import {
   hlayout,
   Text,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -36,7 +36,7 @@ class games_crossy_road extends Panel {
       stack(
         [
           dangleView({
-            onReady: (gl: WebGL2RenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
 
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
@@ -975,8 +975,7 @@ class games_crossy_road extends Panel {
                 }
                 renderer.render(scene, camera);
 
-                gl.flush();
-                (gl as any).endFrameEXP();
+                (gl as any).endFrame();
               }
 
               requestAnimationFrame(animate);

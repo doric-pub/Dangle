@@ -9,7 +9,7 @@ import {
   GestureContainer,
   Color,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
@@ -42,7 +42,7 @@ class physics_oimo_instancing extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -220,8 +220,7 @@ class physics_oimo_instancing extends Panel {
 
             // stats.update();
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           //#endregion

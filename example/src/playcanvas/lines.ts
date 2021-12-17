@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 const global = new Function('return this')()
 global.window = {
@@ -34,7 +34,7 @@ class lines extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -242,8 +242,7 @@ class lines extends Panel {
                 // render all gray lines
                 app.drawLines(grayLinePositions, grayLineColors);
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
               });
 
               //#endregion

@@ -10,7 +10,7 @@ import {
   text,
   Color,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from 'three'
 import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
@@ -29,7 +29,7 @@ class webgl_lights_hemisphere extends Panel {
       stack(
         [
           dangleView({
-            onReady: (gl: WebGL2RenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -277,8 +277,7 @@ class webgl_lights_hemisphere extends Panel {
                 render();
                 // stats.update();
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
               }
 
               function render() {

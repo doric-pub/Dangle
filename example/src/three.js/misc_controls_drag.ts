@@ -8,7 +8,7 @@ import {
   gestureContainer,
   GestureContainer
 } from "doric";
-import { dangleView } from "dangle";
+import { dangleView, DangleWebGLRenderingContext } from "dangle";
 
 import * as THREE from 'three'
 import { DragControls } from './jsm/controls/DragControls';
@@ -42,7 +42,7 @@ class misc_controls_drag extends Panel {
     let self = this
     this.gestureView?.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -257,8 +257,7 @@ class misc_controls_drag extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           //#endregion

@@ -12,7 +12,7 @@ import {
   Color,
   hlayout,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { PointerLockControls } from "./jsm/controls/PointerLockControls";
@@ -112,7 +112,7 @@ class misc_controls_pointerlock extends Panel {
     let self = this
     this.gestureView?.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -463,8 +463,7 @@ class misc_controls_pointerlock extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           //#endregion

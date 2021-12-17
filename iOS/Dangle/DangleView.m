@@ -230,7 +230,7 @@
 
   if (_glContext.isInitialized && _viewFramebuffer != 0) {
     // Present current state of view buffers
-    // This happens exactly at `gl.endFrameEXP()` in the queue
+    // This happens exactly at `gl.endFrame()` in the queue
     if (_viewColorbuffer != 0 && !_renderbufferPresented) {
       // bind renderbuffer and present it on the layer
       [_glContext runInEAGLContext:_uiEaglCtx callback:^{
@@ -282,7 +282,7 @@
 // [GL thread]
 - (void)glContextFlushed:(nonnull DangleContext *)context
 {
-  // blit framebuffers if endFrameEXP was called
+  // blit framebuffers if endFrame was called
   if (UDangleContextNeedsRedraw(_glContext.contextId)) {
     // actually draw isn't yet finished, but it's here to prevent blitting the same thing multiple times
     UDangleContextDrawEnded(_glContext.contextId);

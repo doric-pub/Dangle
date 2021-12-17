@@ -16,7 +16,7 @@ import {
   Text,
   Input,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
@@ -132,7 +132,7 @@ class webgl_materials_car extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: async (gl: WebGL2RenderingContext) => {
+        onReady: async (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -363,10 +363,9 @@ class webgl_materials_car extends Panel {
 
             requestAnimationFrame( animate );
 
-            render()
+            render();
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
 
           }
 

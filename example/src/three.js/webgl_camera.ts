@@ -11,7 +11,7 @@ import {
   text,
   Text,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three"
 
@@ -31,7 +31,7 @@ class webgl_camera extends Panel {
       stack(
         [
           dangleView({
-            onReady: (gl: WebGL2RenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -238,8 +238,7 @@ class webgl_camera extends Panel {
                 render();
                 // stats.update();
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
               }
 
 

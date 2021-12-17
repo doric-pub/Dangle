@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 const global = new Function('return this')()
 global.window = {
@@ -37,7 +37,7 @@ class hello_world extends Panel {
       stack(
         [
           dangleView({
-            onReady: (gl: WebGL2RenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -89,8 +89,7 @@ class hello_world extends Panel {
               engine.runRenderLoop(function(){
                 scene.render();
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
               });
               // the canvas/window resize event handler
               window.addEventListener('resize', function(){

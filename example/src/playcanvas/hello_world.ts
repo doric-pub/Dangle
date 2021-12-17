@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 const global = new Function('return this')()
 global.window = {
@@ -34,7 +34,7 @@ class hello_world extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -89,10 +89,9 @@ class hello_world extends Panel {
 
               // rotate the box according to the delta time since the last frame
               app.on('update', dt => {
-                box.rotate(10 * dt, 20 * dt, 30 * dt)
+                box.rotate(10 * dt, 20 * dt, 30 * dt);
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
               });
 
               app.start();

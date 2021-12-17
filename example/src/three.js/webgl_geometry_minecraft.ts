@@ -10,9 +10,8 @@ import {
   Color,
   RemoteResource,
   imageDecoder,
-  loge,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { FirstPersonControls } from './jsm/controls/FirstPersonControls.js';
@@ -48,7 +47,7 @@ class webgl_geometry_minecraft extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: async (gl: WebGL2RenderingContext) => {
+        onReady: async (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -288,8 +287,7 @@ class webgl_geometry_minecraft extends Panel {
             render();
             // stats.update();
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           function render() {

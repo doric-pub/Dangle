@@ -14,7 +14,7 @@ import {
   text,
   VLayout
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { MapControls } from "./jsm/controls/OrbitControls";
@@ -48,7 +48,7 @@ class misc_controls_map extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -212,8 +212,7 @@ class misc_controls_map extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           //#endregion

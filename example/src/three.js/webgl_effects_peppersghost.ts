@@ -8,7 +8,7 @@ import {
   stack,
   Color,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three"
 import { PeppersGhostEffect } from "./jsm/effects/PeppersGhostEffect"
@@ -23,7 +23,7 @@ class webgl_effects_peppersghost extends Panel {
       stack(
         [
           dangleView({
-            onReady: (gl: WebGL2RenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -138,8 +138,7 @@ class webgl_effects_peppersghost extends Panel {
 
                 effect.render( scene, camera );
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
 
               }
 

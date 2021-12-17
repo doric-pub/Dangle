@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView } from "dangle";
+import { dangleView, DangleWebGLRenderingContext } from "dangle";
 
 @Entry
 class Sample1 extends Panel {
@@ -19,7 +19,7 @@ class Sample1 extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -30,8 +30,7 @@ class Sample1 extends Panel {
               gl.clear(gl.COLOR_BUFFER_BIT);
               //#endregion
 
-              gl.flush();
-              (<any>gl).endFrameEXP();
+              gl.endFrame();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

@@ -8,8 +8,9 @@ import {
   stack,
   RemoteResource,
   imageDecoder,
+  Color,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from 'three'
 
@@ -23,7 +24,7 @@ class webgl_geometry_cube extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -104,8 +105,7 @@ class webgl_geometry_cube extends Panel {
 
                 renderer.render( scene, camera );
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
               }
 
               //#endregion
@@ -120,6 +120,7 @@ class webgl_geometry_cube extends Panel {
           layoutConfig: layoutConfig().just(),
           width: 300,
           height: 300,
+          backgroundColor: Color.BLACK,
         }
       ),
     ])

@@ -5,12 +5,11 @@ import {
   layoutConfig,
   Gravity,
   navbar,
-  stack,
   GestureContainer,
   gestureContainer,
   Color,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
@@ -43,7 +42,7 @@ class webgl_framebuffer_texture extends Panel {
     let self = this
     self.gestureView?.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -231,8 +230,7 @@ class webgl_framebuffer_texture extends Panel {
             renderer.clearDepth();
             renderer.render( sceneOrtho, cameraOrtho );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           function updateColors( colorAttribute ) {

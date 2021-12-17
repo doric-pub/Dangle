@@ -9,7 +9,7 @@ import {
   gestureContainer,
   GestureContainer,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three"
 import * as GeometryUtils from './jsm/utils/GeometryUtils'
@@ -44,7 +44,7 @@ class webgl_lines_colors extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -247,8 +247,7 @@ class webgl_lines_colors extends Panel {
             vsync(context).requestAnimationFrame( animate );
             render();
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           function render() {

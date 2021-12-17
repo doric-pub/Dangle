@@ -8,7 +8,7 @@ import {
   stack,
   Color,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -22,7 +22,7 @@ class misc_animation_groups extends Panel {
       stack(
         [
           dangleView({
-            onReady: (gl: WebGL2RenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -164,8 +164,7 @@ class misc_animation_groups extends Panel {
 
                 // stats.update();
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
 
               }
 

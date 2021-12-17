@@ -9,7 +9,7 @@ import {
   gestureContainer,
   Color,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three"
 
@@ -40,7 +40,7 @@ class webgl_interactive_raycasting_points extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const viewWidth = gl.drawingBufferWidth
           const viewHeight = gl.drawingBufferHeight
 
@@ -287,8 +287,7 @@ class webgl_interactive_raycasting_points extends Panel {
             render();
             // stats.update();
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           function render() {

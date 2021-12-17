@@ -10,7 +10,7 @@ import {
   Color,
   loge,
 } from "doric";
-import { dangleView } from "dangle";
+import { dangleView, DangleWebGLRenderingContext } from "dangle";
 
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
@@ -43,7 +43,7 @@ class webgl_loader_amf extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -158,8 +158,7 @@ class webgl_loader_amf extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           //#endregion

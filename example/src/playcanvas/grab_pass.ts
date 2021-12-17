@@ -9,7 +9,7 @@ import {
   RemoteResource,
   imageDecoder,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 const global = new Function('return this')()
 global.window = {
@@ -36,7 +36,7 @@ class grab_pass extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
 
@@ -281,8 +281,7 @@ class grab_pass extends Panel {
                   );
                   camera.lookAt(pc.Vec3.ZERO);
 
-                  gl.flush();
-                  (<any>gl).endFrameEXP();
+                  gl.endFrame();
               });
 
               //#endregion

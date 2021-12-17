@@ -9,7 +9,7 @@ import {
   imageDecoder,
   RemoteResource,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 import { mat4 } from "gl-matrix";
 
 var cubeRotation = 0.0;
@@ -25,7 +25,7 @@ class Sample6 extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               (gl as any).canvas = {
                 clientWidth: gl.drawingBufferWidth,
                 clientHeight: gl.drawingBufferHeight,
@@ -94,8 +94,7 @@ class Sample6 extends Panel {
 
                 drawScene(gl, programInfo, buffers, texture, deltaTime);
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
 
                 vsync(context).requestAnimationFrame(render);
               }

@@ -11,7 +11,7 @@ import {
   input,
   Input,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -57,7 +57,7 @@ class webgl_loader_ttf extends Panel {
     let self = this
     self.gestureView?.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const glWidth = gl.drawingBufferWidth
           const glHeight = gl.drawingBufferHeight
 
@@ -364,8 +364,7 @@ class webgl_loader_ttf extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
 
           }
 

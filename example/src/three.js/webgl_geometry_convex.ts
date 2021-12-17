@@ -11,7 +11,7 @@ import {
   RemoteResource,
   imageDecoder,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -46,7 +46,7 @@ class webgl_geometry_convex extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: async (gl: WebGL2RenderingContext) => {
+        onReady: async (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -231,8 +231,7 @@ class webgl_geometry_convex extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           //#endregion

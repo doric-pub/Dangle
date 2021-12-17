@@ -2,7 +2,7 @@ import WebGL2RenderingContext from './WebGL2RenderingContext';
 
 export interface DangleWebGLRenderingContext extends WebGL2RenderingContext {
   __dangleCtxId: number;
-  endFrameEXP(): void;
+  endFrame(): void;
   __dangleSetLogging(option: GLLoggingOption): void;
 }
 

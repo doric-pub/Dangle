@@ -9,7 +9,7 @@ import {
   gestureContainer,
   Color,
 } from "doric";
-import { dangleView } from "dangle";
+import { dangleView, DangleWebGLRenderingContext } from "dangle";
 import { TextureLoader } from "./dangle/TextureLoader";
 
 import * as THREE from "three";
@@ -41,7 +41,7 @@ class webgl_interactive_voxelpainter extends Panel {
     let self = this
     this.gestureView.addChild(
       dangleView({
-        onReady: (gl: WebGL2RenderingContext) => {
+        onReady: (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -255,8 +255,7 @@ class webgl_interactive_voxelpainter extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
           }
 
           //#endregion

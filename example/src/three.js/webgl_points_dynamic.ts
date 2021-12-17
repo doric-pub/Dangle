@@ -9,7 +9,7 @@ import {
   RemoteResource,
   stack,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 
@@ -32,7 +32,7 @@ class webgl_points_dynamic extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth
               const height = gl.drawingBufferHeight
     
@@ -276,8 +276,7 @@ class webgl_points_dynamic extends Panel {
                 render();
                 // stats.update();
 
-                gl.flush();
-                (<any>gl).endFrameEXP();
+                gl.endFrame();
               }
 
               function render() {

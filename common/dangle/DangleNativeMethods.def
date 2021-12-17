@@ -274,5 +274,4 @@ NATIVE_METHOD(getSupportedExtensions)
 NATIVE_METHOD(getExtension)
 
 // Exponent extensions
-NATIVE_METHOD(endFrameEXP)
-NATIVE_METHOD(flushEXP)
+NATIVE_METHOD(endFrame)

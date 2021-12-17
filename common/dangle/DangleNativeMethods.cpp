@@ -1544,19 +1544,13 @@ NATIVE_METHOD(getExtension) {
   return jsi::Object(runtime);
 }
 
-// Exponent extensions
+// Extensions
 // -------------------
 
-NATIVE_METHOD(endFrameEXP) {
+NATIVE_METHOD(endFrame) {
   addToNextBatch([=] { setNeedsRedraw(true); });
   endNextBatch();
   flushOnGLThread();
-  return nullptr;
-}
-
-NATIVE_METHOD(flushEXP) {
-  // nothing, it's just a helper so that we can measure how much time some operations take
-  addBlockingToNextBatch([&] {});
   return nullptr;
 }
 } // namespace gl_cpp

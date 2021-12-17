@@ -7,7 +7,7 @@ import {
   navbar,
   stack,
 } from "doric";
-import { dangleView } from "dangle";
+import { dangleView, DangleWebGLRenderingContext } from "dangle";
 import { mat4 } from "gl-matrix";
 
 @Entry
@@ -20,7 +20,7 @@ class Sample2 extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: WebGL2RenderingContext) => {
+            onReady: async (gl: DangleWebGLRenderingContext) => {
               (gl as any).canvas = {
                 clientWidth: gl.drawingBufferWidth,
                 clientHeight: gl.drawingBufferHeight,
@@ -72,8 +72,7 @@ class Sample2 extends Panel {
               drawScene(gl, programInfo, buffers);
               //#endregion
 
-              gl.flush();
-              (<any>gl).endFrameEXP();
+              gl.endFrame();
             },
           }).apply({
             layoutConfig: layoutConfig().just(),

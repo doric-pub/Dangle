@@ -5,7 +5,6 @@ import {
   layoutConfig,
   Gravity,
   navbar,
-  stack,
   GestureContainer,
   gestureContainer,
   Color,
@@ -14,7 +13,7 @@ import {
   loge,
   imageDecoder,
 } from "doric";
-import { dangleView, vsync } from "dangle";
+import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OBJLoader } from "./jsm/loaders/OBJLoader";
@@ -46,7 +45,7 @@ class webgl_loader_obj extends Panel {
     let self = this
     self.gestureView?.addChild(
       dangleView({
-        onReady: async (gl: WebGL2RenderingContext) => {
+        onReady: async (gl: DangleWebGLRenderingContext) => {
           const width = gl.drawingBufferWidth
           const height = gl.drawingBufferHeight
 
@@ -228,8 +227,7 @@ class webgl_loader_obj extends Panel {
 
             renderer.render( scene, camera );
 
-            gl.flush();
-            (<any>gl).endFrameEXP();
+            gl.endFrame();
 
           }
 

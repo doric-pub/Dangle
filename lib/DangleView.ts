@@ -1,19 +1,20 @@
 import { BridgeContext, Property, View, layoutConfig } from "doric";
+import { DangleWebGLRenderingContext } from "..";
 import { getGl } from "./GLView";
 
 export interface IDangleView {
-  onReady?: (gl: WebGL2RenderingContext) => void;
+  onReady?: (gl: DangleWebGLRenderingContext) => void;
 }
 
 export class DangleView extends View implements IDangleView {
   @Property
   private onPrepared = (contextId: number) => {
     if (this.onReady) {
-      this.onReady(getGl(contextId) as unknown as WebGL2RenderingContext);
+      this.onReady(getGl(contextId));
     }
   };
 
-  onReady?: (gl: WebGL2RenderingContext) => void;
+  onReady?: (gl: DangleWebGLRenderingContext) => void;
 }
 
 export function dangleView(config: IDangleView) {
