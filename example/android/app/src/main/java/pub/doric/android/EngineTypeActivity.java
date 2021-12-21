@@ -40,6 +40,8 @@ public class EngineTypeActivity extends AppCompatActivity {
                 break;
             case TYPE_THREE_JS:
                 dataSet = new String[]{
+                        "three.js/chess",
+
                         "three.js/games_crossy_road",
                         "three.js/games_fps",
 
