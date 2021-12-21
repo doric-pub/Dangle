@@ -22,8 +22,7 @@
     return dangleUnimplemented(#name); \
   }
 
-namespace dangle {
-namespace gl_cpp {
+namespace dangle::gl_cpp {
 
 // This listing follows the order in
 // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext
@@ -49,46 +48,46 @@ NATIVE_METHOD(isContextLost) {
 // Viewing and clipping
 // --------------------
 
-SIMPLE_NATIVE_METHOD(scissor, glScissor); // x, y, width, height
+SIMPLE_NATIVE_METHOD(scissor, glScissor) // x, y, width, height
 
-SIMPLE_NATIVE_METHOD(viewport, glViewport); // x, y, width, height
+SIMPLE_NATIVE_METHOD(viewport, glViewport) // x, y, width, height
 
 // State information
 // -----------------
 
-SIMPLE_NATIVE_METHOD(activeTexture, glActiveTexture); // texture
+SIMPLE_NATIVE_METHOD(activeTexture, glActiveTexture) // texture
 
-SIMPLE_NATIVE_METHOD(blendColor, glBlendColor); // red, green, blue, alpha
+SIMPLE_NATIVE_METHOD(blendColor, glBlendColor) // red, green, blue, alpha
 
-SIMPLE_NATIVE_METHOD(blendEquation, glBlendEquation); // mode
+SIMPLE_NATIVE_METHOD(blendEquation, glBlendEquation) // mode
 
-SIMPLE_NATIVE_METHOD(blendEquationSeparate, glBlendEquationSeparate); // modeRGB, modeAlpha
+SIMPLE_NATIVE_METHOD(blendEquationSeparate, glBlendEquationSeparate) // modeRGB, modeAlpha
 
-SIMPLE_NATIVE_METHOD(blendFunc, glBlendFunc); // sfactor, dfactor
+SIMPLE_NATIVE_METHOD(blendFunc, glBlendFunc) // sfactor, dfactor
 
-SIMPLE_NATIVE_METHOD(blendFuncSeparate, glBlendFuncSeparate); // srcRGB, dstRGB, srcAlpha, dstAlpha
+SIMPLE_NATIVE_METHOD(blendFuncSeparate, glBlendFuncSeparate) // srcRGB, dstRGB, srcAlpha, dstAlpha
 
-SIMPLE_NATIVE_METHOD(clearColor, glClearColor); // red, green, blue, alpha
+SIMPLE_NATIVE_METHOD(clearColor, glClearColor) // red, green, blue, alpha
 
-SIMPLE_NATIVE_METHOD(clearDepth, glClearDepthf); // depth
+SIMPLE_NATIVE_METHOD(clearDepth, glClearDepthf) // depth
 
-SIMPLE_NATIVE_METHOD(clearStencil, glClearStencil); // s
+SIMPLE_NATIVE_METHOD(clearStencil, glClearStencil) // s
 
-SIMPLE_NATIVE_METHOD(colorMask, glColorMask); // red, green, blue, alpha
+SIMPLE_NATIVE_METHOD(colorMask, glColorMask) // red, green, blue, alpha
 
-SIMPLE_NATIVE_METHOD(cullFace, glCullFace); // mode
+SIMPLE_NATIVE_METHOD(cullFace, glCullFace) // mode
 
-SIMPLE_NATIVE_METHOD(depthFunc, glDepthFunc); // func
+SIMPLE_NATIVE_METHOD(depthFunc, glDepthFunc) // func
 
-SIMPLE_NATIVE_METHOD(depthMask, glDepthMask); // flag
+SIMPLE_NATIVE_METHOD(depthMask, glDepthMask) // flag
 
-SIMPLE_NATIVE_METHOD(depthRange, glDepthRangef); // zNear, zFar
+SIMPLE_NATIVE_METHOD(depthRange, glDepthRangef) // zNear, zFar
 
-SIMPLE_NATIVE_METHOD(disable, glDisable); // cap
+SIMPLE_NATIVE_METHOD(disable, glDisable) // cap
 
-SIMPLE_NATIVE_METHOD(enable, glEnable); // cap
+SIMPLE_NATIVE_METHOD(enable, glEnable) // cap
 
-SIMPLE_NATIVE_METHOD(frontFace, glFrontFace); // mode
+SIMPLE_NATIVE_METHOD(frontFace, glFrontFace) // mode
 
 NATIVE_METHOD(getParameter) {
   auto pname = ARG(0, GLenum);
@@ -224,7 +223,7 @@ NATIVE_METHOD(getError) {
   return static_cast<double>(glResult);
 }
 
-SIMPLE_NATIVE_METHOD(hint, glHint); // target, mode
+SIMPLE_NATIVE_METHOD(hint, glHint) // target, mode
 
 NATIVE_METHOD(isEnabled) {
   auto cap = ARG(0, GLenum);
@@ -233,7 +232,7 @@ NATIVE_METHOD(isEnabled) {
   return glResult == GL_TRUE;
 }
 
-SIMPLE_NATIVE_METHOD(lineWidth, glLineWidth); // width
+SIMPLE_NATIVE_METHOD(lineWidth, glLineWidth) // width
 
 NATIVE_METHOD(pixelStorei) {
   auto pname = ARG(0, GLenum);
@@ -248,21 +247,21 @@ NATIVE_METHOD(pixelStorei) {
   return nullptr;
 }
 
-SIMPLE_NATIVE_METHOD(polygonOffset, glPolygonOffset); // factor, units
+SIMPLE_NATIVE_METHOD(polygonOffset, glPolygonOffset) // factor, units
 
-SIMPLE_NATIVE_METHOD(sampleCoverage, glSampleCoverage); // value, invert
+SIMPLE_NATIVE_METHOD(sampleCoverage, glSampleCoverage) // value, invert
 
-SIMPLE_NATIVE_METHOD(stencilFunc, glStencilFunc); // func, ref, mask
+SIMPLE_NATIVE_METHOD(stencilFunc, glStencilFunc) // func, ref, mask
 
-SIMPLE_NATIVE_METHOD(stencilFuncSeparate, glStencilFuncSeparate); // face, func, ref, mask
+SIMPLE_NATIVE_METHOD(stencilFuncSeparate, glStencilFuncSeparate) // face, func, ref, mask
 
-SIMPLE_NATIVE_METHOD(stencilMask, glStencilMask); // mask
+SIMPLE_NATIVE_METHOD(stencilMask, glStencilMask) // mask
 
-SIMPLE_NATIVE_METHOD(stencilMaskSeparate, glStencilMaskSeparate); // face, mask
+SIMPLE_NATIVE_METHOD(stencilMaskSeparate, glStencilMaskSeparate) // face, mask
 
 SIMPLE_NATIVE_METHOD(stencilOp, glStencilOp) // fail, zfail, zpass
 
-SIMPLE_NATIVE_METHOD(stencilOpSeparate, glStencilOpSeparate); // face, fail, zfail, zpass
+SIMPLE_NATIVE_METHOD(stencilOpSeparate, glStencilOpSeparate) // face, fail, zfail, zpass
 
 // Buffers
 // -------
@@ -332,7 +331,7 @@ SIMPLE_NATIVE_METHOD(
     glCopyBufferSubData) // readTarget, writeTarget, readOffset, writeOffset, size
 
 // glGetBufferSubData is not available in OpenGL ES
-UNIMPL_NATIVE_METHOD(getBufferSubData);
+UNIMPL_NATIVE_METHOD(getBufferSubData)
 
 // Framebuffers
 // ------------
@@ -411,7 +410,7 @@ NATIVE_METHOD(readPixels) {
 // Framebuffers (WebGL2)
 // ---------------------
 
-SIMPLE_NATIVE_METHOD(blitFramebuffer, glBlitFramebuffer);
+SIMPLE_NATIVE_METHOD(blitFramebuffer, glBlitFramebuffer)
 // srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter
 
 NATIVE_METHOD(framebufferTextureLayer) {
@@ -457,7 +456,7 @@ NATIVE_METHOD(invalidateSubFramebuffer) {
   return nullptr;
 }
 
-SIMPLE_NATIVE_METHOD(readBuffer, glReadBuffer); // mode
+SIMPLE_NATIVE_METHOD(readBuffer, glReadBuffer) // mode
 
 // Renderbuffers
 // -------------
@@ -547,7 +546,7 @@ UNIMPL_NATIVE_METHOD(compressedTexSubImage2D)
 
 SIMPLE_NATIVE_METHOD(
     copyTexImage2D,
-    glCopyTexImage2D); // target, level, internalformat, x, y, width, height, border
+    glCopyTexImage2D) // target, level, internalformat, x, y, width, height, border
 
 SIMPLE_NATIVE_METHOD(
     copyTexSubImage2D,
@@ -588,7 +587,7 @@ NATIVE_METHOD(texImage2D, 6) {
     auto data = ARG(8, jsi::Object);
 
     if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
-      std::vector<uint8_t> vec = rawTypedArray(runtime, std::move(data));
+      std::vector<uint8_t> vec = rawTypedArray(runtime, data);
       if (unpackFLipY) {
         flipPixels(vec.data(), width * bytesPerPixel(type, format), height);
       }
@@ -625,7 +624,7 @@ NATIVE_METHOD(texSubImage2D, 6) {
     auto data = ARG(8, jsi::Object);
 
     if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
-      std::vector<uint8_t> vec = rawTypedArray(runtime, std::move(data));
+      std::vector<uint8_t> vec = rawTypedArray(runtime, data);
       if (unpackFLipY) {
         flipPixels(vec.data(), width * bytesPerPixel(type, format), height);
       }
@@ -639,18 +638,18 @@ NATIVE_METHOD(texSubImage2D, 6) {
   return nullptr;
 }
 
-SIMPLE_NATIVE_METHOD(texParameterf, glTexParameterf); // target, pname, param
+SIMPLE_NATIVE_METHOD(texParameterf, glTexParameterf) // target, pname, param
 
-SIMPLE_NATIVE_METHOD(texParameteri, glTexParameteri); // target, pname, param
+SIMPLE_NATIVE_METHOD(texParameteri, glTexParameteri) // target, pname, param
 
 // Textures (WebGL2)
 // -----------------
 
-SIMPLE_NATIVE_METHOD(texStorage2D, glTexStorage2D); // target, levels, internalformat, width, height
+SIMPLE_NATIVE_METHOD(texStorage2D, glTexStorage2D) // target, levels, internalformat, width, height
 
 SIMPLE_NATIVE_METHOD(
     texStorage3D,
-    glTexStorage3D); // target, levels, internalformat, width, height, depth
+    glTexStorage3D) // target, levels, internalformat, width, height, depth
 
 NATIVE_METHOD(texImage3D) {
   auto target = ARG(0, GLenum);
@@ -680,7 +679,7 @@ NATIVE_METHOD(texImage3D) {
   };
 
   if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
-    std::vector<uint8_t> vec = rawTypedArray(runtime, std::move(data));
+    std::vector<uint8_t> vec = rawTypedArray(runtime, data);
     if (unpackFLipY) {
       flip(vec.data());
     }
@@ -724,7 +723,7 @@ NATIVE_METHOD(texSubImage3D) {
   };
 
   if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
-    std::vector<uint8_t> vec = rawTypedArray(runtime, std::move(data));
+    std::vector<uint8_t> vec = rawTypedArray(runtime, data);
     if (unpackFLipY) {
       flip(vec.data());
     }
@@ -738,7 +737,7 @@ NATIVE_METHOD(texSubImage3D) {
 
 SIMPLE_NATIVE_METHOD(
     copyTexSubImage3D,
-    glCopyTexSubImage3D); // target, level, xoffset, yoffset, zoffset, x, y, width, height
+    glCopyTexSubImage3D) // target, level, xoffset, yoffset, zoffset, x, y, width, height
 
 UNIMPL_NATIVE_METHOD(compressedTexImage3D)
 
@@ -777,7 +776,7 @@ NATIVE_METHOD(createProgram) {
 NATIVE_METHOD(createShader) {
   auto type = ARG(0, GLenum);
   if (type == GL_VERTEX_SHADER || type == GL_FRAGMENT_SHADER) {
-    return dangleCreateObject(runtime, std::bind(glCreateShader, type));
+    return dangleCreateObject(runtime, [type] { return glCreateShader(type); });
   } else {
     throw std::runtime_error("unknown shader type passed to function");
   }
@@ -956,9 +955,9 @@ NATIVE_METHOD(getFragDataLocation) {
 // Uniforms and attributes
 // -----------------------
 
-SIMPLE_NATIVE_METHOD(disableVertexAttribArray, glDisableVertexAttribArray); // index
+SIMPLE_NATIVE_METHOD(disableVertexAttribArray, glDisableVertexAttribArray) // index
 
-SIMPLE_NATIVE_METHOD(enableVertexAttribArray, glEnableVertexAttribArray); // index
+SIMPLE_NATIVE_METHOD(enableVertexAttribArray, glEnableVertexAttribArray) // index
 
 NATIVE_METHOD(getActiveAttrib) {
   return dangleGetActiveInfo(
@@ -1002,46 +1001,46 @@ UNIMPL_NATIVE_METHOD(getVertexAttrib)
 
 UNIMPL_NATIVE_METHOD(getVertexAttribOffset)
 
-SIMPLE_NATIVE_METHOD(uniform1f, glUniform1f); // uniform, x
-SIMPLE_NATIVE_METHOD(uniform2f, glUniform2f); // uniform, x, y
-SIMPLE_NATIVE_METHOD(uniform3f, glUniform3f); // uniform, x, y, z
-SIMPLE_NATIVE_METHOD(uniform4f, glUniform4f); // uniform, x, y, z, w
-SIMPLE_NATIVE_METHOD(uniform1i, glUniform1i); // uniform, x
-SIMPLE_NATIVE_METHOD(uniform2i, glUniform2i); // uniform, x, y
-SIMPLE_NATIVE_METHOD(uniform3i, glUniform3i); // uniform, x, y, z
-SIMPLE_NATIVE_METHOD(uniform4i, glUniform4i); // uniform, x, y, z, w
+SIMPLE_NATIVE_METHOD(uniform1f, glUniform1f) // uniform, x
+SIMPLE_NATIVE_METHOD(uniform2f, glUniform2f) // uniform, x, y
+SIMPLE_NATIVE_METHOD(uniform3f, glUniform3f) // uniform, x, y, z
+SIMPLE_NATIVE_METHOD(uniform4f, glUniform4f) // uniform, x, y, z, w
+SIMPLE_NATIVE_METHOD(uniform1i, glUniform1i) // uniform, x
+SIMPLE_NATIVE_METHOD(uniform2i, glUniform2i) // uniform, x, y
+SIMPLE_NATIVE_METHOD(uniform3i, glUniform3i) // uniform, x, y, z
+SIMPLE_NATIVE_METHOD(uniform4i, glUniform4i) // uniform, x, y, z, w
 
 NATIVE_METHOD(uniform1fv) {
   return dangleUniformv(glUniform1fv, ARG(0, GLuint), 1, ARG(1, std::vector<float>));
-};
+}
 
 NATIVE_METHOD(uniform2fv) {
   return dangleUniformv(glUniform2fv, ARG(0, GLuint), 2, ARG(1, std::vector<float>));
-};
+}
 
 NATIVE_METHOD(uniform3fv) {
   return dangleUniformv(glUniform3fv, ARG(0, GLuint), 3, ARG(1, std::vector<float>));
-};
+}
 
 NATIVE_METHOD(uniform4fv) {
   return dangleUniformv(glUniform4fv, ARG(0, GLuint), 4, ARG(1, std::vector<float>));
-};
+}
 
 NATIVE_METHOD(uniform1iv) {
   return dangleUniformv(glUniform1iv, ARG(0, GLuint), 1, ARG(1, std::vector<int32_t>));
-};
+}
 
 NATIVE_METHOD(uniform2iv) {
   return dangleUniformv(glUniform2iv, ARG(0, GLuint), 2, ARG(1, std::vector<int32_t>));
-};
+}
 
 NATIVE_METHOD(uniform3iv) {
   return dangleUniformv(glUniform3iv, ARG(0, GLuint), 3, ARG(1, std::vector<int32_t>));
-};
+}
 
 NATIVE_METHOD(uniform4iv) {
   return dangleUniformv(glUniform4iv, ARG(0, GLuint), 4, ARG(1, std::vector<int32_t>));
-};
+}
 
 NATIVE_METHOD(uniformMatrix2fv) {
   return dangleUniformMatrixv(
@@ -1074,38 +1073,38 @@ NATIVE_METHOD(vertexAttrib4fv) {
   return dangleVertexAttribv(glVertexAttrib4fv, ARG(0, GLuint), ARG(1, std::vector<float>));
 }
 
-SIMPLE_NATIVE_METHOD(vertexAttrib1f, glVertexAttrib1f); // index, x
-SIMPLE_NATIVE_METHOD(vertexAttrib2f, glVertexAttrib2f); // index, x, y
-SIMPLE_NATIVE_METHOD(vertexAttrib3f, glVertexAttrib3f); // index, x, y, z
-SIMPLE_NATIVE_METHOD(vertexAttrib4f, glVertexAttrib4f); // index, x, y, z, w
+SIMPLE_NATIVE_METHOD(vertexAttrib1f, glVertexAttrib1f) // index, x
+SIMPLE_NATIVE_METHOD(vertexAttrib2f, glVertexAttrib2f) // index, x, y
+SIMPLE_NATIVE_METHOD(vertexAttrib3f, glVertexAttrib3f) // index, x, y, z
+SIMPLE_NATIVE_METHOD(vertexAttrib4f, glVertexAttrib4f) // index, x, y, z, w
 
 SIMPLE_NATIVE_METHOD(
     vertexAttribPointer,
-    glVertexAttribPointer); // index, itemSize, type, normalized, stride, const void *
+    glVertexAttribPointer) // index, itemSize, type, normalized, stride, const void *
 
 // Uniforms and attributes (WebGL2)
 // --------------------------------
 
-SIMPLE_NATIVE_METHOD(uniform1ui, glUniform1ui); // location, x
-SIMPLE_NATIVE_METHOD(uniform2ui, glUniform2ui); // location, x, y
-SIMPLE_NATIVE_METHOD(uniform3ui, glUniform3ui); // location, x, y, z
-SIMPLE_NATIVE_METHOD(uniform4ui, glUniform4ui); // location, x, y, z, w
+SIMPLE_NATIVE_METHOD(uniform1ui, glUniform1ui) // location, x
+SIMPLE_NATIVE_METHOD(uniform2ui, glUniform2ui) // location, x, y
+SIMPLE_NATIVE_METHOD(uniform3ui, glUniform3ui) // location, x, y, z
+SIMPLE_NATIVE_METHOD(uniform4ui, glUniform4ui) // location, x, y, z, w
 
 NATIVE_METHOD(uniform1uiv) {
   return dangleUniformv(glUniform1uiv, ARG(0, GLuint), 1, ARG(1, std::vector<uint32_t>));
-};
+}
 
 NATIVE_METHOD(uniform2uiv) {
   return dangleUniformv(glUniform2uiv, ARG(0, GLuint), 2, ARG(1, std::vector<uint32_t>));
-};
+}
 
 NATIVE_METHOD(uniform3uiv) {
   return dangleUniformv(glUniform3uiv, ARG(0, GLuint), 3, ARG(1, std::vector<uint32_t>));
-};
+}
 
 NATIVE_METHOD(uniform4uiv) {
   return dangleUniformv(glUniform4uiv, ARG(0, GLuint), 4, ARG(1, std::vector<uint32_t>));
-};
+}
 
 NATIVE_METHOD(uniformMatrix3x2fv) {
   return dangleUniformMatrixv(
@@ -1137,8 +1136,8 @@ NATIVE_METHOD(uniformMatrix3x4fv) {
           glUniformMatrix3x4fv, ARG(0, GLuint), ARG(1, GLboolean), 12, ARG(2, std::vector<float>));
 }
 
-SIMPLE_NATIVE_METHOD(vertexAttribI4i, glVertexAttribI4i); // index, x, y, z, w
-SIMPLE_NATIVE_METHOD(vertexAttribI4ui, glVertexAttribI4ui); // index, x, y, z, w
+SIMPLE_NATIVE_METHOD(vertexAttribI4i, glVertexAttribI4i) // index, x, y, z, w
+SIMPLE_NATIVE_METHOD(vertexAttribI4ui, glVertexAttribI4ui) // index, x, y, z, w
 
 NATIVE_METHOD(vertexAttribI4iv) {
   return dangleVertexAttribv(glVertexAttribI4iv, ARG(0, GLuint), ARG(1, std::vector<int32_t>));
@@ -1150,37 +1149,37 @@ NATIVE_METHOD(vertexAttribI4uiv) {
 
 SIMPLE_NATIVE_METHOD(
     vertexAttribIPointer,
-    glVertexAttribIPointer); // index, size, type, stride, offset
+    glVertexAttribIPointer) // index, size, type, stride, offset
 
 // Drawing buffers
 // ---------------
 
-SIMPLE_NATIVE_METHOD(clear, glClear); // mask
+SIMPLE_NATIVE_METHOD(clear, glClear) // mask
 
-SIMPLE_NATIVE_METHOD(drawArrays, glDrawArrays); // mode, first, count)
+SIMPLE_NATIVE_METHOD(drawArrays, glDrawArrays) // mode, first, count)
 
-SIMPLE_NATIVE_METHOD(drawElements, glDrawElements); // mode, count, type, offset
+SIMPLE_NATIVE_METHOD(drawElements, glDrawElements) // mode, count, type, offset
 
-SIMPLE_NATIVE_METHOD(finish, glFinish);
+SIMPLE_NATIVE_METHOD(finish, glFinish)
 
-SIMPLE_NATIVE_METHOD(flush, glFlush);
+SIMPLE_NATIVE_METHOD(flush, glFlush)
 
 // Drawing buffers (WebGL2)
 // ------------------------
 
-SIMPLE_NATIVE_METHOD(vertexAttribDivisor, glVertexAttribDivisor); // index, divisor
+SIMPLE_NATIVE_METHOD(vertexAttribDivisor, glVertexAttribDivisor) // index, divisor
 
 SIMPLE_NATIVE_METHOD(
     drawArraysInstanced,
-    glDrawArraysInstanced); // mode, first, count, instancecount
+    glDrawArraysInstanced) // mode, first, count, instancecount
 
 SIMPLE_NATIVE_METHOD(
     drawElementsInstanced,
-    glDrawElementsInstanced); // mode, count, type, offset, instanceCount
+    glDrawElementsInstanced) // mode, count, type, offset, instanceCount
 
 SIMPLE_NATIVE_METHOD(
     drawRangeElements,
-    glDrawRangeElements); // mode, start, end, count, type, offset
+    glDrawRangeElements) // mode, start, end, count, type, offset
 
 NATIVE_METHOD(drawBuffers) {
   auto data = jsArrayToVector<GLenum>(runtime, ARG(0, jsi::Array));
@@ -1216,7 +1215,7 @@ NATIVE_METHOD(clearBufferuiv) {
   return nullptr;
 }
 
-SIMPLE_NATIVE_METHOD(clearBufferfi, glClearBufferfi); // buffer, drawbuffer, depth, stencil
+SIMPLE_NATIVE_METHOD(clearBufferfi, glClearBufferfi) // buffer, drawbuffer, depth, stencil
 
 // Query objects (WebGL2)
 // ----------------------
@@ -1240,7 +1239,7 @@ NATIVE_METHOD(beginQuery) {
   return nullptr;
 }
 
-SIMPLE_NATIVE_METHOD(endQuery, glEndQuery); // target
+SIMPLE_NATIVE_METHOD(endQuery, glEndQuery) // target
 
 NATIVE_METHOD(getQuery) {
   auto target = ARG(0, GLenum);
@@ -1352,9 +1351,9 @@ NATIVE_METHOD(bindTransformFeedback) {
   return nullptr;
 }
 
-SIMPLE_NATIVE_METHOD(beginTransformFeedback, glBeginTransformFeedback); // primitiveMode
+SIMPLE_NATIVE_METHOD(beginTransformFeedback, glBeginTransformFeedback) // primitiveMode
 
-SIMPLE_NATIVE_METHOD(endTransformFeedback, glEndTransformFeedback);
+SIMPLE_NATIVE_METHOD(endTransformFeedback, glEndTransformFeedback)
 
 NATIVE_METHOD(transformFeedbackVaryings) {
   auto program = ARG(0, UDangleObjectId);
@@ -1386,9 +1385,9 @@ NATIVE_METHOD(getTransformFeedbackVarying) {
           glGetTransformFeedbackVarying);
 }
 
-SIMPLE_NATIVE_METHOD(pauseTransformFeedback, glPauseTransformFeedback);
+SIMPLE_NATIVE_METHOD(pauseTransformFeedback, glPauseTransformFeedback)
 
-SIMPLE_NATIVE_METHOD(resumeTransformFeedback, glResumeTransformFeedback);
+SIMPLE_NATIVE_METHOD(resumeTransformFeedback, glResumeTransformFeedback)
 
 // Uniform buffer objects (WebGL2)
 // -------------------------------
@@ -1470,7 +1469,7 @@ NATIVE_METHOD(getActiveUniformBlockName) {
     GLint bufSize;
     glGetActiveUniformBlockiv(program, uniformBlockIndex, GL_UNIFORM_BLOCK_NAME_LENGTH, &bufSize);
     blockName.resize(bufSize > 0 ? bufSize - 1 : 0);
-    glGetActiveUniformBlockName(program, uniformBlockIndex, bufSize, NULL, &blockName[0]);
+    glGetActiveUniformBlockName(program, uniformBlockIndex, bufSize, nullptr, &blockName[0]);
   });
   return jsi::String::createFromUtf8(runtime, blockName);
 }
@@ -1553,5 +1552,4 @@ NATIVE_METHOD(endFrame) {
   flushOnGLThread();
   return nullptr;
 }
-} // namespace gl_cpp
-} // namespace dangle
+} // namespace dangle::gl_cpp

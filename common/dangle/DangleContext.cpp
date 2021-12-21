@@ -1,7 +1,6 @@
 #include "DangleContext.h"
 
-namespace dangle {
-namespace gl_cpp {
+namespace dangle::gl_cpp {
 
 static std::unordered_map<UDangleContextId, DangleContext *> DangleContextMap;
 static std::mutex DangleContextMapMutex;
@@ -98,7 +97,7 @@ void DangleContext::installConstants(jsi::Runtime &runtime, jsi::Object &jsGl) {
       runtime, jsi::PropNameID::forUtf8(runtime, #name), static_cast<double>(GL_##name));
 #include "DangleConstants.def"
 #undef GL_CONSTANT
-};
+}
 
 jsi::Value DangleContext::dangleIsObject(UDangleObjectId id, std::function<GLboolean(GLuint)> func) {
   GLboolean glResult;
@@ -176,5 +175,4 @@ void DangleContext::maybeReadAndCacheSupportedExtensions() {
 #endif
   }
 }
-} // namespace gl_cpp
-} // namespace dangle
+} // namespace dangle::gl_cpp

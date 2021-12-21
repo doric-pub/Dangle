@@ -2,8 +2,7 @@
 
 #include <unordered_map>
 
-namespace dangle {
-namespace gl_cpp {
+namespace dangle::gl_cpp {
 
 template <TypedArrayKind T>
 using ContentType = typename typedArrayTypeMap<T>::type;
@@ -47,14 +46,10 @@ class PropNameIDCache {
  private:
   std::unordered_map<Prop, std::unique_ptr<jsi::PropNameID>> props;
 
-  jsi::PropNameID createProp(jsi::Runtime &runtime, Prop prop);
+  static jsi::PropNameID createProp(jsi::Runtime &runtime, Prop prop);
 };
 
 PropNameIDCache propNameIDCache;
-
-void invalidateJsiPropNameIDCache() {
-  propNameIDCache.invalidate();
-}
 
 TypedArrayKind getTypedArrayKindForName(const std::string &name);
 
@@ -78,7 +73,7 @@ TypedArrayKind TypedArrayBase::getKind(jsi::Runtime &runtime) const {
                              .asString(runtime)
                              .utf8(runtime);
   return getTypedArrayKindForName(constructorName);
-};
+}
 
 size_t TypedArrayBase::size(jsi::Runtime &runtime) const {
   return getProperty(runtime, propNameIDCache.get(runtime, Prop::Length)).asNumber();
@@ -101,7 +96,7 @@ bool TypedArrayBase::hasBuffer(jsi::Runtime &runtime) const {
   return buffer.isObject() && buffer.asObject(runtime).isArrayBuffer(runtime);
 }
 
-std::vector<uint8_t> TypedArrayBase::toVector(jsi::Runtime &runtime) {
+std::vector<uint8_t> TypedArrayBase::toVector(jsi::Runtime &runtime) const {
   auto start =
       reinterpret_cast<uint8_t *>(getBuffer(runtime).data(runtime) + byteOffset(runtime));
   auto end = start + byteLength(runtime);
@@ -173,13 +168,13 @@ void arrayBufferUpdate(
 }
 
 template <TypedArrayKind T>
-TypedArray<T>::TypedArray(jsi::Runtime &runtime, size_t size) : TypedArrayBase(runtime, size, T){};
+TypedArray<T>::TypedArray(jsi::Runtime &runtime, size_t size) : TypedArrayBase(runtime, size, T){}
 
 template <TypedArrayKind T>
 TypedArray<T>::TypedArray(jsi::Runtime &runtime, std::vector<ContentType<T>> data)
     : TypedArrayBase(runtime, data.size(), T) {
   update(runtime, data);
-};
+}
 
 template <TypedArrayKind T>
 TypedArray<T>::TypedArray(TypedArrayBase &&base) : TypedArrayBase(std::move(base)) {}
@@ -296,5 +291,4 @@ template class TypedArray<TypedArrayKind::Uint32Array>;
 template class TypedArray<TypedArrayKind::Float32Array>;
 template class TypedArray<TypedArrayKind::Float64Array>;
 
-} // namespace gl_cpp
-} // namespace dangle
+} // namespace dangle::gl_cpp

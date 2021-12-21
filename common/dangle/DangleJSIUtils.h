@@ -42,12 +42,6 @@ inline std::vector<uint8_t> rawTypedArray(jsi::Runtime &runtime, const jsi::Obje
   throw std::runtime_error("Object is not an ArrayBuffer nor a TypedArray");
 }
 
-inline bool jsValueToBool(jsi::Runtime &runtime, const jsi::Value &jsValue) {
-  return jsValue.isBool()
-      ? jsValue.getBool()
-      : throw std::runtime_error(jsValue.toString(runtime).utf8(runtime) + " is not a bool value");
-}
-
 template <typename Func>
 inline void setFunctionOnObject(
     jsi::Runtime &runtime,
