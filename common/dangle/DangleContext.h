@@ -60,6 +60,8 @@ class DangleContext {
   // The smallest unit of work
   using Op = std::function<void(void)>;
 
+  bool destroy = false;
+
   // Ops are combined into batches:
   //   1. A batch is always executed entirely in one go on the GL thread
   //   2. The last add to a batch always precedes the first remove
@@ -159,6 +161,10 @@ class DangleContext {
   }
 
   inline GLuint lookupObject(UDangleObjectId dangleObjId) noexcept {
+    if (destroy) {
+      DangleSysLog("Lookup object after DangleContext destroyed");
+      return 0;
+    }
     auto iter = objects.find(dangleObjId);
     return iter == objects.end() ? 0 : iter->second;
   }

@@ -48,6 +48,7 @@ void DangleContext::ContextDestroy(UDangleContextId dangleCtxId) {
   // Destroy C++ object, JavaScript side should just know...
   auto iter = DangleContextMap.find(dangleCtxId);
   if (iter != DangleContextMap.end()) {
+    iter->second->destroy = true;
     delete iter->second;
     DangleContextMap.erase(iter);
   }
