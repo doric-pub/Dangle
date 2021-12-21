@@ -9,6 +9,11 @@ import {
   GestureContainer,
   modal,
   loge,
+  hlayout,
+  text,
+  Color,
+  LayoutSpec,
+  Text,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -20,6 +25,9 @@ import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 class chess extends Panel {
   private gestureView?: GestureContainer;
 
+  private left?: GestureContainer;
+  private right?: GestureContainer;
+
   onShow() {
     navbar(context).setTitle("chess");
   }
@@ -30,6 +38,41 @@ class chess extends Panel {
         width: Environment.screenWidth - 3,
         height: Environment.screenWidth - 3,
       })),
+      hlayout(
+        [
+          gestureContainer([
+            text({
+              width: 50,
+              height: 50,
+              text: "←",
+              textSize: 30,
+              textAlignment: new Gravity().center(),
+              backgroundColor: Color.parse("#ffff00"),
+              layoutConfig: {
+                widthSpec: LayoutSpec.JUST,
+                heightSpec: LayoutSpec.JUST,
+              },
+            }),
+          ]).also((it) => (this.left = it)),
+          gestureContainer([
+            text({
+              width: 50,
+              height: 50,
+              text: "→",
+              textSize: 30,
+              textAlignment: new Gravity().center(),
+              backgroundColor: Color.parse("#ffff00"),
+              layoutConfig: {
+                widthSpec: LayoutSpec.JUST,
+                heightSpec: LayoutSpec.JUST,
+              },
+            }),
+          ]).also((it) => (this.right = it)),
+        ],
+        {
+          space: 40,
+        }
+      ),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -590,29 +633,25 @@ class chess extends Panel {
             }
           }
 
-          // Questa funzione attiva i movimenti della telecamera in una certa direzione
-          function activateMove(key) {
-            switch (key) {
-              case 37:
-                rotateRight = true;
-                break;
-              case 39:
-                rotateLeft = true;
-                break;
-            }
-          }
+          self.left!!.onTouchDown = () => {
+            rotateLeft = true;
+          };
+          self.left!!.onTouchCancel = () => {
+            rotateLeft = false;
+          };
+          self.left!!.onTouchUp = () => {
+            rotateLeft = false;
+          };
 
-          // Questaa funzione deattiva il movimento della telecamera in una data direzione
-          function deactivateMove(key) {
-            switch (key) {
-              case 37:
-                rotateRight = false;
-                break;
-              case 39:
-                rotateLeft = false;
-                break;
-            }
-          }
+          self.right!!.onTouchDown = () => {
+            rotateRight = true;
+          };
+          self.right!!.onTouchCancel = () => {
+            rotateRight = false;
+          };
+          self.right!!.onTouchUp = () => {
+            rotateRight = false;
+          };
 
           // La funzione aggiorna effettivamente la posizione della telecamera
           function update() {
