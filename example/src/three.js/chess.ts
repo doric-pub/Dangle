@@ -114,7 +114,7 @@ class chess extends Panel {
           // This function combines each piece with the right function to calculate the moves based on the type contained in the id
           function pieceMove(mesh) {
             if (mesh.identity.substring(0, 1) == turn && !changeViewpoint) {
-              // Eventuali mosse di altri pezzi vengono nascoste
+              // Any moves of other pieces are hidden
               for (var i = 0; i < 8; i++)
                 for (var j = 0; j < 8; j++) {
                   moves[i][j].name = "0";
@@ -156,7 +156,7 @@ class chess extends Panel {
               );
           }
 
-          // Calcola le mosse delle torri
+          // Calculate the moves of the rook
           function rookGo(rook) {
             var x = parseInt(rook.name.substring(0, 1));
             var z = parseInt(rook.name.substring(1, 2));
@@ -193,7 +193,7 @@ class chess extends Panel {
             }
           }
 
-          // Calcola le mosse delle regine
+          // Calculate the moves of the queens
           function queenGo(queen) {
             var x = parseInt(queen.name.substring(0, 1));
             var z = parseInt(queen.name.substring(1, 2));
@@ -282,7 +282,7 @@ class chess extends Panel {
             }
           }
 
-          // Calcola le mosse degli alfieri
+          // Calculate the bishops' moves
           function bishopGo(bishop) {
             var x = parseInt(bishop.name.substring(0, 1));
             var z = parseInt(bishop.name.substring(1, 2));
@@ -343,7 +343,7 @@ class chess extends Panel {
             }
           }
 
-          // Calcola le mosse dei cavalli
+          // Calculate the knight's moves
           function knightGo(knight) {
             var x = parseInt(knight.name.substring(0, 1));
             var z = parseInt(knight.name.substring(1, 2));
@@ -416,7 +416,7 @@ class chess extends Panel {
             }
           }
 
-          // Calcola le mosse dei pedoni
+          // Calculate the moves of the pawns
           function pawnGo(pawn) {
             var x = parseInt(pawn.name.substring(0, 1));
             var z = parseInt(pawn.name.substring(1, 2));
@@ -452,7 +452,7 @@ class chess extends Panel {
             }
           }
 
-          // Calcola le mosse dei re
+          // Calculate the kings' moves
           function kingGo(king) {
             var x = parseInt(king.name.substring(0, 1));
             var z = parseInt(king.name.substring(1, 2));
@@ -509,7 +509,7 @@ class chess extends Panel {
             }
           }
 
-          // Questa funzione sposta il pezzo selezionato nella casella scelta ed eventualmente mangia il pezzo avversario
+          // This function moves the selected piece to the chosen square and eventually eats the opponent's piece
           function moveTo(piece) {
             if (
               parseInt(
@@ -517,7 +517,7 @@ class chess extends Panel {
               ) == 1
             ) {
               var end = 0;
-              // Controllo se sto mangiando un pezzo, in tal caso gli sgancio l'evento e lo rimuovo dalla scena
+              // I check if I'm eating a piece, in which case I release the event and remove it from the scene
               if (
                 parseInt(
                   plane[3.5 - piece.position.x][3.5 - piece.position.z].name
@@ -529,17 +529,15 @@ class chess extends Panel {
                 var name = parseInt(killed.substring(1, 2));
                 if (killed.substring(2, 3) != "p") name = name + 8;
                 if (actual.identity.substring(0, 1) == "b") {
-                  // domEvents.unbind(white[name], "click", function () {});
                   scene.remove(white[name]);
-                  // Se il pezzo mangiato � un re la partita � finita
+                  // If the piece eaten is a king, the game is over
                   if (killed.substring(2, 3) == "k") end = -1;
                 } else {
-                  // domEvents.unbind(black[name], "click", function () {});
                   scene.remove(black[name]);
                   if (killed.substring(2, 3) == "k") end = 1;
                 }
               }
-              // Controllo se il pezzo � un pedone ed � arrivato in fondo, e lo cambio in regina
+              // I check if the piece is a pawn and has reached the bottom, and I change it to queen
               if (
                 actual.identity.substring(2, 3) == "p" &&
                 (3.5 - piece.position.z == 7 || 3.5 - piece.position.z == 0)
@@ -599,7 +597,7 @@ class chess extends Panel {
                   );
                 }
               }
-              // Sposto il valore del pezzo mosso nella scacchiera
+              // I move the value of the moved piece on the board
               plane[3.5 - piece.position.x][3.5 - piece.position.z].name =
                 plane[3.5 - actual.position.x][3.5 - actual.position.z].name;
               plane[3.5 - actual.position.x][3.5 - actual.position.z].name =
@@ -616,7 +614,7 @@ class chess extends Panel {
                 }
               actual.name =
                 3.5 - piece.position.x + "" + (3.5 - piece.position.z);
-              // Se la partita � finita ritorno alla prima scena, altrimenti cambio turno e giro la telecamera
+              // If the game is over I go back to the first scene, otherwise I change my turn and turn the camera around
               if (end != 0) {
                 if (end == -1) modal(context).alert("Black is the winner!");
                 else modal(context).alert("White is the winner!");
@@ -653,9 +651,9 @@ class chess extends Panel {
             rotateRight = false;
           };
 
-          // La funzione aggiorna effettivamente la posizione della telecamera
+          // The function actually updates the camera position
           function update() {
-            // Controllo se sta avvenendo una rotazione di fine turno
+            // Check if an end-of-shift rotation is taking place
             if (changeViewpoint) {
               if (turn == "b") {
                 if (change != Math.PI) {
@@ -678,7 +676,7 @@ class chess extends Panel {
                   changeViewpoint = false;
                 }
               }
-              // Altrimenti controllo se sto ruotando a mano
+              // Otherwise I check if I am rotating by hand
             } else {
               if (rotateRight) {
                 rotation += 0.1;
@@ -695,39 +693,38 @@ class chess extends Panel {
             }
           }
 
-          /* Le variabili scene, camera e renderer contengono rispettivamente i tre oggetti necessari a three.js per gestire l'ambiente 3D
-           * La variabile domEvents serve a threex.domevents.js per poter agganciare gli eventi agli oggetti 3D */
-          var scene, camera, renderer, domEvents;
+          /* The scene, camera and renderer variables respectively contain the three objects needed by three.js to manage the 3D environment */
+          var scene, camera, renderer;
           var raycaster = new THREE.Raycaster();
-          // Questa variabile contiene il loader JSON per caricare i modelli fatti in blender
+          // This variable contains the JSON loader to load the models made in blender
 
           //@ts-ignore
           const loader = new GLTFLoader();
-          // Queste variabili mi indicano ad ogni richiamo di render() in quale direzione ruotare la telecamera
+          // These variables tell me at each call to render () in which direction to rotate the camera
           var rotateRight = false,
             rotateLeft = false,
             changeViewpoint = false;
-          // Queste variabili contengono rispettivamente la scacchiera, le caselle delle mosse ed i pezzi bianchi e neri
+          // These variables contain the chessboard, the move boxes and the black and white pieces respectively
           var plane = new Array(8);
           var moves = new Array(8);
           var white = new Array(16);
           var black = new Array(16);
-          // actual indica l'ultimo pezzo selezionato e turn indica il turno della scacchiera
+          // actual indicates the last piece selected and turn indicates the turn of the board
           var actual,
             turn = "w";
-          // Tengo traccia della rotazione della telecamera
+          // I keep track of the rotation of the camera
           var rotation = 0,
             change = 0;
 
-          // Avvio il gioco e faccio il render della scena
+          // Start the game and render the scene
           init();
           render();
 
           bindClick();
 
-          // Questa funzione crea la scena
+          // This function creates the scene
           function init() {
-            // Preparo la scena, la telecamera ed il renderer
+            // Prepare the scene, the camera and the renderer
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(
               45,
@@ -743,11 +740,10 @@ class chess extends Panel {
               canvas: inputCanvas,
             });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            // document.body.appendChild(renderer.domElement);
+
             renderer.setClearColor(new THREE.Color(0x999999), 1.0);
-            // Preparo il gestore di eventi DOM
-            // domEvents = new THREEx.DomEvents(camera, renderer.domElement);
-            // Creo il bordo della schacchiera
+
+            // Create the edge of the chessboard
             var border = new THREE.Mesh(
               new THREE.PlaneGeometry(8.5, 8.5),
               new THREE.MeshBasicMaterial({ color: 0xcc9900 })
@@ -755,7 +751,7 @@ class chess extends Panel {
             border.position.set(0, -0.01, 0);
             border.rotation.x = -90 * (Math.PI / 180);
             scene.add(border);
-            // Creo i quadrati della scacchiera, segnandomi nel name il pezzo che c'� sopra
+            // Create the squares of the board, marking the piece on top of it in the name
             var plane_geometry = new THREE.PlaneGeometry(1, 1);
             var white_material = new THREE.MeshBasicMaterial({
               color: "white",
@@ -776,7 +772,7 @@ class chess extends Panel {
                 scene.add(plane[i][j]);
               }
             }
-            // Creo i quadrati delle mosse, gli aggancio l'evento per muoverci i pezzi ma non li mostro, segnandomi nel name se sono attivi o no
+            // I create the squares of the moves, I hook the event to move the pieces but I don't show them, marking in the name if they are active or not
             var small_plane_geometry = new THREE.PlaneGeometry(0.9, 0.9);
             var red_material = new THREE.MeshBasicMaterial({
               color: "red",
@@ -793,7 +789,7 @@ class chess extends Panel {
                 moves[i][j].name = "0";
               }
             }
-            // Creo quattro luci ai lati della scacchiera
+            // I create four lights on the sides of the board
             var light1 = new THREE.DirectionalLight(0xffffff);
             light1.position.set(0, 20, 25);
             light1.target.position.set(0, 0, 0);
@@ -810,20 +806,12 @@ class chess extends Panel {
             light4.position.set(-25, 20, 0);
             light4.target.position.set(0, 0, 0);
             scene.add(light4);
-            // Creo l'evento da tastiera per gestire i movimenti della telecamera ed il ridimensionamento della finestra
-            window.addEventListener("resize", windowResize);
-            window.addEventListener("keydown", function (event) {
-              // activateMove(event.keyCode);
-            });
-            window.addEventListener("keyup", function (event) {
-              // deactivateMove(event.keyCode);
-            });
 
-            // Questa funzione popola la scacchiera
+            // This function populates the board
             function fillBoard() {
-              /* Creo i pezzi bianchi, li dispongo sulla scacchiera e gli aggancio gli eventi per muoverli
-               * Da 0 a 7 sono i pedoni, 8 e 15 le torri, 9 e 14 i cavalli, 10 e 13 gli alfieri, 12 il re ed 11 la regina
-               * Nel name mi memorizzo la loro posizione x-z sulla scacchiera, mentre in id ho colore-posizione nell'array-pezzo */
+              /* I create the white pieces, arrange them on the board and hook the events to move them
+               * From 0 to 7 are the pawns, 8 and 15 the towers, 9 and 14 the knights, 10 and 13 the bishops, 12 the king and 11 the queen
+               * In the name I memorize their position x-z ​​on the board, while in id I have color-position in the array-piece */
 
               const wMaterial = new THREE.MeshStandardMaterial({
                 color: 0xb8b8b8,
@@ -1605,19 +1593,13 @@ class chess extends Panel {
 
             fillBoard();
           }
-          // Questa funzione che esegue il render della scena
+          // This function that renders the scene
           function render() {
             requestAnimationFrame(render);
             update();
             renderer.render(scene, camera);
 
             gl.endFrame();
-          }
-          // Questa funzione reimposta le proporzioni della scena se la finestra viene ridimensionata
-          function windowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
           }
 
           function bindClick() {
