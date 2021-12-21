@@ -26,8 +26,8 @@ class chess extends Panel {
     vlayout([
       (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
-        width: 300,
-        height: 300,
+        width: Environment.screenWidth - 3,
+        height: Environment.screenWidth - 3,
       })),
     ])
       .apply({
@@ -2129,8 +2129,8 @@ class chess extends Panel {
         },
       }).apply({
         layoutConfig: layoutConfig().just(),
-        width: 300,
-        height: 300,
+        width: Environment.screenWidth - 3,
+        height: Environment.screenWidth - 3,
       })
     );
   }
