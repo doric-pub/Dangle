@@ -1,7 +1,6 @@
 // @ts-nocheck
 import {
 	BufferGeometry,
-	FileLoader,
 	Float32BufferAttribute,
 	Group,
 	LineBasicMaterial,
@@ -14,6 +13,8 @@ import {
 	PointsMaterial,
 	Vector3
 } from 'three';
+
+import { FileLoader } from '../../dangle/FileLoader'
 
 // o object_name | g group_name
 const _object_pattern = /^[og]\s*(.+)?/;
@@ -448,7 +449,7 @@ class OBJLoader extends Loader {
 		loader.setPath( this.path );
 		loader.setRequestHeader( this.requestHeader );
 		loader.setWithCredentials( this.withCredentials );
-		loader.load( url, function ( text ) {
+		loader.load2( url, function ( text ) {
 
 			try {
 
