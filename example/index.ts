@@ -58,6 +58,8 @@ export default [
     "src/three.js/webgl_geometry_minecraft",
     "src/three.js/webgl_geometry_text_shapes",
 
+    "src/three.js/webgl_instancing_dynamic",
+
     "src/three.js/webgl_interactive_buffergeometry",
     "src/three.js/webgl_interactive_raycasting_points",
     "src/three.js/webgl_interactive_voxelpainter",

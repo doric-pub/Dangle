@@ -76,6 +76,8 @@
         [self.tableDataArr addObject:@"three.js/webgl_geometry_minecraft"];
         [self.tableDataArr addObject:@"three.js/webgl_geometry_text_shapes"];
         
+        [self.tableDataArr addObject:@"three.js/webgl_instancing_dynamic"];
+
         [self.tableDataArr addObject:@"three.js/webgl_interactive_buffergeometry"];
         [self.tableDataArr addObject:@"three.js/webgl_interactive_raycasting_points"];
         [self.tableDataArr addObject:@"three.js/webgl_interactive_voxelpainter"];

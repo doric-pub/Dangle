@@ -89,6 +89,8 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_geometry_minecraft",
                         "three.js/webgl_geometry_text_shapes",
 
+                        "three.js/webgl_instancing_dynamic",
+
                         "three.js/webgl_interactive_buffergeometry",
                         "three.js/webgl_interactive_raycasting_points",
                         "three.js/webgl_interactive_voxelpainter",
