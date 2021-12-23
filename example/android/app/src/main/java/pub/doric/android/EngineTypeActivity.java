@@ -64,6 +64,8 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_animation_skinning_additive_blending",
                         "three.js/webgl_animation_skinning_blending",
 
+                        "three.js/webgl_buffergeometry_instancing",
+
                         "three.js/webgl_camera",
                         "three.js/webgl_camera_array",
                         "three.js/webgl_camera_cinematic",
