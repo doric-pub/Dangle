@@ -130,8 +130,7 @@ class webgl_loader_texture_hdr extends Panel {
                     [
                       text({
                         text: "exposure",
-                        layoutConfig: layoutConfig().justWidth().fitHeight(),
-                        width: 60,
+                        layoutConfig: layoutConfig().fitWidth().fitHeight(),
                       }),
                       gestureContainer(
                         [
