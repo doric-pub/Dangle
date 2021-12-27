@@ -1,43 +1,51 @@
-import { imageDecoder, RemoteResource, resourceLoader } from 'doric';
-import THREE, {Loader } from 'three';
+import { imageDecoder, RemoteResource, resourceLoader } from "doric";
+import THREE, { Loader } from "three";
 
 class TextureLoader extends Loader {
+  constructor(manager) {
+    super(manager);
+  }
 
-	constructor( manager ) {
+  load(url, onLoad, onProgress, onError) {
+    let texture = new THREE.DataTexture();
+    texture.format = THREE.RGBAFormat;
 
-		super( manager );
+    let link;
+    if (this.path !== "" && this.path !== undefined) {
+      link = this.path + url;
+    } else {
+      link = url;
+    }
 
-	}
+    const remoteResource = new RemoteResource(link);
+    resourceLoader(context)
+      .load(remoteResource)
+      .then(async (arrayBuffer) => {
+        const imageInfo = await imageDecoder(context).getImageInfo(
+          remoteResource
+        );
+        const imagePixels = await imageDecoder(context).decodeToPixels(
+          remoteResource
+        );
 
-	load( url, onLoad, onProgress, onError ) {
+        texture.image = {
+          data: new Uint8ClampedArray(imagePixels),
+          width: imageInfo.width,
+          height: imageInfo.height,
+        }
 
-		let texture
+        texture.needsUpdate = true;
 
-        const remoteResource = new RemoteResource(url)
-        resourceLoader(context).load(remoteResource)
-            .then(async (arrayBuffer) => {
-                const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
-                const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
+        if (onLoad !== undefined) {
+          onLoad(texture);
+        }
+      })
+      .catch((reason) => {
+        onError();
+      });
 
-                texture = new THREE.DataTexture(imagePixels, imageInfo.width, imageInfo.height, THREE.RGBAFormat,);
-
-                texture.needsUpdate = true;
-
-                if ( onLoad !== undefined ) {
-
-                    onLoad( texture );
-
-                }
-            })
-            .catch((reason) => {
-                onError()
-            })
-
-		return texture;
-
-	}
-
+    return texture;
+  }
 }
-
 
 export { TextureLoader };
