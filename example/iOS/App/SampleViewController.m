@@ -41,6 +41,7 @@
         [self.tableDataArr addObject:@"three.js/misc_controls_pointerlock"];
         
         [self.tableDataArr addObject:@"three.js/misc_lookat"];
+        [self.tableDataArr addObject:@"three.js/misc_lookat_instanced_mesh"];
 
         [self.tableDataArr addObject:@"three.js/physics_ammo_break"];
         [self.tableDataArr addObject:@"three.js/physics_ammo_cloth"];

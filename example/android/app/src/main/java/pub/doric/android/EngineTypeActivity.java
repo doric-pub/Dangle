@@ -54,6 +54,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/misc_controls_pointerlock",
 
                         "three.js/misc_lookat",
+                        "three.js/misc_lookat_instanced_mesh",
 
                         "three.js/physics_ammo_break",
                         "three.js/physics_ammo_cloth",

@@ -23,6 +23,7 @@ export default [
     "src/three.js/misc_controls_pointerlock",
 
     "src/three.js/misc_lookat",
+    "src/three.js/misc_lookat_instanced_mesh",
 
     "src/three.js/physics_ammo_break",
     "src/three.js/physics_ammo_cloth",
