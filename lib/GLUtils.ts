@@ -64,13 +64,13 @@ export function configureLogging(gl: DangleWebGLRenderingContext): void {
             // Just return the parameter as a string.
             return '' + arg;
           });
-          console.log(`ExpoGL: ${key}(${params.join(', ')})`);
+          console.log(`Dangle: ${key}(${params.join(', ')})`);
         }
 
         const result = originalValue.apply(gl, args);
 
         if (loggingOption & GLLoggingOption.METHOD_CALLS) {
-          console.log(`ExpoGL:   = ${result}`);
+          console.log(`Dangle:   = ${result}`);
         }
         if (loggingOption & GLLoggingOption.GET_ERRORS && key !== 'getError') {
           // @ts-ignore We need to call into the original `getError`.
@@ -78,7 +78,7 @@ export function configureLogging(gl: DangleWebGLRenderingContext): void {
 
           if (error) { //  && error !== gl.NO_ERROR
             // `console.error` would cause a red screen, so let's just log with red color.
-            console.log(`\x1b[31mExpoGL: Error ${GLErrors[error]}\x1b[0m`);
+            console.log(`Dangle: Error ${GLErrors[error]}`);
           }
         }
         return result;
