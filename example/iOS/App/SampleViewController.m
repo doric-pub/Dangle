@@ -116,6 +116,21 @@
         [self.tableDataArr addObject:@"playcanvas/hello_world"];
         [self.tableDataArr addObject:@"playcanvas/lines"];
         [self.tableDataArr addObject:@"playcanvas/shapes"];
+
+        [self.tableDataArr addObject:@"playcanvas/batching_dynamic"];
+        [self.tableDataArr addObject:@"playcanvas/clustered_lighting"];
+        [self.tableDataArr addObject:@"playcanvas/hierarchy"];
+        [self.tableDataArr addObject:@"playcanvas/layers"];
+
+         [self.tableDataArr addObject:@"playcanvas/light_baked"];
+        [self.tableDataArr addObject:@"playcanvas/mesh_decals"];
+        [self.tableDataArr addObject:@"playcanvas/mesh_generation"];
+        [self.tableDataArr addObject:@"playcanvas/mmesh_morph"];
+        [self.tableDataArr addObject:@"playcanvas/model_texture_box"];
+
+        [self.tableDataArr addObject:@"playcanvas/painter"];
+        [self.tableDataArr addObject:@"playcanvas/particles_anim_index"];
+        [self.tableDataArr addObject:@"playcanvas/particles_snow"];
     } else if ([self.engineType isEqual: @"Babylon.js"]) {
         [self.tableDataArr addObject:@"babylon.js/hello_world"];
     }

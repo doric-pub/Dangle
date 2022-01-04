@@ -133,6 +133,18 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "playcanvas/hello_world",
                         "playcanvas/lines",
                         "playcanvas/shapes",
+                        "playcanvas/batching_dynamic",
+                        "playcanvas/clustered_lighting",
+                        "playcanvas/hierarchy",
+                        "playcanvas/layers",
+                        "playcanvas/light_baked",
+                        "playcanvas/mesh_decals",
+                        "playcanvas/mesh_generation",
+                        "playcanvas/mesh_morph",
+                        "playcanvas/model_texture_box",
+                        "playcanvas/painter",
+                        "playcanvas/particles_anim_index",
+                        "playcanvas/particles_snow",
                 };
                 break;
             case TYPE_BABYLON_JS:

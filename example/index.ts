@@ -98,6 +98,18 @@ export default [
     "src/playcanvas/hello_world",
     "src/playcanvas/lines",
     "src/playcanvas/shapes",
+    "src/playcanvas/batching_dynamic",
+    "src/playcanvas/clustered_lighting",
+    "src/playcanvas/hierarchy",
+    "src/playcanvas/layers",
+    "src/playcanvas/light_baked",
+    "src/playcanvas/mesh_decals",
+    "src/playcanvas/mesh_generation",
+    "src/playcanvas/mesh_morph",
+    "src/playcanvas/model_texture_box",
+    "src/playcanvas/painter",
+    "src/playcanvas/particles_anim_index",
+    "src/playcanvas/particles_snow",
 
     // Babylon.js
     "src/babylon.js/hello_world",
