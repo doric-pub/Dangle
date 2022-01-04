@@ -86,6 +86,8 @@ export default [
     "src/three.js/webgl_points_sprites",
     "src/three.js/webgl_points_waves",
 
+    "src/three.js/webgl_shaders_ocean",
+
     "src/three.js/webxr_vr_rollercoaster",
 
     // Stardust

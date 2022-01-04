@@ -104,6 +104,8 @@
         [self.tableDataArr addObject:@"three.js/webgl_points_sprites"];
         [self.tableDataArr addObject:@"three.js/webgl_points_waves"];
 
+        [self.tableDataArr addObject:@"three.js/webgl_shaders_ocean"];
+
         [self.tableDataArr addObject:@"three.js/webxr_vr_rollercoaster"];
 
     } else if ([self.engineType isEqual: @"Stardust"]) {

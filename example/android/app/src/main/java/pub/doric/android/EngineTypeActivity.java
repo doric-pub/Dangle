@@ -117,6 +117,8 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_points_sprites",
                         "three.js/webgl_points_waves",
 
+                        "three.js/webgl_shaders_ocean",
+
                         "three.js/webxr_vr_rollercoaster",
                 };
                 break;
