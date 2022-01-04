@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class mesh_morph extends Panel {
@@ -37,35 +39,33 @@ class mesh_morph extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
-
 
               app.start();
 
@@ -76,7 +76,7 @@ class mesh_morph extends Panel {
               // Create an entity with a directional light component
               const light = new pc.Entity();
               light.addComponent("light", {
-                type: "directional"
+                type: "directional",
               });
               app.root.addChild(light);
               light.setLocalEulerAngles(45, 30, 0);
@@ -84,27 +84,47 @@ class mesh_morph extends Panel {
               // Create an entity with a camera component
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                clearColor: new pc.Color(0.1, 0.1, 0.1)
+                clearColor: new pc.Color(0.1, 0.1, 0.1),
               });
               app.root.addChild(camera);
 
               // helper function to return the shortest distance from point [x, y, z] to a plane defined by [a, b, c] normal
-              const shortestDistance = function (x: number, y: number, z: number, a: number, b: number, c: number) {
+              const shortestDistance = function (
+                x: number,
+                y: number,
+                z: number,
+                a: number,
+                b: number,
+                c: number
+              ) {
                 const d = Math.abs(a * x + b * y + c * z);
                 const e = Math.sqrt(a * a + b * b + c * c);
                 return d / e;
               };
 
               // helper function that creates a morph target from original positions, normals and indices, and a plane normal [nx, ny, nz]
-              const createMorphTarget = function (positions: string | any[], normals: any[], indices: any[], nx: number, ny: number, nz: number) {
-
+              const createMorphTarget = function (
+                positions: string | any[],
+                normals: any[],
+                indices: any[],
+                nx: number,
+                ny: number,
+                nz: number
+              ) {
                 // modify vertices to separate array
                 const modifiedPositions = new Float32Array(positions.length);
                 let dist: number, i: number, displacement: number;
                 const limit = 0.2;
                 for (i = 0; i < positions.length; i += 3) {
                   // distance of the point to the specified plane
-                  dist = shortestDistance(positions[i], positions[i + 1], positions[i + 2], nx, ny, nz);
+                  dist = shortestDistance(
+                    positions[i],
+                    positions[i + 1],
+                    positions[i + 2],
+                    nx,
+                    ny,
+                    nz
+                  );
 
                   // modify distance to displacement amoint - displace nearby points more than distant points
                   displacement = pc.math.clamp(dist, 0, limit);
@@ -112,14 +132,20 @@ class mesh_morph extends Panel {
                   displacement = 1 - displacement;
 
                   // generate new position by extruding vertex along normal by displacement
-                  modifiedPositions[i] = positions[i] + normals[i] * displacement;
-                  modifiedPositions[i + 1] = positions[i + 1] + normals[i + 1] * displacement;
-                  modifiedPositions[i + 2] = positions[i + 2] + normals[i + 2] * displacement;
+                  modifiedPositions[i] =
+                    positions[i] + normals[i] * displacement;
+                  modifiedPositions[i + 1] =
+                    positions[i + 1] + normals[i + 1] * displacement;
+                  modifiedPositions[i + 2] =
+                    positions[i + 2] + normals[i + 2] * displacement;
                 }
 
                 // generate normals based on modified positions and indices
-                // @ts-ignore engine-tsd
-                const modifiedNormals = new Float32Array(pc.calculateNormals(modifiedPositions, indices));
+                // engine-tsd
+                const modifiedNormals = new Float32Array(
+                  //@ts-ignore
+                  pc.calculateNormals(modifiedPositions, indices)
+                );
 
                 // generate delta positions and normals - as morph targets store delta between base position / normal and modified position / normal
                 for (i = 0; i < modifiedNormals.length; i++) {
@@ -131,29 +157,64 @@ class mesh_morph extends Panel {
                 // @ts-ignore engine-tsd
                 return new pc.MorphTarget({
                   deltaPositions: modifiedPositions,
-                  deltaNormals: modifiedNormals
+                  deltaNormals: modifiedNormals,
                 });
               };
 
-              const createMorphInstance = function (x: number | pc.Vec3, y: number, z: number) {
+              const createMorphInstance = function (
+                x: number | pc.Vec3,
+                y: number,
+                z: number
+              ) {
                 // create the base mesh - a sphere, with higher amount of vertices / triangles
                 // @ts-ignore engine-tsd
-                const mesh = pc.createSphere(app.graphicsDevice, { latitudeBands: 200, longitudeBands: 200 });
+                const mesh = pc.createSphere(app.graphicsDevice, {
+                  latitudeBands: 200,
+                  longitudeBands: 200,
+                });
 
                 // obtain base mesh vertex / index data
-                const srcPositions: Float32Array | number[] | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array = [], srcNormals: Float32Array | number[] | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array = [], indices: number[] | Uint8Array | Uint16Array | Uint32Array = [];
+                const srcPositions:
+                    | Float32Array
+                    | number[]
+                    | Int8Array
+                    | Uint8Array
+                    | Uint8ClampedArray
+                    | Int16Array
+                    | Uint16Array
+                    | Int32Array
+                    | Uint32Array = [],
+                  srcNormals:
+                    | Float32Array
+                    | number[]
+                    | Int8Array
+                    | Uint8Array
+                    | Uint8ClampedArray
+                    | Int16Array
+                    | Uint16Array
+                    | Int32Array
+                    | Uint32Array = [],
+                  indices: number[] | Uint8Array | Uint16Array | Uint32Array =
+                    [];
                 mesh.getPositions(srcPositions);
                 mesh.getNormals(srcNormals);
                 mesh.getIndices(indices);
 
                 // build 3 targets by expanding a part of sphere along 3 planes, specified by the normal
                 const targets = [];
-                //@ts-ignore
-                targets.push(createMorphTarget(srcPositions, srcNormals, indices, 1, 0, 0));
-                //@ts-ignore
-                targets.push(createMorphTarget(srcPositions, srcNormals, indices, 0, 1, 0));
-                //@ts-ignore
-                targets.push(createMorphTarget(srcPositions, srcNormals, indices, 0, 0, 1));
+
+                targets.push(
+                  //@ts-ignore
+                  createMorphTarget(srcPositions, srcNormals, indices, 1, 0, 0)
+                );
+                targets.push(
+                  //@ts-ignore
+                  createMorphTarget(srcPositions, srcNormals, indices, 0, 1, 0)
+                );
+                targets.push(
+                  //@ts-ignore
+                  createMorphTarget(srcPositions, srcNormals, indices, 0, 0, 1)
+                );
 
                 // create a morph using these 3 targets
                 mesh.morph = new pc.Morph(targets, app.graphicsDevice);
@@ -173,18 +234,26 @@ class mesh_morph extends Panel {
                 app.root.addChild(entity);
 
                 // Add a render compoonent with meshInstance
-                entity.addComponent('render', {
+                entity.addComponent("render", {
                   material: material,
-                  meshInstances: [meshInstance]
+                  meshInstances: [meshInstance],
                 });
 
                 return morphInstance;
               };
 
               // create 3 morph instances
-              const morphInstances: { setWeight: (arg0: number, arg1: number) => void; }[] = [];
+              const morphInstances: {
+                setWeight: (arg0: number, arg1: number) => void;
+              }[] = [];
               for (let k = 0; k < 3; k++) {
-                morphInstances.push(createMorphInstance(Math.random() * 6 - 3, Math.random() * 6 - 3, Math.random() * 6 - 3));
+                morphInstances.push(
+                  createMorphInstance(
+                    Math.random() * 6 - 3,
+                    Math.random() * 6 - 3,
+                    Math.random() * 6 - 3
+                  )
+                );
               }
 
               // update function called once per frame
@@ -196,12 +265,22 @@ class mesh_morph extends Panel {
                 for (let m = 0; m < morphInstances.length; m++) {
                   // modify weights of all 3 morph targets along some sin curve with different frequency
                   morphInstances[m].setWeight(0, Math.abs(Math.sin(time + m)));
-                  morphInstances[m].setWeight(1, Math.abs(Math.sin(time * 0.3 + m)));
-                  morphInstances[m].setWeight(2, Math.abs(Math.sin(time * 0.7 + m)));
+                  morphInstances[m].setWeight(
+                    1,
+                    Math.abs(Math.sin(time * 0.3 + m))
+                  );
+                  morphInstances[m].setWeight(
+                    2,
+                    Math.abs(Math.sin(time * 0.7 + m))
+                  );
                 }
 
                 // orbit camera around
-                camera.setLocalPosition(16 * Math.sin(time * 0.2), 4, 16 * Math.cos(time * 0.2));
+                camera.setLocalPosition(
+                  16 * Math.sin(time * 0.2),
+                  4,
+                  16 * Math.cos(time * 0.2)
+                );
                 camera.lookAt(pc.Vec3.ZERO);
 
                 gl.endFrame();

@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
   addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class grab_pass extends Panel {
@@ -37,56 +39,64 @@ class grab_pass extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas = 
-              ({
+              const canvas = {
                 width: width,
                 height: height,
                 style: {},
                 addEventListener: (() => {}) as any,
                 removeEventListener: (() => {}) as any,
                 clientHeight: height,
-                getContext: (() => {return gl}) as any,
-                getBoundingClientRect: (() => {return {
-                  width: width,
-                  height: height,
-                }}) as any
-              } as HTMLCanvasElement);
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
-              const remoteResource = new RemoteResource('https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/normal-map.png')
-              const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
-              const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
-              const array = new Uint8Array(imagePixels)
+              const remoteResource = new RemoteResource(
+                "https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/normal-map.png"
+              );
+              const imageInfo = await imageDecoder(context).getImageInfo(
+                remoteResource
+              );
+              const imagePixels = await imageDecoder(context).decodeToPixels(
+                remoteResource
+              );
+              const array = new Uint8Array(imagePixels);
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas)
+              const graphicsDevice = new pc.GraphicsDevice(canvas);
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
                 height: imageInfo.height,
                 format: pc.PIXELFORMAT_R8_G8_B8_A8,
-              })
+              });
 
               var pixels = texture.lock();
               for (var i = 0; i < pixels.length; i++) {
-                pixels[i] = array[i]
+                pixels[i] = array[i];
               }
               texture.unlock();
-              
 
               let assets = {
                 normal: {
-                  resource: texture
-                }
-              }
+                  resource: texture,
+                },
+              };
 
               // Set the canvas to fill the window and automatically change resolution to be the same as the canvas size
               app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
@@ -96,65 +106,65 @@ class grab_pass extends Panel {
 
               // helper function to create a primitive with shape type, position, scale, color
               function createPrimitive(primitiveType, position, scale, color) {
-                  // create material of specified color
-                  const material = new pc.StandardMaterial();
-                  material.diffuse = color;
-                  material.update();
+                // create material of specified color
+                const material = new pc.StandardMaterial();
+                material.diffuse = color;
+                material.update();
 
-                  // create primitive
-                  const primitive = new pc.Entity();
-                  primitive.addComponent("render", {
-                      type: primitiveType,
-                      material: material,
-                  });
+                // create primitive
+                const primitive = new pc.Entity();
+                primitive.addComponent("render", {
+                  type: primitiveType,
+                  material: material,
+                });
 
-                  // set position and scale and add it to scene
-                  primitive.setLocalPosition(position);
-                  primitive.setLocalScale(scale);
-                  app.root.addChild(primitive);
+                // set position and scale and add it to scene
+                primitive.setLocalPosition(position);
+                primitive.setLocalScale(scale);
+                app.root.addChild(primitive);
 
-                  return primitive;
+                return primitive;
               }
 
               // create ground plane
               createPrimitive(
-                  "plane",
-                  new pc.Vec3(0, 0, 0),
-                  new pc.Vec3(20, 20, 20),
-                  new pc.Color(0.3, 0.5, 0.3)
+                "plane",
+                new pc.Vec3(0, 0, 0),
+                new pc.Vec3(20, 20, 20),
+                new pc.Color(0.3, 0.5, 0.3)
               );
 
               // create 3 primitives, keep their references to rotate them later
               const primitives: any[] = [];
               primitives.push(
-                  createPrimitive(
-                      "sphere",
-                      new pc.Vec3(-4, 2, -6),
-                      new pc.Vec3(2, 6, 3),
-                      new pc.Color(1, 0, 0)
-                  )
+                createPrimitive(
+                  "sphere",
+                  new pc.Vec3(-4, 2, -6),
+                  new pc.Vec3(2, 6, 3),
+                  new pc.Color(1, 0, 0)
+                )
               );
               primitives.push(
-                  createPrimitive(
-                      "box",
-                      new pc.Vec3(4, 2, -7),
-                      new pc.Vec3(6, 3, 3),
-                      new pc.Color(1, 1, 0)
-                  )
+                createPrimitive(
+                  "box",
+                  new pc.Vec3(4, 2, -7),
+                  new pc.Vec3(6, 3, 3),
+                  new pc.Color(1, 1, 0)
+                )
               );
               primitives.push(
-                  createPrimitive(
-                      "cone",
-                      new pc.Vec3(0, 2, 7),
-                      new pc.Vec3(2, 5, 2),
-                      new pc.Color(0, 1, 1)
-                  )
+                createPrimitive(
+                  "cone",
+                  new pc.Vec3(0, 2, 7),
+                  new pc.Vec3(2, 5, 2),
+                  new pc.Color(0, 1, 1)
+                )
               );
 
               // Create the camera, which renders entities
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                  clearColor: new pc.Color(0.2, 0.2, 0.2),
+                clearColor: new pc.Color(0.2, 0.2, 0.2),
               });
 
               app.root.addChild(camera);
@@ -164,10 +174,10 @@ class grab_pass extends Panel {
               // Create an Entity with a omni light component
               const light = new pc.Entity();
               light.addComponent("light", {
-                  type: "omni",
-                  color: new pc.Color(1, 1, 1),
-                  range: 100,
-                  castShadows: true,
+                type: "omni",
+                color: new pc.Color(1, 1, 1),
+                range: 100,
+                castShadows: true,
               });
 
               light.translate(0, 15, 2);
@@ -175,22 +185,22 @@ class grab_pass extends Panel {
 
               // create a primitive which uses refraction shader to distort the view behind it
               const glass = createPrimitive(
-                  "box",
-                  new pc.Vec3(1, 3, 0),
-                  new pc.Vec3(10, 6, 3),
-                  new pc.Color(1, 1, 1)
+                "box",
+                new pc.Vec3(1, 3, 0),
+                new pc.Vec3(10, 6, 3),
+                new pc.Color(1, 1, 1)
               );
               glass.render!!.castShadows = false;
               glass.render!!.receiveShadows = false;
 
               // create shader using vertex and fragment shaders
               const shaderDefinition = {
-                  attributes: {
-                      aPosition: pc.SEMANTIC_POSITION,
-                      aUv: pc.SEMANTIC_TEXCOORD0,
-                  },
+                attributes: {
+                  aPosition: pc.SEMANTIC_POSITION,
+                  aUv: pc.SEMANTIC_TEXCOORD0,
+                },
 
-                  vshader: `
+                vshader: `
                     attribute vec3 aPosition;
                     attribute vec2 aUv;
 
@@ -209,7 +219,7 @@ class grab_pass extends Panel {
                         texCoord = aUv;
                     }
                   `,
-                  fshader: `
+                fshader: `
                     precision mediump float;
 
                     // use the special texture_grabPass texture, which is a built-in texture. Each time this texture is used
@@ -248,8 +258,8 @@ class grab_pass extends Panel {
               // reflection material using the shader
               const refractionMaterial = new pc.Material();
               refractionMaterial.shader = new pc.Shader(
-                  app.graphicsDevice,
-                  shaderDefinition
+                app.graphicsDevice,
+                shaderDefinition
               );
               glass.render!!.material = refractionMaterial;
 
@@ -259,29 +269,32 @@ class grab_pass extends Panel {
               worldLayer.opaqueSortMode = pc.SORTMODE_BACK2FRONT;
 
               // set it as offset map on the material
-              refractionMaterial.setParameter("uOffsetMap", assets.normal.resource);
+              refractionMaterial.setParameter(
+                "uOffsetMap",
+                assets.normal.resource
+              );
               refractionMaterial.update();
               app.start();
 
               // update things each frame
               let time = 0;
               app.on("update", function (dt) {
-                  time += dt;
+                time += dt;
 
-                  // rotate the primitives
-                  primitives.forEach(function (prim) {
-                      prim.rotate(0.3, 0.2, 0.1);
-                  });
+                // rotate the primitives
+                primitives.forEach(function (prim) {
+                  prim.rotate(0.3, 0.2, 0.1);
+                });
 
-                  // orbit the camera
-                  camera.setLocalPosition(
-                      20 * Math.sin(time * 0.5),
-                      10,
-                      20 * Math.cos(time * 0.5)
-                  );
-                  camera.lookAt(pc.Vec3.ZERO);
+                // orbit the camera
+                camera.setLocalPosition(
+                  20 * Math.sin(time * 0.5),
+                  10,
+                  20 * Math.cos(time * 0.5)
+                );
+                camera.lookAt(pc.Vec3.ZERO);
 
-                  gl.endFrame();
+                gl.endFrame();
               });
 
               //#endregion

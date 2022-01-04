@@ -129,22 +129,30 @@ public class EngineTypeActivity extends AppCompatActivity {
                 break;
             case TYPE_PLAYCANVAS:
                 dataSet = new String[]{
-                        "playcanvas/grab_pass",
-                        "playcanvas/hello_world",
-                        "playcanvas/lines",
-                        "playcanvas/shapes",
                         "playcanvas/batching_dynamic",
+
                         "playcanvas/clustered_lighting",
+
+                        "playcanvas/grab_pass",
+
+                        "playcanvas/hello_world",
                         "playcanvas/hierarchy",
+                        
                         "playcanvas/layers",
                         "playcanvas/light_baked",
+                        "playcanvas/lines",
+
                         "playcanvas/mesh_decals",
                         "playcanvas/mesh_generation",
                         "playcanvas/mesh_morph",
                         "playcanvas/model_texture_box",
+                        
+
                         "playcanvas/painter",
                         "playcanvas/particles_anim_index",
                         "playcanvas/particles_snow",
+
+                        "playcanvas/shapes",
                 };
                 break;
             case TYPE_BABYLON_JS:

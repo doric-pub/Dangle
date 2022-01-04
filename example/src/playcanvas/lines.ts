@@ -9,20 +9,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
   addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class lines extends Panel {
@@ -35,26 +37,29 @@ class lines extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas = 
-              ({
+              const canvas = {
                 width: width,
                 height: height,
                 style: {},
                 addEventListener: (() => {}) as any,
                 removeEventListener: (() => {}) as any,
                 clientHeight: height,
-                getContext: (() => {return gl}) as any,
-                getBoundingClientRect: (() => {return {
-                  width: width,
-                  height: height,
-                }}) as any
-              } as HTMLCanvasElement);
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the application and start the update loop
@@ -65,7 +70,11 @@ class lines extends Panel {
               app.scene.skyboxMip = 2;
               app.scene.exposure = 1.0;
               // app.scene.setSkybox(assets["helipad.dds"].resources);
-              app.scene.skyboxRotation = new pc.Quat().setFromEulerAngles(0, 30, 0);
+              app.scene.skyboxRotation = new pc.Quat().setFromEulerAngles(
+                0,
+                30,
+                0
+              );
 
               // Set the canvas to fill the window and automatically change resolution to be the same as the canvas size
               app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
@@ -101,20 +110,20 @@ class lines extends Panel {
                 // use material with random color
                 const material = new pc.StandardMaterial();
                 material.diffuse = new pc.Color(
-                    Math.random(),
-                    Math.random(),
-                    Math.random()
+                  Math.random(),
+                  Math.random(),
+                  Math.random()
                 );
                 material.update();
 
                 // create render component
                 entity.addComponent("render", {
-                    type: i % 2 ? "sphere" : "cylinder",
-                    material: material,
+                  type: i % 2 ? "sphere" : "cylinder",
+                  material: material,
                 });
 
                 if (!(i % 2)) {
-                    entity.setLocalScale(3, 5, 3);
+                  entity.setLocalScale(3, 5, 3);
                 }
 
                 // add entity for rendering
@@ -143,7 +152,9 @@ class lines extends Panel {
 
               // access to two layers used to render lines
               const worldLayer = app.scene.layers.getLayerByName("World");
-              const immediateLayer = app.scene.layers.getLayerById(pc.LAYERID_IMMEDIATE);
+              const immediateLayer = app.scene.layers.getLayerById(
+                pc.LAYERID_IMMEDIATE
+              );
 
               // Set an update function on the app's update event
               let time = 0;
@@ -179,8 +190,17 @@ class lines extends Panel {
                     if (x > 1) {
                       //@ts-ignore
                       positions.push(pt1.x, pt1.y, pt1.z, pt2.x, pt2.y, pt2.z);
-                      //@ts-ignore
-                      colors.push(c1.r, c1.g, c1.b, c1.a, c2.r, c2.g, c2.b, c2.a);
+                      colors.push(
+                        //@ts-ignore
+                        c1.r,
+                        c1.g,
+                        c1.b,
+                        c1.a,
+                        c2.r,
+                        c2.g,
+                        c2.b,
+                        c2.a
+                      );
                     }
 
                     // add line connecting points along x axis
@@ -188,7 +208,17 @@ class lines extends Panel {
                       //@ts-ignore
                       positions.push(pt1.x, pt1.y, pt1.z, pt3.x, pt3.y, pt3.z);
                       //@ts-ignore
-                      colors.push(c1.r, c1.g, c1.b, c1.a, c3.r, c3.g, c3.b, c3.a);
+                      colors.push(
+                        //@ts-ignore
+                        c1.r,
+                        c1.g,
+                        c1.b,
+                        c1.a,
+                        c3.r,
+                        c3.g,
+                        c3.b,
+                        c3.a
+                      );
                     }
                   }
                 }
@@ -216,11 +246,16 @@ class lines extends Panel {
                   const depthTest = i < 0.5 * numMeshes;
 
                   // half of them are rendered in immediate layer, the other half in world layer
-                  const layer = i < 0.5 * numMeshes ? immediateLayer : worldLayer;
+                  const layer =
+                    i < 0.5 * numMeshes ? immediateLayer : worldLayer;
 
                   // rotate the meshes
                   //@ts-ignore
-                  entity.rotate((i + 1) * dt, 4 * (i + 1) * dt, 6 * (i + 1) * dt);
+                  entity.rotate(
+                    (i + 1) * dt,
+                    4 * (i + 1) * dt,
+                    6 * (i + 1) * dt
+                  );
 
                   // draw a single magenta line from this mesh to the next mesh
                   const nextEntity = meshes[(i + 1) % meshes.length];
@@ -233,8 +268,11 @@ class lines extends Panel {
                   );
 
                   // store positions and colors of lines connecting objects to a center point
-                  //@ts-ignore
-                  grayLinePositions.push(entity.getPosition(), new pc.Vec3(0, 10, 0));
+                  grayLinePositions.push(
+                    //@ts-ignore
+                    entity.getPosition(),
+                    new pc.Vec3(0, 10, 0)
+                  );
                   //@ts-ignore
                   grayLineColors.push(pc.Color.GRAY, pc.Color.GRAY);
                 }

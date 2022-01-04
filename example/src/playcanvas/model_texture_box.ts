@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class model_texture_box extends Panel {
@@ -37,58 +39,64 @@ class model_texture_box extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
-              const remoteResource = new RemoteResource('https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/clouds.jpg')
-              const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
-              const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
-              const array = new Uint8Array(imagePixels)
+              const remoteResource = new RemoteResource(
+                "https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/clouds.jpg"
+              );
+              const imageInfo = await imageDecoder(context).getImageInfo(
+                remoteResource
+              );
+              const imagePixels = await imageDecoder(context).decodeToPixels(
+                remoteResource
+              );
+              const array = new Uint8Array(imagePixels);
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas)
+              const graphicsDevice = new pc.GraphicsDevice(canvas);
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
                 height: imageInfo.height,
                 format: pc.PIXELFORMAT_R8_G8_B8_A8,
-              })
+              });
 
               var pixels = texture.lock();
               for (var i = 0; i < pixels.length; i++) {
-                pixels[i] = array[i]
+                pixels[i] = array[i];
               }
               texture.unlock();
 
-
               let assets = {
                 clouds: {
-                  resource: texture
-                }
-              }
+                  resource: texture,
+                },
+              };
 
               app.start();
 
@@ -101,7 +109,7 @@ class model_texture_box extends Panel {
               // Create a Entity with a Box model component
               const box = new pc.Entity();
               box.addComponent("model", {
-                type: "box"
+                type: "box",
               });
 
               // Create an Entity with a omni light component and a sphere model component.
@@ -109,10 +117,10 @@ class model_texture_box extends Panel {
               light.addComponent("light", {
                 type: "omni",
                 color: new pc.Color(1, 0, 0),
-                radius: 10
+                radius: 10,
               });
               light.addComponent("model", {
-                type: "sphere"
+                type: "sphere",
               });
               // Scale the sphere down to 0.1m
               light.setLocalScale(0.1, 0.1, 0.1);
@@ -120,7 +128,7 @@ class model_texture_box extends Panel {
               // Create an Entity with a camera component
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                clearColor: new pc.Color(0.4, 0.45, 0.5)
+                clearColor: new pc.Color(0.4, 0.45, 0.5),
               });
 
               // Add the new Entities to the hierarchy
@@ -134,16 +142,18 @@ class model_texture_box extends Panel {
               // Set an update function on the app's update event
               let angle = 0;
 
-
               app.on("update", function (dt) {
-
                 angle += dt;
                 if (angle > 360) {
                   angle = 0;
                 }
 
                 // Move the light in a circle
-                light.setLocalPosition(3 * Math.sin(angle), 0, 3 * Math.cos(angle));
+                light.setLocalPosition(
+                  3 * Math.sin(angle),
+                  0,
+                  3 * Math.cos(angle)
+                );
 
                 // Rotate the box
                 box.setEulerAngles(angle * 2, angle * 4, angle * 8);
@@ -155,7 +165,6 @@ class model_texture_box extends Panel {
               material.update();
               //@ts-ignore
               box.model.material = material;
-
 
               //#endregion
             },

@@ -9,20 +9,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class batching_dynamic extends Panel {
@@ -35,29 +37,29 @@ class batching_dynamic extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
@@ -96,9 +98,9 @@ class batching_dynamic extends Panel {
               const shapes = ["box", "cone", "cylinder", "sphere", "capsule"];
               const entities: any = [];
               for (let i = 0; i < numInstances; i++) {
-
                 // random shape
-                const shapeName = shapes[Math.floor(Math.random() * shapes.length)];
+                const shapeName =
+                  shapes[Math.floor(Math.random() * shapes.length)];
 
                 const entity = new pc.Entity();
 
@@ -110,7 +112,7 @@ class batching_dynamic extends Panel {
 
                   // add it to the batchGroup - this instructs engine to try and render these meshes in a small number of draw calls.
                   // there will be at least 2 draw calls, one for each material
-                  batchGroupId: batchGroup.id
+                  batchGroupId: batchGroup.id,
                 });
 
                 // add entity for rendering
@@ -124,7 +126,7 @@ class batching_dynamic extends Panel {
               const ground = new pc.Entity();
               ground.addComponent("render", {
                 type: "box",
-                material: material2
+                material: material2,
               });
               ground.setLocalScale(150, 1, 150);
               ground.setLocalPosition(0, -26, 0);
@@ -133,7 +135,7 @@ class batching_dynamic extends Panel {
               // Create an entity with a camera component
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                clearColor: new pc.Color(0.2, 0.2, 0.2)
+                clearColor: new pc.Color(0.2, 0.2, 0.2),
               });
               app.root.addChild(camera);
 
@@ -145,7 +147,7 @@ class batching_dynamic extends Panel {
                 castShadows: true,
                 shadowBias: 0.2,
                 normalOffsetBias: 0.06,
-                shadowDistance: 150
+                shadowDistance: 150,
               });
               camera.addChild(light);
               light.setLocalEulerAngles(15, 30, 0);
@@ -153,22 +155,27 @@ class batching_dynamic extends Panel {
               // Set an update function on the app's update event
               let time = 0;
 
-
-
-
               app.on("update", function (dt) {
                 time += dt;
 
                 // move all entities along orbits
                 for (let i = 0; i < entities.length; i++) {
-                  const radius = 5 + 20.0 * i / numInstances;
+                  const radius = 5 + (20.0 * i) / numInstances;
                   const speed = i / numInstances;
-                  entities[i].setLocalPosition(radius * Math.sin(i + time * speed), radius * Math.cos(i + time * speed), radius * Math.cos(i + 2 * time * speed));
+                  entities[i].setLocalPosition(
+                    radius * Math.sin(i + time * speed),
+                    radius * Math.cos(i + time * speed),
+                    radius * Math.cos(i + 2 * time * speed)
+                  );
                   entities[i].lookAt(pc.Vec3.ZERO);
                 }
 
                 // orbit camera around
-                camera.setLocalPosition(70 * Math.sin(time), 0, 70 * Math.cos(time));
+                camera.setLocalPosition(
+                  70 * Math.sin(time),
+                  0,
+                  70 * Math.cos(time)
+                );
                 camera.lookAt(pc.Vec3.ZERO);
                 gl.endFrame();
               });

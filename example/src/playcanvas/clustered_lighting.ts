@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class clustered_lighting extends Panel {
@@ -37,72 +39,72 @@ class clustered_lighting extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
-
-              const remoteResource = new RemoteResource('https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/normal-map.png')
-              const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
-              const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
-              const array = new Uint8Array(imagePixels)
+              const remoteResource = new RemoteResource(
+                "https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/normal-map.png"
+              );
+              const imageInfo = await imageDecoder(context).getImageInfo(
+                remoteResource
+              );
+              const imagePixels = await imageDecoder(context).decodeToPixels(
+                remoteResource
+              );
+              const array = new Uint8Array(imagePixels);
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
-
-
 
               const pointLightList: Array<pc.Entity> = [];
               const spotLightList: Array<pc.Entity> = [];
               //@ts-ignore
               let dirLight: pc.Entity = null;
 
-
-
-
               //#region code to impl
               // Create the app and start the update loop
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas)
+              const graphicsDevice = new pc.GraphicsDevice(canvas);
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
                 height: imageInfo.height,
                 format: pc.PIXELFORMAT_R8_G8_B8_A8,
-              })
+              });
 
               var pixels = texture.lock();
               for (var i = 0; i < pixels.length; i++) {
-                pixels[i] = array[i]
+                pixels[i] = array[i];
               }
               texture.unlock();
 
-
               let assets = {
                 normal: {
-                  resource: texture
-                }
-              }
+                  resource: texture,
+                },
+              };
 
               // enabled clustered lighting. This is a temporary API and will change in the future
               // @ts-ignore engine-tsd
@@ -146,20 +148,22 @@ class clustered_lighting extends Panel {
 
               // ground plane
               const ground = new pc.Entity();
-              ground.addComponent('render', {
+              ground.addComponent("render", {
                 type: "plane",
-                material: material
+                material: material,
               });
               ground.setLocalScale(150, 150, 150);
               app.root.addChild(ground);
 
               // high polycount cylinder
-              const cylinderMesh = pc.createCylinder(app.graphicsDevice, { capSegments: 200 });
+              const cylinderMesh = pc.createCylinder(app.graphicsDevice, {
+                capSegments: 200,
+              });
               const cylinder = new pc.Entity();
-              cylinder.addComponent('render', {
+              cylinder.addComponent("render", {
                 material: material,
                 meshInstances: [new pc.MeshInstance(cylinderMesh, material)],
-                castShadows: true
+                castShadows: true,
               });
               app.root.addChild(cylinder);
               cylinder.setLocalPosition(0, 50, 0);
@@ -169,13 +173,18 @@ class clustered_lighting extends Panel {
               let count = 30;
               const intensity = 1.6;
               for (let i = 0; i < count; i++) {
-                const color = new pc.Color(intensity * Math.random(), intensity * Math.random(), intensity * Math.random(), 1);
+                const color = new pc.Color(
+                  intensity * Math.random(),
+                  intensity * Math.random(),
+                  intensity * Math.random(),
+                  1
+                );
                 const lightPoint = new pc.Entity();
                 lightPoint.addComponent("light", {
                   type: "omni",
                   color: color,
                   range: 12,
-                  castShadows: false
+                  castShadows: false,
                 });
 
                 // attach a render component with a small sphere to each light
@@ -183,10 +192,10 @@ class clustered_lighting extends Panel {
                 material.emissive = color;
                 material.update();
 
-                lightPoint.addComponent('render', {
+                lightPoint.addComponent("render", {
                   type: "sphere",
                   material: material,
-                  castShadows: true
+                  castShadows: true,
                 });
                 lightPoint.setLocalScale(5, 5, 5);
 
@@ -198,7 +207,12 @@ class clustered_lighting extends Panel {
               // create many spot lights
               count = 16;
               for (let i = 0; i < count; i++) {
-                const color = new pc.Color(intensity * Math.random(), intensity * Math.random(), intensity * Math.random(), 1);
+                const color = new pc.Color(
+                  intensity * Math.random(),
+                  intensity * Math.random(),
+                  intensity * Math.random(),
+                  1
+                );
                 const lightSpot = new pc.Entity();
                 lightSpot.addComponent("light", {
                   type: "spot",
@@ -206,7 +220,7 @@ class clustered_lighting extends Panel {
                   innerConeAngle: 5,
                   outerConeAngle: 6 + Math.random() * 40,
                   range: 25,
-                  castShadows: false
+                  castShadows: false,
                 });
 
                 // attach a render component with a small cone to each light
@@ -214,9 +228,9 @@ class clustered_lighting extends Panel {
                 material.emissive = color;
                 material.update();
 
-                lightSpot.addComponent('render', {
+                lightSpot.addComponent("render", {
                   type: "cone",
-                  material: material
+                  material: material,
                 });
                 lightSpot.setLocalScale(5, 5, 5);
 
@@ -236,7 +250,7 @@ class clustered_lighting extends Panel {
                 shadowDistance: 300,
                 castShadows: true,
                 shadowBias: 0.2,
-                normalOffsetBias: 0.05
+                normalOffsetBias: 0.05,
               });
               app.root.addChild(dirLight);
 
@@ -245,19 +259,15 @@ class clustered_lighting extends Panel {
               camera.addComponent("camera", {
                 clearColor: new pc.Color(0.2, 0.2, 0.2),
                 farClip: 500,
-                nearClip: 0.1
+                nearClip: 0.1,
               });
               camera.setLocalPosition(120, 120, 120);
               camera.lookAt(new pc.Vec3(0, 40, 0));
               app.root.addChild(camera);
 
-
               app.start();
               // Set an update function on the app's update event
               let time = 0;
-
-
-
 
               app.on("update", function (dt) {
                 time += dt;
@@ -266,13 +276,21 @@ class clustered_lighting extends Panel {
                 pointLightList.forEach(function (light, i) {
                   const angle = (i / pointLightList.length) * Math.PI * 2;
                   const y = Math.sin(time * 0.5 + 7 * angle) * 30 + 70;
-                  light.setLocalPosition(30 * Math.sin(angle), y, 30 * Math.cos(angle));
+                  light.setLocalPosition(
+                    30 * Math.sin(angle),
+                    y,
+                    30 * Math.cos(angle)
+                  );
                 });
 
                 // rotate spot lights around
                 spotLightList.forEach(function (spotlight, i) {
                   const angle = (i / spotLightList.length) * Math.PI * 2;
-                  spotlight.setLocalPosition(40 * Math.sin(time + angle), 5, 40 * Math.cos(time + angle));
+                  spotlight.setLocalPosition(
+                    40 * Math.sin(time + angle),
+                    5,
+                    40 * Math.cos(time + angle)
+                  );
                   spotlight.lookAt(pc.Vec3.ZERO);
                   spotlight.rotateLocal(90, 0, 0);
                 });

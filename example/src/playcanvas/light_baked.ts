@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class light_baked extends Panel {
@@ -37,35 +39,33 @@ class light_baked extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
-
 
               app.start();
 
@@ -81,24 +81,28 @@ class light_baked extends Panel {
 
                 // Create an entity with a render component that is set up to be lightmapped with baked direct lighting
                 const entity = new pc.Entity();
-                entity.addComponent('render', {
+                entity.addComponent("render", {
                   castShadows: false,
                   castShadowsLightmap: true,
                   lightmapped: true,
-                  type: shape
+                  type: shape,
                 });
                 app.root.addChild(entity);
 
                 // random orientation
-                entity.setLocalPosition(Math.random() * 10 - 5, Math.random() * 5, Math.random() * 10 - 5);
+                entity.setLocalPosition(
+                  Math.random() * 10 - 5,
+                  Math.random() * 5,
+                  Math.random() * 10 - 5
+                );
               }
 
               const ground = new pc.Entity();
-              ground.addComponent('render', {
+              ground.addComponent("render", {
                 castShadows: false,
                 castShadowsLightmap: false,
                 lightmapped: true,
-                type: "plane"
+                type: "plane",
               });
               app.root.addChild(ground);
               ground.setLocalPosition(0, -1, 0);
@@ -117,7 +121,7 @@ class light_baked extends Panel {
                 shadowResolution: 2048,
                 shadowType: pc.SHADOW_PCF3,
                 color: pc.Color.GREEN,
-                type: "directional"
+                type: "directional",
               });
               app.root.addChild(light);
               light.setLocalEulerAngles(45, 30, 0);
@@ -136,7 +140,7 @@ class light_baked extends Panel {
                 shadowType: pc.SHADOW_PCF3,
                 color: pc.Color.RED,
                 range: 100,
-                type: "point"
+                type: "point",
               });
               lightPoint.setLocalPosition(0, 2, 0);
               app.root.addChild(lightPoint);
@@ -146,7 +150,7 @@ class light_baked extends Panel {
               camera.addComponent("camera", {
                 clearColor: new pc.Color(0.4, 0.45, 0.5),
                 farClip: 100,
-                nearClip: 0.05
+                nearClip: 0.05,
               });
               app.root.addChild(camera);
 
@@ -162,7 +166,6 @@ class light_baked extends Panel {
 
               // Set an update function on the app's update event
               let time = 4;
-
 
               app.on("update", function (dt) {
                 time += dt;

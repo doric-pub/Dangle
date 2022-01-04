@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class hierarchy extends Panel {
@@ -37,35 +39,33 @@ class hierarchy extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
-
 
               app.start();
 
@@ -76,22 +76,28 @@ class hierarchy extends Panel {
               window.addEventListener("resize", function () {
                 app.resizeCanvas(canvas.width, canvas.height);
               });
-              ;
-
               app.scene.ambientLight = new pc.Color(0.2, 0.2, 0.2);
 
               // helper function to create a primitive with shape type, position, scale
-              function createPrimitive(primitiveType: string, position: pc.Vec3, scale: pc.Vec3) {
+              function createPrimitive(
+                primitiveType: string,
+                position: pc.Vec3,
+                scale: pc.Vec3
+              ) {
                 // create material of random color
                 const material = new pc.StandardMaterial();
-                material.diffuse = new pc.Color(Math.random(), Math.random(), Math.random());
+                material.diffuse = new pc.Color(
+                  Math.random(),
+                  Math.random(),
+                  Math.random()
+                );
                 material.update();
 
                 // create primitive with a render component
                 const primitive = new pc.Entity();
-                primitive.addComponent('render', {
+                primitive.addComponent("render", {
                   type: primitiveType,
-                  material: material
+                  material: material,
                 });
 
                 // set position and scale
@@ -105,19 +111,41 @@ class hierarchy extends Panel {
               const entities: Array<pc.Entity> = [];
 
               // helper recursive function to create a next layer of entities for a specified parent
-              function createChildren(parent: pc.Entity, gridSize: number, scale: number, scaleDelta: number, spacing: number, levels: number) {
+              function createChildren(
+                parent: pc.Entity,
+                gridSize: number,
+                scale: number,
+                scaleDelta: number,
+                spacing: number,
+                levels: number
+              ) {
                 if (levels >= 0) {
                   const offset = spacing * (gridSize - 1) * 0.5;
                   for (let x = 0; x < gridSize; x++) {
                     for (let y = 0; y < gridSize; y++) {
                       const shape = Math.random() < 0.5 ? "box" : "sphere";
-                      const position = new pc.Vec3(x * spacing - offset, spacing, y * spacing - offset);
-                      const entity = createPrimitive(shape, position, new pc.Vec3(scale, scale, scale));
+                      const position = new pc.Vec3(
+                        x * spacing - offset,
+                        spacing,
+                        y * spacing - offset
+                      );
+                      const entity = createPrimitive(
+                        shape,
+                        position,
+                        new pc.Vec3(scale, scale, scale)
+                      );
 
                       parent.addChild(entity);
                       entities.push(entity);
 
-                      createChildren(entity, gridSize, scale - scaleDelta, scaleDelta, spacing * 0.7, levels - 1);
+                      createChildren(
+                        entity,
+                        gridSize,
+                        scale - scaleDelta,
+                        scaleDelta,
+                        spacing * 0.7,
+                        levels - 1
+                      );
                     }
                   }
                 }
@@ -133,13 +161,20 @@ class hierarchy extends Panel {
               const scale = 1.7;
               const scaleDelta = 0.25;
               const spacing = 7;
-              createChildren(root, gridSize, scale, scaleDelta, spacing, levels);
+              createChildren(
+                root,
+                gridSize,
+                scale,
+                scaleDelta,
+                spacing,
+                levels
+              );
               console.log("number of created entities: " + entities.length);
 
               // Create main camera
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                clearColor: new pc.Color(0.1, 0.1, 0.1)
+                clearColor: new pc.Color(0.1, 0.1, 0.1),
               });
               camera.setLocalPosition(90 * Math.sin(0), 40, 90 * Math.cos(0));
               camera.lookAt(new pc.Vec3(0, 5, 0));
@@ -150,7 +185,7 @@ class hierarchy extends Panel {
               light.addComponent("light", {
                 type: "omni",
                 color: new pc.Color(1, 1, 1),
-                range: 150
+                range: 150,
               });
               light.translate(40, 60, 50);
               app.root.addChild(light);
@@ -158,9 +193,6 @@ class hierarchy extends Panel {
               // update each frame
               let time = 0;
               const switchTime = 0;
-
-
-
 
               app.on("update", function (dt) {
                 time += dt;

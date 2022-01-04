@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class particles_anim_index extends Panel {
@@ -37,61 +39,64 @@ class particles_anim_index extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
-
-              const remoteResource = new RemoteResource('https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/particles-numbers.png')
-              const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
-              const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
-              const array = new Uint8Array(imagePixels)
-
+              const remoteResource = new RemoteResource(
+                "https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/particles-numbers.png"
+              );
+              const imageInfo = await imageDecoder(context).getImageInfo(
+                remoteResource
+              );
+              const imagePixels = await imageDecoder(context).decodeToPixels(
+                remoteResource
+              );
+              const array = new Uint8Array(imagePixels);
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
 
-
-              const graphicsDevice = new pc.GraphicsDevice(canvas)
+              const graphicsDevice = new pc.GraphicsDevice(canvas);
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
                 height: imageInfo.height,
                 format: pc.PIXELFORMAT_R8_G8_B8_A8,
-              })
+              });
 
               var pixels = texture.lock();
               for (var i = 0; i < pixels.length; i++) {
-                pixels[i] = array[i]
+                pixels[i] = array[i];
               }
               texture.unlock();
 
-
               let assets = {
                 particlesNumbers: {
-                  resource: texture
-                }
-              }
+                  resource: texture,
+                },
+              };
               // Set the canvas to fill the window and automatically change resolution to be the same as the canvas size
               app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
               app.setCanvasResolution(pc.RESOLUTION_AUTO);
@@ -99,7 +104,7 @@ class particles_anim_index extends Panel {
               // Create an Entity with a camera component
               const cameraEntity = new pc.Entity();
               cameraEntity.addComponent("camera", {
-                clearColor: new pc.Color(0.75, 0.75, 0.75)
+                clearColor: new pc.Color(0.75, 0.75, 0.75),
               });
               cameraEntity.rotateLocal(0, 0, 0);
               cameraEntity.translateLocal(0, 0, 20);
@@ -109,13 +114,16 @@ class particles_anim_index extends Panel {
               lightDirEntity.addComponent("light", {
                 type: "directional",
                 color: new pc.Color(1, 1, 1),
-                intensity: 1
+                intensity: 1,
               });
               lightDirEntity.setLocalEulerAngles(45, 0, 0);
 
               // Create a screen to display the particle texture
               const screenEntity = new pc.Entity();
-              screenEntity.addComponent("screen", { resolution: new pc.Vec2(640, 480), screenSpace: true });
+              screenEntity.addComponent("screen", {
+                resolution: new pc.Vec2(640, 480),
+                screenSpace: true,
+              });
               //@ts-ignore
               screenEntity.screen.scaleMode = "blend";
               //@ts-ignore
@@ -153,9 +161,7 @@ class particles_anim_index extends Panel {
               // when the texture is loaded add particlesystem components to particle entities
 
               // gradually make sparks bigger
-              const scaleCurve = new pc.Curve(
-                [0, 0, 1, 1]
-              );
+              const scaleCurve = new pc.Curve([0, 0, 1, 1]);
 
               const particleSystemConfiguration = {
                 numParticles: 8,
@@ -170,66 +176,64 @@ class particles_anim_index extends Panel {
                 animTilesY: 4,
                 animSpeed: 1,
                 autoPlay: true,
-                scaleGraph: scaleCurve
+                scaleGraph: scaleCurve,
               };
 
-              particleEntity1.addComponent("particlesystem",
+              particleEntity1.addComponent(
+                "particlesystem",
                 Object.assign(particleSystemConfiguration, {
                   // states that each animation in the sprite sheet has 4 frames
                   animNumFrames: 4,
                   // set the animation index of the first particle system to 0
-                  animIndex: 0
+                  animIndex: 0,
                 })
               );
 
-              particleEntity2.addComponent("particlesystem",
+              particleEntity2.addComponent(
+                "particlesystem",
                 Object.assign(particleSystemConfiguration, {
                   // states that each animation in the sprite sheet has 4 frames
                   animNumFrames: 4,
                   // set the animation index of the second particle system to 1
-                  animIndex: 1
+                  animIndex: 1,
                 })
               );
 
-              particleEntity3.addComponent("particlesystem",
+              particleEntity3.addComponent(
+                "particlesystem",
                 Object.assign(particleSystemConfiguration, {
                   // states that each animation in the sprite sheet has 4 frames
                   animNumFrames: 4,
                   // set the animation index of the third particle system to 2
-                  animIndex: 2
+                  animIndex: 2,
                 })
               );
 
-              particleEntity4.addComponent("particlesystem",
+              particleEntity4.addComponent(
+                "particlesystem",
                 Object.assign(particleSystemConfiguration, {
                   // states that each animation in the sprite sheet has 4 frames
                   animNumFrames: 4,
                   // set the animation index of the fourth particle system to 3
-                  animIndex: 3
+                  animIndex: 3,
                 })
               );
 
               // add the full particle texture to the panel
-              panel.addComponent('element', {
+              panel.addComponent("element", {
                 anchor: new pc.Vec4(0.5, 0.5, 0.5, 0.5),
                 pivot: new pc.Vec2(0.5, 0.5),
                 width: 100,
                 height: 100,
                 type: "image",
-                textureAsset: assets.particlesNumbers
+                textureAsset: assets.particlesNumbers,
               });
 
               app.start();
 
-
-
               app.on("update", function (dt) {
-
-
                 gl.endFrame();
               });
-
-
 
               //#endregion
             },

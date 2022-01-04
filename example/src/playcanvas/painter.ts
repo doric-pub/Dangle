@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class painter extends Panel {
@@ -37,30 +39,29 @@ class painter extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
@@ -73,16 +74,21 @@ class painter extends Panel {
               app.setCanvasResolution(pc.RESOLUTION_AUTO);
 
               // helper function to create a primitive with shape type, position, scale, color and layer
-              function createPrimitive(primitiveType: string, position: number | pc.Vec3, scale: number | pc.Vec3, layer: number[], material: pc.StandardMaterial) {
-
+              function createPrimitive(
+                primitiveType: string,
+                position: number | pc.Vec3,
+                scale: number | pc.Vec3,
+                layer: number[],
+                material: pc.StandardMaterial
+              ) {
                 // create primitive
                 const primitive = new pc.Entity();
-                primitive.addComponent('render', {
+                primitive.addComponent("render", {
                   type: primitiveType,
                   layers: layer,
                   material: material,
                   castShadows: false,
-                  receiveShadows: false
+                  receiveShadows: false,
                 });
 
                 // set position and scale and add it to scene
@@ -100,11 +106,11 @@ class painter extends Panel {
                 format: pc.PIXELFORMAT_R8_G8_B8,
                 mipmaps: false,
                 minFilter: pc.FILTER_LINEAR,
-                magFilter: pc.FILTER_LINEAR
+                magFilter: pc.FILTER_LINEAR,
               });
               const renderTarget = new pc.RenderTarget({
                 colorBuffer: texture,
-                depth: false
+                depth: false,
               });
 
               // create a layer for rendering to texture, and add it to the beginning of layers to render into it first
@@ -124,7 +130,13 @@ class painter extends Panel {
                 if (brushes.length === 0) {
                   // create new brush - use sphere primitive, but could use plane with a texture as well
                   // Note: plane would need to be rotated by -90 degrees along x-axis to face camera and be visible
-                  brush = createPrimitive("sphere", new pc.Vec3(2, 1, 0), new pc.Vec3(1, 1, 1), [paintLayer.id], brushMaterial);
+                  brush = createPrimitive(
+                    "sphere",
+                    new pc.Vec3(2, 1, 0),
+                    new pc.Vec3(1, 1, 1),
+                    [paintLayer.id],
+                    brushMaterial
+                  );
                 } else {
                   // reuse already allocated brush
                   brush = brushes.pop();
@@ -140,7 +152,7 @@ class painter extends Panel {
                 projection: pc.PROJECTION_ORTHOGRAPHIC,
                 layers: [paintLayer.id],
                 renderTarget: renderTarget,
-                priority: -1
+                priority: -1,
               });
 
               // make it look at the center of the render target, some distance away
@@ -151,7 +163,7 @@ class painter extends Panel {
               // Create main camera, which renders entities in world layer - this is where we show the render target on the box
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                clearColor: new pc.Color(0.2, 0.2, 0.2)
+                clearColor: new pc.Color(0.2, 0.2, 0.2),
               });
               camera.translate(0, 0, 30);
               camera.lookAt(pc.Vec3.ZERO);
@@ -165,7 +177,13 @@ class painter extends Panel {
 
               // create a box which we use to display rendered texture in the world layer
               const worldLayer = app.scene.layers.getLayerByName("World");
-              const box = createPrimitive("box", new pc.Vec3(0, 0, 0), new pc.Vec3(15, 15, 15), [worldLayer.id], material);
+              const box = createPrimitive(
+                "box",
+                new pc.Vec3(0, 0, 0),
+                new pc.Vec3(15, 15, 15),
+                [worldLayer.id],
+                material
+              );
 
               let progress = 1;
               let scale: number;
@@ -173,22 +191,32 @@ class painter extends Panel {
               const pos = new pc.Vec3();
               const usedBrushes: any[] = [];
 
-
               app.on("update", function (dt) {
-
                 // if the last brush stroke is finished, generate new random one
                 if (progress >= 1) {
                   progress = 0;
 
                   // generate start and end position for the stroke
-                  startPos = new pc.Vec3(Math.random() * 20 - 10, Math.random() * 20 - 10, 0);
-                  endPos = new pc.Vec3(Math.random() * 20 - 10, Math.random() * 20 - 10, 0);
+                  startPos = new pc.Vec3(
+                    Math.random() * 20 - 10,
+                    Math.random() * 20 - 10,
+                    0
+                  );
+                  endPos = new pc.Vec3(
+                    Math.random() * 20 - 10,
+                    Math.random() * 20 - 10,
+                    0
+                  );
 
                   // random width (scale)
                   scale = 0.1 + Math.random();
 
                   // assign random color to the brush
-                  brushMaterial.emissive = new pc.Color(Math.random(), Math.random(), Math.random());
+                  brushMaterial.emissive = new pc.Color(
+                    Math.random(),
+                    Math.random(),
+                    Math.random()
+                  );
                   brushMaterial.update();
                 }
 
@@ -205,7 +233,6 @@ class painter extends Panel {
 
                 // in each step
                 for (let i = 0; i < stepCount; i++) {
-
                   // move position little bit
                   pos.lerp(startPos, endPos, progress);
 
@@ -223,8 +250,6 @@ class painter extends Panel {
                 box.rotate(5 * dt, 10 * dt, 15 * dt);
                 gl.endFrame();
               });
-
-
 
               //#endregion
             },

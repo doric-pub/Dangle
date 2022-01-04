@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class layers extends Panel {
@@ -37,35 +39,33 @@ class layers extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
-
 
               app.start();
 
@@ -77,7 +77,7 @@ class layers extends Panel {
 
               // Create a new layer to put in front of everything
               const layer = new pc.Layer({
-                name: "Front Layer"
+                name: "Front Layer",
               });
 
               // get the world layer index
@@ -92,7 +92,7 @@ class layers extends Panel {
               const camera = new pc.Entity();
               camera.addComponent("camera", {
                 clearColor: new pc.Color(0.4, 0.45, 0.5),
-                layers: [worldLayer.id, layer.id]
+                layers: [worldLayer.id, layer.id],
               });
               camera.translate(0, 0, 24);
               app.root.addChild(camera);
@@ -104,7 +104,7 @@ class layers extends Panel {
                 type: "omni",
                 color: new pc.Color(1, 1, 1),
                 range: 100,
-                layers: [worldLayer.id, layer.id]
+                layers: [worldLayer.id, layer.id],
               });
               light.translate(5, 0, 15);
               app.root.addChild(light);
@@ -124,8 +124,8 @@ class layers extends Panel {
 
               // red box is rendered first in World layer
               const redBox = new pc.Entity();
-              redBox.addComponent('model', {
-                type: 'box'
+              redBox.addComponent("model", {
+                type: "box",
               });
               // @ts-ignore engine-tsd
               redBox.model.material = red;
@@ -137,15 +137,14 @@ class layers extends Panel {
               // and is in a later layer
               // it is visible even though it should be inside the red box
               const blueBox = new pc.Entity();
-              blueBox.addComponent('model', {
-                type: 'box',
-                layers: [layer.id] // try removing this line, the blue box will appear inside the red one
+              blueBox.addComponent("model", {
+                type: "box",
+                layers: [layer.id], // try removing this line, the blue box will appear inside the red one
               });
               // @ts-ignore engine-tsd
               blueBox.model.material = blue;
               blueBox.setLocalScale(2.5, 2.5, 2.5);
               app.root.addChild(blueBox);
-
 
               app.on("update", function (dt) {
                 if (redBox) {
