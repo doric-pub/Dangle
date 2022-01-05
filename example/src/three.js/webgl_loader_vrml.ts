@@ -13,7 +13,6 @@ import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
-import { VOXLoader, VOXMesh } from "./jsm/loaders/VOXLoader";
 import { VRMLLoader } from "./jsm/loaders/VRMLLoader";
 
 @Entry
