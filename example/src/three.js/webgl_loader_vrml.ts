@@ -8,6 +8,9 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
+  text,
+  popover,
+  Text,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -18,6 +21,7 @@ import { VRMLLoader } from "./jsm/loaders/VRMLLoader";
 @Entry
 class webgl_loader_vrml extends Panel {
   private gestureView?: GestureContainer;
+  private assetsText?: Text;
 
   onShow() {
     navbar(context).setTitle("webgl_loader_vrml");
@@ -29,6 +33,15 @@ class webgl_loader_vrml extends Panel {
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
+      })),
+      (this.assetsText = text({
+        width: 100,
+        height: 50,
+        text: "Assets",
+        textSize: 30,
+        textAlignment: new Gravity().center(),
+        backgroundColor: Color.parse("#ffff00"),
+        layoutConfig: layoutConfig().just(),
       })),
     ])
       .apply({
@@ -180,23 +193,43 @@ class webgl_loader_vrml extends Panel {
 
             window.addEventListener("resize", onWindowResize);
 
-            //
+            self.assetsText!!.onClick = () => {
+              let v = vlayout([], {
+                space: 5,
+                layoutConfig: layoutConfig().most(),
+                gravity: Gravity.Center,
+              });
+              for (let index = 0; index < assets.length; index++) {
+                const element = assets[index];
+                v.addChild(
+                  text({
+                    width: 170,
+                    height: 30,
+                    text: element,
+                    textSize: 20,
+                    textAlignment: new Gravity().center(),
+                    backgroundColor: Color.parse("#ffff00"),
+                    layoutConfig: layoutConfig().just(),
+                    onClick: () => {
+                      popover(context).dismiss(v);
+                      if (vrmlScene) {
+                        vrmlScene.traverse(function (object) {
+                          if (object.material) object.material.dispose();
+                          if (object.material && object.material.map)
+                            object.material.map.dispose();
+                          if (object.geometry) object.geometry.dispose();
+                        });
 
-            // const gui = new GUI();
-            // gui.add(params, "asset", assets).onChange(function (value) {
-            //   if (vrmlScene) {
-            //     vrmlScene.traverse(function (object) {
-            //       if (object.material) object.material.dispose();
-            //       if (object.material && object.material.map)
-            //         object.material.map.dispose();
-            //       if (object.geometry) object.geometry.dispose();
-            //     });
+                        scene.remove(vrmlScene);
+                      }
 
-            //     scene.remove(vrmlScene);
-            //   }
-
-            //   loadAsset(value);
-            // });
+                      loadAsset(element);
+                    },
+                  })
+                );
+              }
+              popover(context).show(v);
+            };
           }
 
           function loadAsset(asset) {
