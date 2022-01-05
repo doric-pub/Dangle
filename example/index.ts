@@ -80,6 +80,7 @@ export default [
     "src/three.js/webgl_loader_texture_tga",
     "src/three.js/webgl_loader_ttf",
     "src/three.js/webgl_loader_vox",
+    "src/three.js/webgl_loader_vrml",
     "src/three.js/webgl_loader_3ds",
 
     "src/three.js/webgl_materials_car",
