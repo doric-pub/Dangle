@@ -90,6 +90,8 @@ export default [
 
     "src/three.js/webxr_vr_rollercoaster",
 
+    "src/three.js/zeekr_001",
+
     // Stardust
     "src/stardust/hello_world",
     "src/stardust/daily_activities",

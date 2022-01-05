@@ -120,6 +120,8 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_shaders_ocean",
 
                         "three.js/webxr_vr_rollercoaster",
+
+                        "three.js/zeekr_001",
                 };
                 break;
             case TYPE_STARTDUST:
