@@ -12,25 +12,24 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-import * as THREE from "three"
+import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 
 @Entry
 class webgl_depth_texture extends Panel {
-
-  private gestureView?: GestureContainer
+  private gestureView?: GestureContainer;
 
   onShow() {
     navbar(context).setTitle("webgl_depth_texture");
   }
   build(rootView: Group) {
     vlayout([
-      this.gestureView = gestureContainer([], {
+      (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
-      }),
+      })),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -39,37 +38,56 @@ class webgl_depth_texture extends Panel {
       })
       .in(rootView);
 
-    let self = this
+    let self = this;
     this.gestureView.addChild(
       dangleView({
         onReady: (gl: DangleWebGLRenderingContext) => {
-          const width = gl.drawingBufferWidth
-          const height = gl.drawingBufferHeight
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
 
-          const inputCanvas = 
-          ({
+          const inputCanvas = {
             width: width,
             height: height,
             style: {},
             addEventListener: ((
               name: string,
-              fn: (event: { pageX: number; pageY: number, pointerType: string }) => void
+              fn: (event: {
+                pageX: number;
+                pageY: number;
+                pointerType: string;
+              }) => void
             ) => {
               if (name == "pointerdown") {
-                self.gestureView!!.onTouchDown = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchDown = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointerup") {
-                self.gestureView!!.onTouchUp = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchUp = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointermove") {
-                self.gestureView!!.onTouchMove = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchMove = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointercancel") {
-                self.gestureView!!.onTouchCancel = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchCancel = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               }
             }) as any,
@@ -77,14 +95,16 @@ class webgl_depth_texture extends Panel {
             setPointerCapture: (() => {}) as any,
             releasePointerCapture: (() => {}) as any,
             clientHeight: height,
-            getContext: (() => {return gl}) as any,
-          } as HTMLCanvasElement);
+            getContext: (() => {
+              return gl;
+            }) as any,
+          } as HTMLCanvasElement;
           let window = {
             innerWidth: width,
             innerHeight: height,
             devicePixelRatio: 1,
-            addEventListener: (() => {}) as any
-          }
+            addEventListener: (() => {}) as any,
+          };
 
           //#region code to impl
 
@@ -95,29 +115,36 @@ class webgl_depth_texture extends Panel {
 
           const params = {
             format: THREE.DepthFormat,
-            type: THREE.UnsignedShortType
+            type: THREE.UnsignedShortType,
           };
 
-          const formats = { DepthFormat: THREE.DepthFormat, DepthStencilFormat: THREE.DepthStencilFormat };
-          const types = { UnsignedShortType: THREE.UnsignedShortType, UnsignedIntType: THREE.UnsignedIntType, UnsignedInt248Type: THREE.UnsignedInt248Type };
+          const formats = {
+            DepthFormat: THREE.DepthFormat,
+            DepthStencilFormat: THREE.DepthStencilFormat,
+          };
+          const types = {
+            UnsignedShortType: THREE.UnsignedShortType,
+            UnsignedIntType: THREE.UnsignedIntType,
+            UnsignedInt248Type: THREE.UnsignedInt248Type,
+          };
 
           init();
           animate();
 
           function init() {
+            renderer = new THREE.WebGLRenderer({ canvas: inputCanvas });
 
-            renderer = new THREE.WebGLRenderer({canvas: inputCanvas});
-
-            if ( renderer.capabilities.isWebGL2 === false && renderer.extensions.has( 'WEBGL_depth_texture' ) === false ) {
-
+            if (
+              renderer.capabilities.isWebGL2 === false &&
+              renderer.extensions.has("WEBGL_depth_texture") === false
+            ) {
               supportsExtension = false;
               // document.querySelector( '#error' ).style.display = 'block';
               return;
-
             }
 
-            renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             // document.body.appendChild( renderer.domElement );
 
             //
@@ -125,10 +152,15 @@ class webgl_depth_texture extends Panel {
             // stats = new Stats();
             // document.body.appendChild( stats.dom );
 
-            camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 50 );
+            camera = new THREE.PerspectiveCamera(
+              70,
+              window.innerWidth / window.innerHeight,
+              0.01,
+              50
+            );
             camera.position.z = 4;
 
-            controls = new OrbitControls( camera, renderer.domElement );
+            controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
 
             // Create a render target with depth texture
@@ -141,7 +173,7 @@ class webgl_depth_texture extends Panel {
             setupPost();
 
             onWindowResize();
-            window.addEventListener( 'resize', onWindowResize );
+            window.addEventListener("resize", onWindowResize);
 
             //
             // const gui = new GUI( { width: 300 } );
@@ -149,37 +181,37 @@ class webgl_depth_texture extends Panel {
             // gui.add( params, 'format', formats ).onChange( setupRenderTarget );
             // gui.add( params, 'type', types ).onChange( setupRenderTarget );
             // gui.open();
-
           }
 
           function setupRenderTarget() {
-
-            if ( target ) target.dispose();
+            if (target) target.dispose();
 
             //@ts-ignore
-            const format = parseFloat( params.format );
+            const format = parseFloat(params.format);
             //@ts-ignore
-            const type = parseFloat( params.type );
+            const type = parseFloat(params.type);
 
-            target = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight );
+            target = new THREE.WebGLRenderTarget(
+              window.innerWidth,
+              window.innerHeight
+            );
             target.texture.format = THREE.RGBFormat;
             target.texture.minFilter = THREE.NearestFilter;
             target.texture.magFilter = THREE.NearestFilter;
             target.texture.generateMipmaps = false;
-            target.stencilBuffer = ( format === THREE.DepthStencilFormat ) ? true : false;
+            target.stencilBuffer =
+              format === THREE.DepthStencilFormat ? true : false;
             target.depthBuffer = true;
             //@ts-ignore
             target.depthTexture = new THREE.DepthTexture();
             target.depthTexture.format = format;
             target.depthTexture.type = type;
-
           }
 
           function setupPost() {
-
             // Setup post processing stage
-            postCamera = new THREE.OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
-            postMaterial = new THREE.ShaderMaterial( {
+            postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+            postMaterial = new THREE.ShaderMaterial({
               vertexShader: `
                 varying vec2 vUv;
 
@@ -216,73 +248,65 @@ class webgl_depth_texture extends Panel {
                 cameraNear: { value: camera.near },
                 cameraFar: { value: camera.far },
                 tDiffuse: { value: null },
-                tDepth: { value: null }
-              }
-            } );
-            const postPlane = new THREE.PlaneGeometry( 2, 2 );
-            const postQuad = new THREE.Mesh( postPlane, postMaterial );
+                tDepth: { value: null },
+              },
+            });
+            const postPlane = new THREE.PlaneGeometry(2, 2);
+            const postQuad = new THREE.Mesh(postPlane, postMaterial);
             postScene = new THREE.Scene();
-            postScene.add( postQuad );
-
+            postScene.add(postQuad);
           }
 
           function setupScene() {
-
             scene = new THREE.Scene();
 
-            const geometry = new THREE.TorusKnotGeometry( 1, 0.3, 128, 64 );
-            const material = new THREE.MeshBasicMaterial( { color: 'blue' } );
+            const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 64);
+            const material = new THREE.MeshBasicMaterial({ color: "blue" });
 
             const count = 50;
             const scale = 5;
 
-            for ( let i = 0; i < count; i ++ ) {
-
+            for (let i = 0; i < count; i++) {
               const r = Math.random() * 2.0 * Math.PI;
-              const z = ( Math.random() * 2.0 ) - 1.0;
-              const zScale = Math.sqrt( 1.0 - z * z ) * scale;
+              const z = Math.random() * 2.0 - 1.0;
+              const zScale = Math.sqrt(1.0 - z * z) * scale;
 
-              const mesh = new THREE.Mesh( geometry, material );
+              const mesh = new THREE.Mesh(geometry, material);
               mesh.position.set(
-                Math.cos( r ) * zScale,
-                Math.sin( r ) * zScale,
+                Math.cos(r) * zScale,
+                Math.sin(r) * zScale,
                 z * scale
               );
-              mesh.rotation.set( Math.random(), Math.random(), Math.random() );
-              scene.add( mesh );
-
+              mesh.rotation.set(Math.random(), Math.random(), Math.random());
+              scene.add(mesh);
             }
-
           }
 
           function onWindowResize() {
-
             const aspect = window.innerWidth / window.innerHeight;
             camera.aspect = aspect;
             camera.updateProjectionMatrix();
 
             const dpr = renderer.getPixelRatio();
-            target.setSize( window.innerWidth * dpr, window.innerHeight * dpr );
-            renderer.setSize( window.innerWidth, window.innerHeight );
-
+            target.setSize(window.innerWidth * dpr, window.innerHeight * dpr);
+            renderer.setSize(window.innerWidth, window.innerHeight);
           }
 
           function animate() {
+            if (!supportsExtension) return;
 
-            if ( ! supportsExtension ) return;
-
-            vsync(context).requestAnimationFrame( animate );
+            vsync(context).requestAnimationFrame(animate);
 
             // render scene into target
-            renderer.setRenderTarget( target );
-            renderer.render( scene, camera );
+            renderer.setRenderTarget(target);
+            renderer.render(scene, camera);
 
             // render post FX
             postMaterial.uniforms.tDiffuse.value = target.texture;
             postMaterial.uniforms.tDepth.value = target.depthTexture;
 
-            renderer.setRenderTarget( null );
-            renderer.render( postScene, postCamera );
+            renderer.setRenderTarget(null);
+            renderer.render(postScene, postCamera);
 
             controls.update(); // required because damping is enabled
 
@@ -297,7 +321,7 @@ class webgl_depth_texture extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
-    )
+      })
+    );
   }
 }

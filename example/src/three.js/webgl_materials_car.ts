@@ -25,102 +25,110 @@ import { RoomEnvironment } from "./jsm/environments/RoomEnvironment";
 
 @Entry
 class webgl_materials_car extends Panel {
+  private gestureView?: GestureContainer;
 
-  private gestureView?: GestureContainer
-
-  private bodyBtn?: Text
-  private bodyInput?: Input
-  private detailsBtn?: Text
-  private detailsInput?: Input
-  private glassBtn?: Text
-  private glassInput?: Input
+  private bodyBtn?: Text;
+  private bodyInput?: Input;
+  private detailsBtn?: Text;
+  private detailsInput?: Input;
+  private glassBtn?: Text;
+  private glassInput?: Input;
 
   onShow() {
     navbar(context).setTitle("webgl_materials_car");
   }
   build(rootView: Group) {
     vlayout([
-      this.gestureView = gestureContainer([], {
+      (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
-      }),
-      hlayout([
-        text({
-          text: 'Body',
-          layoutConfig: layoutConfig().fitHeight().justWidth(),
-          width: 60,
-        }),
-        this.bodyInput = input({
-          layoutConfig: layoutConfig().fitHeight().justWidth(),
-          width: 100,
-          border: {
-            width: 1,
-            color: Color.GRAY,
-          }
-        }),
-        this.bodyBtn = text({
-          text: 'Go',
-          width: 50,
-          height: 50,
-          layoutConfig: layoutConfig().just(),
-          backgroundColor: Color.GRAY
-        })
-      ], {
-        gravity: Gravity.CenterY,
-        space: 10,
-      }),
-      hlayout([
-        text({
-          text: 'Details',
-          layoutConfig: layoutConfig().fitHeight().justWidth(),
-          width: 60,
-        }),
-        this.detailsInput = input({
-          layoutConfig: layoutConfig().fitHeight().justWidth(),
-          width: 100,
-          border: {
-            width: 1,
-            color: Color.GRAY,
-          }
-        }),
-        this.detailsBtn = text({
-          text: 'Go',
-          width: 50,
-          height: 50,
-          layoutConfig: layoutConfig().just(),
-          backgroundColor: Color.GRAY
-        })
-      ], {
-        gravity: Gravity.CenterY,
-        space: 10,
-      }),
-      hlayout([
-        text({
-          text: 'Glass',
-          layoutConfig: layoutConfig().fitHeight().justWidth(),
-          width: 60,
-        }),
-        this.glassInput = input({
-          layoutConfig: layoutConfig().fitHeight().justWidth(),
-          width: 100,
-          border: {
-            width: 1,
-            color: Color.GRAY,
-          }
-        }),
-        this.glassBtn = text({
-          text: 'Go',
-          width: 50,
-          height: 50,
-          layoutConfig: layoutConfig().just(),
-          backgroundColor: Color.GRAY
-        })
-      ], {
-        gravity: Gravity.CenterY,
-        space: 10,
-      }),
+      })),
+      hlayout(
+        [
+          text({
+            text: "Body",
+            layoutConfig: layoutConfig().fitHeight().justWidth(),
+            width: 60,
+          }),
+          (this.bodyInput = input({
+            layoutConfig: layoutConfig().fitHeight().justWidth(),
+            width: 100,
+            border: {
+              width: 1,
+              color: Color.GRAY,
+            },
+          })),
+          (this.bodyBtn = text({
+            text: "Go",
+            width: 50,
+            height: 50,
+            layoutConfig: layoutConfig().just(),
+            backgroundColor: Color.GRAY,
+          })),
+        ],
+        {
+          gravity: Gravity.CenterY,
+          space: 10,
+        }
+      ),
+      hlayout(
+        [
+          text({
+            text: "Details",
+            layoutConfig: layoutConfig().fitHeight().justWidth(),
+            width: 60,
+          }),
+          (this.detailsInput = input({
+            layoutConfig: layoutConfig().fitHeight().justWidth(),
+            width: 100,
+            border: {
+              width: 1,
+              color: Color.GRAY,
+            },
+          })),
+          (this.detailsBtn = text({
+            text: "Go",
+            width: 50,
+            height: 50,
+            layoutConfig: layoutConfig().just(),
+            backgroundColor: Color.GRAY,
+          })),
+        ],
+        {
+          gravity: Gravity.CenterY,
+          space: 10,
+        }
+      ),
+      hlayout(
+        [
+          text({
+            text: "Glass",
+            layoutConfig: layoutConfig().fitHeight().justWidth(),
+            width: 60,
+          }),
+          (this.glassInput = input({
+            layoutConfig: layoutConfig().fitHeight().justWidth(),
+            width: 100,
+            border: {
+              width: 1,
+              color: Color.GRAY,
+            },
+          })),
+          (this.glassBtn = text({
+            text: "Go",
+            width: 50,
+            height: 50,
+            layoutConfig: layoutConfig().just(),
+            backgroundColor: Color.GRAY,
+          })),
+        ],
+        {
+          gravity: Gravity.CenterY,
+          space: 10,
+        }
+      ),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -129,37 +137,56 @@ class webgl_materials_car extends Panel {
       })
       .in(rootView);
 
-    let self = this
+    let self = this;
     this.gestureView.addChild(
       dangleView({
         onReady: async (gl: DangleWebGLRenderingContext) => {
-          const width = gl.drawingBufferWidth
-          const height = gl.drawingBufferHeight
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
 
-          const inputCanvas = 
-          ({
+          const inputCanvas = {
             width: width,
             height: height,
             style: {},
             addEventListener: ((
               name: string,
-              fn: (event: { pageX: number; pageY: number, pointerType: string }) => void
+              fn: (event: {
+                pageX: number;
+                pageY: number;
+                pointerType: string;
+              }) => void
             ) => {
               if (name == "pointerdown") {
-                self.gestureView!!.onTouchDown = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchDown = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointerup") {
-                self.gestureView!!.onTouchUp = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchUp = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointermove") {
-                self.gestureView!!.onTouchMove = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchMove = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointercancel") {
-                self.gestureView!!.onTouchCancel = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchCancel = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               }
             }) as any,
@@ -167,15 +194,17 @@ class webgl_materials_car extends Panel {
             setPointerCapture: (() => {}) as any,
             releasePointerCapture: (() => {}) as any,
             clientHeight: height,
-            getContext: (() => {return gl}) as any,
-          } as HTMLCanvasElement);
+            getContext: (() => {
+              return gl;
+            }) as any,
+          } as HTMLCanvasElement;
           let window = {
             innerWidth: width,
             innerHeight: height,
             devicePixelRatio: 1,
-            addEventListener: (() => {}) as any
-          }
-          let requestAnimationFrame = vsync(context).requestAnimationFrame
+            addEventListener: (() => {}) as any,
+          };
+          let requestAnimationFrame = vsync(context).requestAnimationFrame;
 
           //#region code to impl
 
@@ -188,75 +217,97 @@ class webgl_materials_car extends Panel {
           const wheels: any[] = [];
 
           async function init() {
-
             // const container = document.getElementById( 'container' );
 
-            renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-            renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer = new THREE.WebGLRenderer({
+              antialias: true,
+              canvas: inputCanvas,
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             // renderer.setAnimationLoop( render );
             renderer.outputEncoding = THREE.sRGBEncoding;
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
             renderer.toneMappingExposure = 0.85;
             // container.appendChild( renderer.domElement );
 
-            window.addEventListener( 'resize', onWindowResize );
+            window.addEventListener("resize", onWindowResize);
 
             // stats = new Stats();
             // container.appendChild( stats.dom );
 
             //
 
-            camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 100 );
-            camera.position.set( 4.25, 1.4, - 4.5 );
+            camera = new THREE.PerspectiveCamera(
+              40,
+              window.innerWidth / window.innerHeight,
+              0.1,
+              100
+            );
+            camera.position.set(4.25, 1.4, -4.5);
 
-            controls = new OrbitControls( camera, inputCanvas );
-            controls.target.set( 0, 0.5, 0 );
+            controls = new OrbitControls(camera, inputCanvas);
+            controls.target.set(0, 0.5, 0);
             controls.update();
 
-            const pmremGenerator = new THREE.PMREMGenerator( renderer );
+            const pmremGenerator = new THREE.PMREMGenerator(renderer);
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color( 0xeeeeee );
-            scene.environment = pmremGenerator.fromScene( new RoomEnvironment() ).texture;
-            scene.fog = new THREE.Fog( 0xeeeeee, 10, 50 );
-
+            scene.background = new THREE.Color(0xeeeeee);
+            scene.environment = pmremGenerator.fromScene(
+              new RoomEnvironment()
+            ).texture;
+            scene.fog = new THREE.Fog(0xeeeeee, 10, 50);
 
             {
-              const skyColor = 0xFFFFFF;
-              const groundColor = 0xFFFFFF;  // brownish orange
+              const skyColor = 0xffffff;
+              const groundColor = 0xffffff; // brownish orange
               const intensity = 1;
-              const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+              const light = new THREE.HemisphereLight(
+                skyColor,
+                groundColor,
+                intensity
+              );
               scene.add(light);
             }
-          
+
             {
-              const color = 0xFFFFFF;
+              const color = 0xffffff;
               const intensity = 1.5;
               const light = new THREE.DirectionalLight(color, intensity);
               light.position.set(5, 10, 2);
               scene.add(light);
             }
 
-            grid = new THREE.GridHelper( 100, 40, 0x000000, 0x000000 );
+            grid = new THREE.GridHelper(100, 40, 0x000000, 0x000000);
             grid.material.opacity = 0.1;
             grid.material.depthWrite = false;
             grid.material.transparent = true;
-            scene.add( grid );
+            scene.add(grid);
 
             // materials
 
-            const bodyMaterial = new THREE.MeshPhysicalMaterial( {
-              color: 0xff0000, metalness: 0.6, roughness: 0.4, clearcoat: 0.05, clearcoatRoughness: 0.05
-            } );
+            const bodyMaterial = new THREE.MeshPhysicalMaterial({
+              color: 0xff0000,
+              metalness: 0.6,
+              roughness: 0.4,
+              clearcoat: 0.05,
+              clearcoatRoughness: 0.05,
+            });
 
-            const detailsMaterial = new THREE.MeshStandardMaterial( {
-              color: 0xffffff, metalness: 1.0, roughness: 0.5
-            } );
+            const detailsMaterial = new THREE.MeshStandardMaterial({
+              color: 0xffffff,
+              metalness: 1.0,
+              roughness: 0.5,
+            });
 
-            const glassMaterial = new THREE.MeshPhysicalMaterial( {
-              color: 0xffffff, metalness: 0, roughness: 0.1, transmission: 0.9, transparent: true
-            } );
+            const glassMaterial = new THREE.MeshPhysicalMaterial({
+              color: 0xffffff,
+              metalness: 0,
+              roughness: 0.1,
+              transmission: 0.9,
+              transparent: true,
+            });
 
             // const bodyColorInput = document.getElementById( 'body-color' );
             // bodyColorInput.addEventListener( 'input', function () {
@@ -266,9 +317,9 @@ class webgl_materials_car extends Panel {
             // } );
             self.bodyBtn!!.onClick = () => {
               self.bodyInput?.getText(context).then((value) => {
-                bodyMaterial.color.set( parseInt(value, 16) );
-              })
-            }
+                bodyMaterial.color.set(parseInt(value, 16));
+              });
+            };
 
             // const detailsColorInput = document.getElementById( 'details-color' );
             // detailsColorInput.addEventListener( 'input', function () {
@@ -278,9 +329,9 @@ class webgl_materials_car extends Panel {
             // } );
             self.detailsBtn!!.onClick = () => {
               self.detailsInput?.getText(context).then((value) => {
-                detailsMaterial.color.set( parseInt(value, 16) );
-              })
-            }
+                detailsMaterial.color.set(parseInt(value, 16));
+              });
+            };
 
             // const glassColorInput = document.getElementById( 'glass-color' );
             // glassColorInput.addEventListener( 'input', function () {
@@ -290,19 +341,29 @@ class webgl_materials_car extends Panel {
             // } );
             self.glassBtn!!.onClick = () => {
               self.glassInput?.getText(context).then((value) => {
-                glassMaterial.color.set( parseInt(value, 16) );
-              })
-            }
+                glassMaterial.color.set(parseInt(value, 16));
+              });
+            };
 
             // Car
 
             // const shadow = new THREE.TextureLoader().load( 'models/gltf/ferrari_ao.png' );
-            const remoteResource = new RemoteResource('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/ferrari_ao.png')
-            const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
-            const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
+            const remoteResource = new RemoteResource(
+              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/ferrari_ao.png"
+            );
+            const imageInfo = await imageDecoder(context).getImageInfo(
+              remoteResource
+            );
+            const imagePixels = await imageDecoder(context).decodeToPixels(
+              remoteResource
+            );
 
-            const shadow = new THREE.DataTexture(imagePixels, imageInfo.width, imageInfo.height, THREE.RGBAFormat);
-
+            const shadow = new THREE.DataTexture(
+              imagePixels,
+              imageInfo.width,
+              imageInfo.height,
+              THREE.RGBAFormat
+            );
 
             // const dracoLoader = new DRACOLoader();
             // dracoLoader.setDecoderPath( 'js/libs/draco/gltf/' );
@@ -312,76 +373,72 @@ class webgl_materials_car extends Panel {
             // loader.setDRACOLoader( dracoLoader );
 
             //@ts-ignore
-            loader.load( 'https://raw.githubusercontent.com/doric-pub/Dangle/013d7c13b6b90ff99f4249cb68cfa3c7219423cd/example/src/three.js/models/ferrari/ferrari.gltf', function ( gltf ) {
+            loader.load(
+              "https://raw.githubusercontent.com/doric-pub/Dangle/013d7c13b6b90ff99f4249cb68cfa3c7219423cd/example/src/three.js/models/ferrari/ferrari.gltf",
+              function (gltf) {
+                const carModel = gltf.scene.children[0];
 
-              const carModel = gltf.scene.children[ 0 ];
+                carModel.getObjectByName("body").material = bodyMaterial;
 
-              carModel.getObjectByName( 'body' ).material = bodyMaterial;
+                carModel.getObjectByName("rim_fl").material = detailsMaterial;
+                carModel.getObjectByName("rim_fr").material = detailsMaterial;
+                carModel.getObjectByName("rim_rr").material = detailsMaterial;
+                carModel.getObjectByName("rim_rl").material = detailsMaterial;
+                carModel.getObjectByName("trim").material = detailsMaterial;
 
-              carModel.getObjectByName( 'rim_fl' ).material = detailsMaterial;
-              carModel.getObjectByName( 'rim_fr' ).material = detailsMaterial;
-              carModel.getObjectByName( 'rim_rr' ).material = detailsMaterial;
-              carModel.getObjectByName( 'rim_rl' ).material = detailsMaterial;
-              carModel.getObjectByName( 'trim' ).material = detailsMaterial;
+                carModel.getObjectByName("glass").material = glassMaterial;
 
-              carModel.getObjectByName( 'glass' ).material = glassMaterial;
+                wheels.push(
+                  carModel.getObjectByName("wheel_fl"),
+                  carModel.getObjectByName("wheel_fr"),
+                  carModel.getObjectByName("wheel_rl"),
+                  carModel.getObjectByName("wheel_rr")
+                );
 
-              wheels.push(
-                carModel.getObjectByName( 'wheel_fl' ),
-                carModel.getObjectByName( 'wheel_fr' ),
-                carModel.getObjectByName( 'wheel_rl' ),
-                carModel.getObjectByName( 'wheel_rr' )
-              );
+                // shadow
+                const mesh = new THREE.Mesh(
+                  new THREE.PlaneGeometry(0.655 * 4, 1.3 * 4),
+                  new THREE.MeshBasicMaterial({
+                    map: shadow,
+                    blending: THREE.MultiplyBlending,
+                    toneMapped: false,
+                    transparent: true,
+                  })
+                );
+                mesh.rotation.x = -Math.PI / 2;
+                mesh.renderOrder = 2;
+                carModel.add(mesh);
 
-              // shadow
-              const mesh = new THREE.Mesh(
-                new THREE.PlaneGeometry( 0.655 * 4, 1.3 * 4 ),
-                new THREE.MeshBasicMaterial( {
-                  map: shadow, blending: THREE.MultiplyBlending, toneMapped: false, transparent: true
-                } )
-              );
-              mesh.rotation.x = - Math.PI / 2;
-              mesh.renderOrder = 2;
-              carModel.add( mesh );
-
-              scene.add( carModel );
-
-            } );
-
+                scene.add(carModel);
+              }
+            );
           }
 
           function onWindowResize() {
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
 
-            renderer.setSize( window.innerWidth, window.innerHeight );
-
+            renderer.setSize(window.innerWidth, window.innerHeight);
           }
 
           function animate() {
-
-            requestAnimationFrame( animate );
+            requestAnimationFrame(animate);
 
             render();
 
             gl.endFrame();
-
           }
 
           function render() {
+            const time = -Date.now() / 1000;
 
-            const time = - Date.now() / 1000;
-
-            for ( let i = 0; i < wheels.length; i ++ ) {
-
-              wheels[ i ].rotation.x = time * Math.PI;
-
+            for (let i = 0; i < wheels.length; i++) {
+              wheels[i].rotation.x = time * Math.PI;
             }
 
-            grid.position.z = - ( time ) % 5;
+            grid.position.z = -time % 5;
 
-            renderer.render( scene, camera );
+            renderer.render(scene, camera);
 
             // stats.update();
           }
@@ -395,7 +452,7 @@ class webgl_materials_car extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
-    )
+      })
+    );
   }
 }

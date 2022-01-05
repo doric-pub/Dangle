@@ -13,7 +13,6 @@ import {
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
-import { OrbitControls } from "./jsm/controls/OrbitControls";
 import { TextureLoader } from "./dangle/TextureLoader";
 import { TDSLoader } from "./jsm/loaders/TDSLoader";
 import { TrackballControls } from "./jsm/controls/TrackballControls";

@@ -23,28 +23,27 @@ import { OrbitControls } from "./jsm/controls/OrbitControls";
 
 @Entry
 class webgl_clipping_intersection extends Panel {
+  private container?: VLayout;
 
-  private container?: VLayout
+  private gestureView?: GestureContainer;
+  private clipIntersectionView?: Switch;
 
-  private gestureView?: GestureContainer
-  private clipIntersectionView?: Switch
+  private confirmButton?: Text;
+  private planeConstant?: string;
 
-  private confirmButton?: Text
-  private planeConstant?: string
-
-  private showHelpersView?: Switch
+  private showHelpersView?: Switch;
 
   onShow() {
     navbar(context).setTitle("webgl_clipping_intersection");
   }
   build(rootView: Group) {
     this.container = vlayout([
-      this.gestureView = gestureContainer([], {
+      (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
-      }),
+      })),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -53,37 +52,56 @@ class webgl_clipping_intersection extends Panel {
       })
       .in(rootView);
 
-    let self = this
+    let self = this;
     this.gestureView.addChild(
       dangleView({
         onReady: (gl: DangleWebGLRenderingContext) => {
-          const width = gl.drawingBufferWidth
-          const height = gl.drawingBufferHeight
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
 
-          const inputCanvas = 
-          ({
+          const inputCanvas = {
             width: width,
             height: height,
             style: {},
             addEventListener: ((
               name: string,
-              fn: (event: { pageX: number; pageY: number, pointerType: string }) => void
+              fn: (event: {
+                pageX: number;
+                pageY: number;
+                pointerType: string;
+              }) => void
             ) => {
               if (name == "pointerdown") {
-                self.gestureView!!.onTouchDown = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchDown = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointerup") {
-                self.gestureView!!.onTouchUp = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchUp = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointermove") {
-                self.gestureView!!.onTouchMove = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchMove = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointercancel") {
-                self.gestureView!!.onTouchCancel = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchCancel = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               }
             }) as any,
@@ -91,14 +109,16 @@ class webgl_clipping_intersection extends Panel {
             setPointerCapture: (() => {}) as any,
             releasePointerCapture: (() => {}) as any,
             clientHeight: height,
-            getContext: (() => {return gl}) as any,
-          } as HTMLCanvasElement);
+            getContext: (() => {
+              return gl;
+            }) as any,
+          } as HTMLCanvasElement;
           let window = {
             innerWidth: width,
             innerHeight: height,
             devicePixelRatio: 1,
-            addEventListener: (() => {}) as any
-          }
+            addEventListener: (() => {}) as any,
+          };
 
           //#region code to impl
 
@@ -107,41 +127,48 @@ class webgl_clipping_intersection extends Panel {
           const params = {
             clipIntersection: true,
             planeConstant: 0,
-            showHelpers: false
+            showHelpers: false,
           };
 
           const clipPlanes = [
-            new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 0 ),
-            new THREE.Plane( new THREE.Vector3( 0, - 1, 0 ), 0 ),
-            new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), 0 )
+            new THREE.Plane(new THREE.Vector3(1, 0, 0), 0),
+            new THREE.Plane(new THREE.Vector3(0, -1, 0), 0),
+            new THREE.Plane(new THREE.Vector3(0, 0, -1), 0),
           ];
 
           init();
           render();
 
           function init() {
-
-            renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-            renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer = new THREE.WebGLRenderer({
+              antialias: true,
+              canvas: inputCanvas,
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.localClippingEnabled = true;
             // document.body.appendChild( renderer.domElement );
 
             scene = new THREE.Scene();
 
-            camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 200 );
+            camera = new THREE.PerspectiveCamera(
+              40,
+              window.innerWidth / window.innerHeight,
+              1,
+              200
+            );
 
-            camera.position.set( - 1.5, 2.5, 3.0 );
+            camera.position.set(-1.5, 2.5, 3.0);
 
-            const controls = new OrbitControls( camera, renderer.domElement );
-            controls.addEventListener( 'change', render ); // use only if there is no animation loop
+            const controls = new OrbitControls(camera, renderer.domElement);
+            controls.addEventListener("change", render); // use only if there is no animation loop
             (<any>controls).minDistance = 1;
             (<any>controls).maxDistance = 10;
             (<any>controls).enablePan = false;
 
-            const light = new THREE.HemisphereLight( 0xffffff, 0x080808, 1.5 );
-            light.position.set( - 1.25, 1, 1.25 );
-            scene.add( light );
+            const light = new THREE.HemisphereLight(0xffffff, 0x080808, 1.5);
+            light.position.set(-1.25, 1, 1.25);
+            scene.add(light);
 
             // const helper = new THREE.CameraHelper( light.shadow.camera );
             // scene.add( helper );
@@ -150,33 +177,29 @@ class webgl_clipping_intersection extends Panel {
 
             const group = new THREE.Group();
 
-            for ( let i = 1; i <= 30; i += 2 ) {
+            for (let i = 1; i <= 30; i += 2) {
+              const geometry = new THREE.SphereGeometry(i / 30, 48, 24);
 
-              const geometry = new THREE.SphereGeometry( i / 30, 48, 24 );
-
-              const material = new THREE.MeshLambertMaterial( {
-
-                color: new THREE.Color().setHSL( Math.random(), 0.5, 0.5 ),
+              const material = new THREE.MeshLambertMaterial({
+                color: new THREE.Color().setHSL(Math.random(), 0.5, 0.5),
                 side: THREE.DoubleSide,
                 clippingPlanes: clipPlanes,
-                clipIntersection: params.clipIntersection
+                clipIntersection: params.clipIntersection,
+              });
 
-              } );
-
-              group.add( new THREE.Mesh( geometry, material ) );
-
+              group.add(new THREE.Mesh(geometry, material));
             }
 
-            scene.add( group );
+            scene.add(group);
 
             // helpers
 
             const helpers = new THREE.Group();
-            helpers.add( new THREE.PlaneHelper( clipPlanes[ 0 ], 2, 0xff0000 ) );
-            helpers.add( new THREE.PlaneHelper( clipPlanes[ 1 ], 2, 0x00ff00 ) );
-            helpers.add( new THREE.PlaneHelper( clipPlanes[ 2 ], 2, 0x0000ff ) );
+            helpers.add(new THREE.PlaneHelper(clipPlanes[0], 2, 0xff0000));
+            helpers.add(new THREE.PlaneHelper(clipPlanes[1], 2, 0x00ff00));
+            helpers.add(new THREE.PlaneHelper(clipPlanes[2], 2, 0x0000ff));
             helpers.visible = false;
-            scene.add( helpers );
+            scene.add(helpers);
 
             // gui
 
@@ -220,98 +243,90 @@ class webgl_clipping_intersection extends Panel {
               self.container!!.addChild(
                 hlayout([
                   text({
-                    text: 'clip intersection'
+                    text: "clip intersection",
                   }),
-                  self.clipIntersectionView = switchView({state: true})
+                  (self.clipIntersectionView = switchView({ state: true })),
                 ]).apply({
                   gravity: Gravity.Center,
-                }),
-              )
+                })
+              );
 
               self.container!!.addChild(
                 hlayout([
                   input({
                     hintText: "-1 to 1, step 0.01",
                     onTextChange: (text) => {
-                      self.planeConstant = text
-                    }
+                      self.planeConstant = text;
+                    },
                   }).apply({
                     layoutConfig: layoutConfig().fit(),
-                    padding: {left: 0, right: 0, top: 0, bottom: 0},
+                    padding: { left: 0, right: 0, top: 0, bottom: 0 },
                   }),
-                  self.confirmButton = text({text: "Go"}).apply({
+                  (self.confirmButton = text({ text: "Go" }).apply({
                     layoutConfig: layoutConfig().just(),
                     width: 50,
                     height: 30,
-                    backgroundColor: Color.YELLOW
-                  })
+                    backgroundColor: Color.YELLOW,
+                  })),
                 ]).apply({
                   space: 20,
                   gravity: Gravity.Center,
-                }),
-              )
+                })
+              );
 
               self.container!!.addChild(
                 hlayout([
                   text({
-                    text: 'show helpers'
+                    text: "show helpers",
                   }),
-                  self.showHelpersView = switchView({})
+                  (self.showHelpersView = switchView({})),
                 ]).apply({
                   gravity: Gravity.Center,
-                }),    
-              )
+                })
+              );
 
               self.clipIntersectionView!!.onSwitch = (state) => {
                 const children = group.children;
-  
-                for ( let i = 0; i < children.length; i ++ ) {
-  
-                  (<any>children[ i ]).material.clipIntersection = state;
-  
+
+                for (let i = 0; i < children.length; i++) {
+                  (<any>children[i]).material.clipIntersection = state;
                 }
-  
+
                 render();
-              }
-  
+              };
+
               self.confirmButton!!.onClick = () => {
-                let value = parseFloat(self.planeConstant!!)
-  
-                for ( let j = 0; j < clipPlanes.length; j ++ ) {
-  
-                  clipPlanes[ j ].constant = value;
-  
+                let value = parseFloat(self.planeConstant!!);
+
+                for (let j = 0; j < clipPlanes.length; j++) {
+                  clipPlanes[j].constant = value;
                 }
-  
+
                 render();
-              }
-  
+              };
+
               self.showHelpersView!!.onSwitch = (state) => {
                 helpers.visible = state;
-  
+
                 render();
-              }
-            })            
+              };
+            });
             //
 
-            window.addEventListener( 'resize', onWindowResize );
-
+            window.addEventListener("resize", onWindowResize);
           }
 
           function onWindowResize() {
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
 
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setSize(window.innerWidth, window.innerHeight);
 
             render();
-
           }
 
           function render() {
-
-            renderer.render( scene, camera );
+            renderer.render(scene, camera);
 
             gl.endFrame();
           }
@@ -322,7 +337,7 @@ class webgl_clipping_intersection extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
-    )
+      })
+    );
   }
 }

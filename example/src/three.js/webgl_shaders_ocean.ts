@@ -61,19 +61,35 @@ class webgl_shaders_ocean extends Panel {
             ) => {
               if (name == "pointerdown") {
                 self.gestureView!!.onTouchDown = ({ x, y }) => {
-                  fn({ pageX: x, pageY: y, pointerType: "touch" });
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointerup") {
                 self.gestureView!!.onTouchUp = ({ x, y }) => {
-                  fn({ pageX: x, pageY: y, pointerType: "touch" });
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointermove") {
                 self.gestureView!!.onTouchMove = ({ x, y }) => {
-                  fn({ pageX: x, pageY: y, pointerType: "touch" });
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointercancel") {
                 self.gestureView!!.onTouchCancel = ({ x, y }) => {
-                  fn({ pageX: x, pageY: y, pointerType: "touch" });
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               }
             }) as any,

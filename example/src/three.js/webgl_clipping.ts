@@ -16,20 +16,19 @@ import { OrbitControls } from "./jsm/controls/OrbitControls";
 
 @Entry
 class webgl_clipping extends Panel {
-
-  private gestureView?: GestureContainer
+  private gestureView?: GestureContainer;
 
   onShow() {
     navbar(context).setTitle("webgl_clipping");
   }
   build(rootView: Group) {
     vlayout([
-      this.gestureView = gestureContainer([], {
+      (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
-      }),
+      })),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -38,37 +37,56 @@ class webgl_clipping extends Panel {
       })
       .in(rootView);
 
-    let self = this
+    let self = this;
     this.gestureView.addChild(
       dangleView({
         onReady: (gl: DangleWebGLRenderingContext) => {
-          const width = gl.drawingBufferWidth
-          const height = gl.drawingBufferHeight
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
 
-          const inputCanvas = 
-          ({
+          const inputCanvas = {
             width: width,
             height: height,
             style: {},
             addEventListener: ((
               name: string,
-              fn: (event: { pageX: number; pageY: number, pointerType: string }) => void
+              fn: (event: {
+                pageX: number;
+                pageY: number;
+                pointerType: string;
+              }) => void
             ) => {
               if (name == "pointerdown") {
-                self.gestureView!!.onTouchDown = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchDown = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointerup") {
-                self.gestureView!!.onTouchUp = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchUp = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointermove") {
-                self.gestureView!!.onTouchMove = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchMove = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointercancel") {
-                self.gestureView!!.onTouchCancel = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchCancel = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               }
             }) as any,
@@ -76,14 +94,16 @@ class webgl_clipping extends Panel {
             setPointerCapture: (() => {}) as any,
             releasePointerCapture: (() => {}) as any,
             clientHeight: height,
-            getContext: (() => {return gl}) as any,
-          } as HTMLCanvasElement);
+            getContext: (() => {
+              return gl;
+            }) as any,
+          } as HTMLCanvasElement;
           let window = {
             innerWidth: width,
             innerHeight: height,
             devicePixelRatio: 1,
-            addEventListener: (() => {}) as any
-          }
+            addEventListener: (() => {}) as any,
+          };
 
           //#region code to impl
 
@@ -93,75 +113,84 @@ class webgl_clipping extends Panel {
           animate();
 
           function init() {
+            camera = new THREE.PerspectiveCamera(
+              36,
+              window.innerWidth / window.innerHeight,
+              0.25,
+              16
+            );
 
-            camera = new THREE.PerspectiveCamera( 36, window.innerWidth / window.innerHeight, 0.25, 16 );
-
-            camera.position.set( 0, 1.3, 3 );
+            camera.position.set(0, 1.3, 3);
 
             scene = new THREE.Scene();
 
             // Lights
 
-            scene.add( new THREE.AmbientLight( 0x505050 ) );
+            scene.add(new THREE.AmbientLight(0x505050));
 
-            const spotLight = new THREE.SpotLight( 0xffffff );
+            const spotLight = new THREE.SpotLight(0xffffff);
             spotLight.angle = Math.PI / 5;
             spotLight.penumbra = 0.2;
-            spotLight.position.set( 2, 3, 3 );
+            spotLight.position.set(2, 3, 3);
             spotLight.castShadow = true;
             spotLight.shadow.camera.near = 3;
             spotLight.shadow.camera.far = 10;
             spotLight.shadow.mapSize.width = 1024;
             spotLight.shadow.mapSize.height = 1024;
-            scene.add( spotLight );
+            scene.add(spotLight);
 
-            const dirLight = new THREE.DirectionalLight( 0x55505a, 1 );
-            dirLight.position.set( 0, 3, 0 );
+            const dirLight = new THREE.DirectionalLight(0x55505a, 1);
+            dirLight.position.set(0, 3, 0);
             dirLight.castShadow = true;
             dirLight.shadow.camera.near = 1;
             dirLight.shadow.camera.far = 10;
 
             dirLight.shadow.camera.right = 1;
-            dirLight.shadow.camera.left = - 1;
-            dirLight.shadow.camera.top	= 1;
-            dirLight.shadow.camera.bottom = - 1;
+            dirLight.shadow.camera.left = -1;
+            dirLight.shadow.camera.top = 1;
+            dirLight.shadow.camera.bottom = -1;
 
             dirLight.shadow.mapSize.width = 1024;
             dirLight.shadow.mapSize.height = 1024;
-            scene.add( dirLight );
+            scene.add(dirLight);
 
             // ***** Clipping planes: *****
 
-            const localPlane = new THREE.Plane( new THREE.Vector3( 0, - 1, 0 ), 0.8 );
-            const globalPlane = new THREE.Plane( new THREE.Vector3( - 1, 0, 0 ), 0.1 );
+            const localPlane = new THREE.Plane(
+              new THREE.Vector3(0, -1, 0),
+              0.8
+            );
+            const globalPlane = new THREE.Plane(
+              new THREE.Vector3(-1, 0, 0),
+              0.1
+            );
 
             // Geometry
 
-            const material = new THREE.MeshPhongMaterial( {
+            const material = new THREE.MeshPhongMaterial({
               color: 0x80ee10,
               shininess: 100,
               side: THREE.DoubleSide,
 
               // ***** Clipping setup (material): *****
-              clippingPlanes: [ localPlane ],
-              clipShadows: true
+              clippingPlanes: [localPlane],
+              clipShadows: true,
+            });
 
-            } );
+            const geometry = new THREE.TorusKnotGeometry(0.4, 0.08, 95, 20);
 
-            const geometry = new THREE.TorusKnotGeometry( 0.4, 0.08, 95, 20 );
-
-            object = new THREE.Mesh( geometry, material );
+            object = new THREE.Mesh(geometry, material);
             object.castShadow = true;
-            scene.add( object );
+            scene.add(object);
 
             const ground = new THREE.Mesh(
-              new THREE.PlaneGeometry( 9, 9, 1, 1 ),
-              new THREE.MeshPhongMaterial( { color: 0xa0adaf, shininess: 150 } )
+              new THREE.PlaneGeometry(9, 9, 1, 1),
+              new THREE.MeshPhongMaterial({ color: 0xa0adaf, shininess: 150 })
             );
 
-            ground.rotation.x = - Math.PI / 2; // rotates X/Y to X/Z
+            ground.rotation.x = -Math.PI / 2; // rotates X/Y to X/Z
             ground.receiveShadow = true;
-            scene.add( ground );
+            scene.add(ground);
 
             // Stats
 
@@ -170,23 +199,23 @@ class webgl_clipping extends Panel {
 
             // Renderer
 
-            renderer = new THREE.WebGLRenderer({canvas: inputCanvas});
+            renderer = new THREE.WebGLRenderer({ canvas: inputCanvas });
             renderer.shadowMap.enabled = true;
-            renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            window.addEventListener( 'resize', onWindowResize );
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            window.addEventListener("resize", onWindowResize);
             // document.body.appendChild( renderer.domElement );
 
             // ***** Clipping setup (renderer): *****
-            const globalPlanes = [ globalPlane ],
-              Empty = Object.freeze( [] );
+            const globalPlanes = [globalPlane],
+              Empty = Object.freeze([]);
             renderer.clippingPlanes = Empty; // GUI sets it to globalPlanes
             renderer.localClippingEnabled = true;
 
             // Controls
 
-            const controls = new OrbitControls( camera, renderer.domElement );
-            (<any>controls).target.set( 0, 1, 0 );
+            const controls = new OrbitControls(camera, renderer.domElement);
+            (<any>controls).target.set(0, 1, 0);
             (<any>controls).update();
 
             // GUI
@@ -267,32 +296,28 @@ class webgl_clipping extends Panel {
             // Start
 
             startTime = Date.now();
-
           }
 
           function onWindowResize() {
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
 
-            renderer.setSize( window.innerWidth, window.innerHeight );
-
+            renderer.setSize(window.innerWidth, window.innerHeight);
           }
 
           function animate() {
-
             const currentTime = Date.now();
-            const time = ( currentTime - startTime ) / 1000;
+            const time = (currentTime - startTime) / 1000;
 
-            vsync(context).requestAnimationFrame( animate );
+            vsync(context).requestAnimationFrame(animate);
 
             object.position.y = 0.8;
             object.rotation.x = time * 0.5;
             object.rotation.y = time * 0.2;
-            object.scale.setScalar( Math.cos( time ) * 0.125 + 0.875 );
+            object.scale.setScalar(Math.cos(time) * 0.125 + 0.875);
 
             // stats.begin();
-            renderer.render( scene, camera );
+            renderer.render(scene, camera);
             // stats.end();
 
             gl.endFrame();
@@ -304,8 +329,7 @@ class webgl_clipping extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
-    )
+      })
+    );
   }
 }
-  

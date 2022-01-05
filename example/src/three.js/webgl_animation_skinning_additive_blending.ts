@@ -23,33 +23,32 @@ import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 
 @Entry
 class webgl_animation_skinning_additive_blending extends Panel {
+  private vlayoutView?: VLayout;
+  private gestureView?: GestureContainer;
 
-  private vlayoutView?: VLayout
-  private gestureView?: GestureContainer
+  private noneText?: Text;
+  private idleText?: Text;
+  private walkText?: Text;
+  private runText?: Text;
 
-  private noneText?: Text
-  private idleText?: Text
-  private walkText?: Text
-  private runText?: Text
+  private sneakPoseValue?: Stack;
+  private sadPoseValue?: Stack;
+  private agreeValue?: Stack;
+  private headShakeValue?: Stack;
 
-  private sneakPoseValue?: Stack
-  private sadPoseValue?: Stack
-  private agreeValue?: Stack
-  private headShakeValue?: Stack
-
-  private modifyTimeScaleValue?: Stack
+  private modifyTimeScaleValue?: Stack;
 
   onShow() {
     navbar(context).setTitle("webgl_animation_skinning_additive_blending");
   }
   build(rootView: Group) {
     this.vlayoutView = vlayout([
-      this.gestureView = gestureContainer([], {
+      (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
-      }),
+      })),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -58,37 +57,56 @@ class webgl_animation_skinning_additive_blending extends Panel {
       })
       .in(rootView);
 
-    let self = this
+    let self = this;
     this.gestureView.addChild(
       dangleView({
         onReady: (gl: DangleWebGLRenderingContext) => {
-          const width = gl.drawingBufferWidth
-          const height = gl.drawingBufferHeight
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
 
-          const inputCanvas = 
-          ({
+          const inputCanvas = {
             width: width,
             height: height,
             style: {},
             addEventListener: ((
               name: string,
-              fn: (event: { pageX: number; pageY: number, pointerType: string }) => void
+              fn: (event: {
+                pageX: number;
+                pageY: number;
+                pointerType: string;
+              }) => void
             ) => {
               if (name == "pointerdown") {
-                self.gestureView!!.onTouchDown = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchDown = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointerup") {
-                self.gestureView!!.onTouchUp = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchUp = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointermove") {
-                self.gestureView!!.onTouchMove = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchMove = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointercancel") {
-                self.gestureView!!.onTouchCancel = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchCancel = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               }
             }) as any,
@@ -96,17 +114,19 @@ class webgl_animation_skinning_additive_blending extends Panel {
             setPointerCapture: (() => {}) as any,
             releasePointerCapture: (() => {}) as any,
             clientHeight: height,
-            getContext: (() => {return gl}) as any,
-          } as HTMLCanvasElement);
+            getContext: (() => {
+              return gl;
+            }) as any,
+          } as HTMLCanvasElement;
 
           let window = {
             innerWidth: width,
             innerHeight: height,
             devicePixelRatio: 1,
-            addEventListener: (() => {}) as any
-          }
+            addEventListener: (() => {}) as any,
+          };
 
-          const requestAnimationFrame = vsync(context).requestAnimationFrame
+          const requestAnimationFrame = vsync(context).requestAnimationFrame;
 
           //#region code to impl
 
@@ -115,144 +135,155 @@ class webgl_animation_skinning_additive_blending extends Panel {
 
           const crossFadeControls = [];
 
-          let currentBaseAction = 'idle';
+          let currentBaseAction = "idle";
           const allActions = [];
           const baseActions = {
             idle: { weight: 1 },
             walk: { weight: 0 },
-            run: { weight: 0 }
+            run: { weight: 0 },
           };
           const additiveActions = {
             sneak_pose: { weight: 0 },
             sad_pose: { weight: 0 },
             agree: { weight: 0 },
-            headShake: { weight: 0 }
+            headShake: { weight: 0 },
           };
           let panelSettings, numAnimations;
 
           init();
 
           function init() {
-
             // const container = document.getElementById( 'container' );
             clock = new THREE.Clock();
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color( 0xa0a0a0 );
-            scene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
+            scene.background = new THREE.Color(0xa0a0a0);
+            scene.fog = new THREE.Fog(0xa0a0a0, 10, 50);
 
-            const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-            hemiLight.position.set( 0, 20, 0 );
-            scene.add( hemiLight );
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+            hemiLight.position.set(0, 20, 0);
+            scene.add(hemiLight);
 
-            const dirLight = new THREE.DirectionalLight( 0xffffff );
-            dirLight.position.set( 3, 10, 10 );
+            const dirLight = new THREE.DirectionalLight(0xffffff);
+            dirLight.position.set(3, 10, 10);
             dirLight.castShadow = true;
             dirLight.shadow.camera.top = 2;
-            dirLight.shadow.camera.bottom = - 2;
-            dirLight.shadow.camera.left = - 2;
+            dirLight.shadow.camera.bottom = -2;
+            dirLight.shadow.camera.left = -2;
             dirLight.shadow.camera.right = 2;
             dirLight.shadow.camera.near = 0.1;
             dirLight.shadow.camera.far = 40;
-            scene.add( dirLight );
+            scene.add(dirLight);
 
             // ground
 
-            const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-            mesh.rotation.x = - Math.PI / 2;
+            const mesh = new THREE.Mesh(
+              new THREE.PlaneGeometry(100, 100),
+              new THREE.MeshPhongMaterial({
+                color: 0x999999,
+                depthWrite: false,
+              })
+            );
+            mesh.rotation.x = -Math.PI / 2;
             mesh.receiveShadow = true;
-            scene.add( mesh );
+            scene.add(mesh);
 
             //@ts-ignore
             const loader = new GLTFLoader();
             //@ts-ignore
-            loader.load( 'https://raw.githubusercontent.com/doric-pub/Dangle/645b2789eb464156970f9bedcf902cdc929dab70/example/src/three.js/models/Xbot/Xbot.gltf', function ( gltf ) {
+            loader.load(
+              "https://raw.githubusercontent.com/doric-pub/Dangle/645b2789eb464156970f9bedcf902cdc929dab70/example/src/three.js/models/Xbot/Xbot.gltf",
+              function (gltf) {
+                model = gltf.scene;
+                scene.add(model);
 
-              model = gltf.scene;
-              scene.add( model );
+                model.traverse(function (object) {
+                  if (object.isMesh) object.castShadow = true;
+                });
 
-              model.traverse( function ( object ) {
+                skeleton = new THREE.SkeletonHelper(model);
+                skeleton.visible = false;
+                scene.add(skeleton);
 
-                if ( object.isMesh ) object.castShadow = true;
+                const animations = gltf.animations;
+                mixer = new THREE.AnimationMixer(model);
 
-              } );
+                numAnimations = animations.length;
 
-              skeleton = new THREE.SkeletonHelper( model );
-              skeleton.visible = false;
-              scene.add( skeleton );
+                for (let i = 0; i !== numAnimations; ++i) {
+                  let clip = animations[i];
+                  const name = clip.name;
 
-              const animations = gltf.animations;
-              mixer = new THREE.AnimationMixer( model );
+                  if (baseActions[name]) {
+                    const action = mixer.clipAction(clip);
+                    activateAction(action);
+                    baseActions[name].action = action;
+                    //@ts-ignore
+                    allActions.push(action);
+                  } else if (additiveActions[name]) {
+                    // Make the clip additive and remove the reference frame
 
-              numAnimations = animations.length;
+                    THREE.AnimationUtils.makeClipAdditive(clip);
 
-              for ( let i = 0; i !== numAnimations; ++ i ) {
+                    if (clip.name.endsWith("_pose")) {
+                      clip = THREE.AnimationUtils.subclip(
+                        clip,
+                        clip.name,
+                        2,
+                        3,
+                        30
+                      );
+                    }
 
-                let clip = animations[ i ];
-                const name = clip.name;
-
-                if ( baseActions[ name ] ) {
-
-                  const action = mixer.clipAction( clip );
-                  activateAction( action );
-                  baseActions[ name ].action = action;
-                  //@ts-ignore
-                  allActions.push( action );
-
-                } else if ( additiveActions[ name ] ) {
-
-                  // Make the clip additive and remove the reference frame
-
-                  THREE.AnimationUtils.makeClipAdditive( clip );
-
-                  if ( clip.name.endsWith( '_pose' ) ) {
-
-                    clip = THREE.AnimationUtils.subclip( clip, clip.name, 2, 3, 30 );
-
+                    const action = mixer.clipAction(clip);
+                    activateAction(action);
+                    additiveActions[name].action = action;
+                    //@ts-ignore
+                    allActions.push(action);
                   }
-
-                  const action = mixer.clipAction( clip );
-                  activateAction( action );
-                  additiveActions[ name ].action = action;
-                  //@ts-ignore
-                  allActions.push( action );
-
                 }
 
+                createPanel();
+
+                animate();
               }
+            );
 
-              createPanel();
-
-              animate();
-
-            } );
-
-            renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-            renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer = new THREE.WebGLRenderer({
+              antialias: true,
+              canvas: inputCanvas,
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.outputEncoding = THREE.sRGBEncoding;
             renderer.shadowMap.enabled = true;
             // container.appendChild( renderer.domElement );
 
             // camera
-            camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100 );
-            camera.position.set( - 1, 2, 3 );
+            camera = new THREE.PerspectiveCamera(
+              45,
+              window.innerWidth / window.innerHeight,
+              1,
+              100
+            );
+            camera.position.set(-1, 2, 3);
 
-            const controls = new OrbitControls( camera, renderer.domElement ) as any;
+            const controls = new OrbitControls(
+              camera,
+              renderer.domElement
+            ) as any;
             controls.enablePan = false;
             controls.enableZoom = false;
-            controls.target.set( 0, 1, 0 );
+            controls.target.set(0, 1, 0);
             controls.update();
 
             // stats = new Stats();
             // container.appendChild( stats.dom );
 
-            window.addEventListener( 'resize', onWindowResize );
-
+            window.addEventListener("resize", onWindowResize);
           }
 
           function createPanel() {
-
             // const panel = new GUI( { width: 310 } );
 
             // const folder1 = panel.addFolder( 'Base Actions' );
@@ -265,301 +296,346 @@ class webgl_animation_skinning_additive_blending extends Panel {
 
             // const baseNames = [ 'None', ...Object.keys( baseActions ) ];
 
+            self.vlayoutView?.addChild(text({ text: "Base Actions" }));
             self.vlayoutView?.addChild(
-              text({text: 'Base Actions'})
-            )
+              hlayout(
+                [
+                  (self.noneText = text({
+                    text: "None",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 60,
+                    backgroundColor: Color.GRAY,
+                    textColor: Color.BLACK,
+
+                    onClick: () => {
+                      const currentSettings = baseActions[currentBaseAction];
+                      const currentAction = currentSettings
+                        ? currentSettings.action
+                        : null;
+                      const settings = baseActions["None"];
+                      const action = settings ? settings.action : null;
+                      prepareCrossFade(currentAction, action, 0.35);
+
+                      self.noneText!!.textColor = Color.WHITE;
+                      self.idleText!!.textColor = Color.BLACK;
+                      self.walkText!!.textColor = Color.BLACK;
+                      self.runText!!.textColor = Color.BLACK;
+                    },
+                  })),
+                  (self.idleText = text({
+                    text: "idle",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 60,
+                    backgroundColor: Color.GRAY,
+                    textColor: Color.WHITE,
+
+                    onClick: () => {
+                      const currentSettings = baseActions[currentBaseAction];
+                      const currentAction = currentSettings
+                        ? currentSettings.action
+                        : null;
+                      const settings = baseActions["idle"];
+                      //@ts-ignore
+                      const action = settings ? settings.action : null;
+                      prepareCrossFade(currentAction, action, 0.35);
+
+                      self.noneText!!.textColor = Color.BLACK;
+                      self.idleText!!.textColor = Color.WHITE;
+                      self.walkText!!.textColor = Color.BLACK;
+                      self.runText!!.textColor = Color.BLACK;
+                    },
+                  })),
+                  (self.walkText = text({
+                    text: "walk",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 60,
+                    backgroundColor: Color.GRAY,
+                    textColor: Color.BLACK,
+
+                    onClick: () => {
+                      const currentSettings = baseActions[currentBaseAction];
+                      const currentAction = currentSettings
+                        ? currentSettings.action
+                        : null;
+                      const settings = baseActions["walk"];
+                      //@ts-ignore
+                      const action = settings ? settings.action : null;
+                      prepareCrossFade(currentAction, action, 0.35);
+
+                      self.noneText!!.textColor = Color.BLACK;
+                      self.idleText!!.textColor = Color.BLACK;
+                      self.walkText!!.textColor = Color.WHITE;
+                      self.runText!!.textColor = Color.BLACK;
+                    },
+                  })),
+                  (self.runText = text({
+                    text: "run",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 60,
+                    backgroundColor: Color.GRAY,
+                    textColor: Color.BLACK,
+
+                    onClick: () => {
+                      const currentSettings = baseActions[currentBaseAction];
+                      const currentAction = currentSettings
+                        ? currentSettings.action
+                        : null;
+                      const settings = baseActions["run"];
+                      //@ts-ignore
+                      const action = settings ? settings.action : null;
+                      prepareCrossFade(currentAction, action, 0.35);
+
+                      self.noneText!!.textColor = Color.BLACK;
+                      self.idleText!!.textColor = Color.BLACK;
+                      self.walkText!!.textColor = Color.BLACK;
+                      self.runText!!.textColor = Color.WHITE;
+                    },
+                  })),
+                ],
+                {
+                  space: 10,
+                  gravity: Gravity.CenterY,
+                }
+              )
+            );
+
             self.vlayoutView?.addChild(
-              hlayout([
-                self.noneText = text({
-                  text: 'None',
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 60,
-                  backgroundColor: Color.GRAY,
-                  textColor: Color.BLACK,
+              hlayout(
+                [
+                  text({
+                    text: "sneak_pose",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 90,
+                  }),
+                  gestureContainer(
+                    [
+                      (self.sneakPoseValue = stack([], {
+                        layoutConfig: layoutConfig().just(),
+                        width: 135,
+                        height: 25,
+                        x: (0 * 135) / 1 - 135,
+                        backgroundColor: Color.parse("#2FA1D6"),
+                      })),
+                    ],
+                    {
+                      onPan: (dx, dy) => {
+                        self.sneakPoseValue!!.x -= dx;
+                        if (self.sneakPoseValue!!.x <= (0 * 135) / 1 - 135) {
+                          self.sneakPoseValue!!.x = (0 * 135) / 1 - 135;
+                        } else if (self.sneakPoseValue!!.x >= 0) {
+                          self.sneakPoseValue!!.x = 0;
+                        }
+                        let sneakPose =
+                          ((self.sneakPoseValue!!.x + 135) * 1) / 135;
 
-                  onClick: () => {
-                    const currentSettings = baseActions[ currentBaseAction ]
-                    const currentAction = currentSettings ? currentSettings.action : null;
-                    const settings = baseActions[ 'None' ]
-                    const action = settings ? settings.action : null;
-                    prepareCrossFade( currentAction, action, 0.35 );
-
-                    self.noneText!!.textColor = Color.WHITE
-                    self.idleText!!.textColor = Color.BLACK
-                    self.walkText!!.textColor = Color.BLACK
-                    self.runText!!.textColor = Color.BLACK
-                  }
-                }),
-                self.idleText = text({
-                  text: 'idle',
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 60,
-                  backgroundColor: Color.GRAY,
-                  textColor: Color.WHITE,
-
-                  onClick: () => {
-                    const currentSettings = baseActions[ currentBaseAction ]
-                    const currentAction = currentSettings ? currentSettings.action : null;
-                    const settings = baseActions[ 'idle' ]
-                    //@ts-ignore
-                    const action = settings ? settings.action : null;
-                    prepareCrossFade( currentAction, action, 0.35 );
-
-                    self.noneText!!.textColor = Color.BLACK
-                    self.idleText!!.textColor = Color.WHITE
-                    self.walkText!!.textColor = Color.BLACK
-                    self.runText!!.textColor = Color.BLACK
-                  }
-                }),
-                self.walkText = text({
-                  text: 'walk',
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 60,
-                  backgroundColor: Color.GRAY,
-                  textColor: Color.BLACK,
-
-                  onClick: () => {
-                    const currentSettings = baseActions[ currentBaseAction ]
-                    const currentAction = currentSettings ? currentSettings.action : null;
-                    const settings = baseActions[ 'walk' ]
-                    //@ts-ignore
-                    const action = settings ? settings.action : null;
-                    prepareCrossFade( currentAction, action, 0.35 );
-
-                    self.noneText!!.textColor = Color.BLACK
-                    self.idleText!!.textColor = Color.BLACK
-                    self.walkText!!.textColor = Color.WHITE
-                    self.runText!!.textColor = Color.BLACK
-                  }
-                }),
-                self.runText = text({
-                  text: 'run',
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 60,
-                  backgroundColor: Color.GRAY,
-                  textColor: Color.BLACK,
-
-                  onClick: () => {
-                    const currentSettings = baseActions[ currentBaseAction ]
-                    const currentAction = currentSettings ? currentSettings.action : null;
-                    const settings = baseActions[ 'run' ]
-                    //@ts-ignore
-                    const action = settings ? settings.action : null;
-                    prepareCrossFade( currentAction, action, 0.35 );
-
-                    self.noneText!!.textColor = Color.BLACK
-                    self.idleText!!.textColor = Color.BLACK
-                    self.walkText!!.textColor = Color.BLACK
-                    self.runText!!.textColor = Color.WHITE
-                  }
-                }),
-              ], {
-                space: 10,
-                gravity: Gravity.CenterY,
-              })
-            )
-
-            self.vlayoutView?.addChild(
-              hlayout([
-                text({
-                  text: "sneak_pose",
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 90,
-                }),
-                gestureContainer([
-                  self.sneakPoseValue = stack([], {
-                    layoutConfig: layoutConfig().just(),
-                    width: 135 ,
-                    height: 25,
-                    x: 0 * 135 / 1 - 135,
-                    backgroundColor: Color.parse("#2FA1D6"),
-                  })
-                ], {
-                  onPan: (dx, dy) => {
-                    self.sneakPoseValue!!.x -= dx
-                    if (self.sneakPoseValue!!.x <= 0 * 135 / 1 - 135) {
-                      self.sneakPoseValue!!.x = 0 * 135 / 1 - 135
-                    } else if (self.sneakPoseValue!!.x >= 0) {
-                      self.sneakPoseValue!!.x = 0
+                        const settings = additiveActions["sneak_pose"];
+                        //@ts-ignore
+                        setWeight(settings.action, sneakPose);
+                        settings.weight = sneakPose;
+                      },
+                      layoutConfig: layoutConfig().just(),
+                      width: 135,
+                      height: 25,
+                      backgroundColor: Color.parse("#303030"),
                     }
-                    let sneakPose = (self.sneakPoseValue!!.x + 135) * 1 / 135
-  
-                    const settings = additiveActions[ 'sneak_pose' ]
-                    //@ts-ignore
-                    setWeight( settings.action, sneakPose );
-                    settings.weight = sneakPose;
-                  },
-                  layoutConfig: layoutConfig().just(),
-                  width: 135,
-                  height: 25,
-                  backgroundColor: Color.parse("#303030"),
-                })
-              ], {
-                space: 10,
-                gravity: Gravity.CenterY,
-              })
-            )
+                  ),
+                ],
+                {
+                  space: 10,
+                  gravity: Gravity.CenterY,
+                }
+              )
+            );
 
             self.vlayoutView?.addChild(
-              hlayout([
-                text({
-                  text: "sad_pose",
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 90,
-                }),
-                gestureContainer([
-                  self.sadPoseValue = stack([], {
-                    layoutConfig: layoutConfig().just(),
-                    width: 135 ,
-                    height: 25,
-                    x: 0 * 135 / 1 - 135,
-                    backgroundColor: Color.parse("#2FA1D6"),
-                  })
-                ], {
-                  onPan: (dx, dy) => {
-                    self.sadPoseValue!!.x -= dx
-                    if (self.sadPoseValue!!.x <= 0 * 135 / 1 - 135) {
-                      self.sadPoseValue!!.x = 0 * 135 / 1 - 135
-                    } else if (self.sadPoseValue!!.x >= 0) {
-                      self.sadPoseValue!!.x = 0
+              hlayout(
+                [
+                  text({
+                    text: "sad_pose",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 90,
+                  }),
+                  gestureContainer(
+                    [
+                      (self.sadPoseValue = stack([], {
+                        layoutConfig: layoutConfig().just(),
+                        width: 135,
+                        height: 25,
+                        x: (0 * 135) / 1 - 135,
+                        backgroundColor: Color.parse("#2FA1D6"),
+                      })),
+                    ],
+                    {
+                      onPan: (dx, dy) => {
+                        self.sadPoseValue!!.x -= dx;
+                        if (self.sadPoseValue!!.x <= (0 * 135) / 1 - 135) {
+                          self.sadPoseValue!!.x = (0 * 135) / 1 - 135;
+                        } else if (self.sadPoseValue!!.x >= 0) {
+                          self.sadPoseValue!!.x = 0;
+                        }
+                        let sadPose = ((self.sadPoseValue!!.x + 135) * 1) / 135;
+
+                        const settings = additiveActions["sad_pose"];
+                        //@ts-ignore
+                        setWeight(settings.action, sadPose);
+                        settings.weight = sadPose;
+                      },
+                      layoutConfig: layoutConfig().just(),
+                      width: 135,
+                      height: 25,
+                      backgroundColor: Color.parse("#303030"),
                     }
-                    let sadPose = (self.sadPoseValue!!.x + 135) * 1 / 135
-  
-                    const settings = additiveActions[ 'sad_pose' ]
-                    //@ts-ignore
-                    setWeight( settings.action, sadPose );
-                    settings.weight = sadPose;
-                  },
-                  layoutConfig: layoutConfig().just(),
-                  width: 135,
-                  height: 25,
-                  backgroundColor: Color.parse("#303030"),
-                })
-              ], {
-                space: 10,
-                gravity: Gravity.CenterY,
-              })
-            )
+                  ),
+                ],
+                {
+                  space: 10,
+                  gravity: Gravity.CenterY,
+                }
+              )
+            );
 
             self.vlayoutView?.addChild(
-              hlayout([
-                text({
-                  text: "agree",
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 90,
-                }),
-                gestureContainer([
-                  self.agreeValue = stack([], {
-                    layoutConfig: layoutConfig().just(),
-                    width: 135 ,
-                    height: 25,
-                    x: 0 * 135 / 1 - 135,
-                    backgroundColor: Color.parse("#2FA1D6"),
-                  })
-                ], {
-                  onPan: (dx, dy) => {
-                    self.agreeValue!!.x -= dx
-                    if (self.agreeValue!!.x <= 0 * 135 / 1 - 135) {
-                      self.agreeValue!!.x = 0 * 135 / 1 - 135
-                    } else if (self.agreeValue!!.x >= 0) {
-                      self.agreeValue!!.x = 0
+              hlayout(
+                [
+                  text({
+                    text: "agree",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 90,
+                  }),
+                  gestureContainer(
+                    [
+                      (self.agreeValue = stack([], {
+                        layoutConfig: layoutConfig().just(),
+                        width: 135,
+                        height: 25,
+                        x: (0 * 135) / 1 - 135,
+                        backgroundColor: Color.parse("#2FA1D6"),
+                      })),
+                    ],
+                    {
+                      onPan: (dx, dy) => {
+                        self.agreeValue!!.x -= dx;
+                        if (self.agreeValue!!.x <= (0 * 135) / 1 - 135) {
+                          self.agreeValue!!.x = (0 * 135) / 1 - 135;
+                        } else if (self.agreeValue!!.x >= 0) {
+                          self.agreeValue!!.x = 0;
+                        }
+                        let agree = ((self.agreeValue!!.x + 135) * 1) / 135;
+
+                        const settings = additiveActions["agree"];
+                        //@ts-ignore
+                        setWeight(settings.action, agree);
+                        settings.weight = agree;
+                      },
+                      layoutConfig: layoutConfig().just(),
+                      width: 135,
+                      height: 25,
+                      backgroundColor: Color.parse("#303030"),
                     }
-                    let agree = (self.agreeValue!!.x + 135) * 1 / 135
-  
-                    const settings = additiveActions[ 'agree' ]
-                    //@ts-ignore
-                    setWeight( settings.action, agree );
-                    settings.weight = agree;
-                  },
-                  layoutConfig: layoutConfig().just(),
-                  width: 135,
-                  height: 25,
-                  backgroundColor: Color.parse("#303030"),
-                })
-              ], {
-                space: 10,
-                gravity: Gravity.CenterY,
-              })
-            )
+                  ),
+                ],
+                {
+                  space: 10,
+                  gravity: Gravity.CenterY,
+                }
+              )
+            );
 
             self.vlayoutView?.addChild(
-              hlayout([
-                text({
-                  text: "headShake",
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 90,
-                }),
-                gestureContainer([
-                  self.headShakeValue = stack([], {
-                    layoutConfig: layoutConfig().just(),
-                    width: 135 ,
-                    height: 25,
-                    x: 0 * 135 / 1 - 135,
-                    backgroundColor: Color.parse("#2FA1D6"),
-                  })
-                ], {
-                  onPan: (dx, dy) => {
-                    self.headShakeValue!!.x -= dx
-                    if (self.headShakeValue!!.x <= 0 * 135 / 1 - 135) {
-                      self.headShakeValue!!.x = 0 * 135 / 1 - 135
-                    } else if (self.headShakeValue!!.x >= 0) {
-                      self.headShakeValue!!.x = 0
+              hlayout(
+                [
+                  text({
+                    text: "headShake",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 90,
+                  }),
+                  gestureContainer(
+                    [
+                      (self.headShakeValue = stack([], {
+                        layoutConfig: layoutConfig().just(),
+                        width: 135,
+                        height: 25,
+                        x: (0 * 135) / 1 - 135,
+                        backgroundColor: Color.parse("#2FA1D6"),
+                      })),
+                    ],
+                    {
+                      onPan: (dx, dy) => {
+                        self.headShakeValue!!.x -= dx;
+                        if (self.headShakeValue!!.x <= (0 * 135) / 1 - 135) {
+                          self.headShakeValue!!.x = (0 * 135) / 1 - 135;
+                        } else if (self.headShakeValue!!.x >= 0) {
+                          self.headShakeValue!!.x = 0;
+                        }
+                        let headShake =
+                          ((self.headShakeValue!!.x + 135) * 1) / 135;
+
+                        const settings = additiveActions["headShake"];
+                        //@ts-ignore
+                        setWeight(settings.action, headShake);
+                        settings.weight = headShake;
+                      },
+                      layoutConfig: layoutConfig().just(),
+                      width: 135,
+                      height: 25,
+                      backgroundColor: Color.parse("#303030"),
                     }
-                    let headShake = (self.headShakeValue!!.x + 135) * 1 / 135
-  
-                    const settings = additiveActions[ 'headShake' ]
-                    //@ts-ignore
-                    setWeight( settings.action, headShake );
-                    settings.weight = headShake;
-                  },
-                  layoutConfig: layoutConfig().just(),
-                  width: 135,
-                  height: 25,
-                  backgroundColor: Color.parse("#303030"),
-                })
-              ], {
-                space: 10,
-                gravity: Gravity.CenterY,
-              })
-            )
+                  ),
+                ],
+                {
+                  space: 10,
+                  gravity: Gravity.CenterY,
+                }
+              )
+            );
 
             self.vlayoutView?.addChild(
-              hlayout([
-                text({
-                  text: "time scale",
-                  layoutConfig: layoutConfig().justWidth().fitHeight(),
-                  width: 90,
-                }),
-                gestureContainer([
-                  self.modifyTimeScaleValue = stack([], {
-                    layoutConfig: layoutConfig().just(),
-                    width: 135 ,
-                    height: 25,
-                    x: 1 * 135 / 1.5 - 135,
-                    backgroundColor: Color.parse("#2FA1D6"),
-                  })
-                ], {
-                  onPan: (dx, dy) => {
-                    self.modifyTimeScaleValue!!.x -= dx
-                    if (self.modifyTimeScaleValue!!.x <= 0 * 135 / 1.5 - 135) {
-                      self.modifyTimeScaleValue!!.x = 0 * 135 / 1.5 - 135
-                    } else if (self.modifyTimeScaleValue!!.x >= 0) {
-                      self.modifyTimeScaleValue!!.x = 0
+              hlayout(
+                [
+                  text({
+                    text: "time scale",
+                    layoutConfig: layoutConfig().justWidth().fitHeight(),
+                    width: 90,
+                  }),
+                  gestureContainer(
+                    [
+                      (self.modifyTimeScaleValue = stack([], {
+                        layoutConfig: layoutConfig().just(),
+                        width: 135,
+                        height: 25,
+                        x: (1 * 135) / 1.5 - 135,
+                        backgroundColor: Color.parse("#2FA1D6"),
+                      })),
+                    ],
+                    {
+                      onPan: (dx, dy) => {
+                        self.modifyTimeScaleValue!!.x -= dx;
+                        if (
+                          self.modifyTimeScaleValue!!.x <=
+                          (0 * 135) / 1.5 - 135
+                        ) {
+                          self.modifyTimeScaleValue!!.x = (0 * 135) / 1.5 - 135;
+                        } else if (self.modifyTimeScaleValue!!.x >= 0) {
+                          self.modifyTimeScaleValue!!.x = 0;
+                        }
+                        let value =
+                          ((self.modifyTimeScaleValue!!.x + 135) * 1.5) / 135;
+
+                        modifyTimeScale(value);
+                      },
+                      layoutConfig: layoutConfig().just(),
+                      width: 135,
+                      height: 25,
+                      backgroundColor: Color.parse("#303030"),
                     }
-                    let value = (self.modifyTimeScaleValue!!.x + 135) * 1.5 / 135
-  
-                    modifyTimeScale(value)
-                  },
-                  layoutConfig: layoutConfig().just(),
-                  width: 135,
-                  height: 25,
-                  backgroundColor: Color.parse("#303030"),
-                })
-              ], {
-                space: 10,
-                gravity: Gravity.CenterY,
-              })
-            )
+                  ),
+                ],
+                {
+                  space: 10,
+                  gravity: Gravity.CenterY,
+                }
+              )
+            );
 
             // for ( let i = 0, l = baseNames.length; i !== l; ++ i ) {
 
@@ -622,160 +698,118 @@ class webgl_animation_skinning_additive_blending extends Panel {
             //   }
 
             // } );
-
           }
 
-          function activateAction( action ) {
-
+          function activateAction(action) {
             const clip = action.getClip();
-            const settings = baseActions[ clip.name ] || additiveActions[ clip.name ];
-            setWeight( action, settings.weight );
+            const settings =
+              baseActions[clip.name] || additiveActions[clip.name];
+            setWeight(action, settings.weight);
             action.play();
-
           }
 
-          function modifyTimeScale( speed ) {
-
+          function modifyTimeScale(speed) {
             mixer.timeScale = speed;
-
           }
 
-          function prepareCrossFade( startAction, endAction, duration ) {
-
+          function prepareCrossFade(startAction, endAction, duration) {
             // If the current action is 'idle', execute the crossfade immediately;
             // else wait until the current action has finished its current loop
 
-            if ( currentBaseAction === 'idle' || ! startAction || ! endAction ) {
-
-              executeCrossFade( startAction, endAction, duration );
-
+            if (currentBaseAction === "idle" || !startAction || !endAction) {
+              executeCrossFade(startAction, endAction, duration);
             } else {
-
-              synchronizeCrossFade( startAction, endAction, duration );
-
+              synchronizeCrossFade(startAction, endAction, duration);
             }
 
             // Update control colors
 
-            if ( endAction ) {
-
+            if (endAction) {
               const clip = endAction.getClip();
               currentBaseAction = clip.name;
-
             } else {
-
-              currentBaseAction = 'None';
-
+              currentBaseAction = "None";
             }
 
-            crossFadeControls.forEach( function ( control ) {
-
+            crossFadeControls.forEach(function (control) {
               //@ts-ignore
               const name = control.property;
 
-              if ( name === currentBaseAction ) {
-
+              if (name === currentBaseAction) {
                 //@ts-ignore
                 control.setActive();
-
               } else {
-
                 //@ts-ignore
                 control.setInactive();
-
               }
-
-            } );
-
+            });
           }
 
-          function synchronizeCrossFade( startAction, endAction, duration ) {
+          function synchronizeCrossFade(startAction, endAction, duration) {
+            mixer.addEventListener("loop", onLoopFinished);
 
-            mixer.addEventListener( 'loop', onLoopFinished );
+            function onLoopFinished(event) {
+              if (event.action === startAction) {
+                mixer.removeEventListener("loop", onLoopFinished);
 
-            function onLoopFinished( event ) {
-
-              if ( event.action === startAction ) {
-
-                mixer.removeEventListener( 'loop', onLoopFinished );
-
-                executeCrossFade( startAction, endAction, duration );
-
+                executeCrossFade(startAction, endAction, duration);
               }
-
             }
-
           }
 
-          function executeCrossFade( startAction, endAction, duration ) {
-
+          function executeCrossFade(startAction, endAction, duration) {
             // Not only the start action, but also the end action must get a weight of 1 before fading
             // (concerning the start action this is already guaranteed in this place)
 
-            if ( endAction ) {
-
-              setWeight( endAction, 1 );
+            if (endAction) {
+              setWeight(endAction, 1);
               endAction.time = 0;
 
-              if ( startAction ) {
-
+              if (startAction) {
                 // Crossfade with warping
 
-                startAction.crossFadeTo( endAction, duration, true );
-
+                startAction.crossFadeTo(endAction, duration, true);
               } else {
-
                 // Fade in
 
-                endAction.fadeIn( duration );
-
+                endAction.fadeIn(duration);
               }
-
             } else {
-
               // Fade out
 
-              startAction.fadeOut( duration );
-
+              startAction.fadeOut(duration);
             }
-
           }
 
           // This function is needed, since animationAction.crossFadeTo() disables its start action and sets
           // the start action's timeScale to ((start animation's duration) / (end animation's duration))
 
-          function setWeight( action, weight ) {
-
+          function setWeight(action, weight) {
             action.enabled = true;
-            action.setEffectiveTimeScale( 1 );
-            action.setEffectiveWeight( weight );
-
+            action.setEffectiveTimeScale(1);
+            action.setEffectiveWeight(weight);
           }
 
           function onWindowResize() {
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
 
-            renderer.setSize( window.innerWidth, window.innerHeight );
-
+            renderer.setSize(window.innerWidth, window.innerHeight);
           }
 
           function animate() {
-
             // Render loop
 
-            requestAnimationFrame( animate );
+            requestAnimationFrame(animate);
 
-            for ( let i = 0; i !== numAnimations; ++ i ) {
-
-              const action = allActions[ i ];
+            for (let i = 0; i !== numAnimations; ++i) {
+              const action = allActions[i];
               //@ts-ignore
               const clip = action.getClip();
-              const settings = baseActions[ clip.name ] || additiveActions[ clip.name ];
+              const settings =
+                baseActions[clip.name] || additiveActions[clip.name];
               //@ts-ignore
               settings.weight = action.getEffectiveWeight();
-
             }
 
             // Get the time elapsed since the last frame, used for mixer update
@@ -784,11 +818,11 @@ class webgl_animation_skinning_additive_blending extends Panel {
 
             // Update the animation mixer, the stats panel, and render this frame
 
-            mixer.update( mixerUpdateDelta );
+            mixer.update(mixerUpdateDelta);
 
             // stats.update();
 
-            renderer.render( scene, camera );
+            renderer.render(scene, camera);
 
             gl.endFrame();
           }
@@ -799,7 +833,7 @@ class webgl_animation_skinning_additive_blending extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
-    )
+      })
+    );
   }
 }

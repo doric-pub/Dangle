@@ -18,20 +18,19 @@ import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 
 @Entry
 class webgl_animation_keyframes extends Panel {
-
-  private gestureView?: GestureContainer
+  private gestureView?: GestureContainer;
 
   onShow() {
     navbar(context).setTitle("webgl_animation_keyframes");
   }
   build(rootView: Group) {
     vlayout([
-      this.gestureView = gestureContainer([], {
+      (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
         backgroundColor: Color.BLACK,
-      }),
+      })),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -40,37 +39,56 @@ class webgl_animation_keyframes extends Panel {
       })
       .in(rootView);
 
-    let self = this
+    let self = this;
     this.gestureView.addChild(
       dangleView({
         onReady: (gl: DangleWebGLRenderingContext) => {
-          const width = gl.drawingBufferWidth
-          const height = gl.drawingBufferHeight
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
 
-          const inputCanvas = 
-          ({
+          const inputCanvas = {
             width: width,
             height: height,
             style: {},
             addEventListener: ((
               name: string,
-              fn: (event: { pageX: number; pageY: number, pointerType: string }) => void
+              fn: (event: {
+                pageX: number;
+                pageY: number;
+                pointerType: string;
+              }) => void
             ) => {
               if (name == "pointerdown") {
-                self.gestureView!!.onTouchDown = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchDown = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointerup") {
-                self.gestureView!!.onTouchUp = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchUp = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointermove") {
-                self.gestureView!!.onTouchMove = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchMove = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               } else if (name == "pointercancel") {
-                self.gestureView!!.onTouchCancel = ({x, y}) => {
-                  fn({pageX: x, pageY: y, pointerType: 'touch'})
+                self.gestureView!!.onTouchCancel = ({ x, y }) => {
+                  fn({
+                    pageX: x * Environment.screenScale,
+                    pageY: y * Environment.screenScale,
+                    pointerType: "touch",
+                  });
                 };
               }
             }) as any,
@@ -78,15 +96,17 @@ class webgl_animation_keyframes extends Panel {
             setPointerCapture: (() => {}) as any,
             releasePointerCapture: (() => {}) as any,
             clientHeight: height,
-            getContext: (() => {return gl}) as any,
-          } as HTMLCanvasElement);
+            getContext: (() => {
+              return gl;
+            }) as any,
+          } as HTMLCanvasElement;
           let window = {
             innerWidth: width,
             innerHeight: height,
             devicePixelRatio: 1,
-            addEventListener: (() => {}) as any
-          }
-          let requestAnimationFrame = vsync(context).requestAnimationFrame
+            addEventListener: (() => {}) as any,
+          };
+          let requestAnimationFrame = vsync(context).requestAnimationFrame;
 
           //#region code to impl
 
@@ -98,39 +118,54 @@ class webgl_animation_keyframes extends Panel {
           // const stats = new Stats();
           // container.appendChild( stats.dom );
 
-          const renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-          renderer.setPixelRatio( window.devicePixelRatio );
-          renderer.setSize( window.innerWidth, window.innerHeight );
+          const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            canvas: inputCanvas,
+          });
+          renderer.setPixelRatio(window.devicePixelRatio);
+          renderer.setSize(window.innerWidth, window.innerHeight);
           renderer.outputEncoding = THREE.sRGBEncoding;
           // container.appendChild( renderer.domElement );
 
-          const pmremGenerator = new THREE.PMREMGenerator( renderer );
+          const pmremGenerator = new THREE.PMREMGenerator(renderer);
 
           const scene = new THREE.Scene();
-          scene.background = new THREE.Color( 0xbfe3dd );
+          scene.background = new THREE.Color(0xbfe3dd);
           // scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture;
 
-          const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
-          camera.position.set( 5, 2, 8 );
+          const camera = new THREE.PerspectiveCamera(
+            40,
+            window.innerWidth / window.innerHeight,
+            1,
+            100
+          );
+          camera.position.set(5, 2, 8);
 
           {
-            const skyColor = 0xFFFFFF;
-            const groundColor = 0xFFFFFF;  // brownish orange
+            const skyColor = 0xffffff;
+            const groundColor = 0xffffff; // brownish orange
             const intensity = 1;
-            const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+            const light = new THREE.HemisphereLight(
+              skyColor,
+              groundColor,
+              intensity
+            );
             scene.add(light);
           }
-        
+
           {
-            const color = 0xFFFFFF;
+            const color = 0xffffff;
             const intensity = 1.5;
             const light = new THREE.DirectionalLight(color, intensity);
             light.position.set(5, 10, 2);
             scene.add(light);
           }
 
-          const controls = new OrbitControls( camera, renderer.domElement ) as any;
-          controls.target.set( 0, 0.5, 0 );
+          const controls = new OrbitControls(
+            camera,
+            renderer.domElement
+          ) as any;
+          controls.target.set(0, 0.5, 0);
           controls.update();
           controls.enablePan = false;
           controls.enableDamping = true;
@@ -138,28 +173,27 @@ class webgl_animation_keyframes extends Panel {
           //@ts-ignore
           const loader = new GLTFLoader();
           try {
-            loader.load( 'https://raw.githubusercontent.com/greggman/doodles/master/models/littlest_tokyo/scene.gltf', function ( gltf ) {
+            loader.load(
+              "https://raw.githubusercontent.com/greggman/doodles/master/models/littlest_tokyo/scene.gltf",
+              function (gltf) {
+                const model = gltf.scene;
+                model.position.set(1, 1, 0);
+                model.scale.set(0.01, 0.01, 0.01);
+                scene.add(model);
 
-              const model = gltf.scene;
-              model.position.set( 1, 1, 0 );
-              model.scale.set( 0.01, 0.01, 0.01 );
-              scene.add( model );
-      
-              mixer = new THREE.AnimationMixer( model );
-              mixer.clipAction( gltf.animations[ 0 ] ).play();
-      
-              animate();
-      
-            }, undefined, function ( e ) {
-      
-              console.error( e );
-      
-            } );
+                mixer = new THREE.AnimationMixer(model);
+                mixer.clipAction(gltf.animations[0]).play();
+
+                animate();
+              },
+              undefined,
+              function (e) {
+                console.error(e);
+              }
+            );
           } catch (error: any) {
-            loge(error.stack)
+            loge(error.stack);
           }
-          
-
 
           // window.onresize = function () {
 
@@ -170,23 +204,20 @@ class webgl_animation_keyframes extends Panel {
 
           // };
 
-
           function animate() {
-
-            requestAnimationFrame( animate );
+            requestAnimationFrame(animate);
 
             const delta = clock.getDelta();
 
-            mixer.update( delta );
+            mixer.update(delta);
 
             controls.update();
 
             // stats.update();
 
-            renderer.render( scene, camera );
+            renderer.render(scene, camera);
 
             gl.endFrame();
-
           }
 
           //#endregion
@@ -195,8 +226,7 @@ class webgl_animation_keyframes extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
-    )
+      })
+    );
   }
 }
-  
