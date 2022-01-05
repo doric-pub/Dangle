@@ -38,6 +38,7 @@ import {
 	VectorKeyframeTrack
 } from 'three';
 import { DOMParser } from '@xmldom/xmldom'
+import querySelector from "query-selector";
 
 import { FileLoader } from '../../dangle/FileLoader.js';
 import { TextureLoader } from '../../dangle/TextureLoader.js';
@@ -3035,7 +3036,7 @@ class ColladaLoader extends Loader {
 
 					// get the parent of the transform element
 
-					const parentVisualElement = targetElement.parentElement;
+					const parentVisualElement = targetElement["0"].parentNode;
 
 					// connect the joint of the kinematics model with the element in the visual scene
 
@@ -3188,8 +3189,7 @@ class ColladaLoader extends Loader {
 
 			const transforms = [];
 
-			const xml = collada.querySelector( '[id="' + node.id + '"]' );
-
+			const xml = collada.querySelector( '[id="' + node.getAttribute( 'id' ) + '"]' )["0"];
 			for ( let i = 0; i < xml.childNodes.length; i ++ ) {
 
 				const child = xml.childNodes[ i ];
@@ -3236,6 +3236,7 @@ class ColladaLoader extends Loader {
 				}
 
 			}
+			
 
 			return transforms;
 
@@ -3945,6 +3946,13 @@ class ColladaLoader extends Loader {
 		const xml = new DOMParser().parseFromString( text, 'application/xml' );
 
 		const collada = getElementsByTagName( xml, 'COLLADA' )[ 0 ];
+		const documentPrototype = Object.getPrototypeOf(collada);
+		documentPrototype.querySelectorAll = function (selector) {
+			return querySelector(selector, this);
+		};
+		documentPrototype.querySelector = function (selector) {
+			return querySelector(selector, this);
+		};
 
 		const parserError = xml.getElementsByTagName( 'parsererror' )[ 0 ];
 		if ( parserError !== undefined ) {
