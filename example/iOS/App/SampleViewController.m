@@ -97,6 +97,7 @@
         [self.tableDataArr addObject:@"three.js/webgl_loader_texture_hdr"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_texture_tga"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_ttf"];
+        [self.tableDataArr addObject:@"three.js/webgl_loader_vox"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_3ds"];
 
         [self.tableDataArr addObject:@"three.js/webgl_materials_car"];
