@@ -14,7 +14,7 @@ import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 import { Water } from "./jsm/objects/Water";
-import { TextureLoader } from "./dangle/remote/TextureLoader";
+import { TextureLoader } from "./dangle/assets/TextureLoader";
 import { Sky } from "./jsm/objects/Sky";
 
 @Entry
@@ -152,7 +152,7 @@ class webgl_shaders_ocean extends Panel {
               textureHeight: 512,
               //@ts-ignore
               waterNormals: new TextureLoader().load(
-                "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/waternormals.jpg",
+                "threejs/waternormals.jpg",
                 function (texture) {
                   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
                 }

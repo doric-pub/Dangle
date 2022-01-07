@@ -8,13 +8,13 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
-  RemoteResource,
   imageDecoder,
   hlayout,
   text,
   input,
   Text,
   Input,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -348,14 +348,14 @@ class webgl_materials_car extends Panel {
             // Car
 
             // const shadow = new THREE.TextureLoader().load( 'models/gltf/ferrari_ao.png' );
-            const remoteResource = new RemoteResource(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/ferrari_ao.png"
+            const assetsResource = new AssetsResource(
+              "threejs/ferrari/ferrari_ao.png"
             );
             const imageInfo = await imageDecoder(context).getImageInfo(
-              remoteResource
+              assetsResource
             );
             const imagePixels = await imageDecoder(context).decodeToPixels(
-              remoteResource
+              assetsResource
             );
 
             const shadow = new THREE.DataTexture(
@@ -373,45 +373,42 @@ class webgl_materials_car extends Panel {
             // loader.setDRACOLoader( dracoLoader );
 
             //@ts-ignore
-            loader.load(
-              "https://raw.githubusercontent.com/doric-pub/Dangle/013d7c13b6b90ff99f4249cb68cfa3c7219423cd/example/src/three.js/models/ferrari/ferrari.gltf",
-              function (gltf) {
-                const carModel = gltf.scene.children[0];
+            loader.load("threejs/ferrari/ferrari.gltf", function (gltf) {
+              const carModel = gltf.scene.children[0];
 
-                carModel.getObjectByName("body").material = bodyMaterial;
+              carModel.getObjectByName("body").material = bodyMaterial;
 
-                carModel.getObjectByName("rim_fl").material = detailsMaterial;
-                carModel.getObjectByName("rim_fr").material = detailsMaterial;
-                carModel.getObjectByName("rim_rr").material = detailsMaterial;
-                carModel.getObjectByName("rim_rl").material = detailsMaterial;
-                carModel.getObjectByName("trim").material = detailsMaterial;
+              carModel.getObjectByName("rim_fl").material = detailsMaterial;
+              carModel.getObjectByName("rim_fr").material = detailsMaterial;
+              carModel.getObjectByName("rim_rr").material = detailsMaterial;
+              carModel.getObjectByName("rim_rl").material = detailsMaterial;
+              carModel.getObjectByName("trim").material = detailsMaterial;
 
-                carModel.getObjectByName("glass").material = glassMaterial;
+              carModel.getObjectByName("glass").material = glassMaterial;
 
-                wheels.push(
-                  carModel.getObjectByName("wheel_fl"),
-                  carModel.getObjectByName("wheel_fr"),
-                  carModel.getObjectByName("wheel_rl"),
-                  carModel.getObjectByName("wheel_rr")
-                );
+              wheels.push(
+                carModel.getObjectByName("wheel_fl"),
+                carModel.getObjectByName("wheel_fr"),
+                carModel.getObjectByName("wheel_rl"),
+                carModel.getObjectByName("wheel_rr")
+              );
 
-                // shadow
-                const mesh = new THREE.Mesh(
-                  new THREE.PlaneGeometry(0.655 * 4, 1.3 * 4),
-                  new THREE.MeshBasicMaterial({
-                    map: shadow,
-                    blending: THREE.MultiplyBlending,
-                    toneMapped: false,
-                    transparent: true,
-                  })
-                );
-                mesh.rotation.x = -Math.PI / 2;
-                mesh.renderOrder = 2;
-                carModel.add(mesh);
+              // shadow
+              const mesh = new THREE.Mesh(
+                new THREE.PlaneGeometry(0.655 * 4, 1.3 * 4),
+                new THREE.MeshBasicMaterial({
+                  map: shadow,
+                  blending: THREE.MultiplyBlending,
+                  toneMapped: false,
+                  transparent: true,
+                })
+              );
+              mesh.rotation.x = -Math.PI / 2;
+              mesh.renderOrder = 2;
+              carModel.add(mesh);
 
-                scene.add(carModel);
-              }
-            );
+              scene.add(carModel);
+            });
           }
 
           function onWindowResize() {
