@@ -125,7 +125,7 @@ class webgl_geometry_text_shapes extends Panel {
             const loader = new FontLoader();
             //@ts-ignore
             loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/helvetiker_regular.typeface.json",
+              "threejs/helvetiker_regular.typeface.json",
               function (font) {
                 const color = 0x006699;
 

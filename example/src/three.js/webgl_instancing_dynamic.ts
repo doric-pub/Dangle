@@ -6,7 +6,6 @@ import {
   Gravity,
   navbar,
   stack,
-  RemoteResource,
   resourceLoader,
   Stack,
   VLayout,
@@ -14,6 +13,7 @@ import {
   gestureContainer,
   text,
   Color,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -82,11 +82,11 @@ class webgl_instancing_dynamic extends Panel {
 
                 scene = new THREE.Scene();
 
-                const remoteResource = new RemoteResource(
-                  "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/json/suzanne_buffergeometry.json"
+                const assetsResource = new AssetsResource(
+                  "threejs/suzanne_buffergeometry.json"
                 );
                 const arrayBuffer = await resourceLoader(context).load(
-                  remoteResource
+                  assetsResource
                 );
 
                 const array = new Uint8Array(arrayBuffer);

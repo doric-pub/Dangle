@@ -5,7 +5,7 @@ import {
 	ShapePath
 } from 'three';
 
-import { FileLoader } from '../../dangle/FileLoader'
+import { FileLoader } from '../../dangle/assets/FileLoader'
 
 class FontLoader extends Loader {
 

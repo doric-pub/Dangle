@@ -6,13 +6,13 @@ import {
   Gravity,
   navbar,
   stack,
-  RemoteResource,
   imageDecoder,
   Color,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-import * as THREE from 'three'
+import * as THREE from "three";
 
 @Entry
 class webgl_geometry_cube extends Panel {
@@ -25,28 +25,30 @@ class webgl_geometry_cube extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const inputCanvas = 
-              ({
+              const inputCanvas = {
                 width: width,
                 height: height,
                 style: {},
                 addEventListener: (() => {}) as any,
                 removeEventListener: (() => {}) as any,
                 clientHeight: height,
-                getContext: (() => {return gl}) as any,
-              } as HTMLCanvasElement);
+                getContext: (() => {
+                  return gl;
+                }) as any,
+              } as HTMLCanvasElement;
 
               let window = {
                 innerWidth: width,
                 innerHeight: height,
                 devicePixelRatio: 1,
-                addEventListener: (() => {}) as any
-              }
+                addEventListener: (() => {}) as any,
+              };
 
-              const requestAnimationFrame = vsync(context).requestAnimationFrame
+              const requestAnimationFrame =
+                vsync(context).requestAnimationFrame;
 
               //#region code to impl
 
@@ -57,53 +59,65 @@ class webgl_geometry_cube extends Panel {
               animate();
 
               async function init() {
-
-                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+                camera = new THREE.PerspectiveCamera(
+                  70,
+                  window.innerWidth / window.innerHeight,
+                  1,
+                  1000
+                );
                 camera.position.z = 400;
 
                 scene = new THREE.Scene();
 
                 // const texture = new THREE.TextureLoader().load( 'textures/crate.gif' );
-                const remoteResource = new RemoteResource('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif')
-                const imageInfo = await imageDecoder(context).getImageInfo(remoteResource)
-                const imagePixels = await imageDecoder(context).decodeToPixels(remoteResource)
+                const assetsResource = new AssetsResource("threejs/crate.gif");
+                const imageInfo = await imageDecoder(context).getImageInfo(
+                  assetsResource
+                );
+                const imagePixels = await imageDecoder(context).decodeToPixels(
+                  assetsResource
+                );
 
-                const texture = new THREE.DataTexture(imagePixels, imageInfo.width, imageInfo.height, THREE.RGBAFormat);
+                const texture = new THREE.DataTexture(
+                  imagePixels,
+                  imageInfo.width,
+                  imageInfo.height,
+                  THREE.RGBAFormat
+                );
 
-                const geometry = new THREE.BoxGeometry( 200, 200, 200 );
-                const material = new THREE.MeshBasicMaterial( { map: texture } );
+                const geometry = new THREE.BoxGeometry(200, 200, 200);
+                const material = new THREE.MeshBasicMaterial({ map: texture });
 
-                mesh = new THREE.Mesh( geometry, material );
-                scene.add( mesh );
+                mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
 
-                renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-                renderer.setPixelRatio( window.devicePixelRatio );
-                renderer.setSize( window.innerWidth, window.innerHeight );
+                renderer = new THREE.WebGLRenderer({
+                  antialias: true,
+                  canvas: inputCanvas,
+                });
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(window.innerWidth, window.innerHeight);
                 // document.body.appendChild( renderer.domElement );
 
                 //
 
-                window.addEventListener( 'resize', onWindowResize );
-
+                window.addEventListener("resize", onWindowResize);
               }
 
               function onWindowResize() {
-
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
 
-                renderer.setSize( window.innerWidth, window.innerHeight );
-
+                renderer.setSize(window.innerWidth, window.innerHeight);
               }
 
               function animate() {
-
-                requestAnimationFrame( animate );
+                requestAnimationFrame(animate);
 
                 mesh.rotation.x += 0.005;
                 mesh.rotation.y += 0.01;
 
-                renderer.render( scene, camera );
+                renderer.render(scene, camera);
 
                 gl.endFrame();
               }

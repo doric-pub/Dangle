@@ -10,7 +10,7 @@ import {
   Color,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext } from "dangle";
-import { TextureLoader } from "./dangle/remote/TextureLoader";
+import { TextureLoader } from "./dangle/assets/TextureLoader";
 
 import * as THREE from "three";
 
@@ -107,7 +107,7 @@ class webgl_interactive_voxelpainter extends Panel {
             cubeGeo = new THREE.BoxGeometry(50, 50, 50);
             //@ts-ignore
             new TextureLoader().load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/square-outline-textured.png",
+              "threejs/square-outline-textured.png",
               function (texture) {
                 cubeMaterial = new THREE.MeshLambertMaterial({
                   color: 0xfeb74c,
