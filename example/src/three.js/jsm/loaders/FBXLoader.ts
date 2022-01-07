@@ -43,8 +43,8 @@ import {
 import * as fflate from '../libs/fflate.module';
 import { NURBSCurve } from '../curves/NURBSCurve.js';
 
-import { FileLoader } from '../../dangle/FileLoader';
-import { TextureLoader } from '../../dangle/TextureLoader';
+import { FileLoader } from '../../dangle/assets/FileLoader';
+import { TextureLoader } from '../../dangle/assets/TextureLoader';
 
 /**
  * Loader loads FBX file and generates Group representing FBX scene.

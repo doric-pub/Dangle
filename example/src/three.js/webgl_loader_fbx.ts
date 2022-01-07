@@ -8,7 +8,6 @@ import {
   GestureContainer,
   gestureContainer,
   Color,
-  loge,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -173,24 +172,21 @@ class webgl_loader_fbx extends Panel {
             //@ts-ignore
             const loader = new FBXLoader();
             //@ts-ignore
-            loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/fbx/Samba%20Dancing.fbx",
-              function (object) {
-                mixer = new THREE.AnimationMixer(object);
+            loader.load("threejs/SambaDancing.fbx", function (object) {
+              mixer = new THREE.AnimationMixer(object);
 
-                const action = mixer.clipAction(object.animations[0]);
-                action.play();
+              const action = mixer.clipAction(object.animations[0]);
+              action.play();
 
-                object.traverse(function (child) {
-                  if (child.isMesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                  }
-                });
+              object.traverse(function (child) {
+                if (child.isMesh) {
+                  child.castShadow = true;
+                  child.receiveShadow = true;
+                }
+              });
 
-                scene.add(object);
-              }
-            );
+              scene.add(object);
+            });
 
             renderer = new THREE.WebGLRenderer({
               antialias: true,
