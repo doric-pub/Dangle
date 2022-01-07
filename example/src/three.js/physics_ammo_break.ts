@@ -17,7 +17,7 @@ import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 import { ConvexObjectBreaker } from "./jsm/misc/ConvexObjectBreaker.js";
 import { ConvexGeometry } from "./jsm/geometries/ConvexGeometry.js";
-import { TextureLoader } from "./dangle/remote/TextureLoader";
+import { TextureLoader } from "./dangle/assets/TextureLoader";
 
 import AmmoLib from "./js/libs/ammo";
 const AmmoRet: any = {};
@@ -305,16 +305,13 @@ class physics_ammo_break extends Panel {
               new THREE.MeshPhongMaterial({ color: 0xffffff })
             );
             ground.receiveShadow = true;
-            textureLoader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/grid.png",
-              function (texture) {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
-                texture.repeat.set(40, 40);
-                ground.material.map = texture;
-                ground.material.needsUpdate = true;
-              }
-            );
+            textureLoader.load("threejs/grid.png", function (texture) {
+              texture.wrapS = THREE.RepeatWrapping;
+              texture.wrapT = THREE.RepeatWrapping;
+              texture.repeat.set(40, 40);
+              ground.material.map = texture;
+              ground.material.needsUpdate = true;
+            });
 
             // Tower 1
             const towerMass = 1000;

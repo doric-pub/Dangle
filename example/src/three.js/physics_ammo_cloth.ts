@@ -18,7 +18,7 @@ import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 
 import AmmoLib from "./js/libs/ammo";
-import { TextureLoader } from "./dangle/remote/TextureLoader";
+import { TextureLoader } from "./dangle/assets/TextureLoader";
 const AmmoRet: any = {};
 Reflect.apply(AmmoLib, AmmoRet, []);
 const Ammo = AmmoRet.Ammo;
@@ -293,16 +293,13 @@ class physics_ammo_cloth extends Panel {
             );
             ground.castShadow = true;
             ground.receiveShadow = true;
-            textureLoader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/grid.png",
-              function (texture) {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
-                texture.repeat.set(40, 40);
-                ground.material.map = texture;
-                ground.material.needsUpdate = true;
-              }
-            );
+            textureLoader.load("threejs/grid.png", function (texture) {
+              texture.wrapS = THREE.RepeatWrapping;
+              texture.wrapT = THREE.RepeatWrapping;
+              texture.repeat.set(40, 40);
+              ground.material.map = texture;
+              ground.material.needsUpdate = true;
+            });
 
             // Wall
             const brickMass = 0.5;
@@ -384,16 +381,13 @@ class physics_ammo_cloth extends Panel {
             cloth.castShadow = true;
             cloth.receiveShadow = true;
             scene.add(cloth);
-            textureLoader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/grid.png",
-              function (texture) {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
-                texture.repeat.set(clothNumSegmentsZ, clothNumSegmentsY);
-                cloth.material.map = texture;
-                cloth.material.needsUpdate = true;
-              }
-            );
+            textureLoader.load("threejs/grid.png", function (texture) {
+              texture.wrapS = THREE.RepeatWrapping;
+              texture.wrapT = THREE.RepeatWrapping;
+              texture.repeat.set(clothNumSegmentsZ, clothNumSegmentsY);
+              cloth.material.map = texture;
+              cloth.material.needsUpdate = true;
+            });
 
             // Cloth physic object
             const softBodyHelpers = new Ammo.btSoftBodyHelpers();
