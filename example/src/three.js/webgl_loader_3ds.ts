@@ -13,7 +13,7 @@ import {
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
-import { TextureLoader } from "./dangle/remote/TextureLoader";
+import { TextureLoader } from "./dangle/assets/TextureLoader";
 import { TDSLoader } from "./jsm/loaders/TDSLoader";
 import { TrackballControls } from "./jsm/controls/TrackballControls";
 
@@ -151,17 +151,15 @@ class webgl_loader_3ds extends Panel {
             //3ds files dont store normal maps
             //@ts-ignore
             const normal = new TextureLoader().load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/3ds/portalgun/textures/normal.jpg"
+              "threejs/portalgun/textures/normal.jpg"
             );
 
             //@ts-ignore
             const loader = new TDSLoader();
-            loader.setResourcePath(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/3ds/portalgun/textures/"
-            );
+            loader.setResourcePath("threejs/portalgun/textures/");
             //@ts-ignore
             loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/3ds/portalgun/portalgun.3ds",
+              "threejs/portalgun/portalgun.3ds",
               function (object) {
                 object.traverse(function (child) {
                   if (child.isMesh) {

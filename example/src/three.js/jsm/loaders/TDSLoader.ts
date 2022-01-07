@@ -12,8 +12,8 @@ import {
 	Mesh,
 	MeshPhongMaterial,
 } from 'three';
-import { FileLoader } from '../../dangle/FileLoader';
-import { TextureLoader } from '../../dangle/TextureLoader';
+import { FileLoader } from '../../dangle/assets/FileLoader';
+import { TextureLoader } from '../../dangle/assets/TextureLoader';
 
 /**
  * Autodesk 3DS three.js file loader, based on lib3ds.
