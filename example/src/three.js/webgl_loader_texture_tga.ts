@@ -136,9 +136,7 @@ class webgl_loader_texture_tga extends Panel {
             // add box 1 - grey8 texture
 
             //@ts-ignore
-            const texture1 = loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate_grey8.tga"
-            );
+            const texture1 = loader.load("threejs/crate_grey8.tga");
             const material1 = new THREE.MeshPhongMaterial({
               color: 0xffffff,
               map: texture1,
@@ -152,9 +150,7 @@ class webgl_loader_texture_tga extends Panel {
             // add box 2 - tga texture
 
             //@ts-ignore
-            const texture2 = loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate_color8.tga"
-            );
+            const texture2 = loader.load("threejs/crate_color8.tga");
             const material2 = new THREE.MeshPhongMaterial({
               color: 0xffffff,
               map: texture2,

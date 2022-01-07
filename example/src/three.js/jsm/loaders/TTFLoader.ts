@@ -4,7 +4,7 @@ import {
 } from 'three';
 import opentype from 'opentype.js'
 
-import { FileLoader } from '../../dangle/FileLoader'
+import { FileLoader } from '../../dangle/assets/FileLoader'
 
 /**
  * Requires opentype.js to be included in the project.

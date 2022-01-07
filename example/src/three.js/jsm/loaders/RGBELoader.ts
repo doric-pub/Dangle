@@ -11,7 +11,7 @@ import {
 	RGBFormat,
 	UnsignedByteType
 } from 'three';
-import { DataTextureLoader } from '../../dangle/remote/DataTextureLoader';
+import { DataTextureLoader } from '../../dangle/assets/DataTextureLoader';
 
 // https://github.com/mrdoob/three.js/issues/5552
 // http://en.wikipedia.org/wiki/RGBE_image_format

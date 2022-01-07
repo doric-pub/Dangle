@@ -10,7 +10,7 @@ import {
 	NearestFilter,
 	RedFormat
 } from 'three';
-import { FileLoader } from '../../dangle/FileLoader';
+import { FileLoader } from '../../dangle/assets/FileLoader';
 
 class VOXLoader extends Loader {
 

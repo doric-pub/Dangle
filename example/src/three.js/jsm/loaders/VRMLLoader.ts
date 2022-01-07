@@ -35,8 +35,8 @@ import {
 } from 'three';
 import chevrotain from '../libs/chevrotain.module.min.js';
 
-import { FileLoader } from '../../dangle/FileLoader.js';
-import { TextureLoader } from '../../dangle/TextureLoader.js';
+import { FileLoader } from '../../dangle/assets/FileLoader.js';
+import { TextureLoader } from '../../dangle/assets/TextureLoader.js';
 
 class VRMLLoader extends Loader {
 

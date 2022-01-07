@@ -233,16 +233,11 @@ class webgl_loader_vrml extends Panel {
           }
 
           function loadAsset(asset) {
-            loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/vrml/" +
-                asset +
-                ".wrl",
-              function (object) {
-                vrmlScene = object;
-                scene.add(object);
-                controls.reset();
-              }
-            );
+            loader.load("threejs/vrml/" + asset + ".wrl", function (object) {
+              vrmlScene = object;
+              scene.add(object);
+              controls.reset();
+            });
           }
 
           function onWindowResize() {

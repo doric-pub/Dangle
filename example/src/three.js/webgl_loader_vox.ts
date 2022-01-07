@@ -143,20 +143,17 @@ class webgl_loader_vox extends Panel {
 
             const loader = new VOXLoader();
             //@ts-ignore
-            loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/vox/monu10.vox",
-              function (chunks) {
-                for (let i = 0; i < chunks.length; i++) {
-                  const chunk = chunks[i];
+            loader.load("threejs/monu10.vox", function (chunks) {
+              for (let i = 0; i < chunks.length; i++) {
+                const chunk = chunks[i];
 
-                  // displayPalette( chunk.palette );
+                // displayPalette( chunk.palette );
 
-                  const mesh = new VOXMesh(chunk);
-                  mesh.scale.setScalar(0.0015);
-                  scene.add(mesh);
-                }
+                const mesh = new VOXMesh(chunk);
+                mesh.scale.setScalar(0.0015);
+                scene.add(mesh);
               }
-            );
+            });
 
             // renderer
 

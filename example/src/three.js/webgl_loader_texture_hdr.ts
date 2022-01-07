@@ -96,7 +96,7 @@ class webgl_loader_texture_hdr extends Panel {
                   .setDataType(THREE.UnsignedByteType) // alt: FloatType, HalfFloatType
                   //@ts-ignore
                   .load(
-                    "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/memorial.hdr",
+                    "threejs/memorial.hdr",
                     function (texture, textureData) {
                       //console.log( textureData );
                       //console.log( texture );
