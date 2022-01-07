@@ -1,7 +1,7 @@
 import {
 	LinearMipmapLinearFilter
 } from 'three';
-import { DataTextureLoader } from '../../dangle/DataTextureLoader';
+import { DataTextureLoader } from '../../dangle/remote/DataTextureLoader';
 
 class TGALoader extends DataTextureLoader {
 

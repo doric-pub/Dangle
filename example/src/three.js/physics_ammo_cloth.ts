@@ -18,7 +18,7 @@ import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 
 import AmmoLib from "./js/libs/ammo";
-import { TextureLoader } from "./dangle/TextureLoader";
+import { TextureLoader } from "./dangle/remote/TextureLoader";
 const AmmoRet: any = {};
 Reflect.apply(AmmoLib, AmmoRet, []);
 const Ammo = AmmoRet.Ammo;

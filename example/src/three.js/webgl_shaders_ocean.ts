@@ -14,7 +14,7 @@ import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 import { Water } from "./jsm/objects/Water";
-import { TextureLoader } from "./dangle/TextureLoader";
+import { TextureLoader } from "./dangle/remote/TextureLoader";
 import { Sky } from "./jsm/objects/Sky";
 
 @Entry

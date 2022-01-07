@@ -62,8 +62,10 @@ import {
 	VectorKeyframeTrack,
 	sRGBEncoding
 } from 'three';
-import { FileLoader } from '../../dangle/FileLoader';
-import { TextureLoader } from '../../dangle/TextureLoader';
+import { FileLoader } from '../../dangle/assets/FileLoader';
+import { TextureLoader } from '../../dangle/assets/TextureLoader';
+// import { FileLoader } from '../../dangle/remote/FileLoader';
+// import { TextureLoader } from '../../dangle/remote/TextureLoader';
 
 class GLTFLoader extends Loader {
 

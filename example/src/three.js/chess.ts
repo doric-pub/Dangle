@@ -546,7 +546,7 @@ class chess extends Panel {
                 if (actual.identity.substring(0, 1) == "b") {
                   //@ts-ignore
                   loader.load(
-                    "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Queen/Queen.gltf",
+                    "threejs/chess/Queen/Queen.gltf",
                     function (object) {
                       black[actual.identity.substring(1, 2)] = object.scene;
                       black[actual.identity.substring(1, 2)].position =
@@ -572,7 +572,7 @@ class chess extends Panel {
                 } else {
                   //@ts-ignore
                   loader.load(
-                    "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Queen/Queen.gltf",
+                    "threejs/chess/Queen/Queen.gltf",
                     function (object) {
                       black[actual.identity.substring(1, 2)] = object.scene;
                       black[actual.identity.substring(1, 2)].position =
@@ -821,248 +821,218 @@ class chess extends Panel {
               });
 
               //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[0] = object.scene;
-                  white[0].position.set(
-                    plane[0][1].position.x,
-                    plane[0][1].position.y,
-                    plane[0][1].position.z
-                  );
-                  white[0].scale.set(0.6, 0.6, 0.6);
-                  white[0].identity = "w0p";
-                  white[0].name = "01";
-                  plane[0][1].name = "10";
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[0] = object.scene;
+                white[0].position.set(
+                  plane[0][1].position.x,
+                  plane[0][1].position.y,
+                  plane[0][1].position.z
+                );
+                white[0].scale.set(0.6, 0.6, 0.6);
+                white[0].identity = "w0p";
+                white[0].name = "01";
+                plane[0][1].name = "10";
 
-                  white[0].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[0]);
-                }
-              );
+                white[0].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[0]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[1] = object.scene;
+                white[1].position.set(
+                  plane[1][1].position.x,
+                  plane[1][1].position.y,
+                  plane[1][1].position.z
+                );
+                white[1].scale.set(0.6, 0.6, 0.6);
+                white[1].identity = "w1p";
+                white[1].name = "11";
+                plane[1][1].name = "10";
+
+                white[1].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[1]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[2] = object.scene;
+                white[2].position.set(
+                  plane[2][1].position.x,
+                  plane[2][1].position.y,
+                  plane[2][1].position.z
+                );
+                white[2].scale.set(0.6, 0.6, 0.6);
+                white[2].identity = "w2p";
+                white[2].name = "21";
+                plane[2][1].name = "10";
+
+                white[2].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[2]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[3] = object.scene;
+                white[3].position.set(
+                  plane[3][1].position.x,
+                  plane[3][1].position.y,
+                  plane[3][1].position.z
+                );
+                white[3].scale.set(0.6, 0.6, 0.6);
+                white[3].identity = "w3p";
+                white[3].name = "31";
+                plane[3][1].name = "10";
+
+                white[3].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[3]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[4] = object.scene;
+                white[4].position.set(
+                  plane[4][1].position.x,
+                  plane[4][1].position.y,
+                  plane[4][1].position.z
+                );
+                white[4].scale.set(0.6, 0.6, 0.6);
+                white[4].identity = "w4p";
+                white[4].name = "41";
+                plane[4][1].name = "10";
+
+                white[4].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[4]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[5] = object.scene;
+                white[5].position.set(
+                  plane[5][1].position.x,
+                  plane[5][1].position.y,
+                  plane[5][1].position.z
+                );
+                white[5].scale.set(0.6, 0.6, 0.6);
+                white[5].identity = "w5p";
+                white[5].name = "51";
+                plane[5][1].name = "10";
+
+                white[5].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[5]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[6] = object.scene;
+                white[6].position.set(
+                  plane[6][1].position.x,
+                  plane[6][1].position.y,
+                  plane[6][1].position.z
+                );
+                white[6].scale.set(0.6, 0.6, 0.6);
+                white[6].identity = "w6p";
+                white[6].name = "61";
+                plane[6][1].name = "10";
+
+                white[6].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[6]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                white[7] = object.scene;
+                white[7].position.set(
+                  plane[7][1].position.x,
+                  plane[7][1].position.y,
+                  plane[7][1].position.z
+                );
+                white[7].scale.set(0.6, 0.6, 0.6);
+                white[7].identity = "w7p";
+                white[7].name = "71";
+                plane[7][1].name = "10";
+
+                white[7].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[7]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Rook/Rook.gltf", function (object) {
+                white[8] = object.scene;
+                white[8].position.set(
+                  plane[0][0].position.x,
+                  plane[0][0].position.y,
+                  plane[0][0].position.z
+                );
+                white[8].scale.set(0.7, 0.7, 0.7);
+                white[8].identity = "w0r";
+                white[8].name = "00";
+                plane[0][0].name = "50";
+
+                white[8].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[8]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Rook/Rook.gltf", function (object) {
+                white[15] = object.scene;
+                white[15].position.set(
+                  plane[7][0].position.x,
+                  plane[7][0].position.y,
+                  plane[7][0].position.z
+                );
+                white[15].scale.set(0.7, 0.7, 0.7);
+                white[15].identity = "w7r";
+                white[15].name = "70";
+                plane[7][0].name = "50";
+
+                white[15].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[15]);
+              });
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[1] = object.scene;
-                  white[1].position.set(
-                    plane[1][1].position.x,
-                    plane[1][1].position.y,
-                    plane[1][1].position.z
-                  );
-                  white[1].scale.set(0.6, 0.6, 0.6);
-                  white[1].identity = "w1p";
-                  white[1].name = "11";
-                  plane[1][1].name = "10";
-
-                  white[1].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[1]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[2] = object.scene;
-                  white[2].position.set(
-                    plane[2][1].position.x,
-                    plane[2][1].position.y,
-                    plane[2][1].position.z
-                  );
-                  white[2].scale.set(0.6, 0.6, 0.6);
-                  white[2].identity = "w2p";
-                  white[2].name = "21";
-                  plane[2][1].name = "10";
-
-                  white[2].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[2]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[3] = object.scene;
-                  white[3].position.set(
-                    plane[3][1].position.x,
-                    plane[3][1].position.y,
-                    plane[3][1].position.z
-                  );
-                  white[3].scale.set(0.6, 0.6, 0.6);
-                  white[3].identity = "w3p";
-                  white[3].name = "31";
-                  plane[3][1].name = "10";
-
-                  white[3].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[3]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[4] = object.scene;
-                  white[4].position.set(
-                    plane[4][1].position.x,
-                    plane[4][1].position.y,
-                    plane[4][1].position.z
-                  );
-                  white[4].scale.set(0.6, 0.6, 0.6);
-                  white[4].identity = "w4p";
-                  white[4].name = "41";
-                  plane[4][1].name = "10";
-
-                  white[4].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[4]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[5] = object.scene;
-                  white[5].position.set(
-                    plane[5][1].position.x,
-                    plane[5][1].position.y,
-                    plane[5][1].position.z
-                  );
-                  white[5].scale.set(0.6, 0.6, 0.6);
-                  white[5].identity = "w5p";
-                  white[5].name = "51";
-                  plane[5][1].name = "10";
-
-                  white[5].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[5]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[6] = object.scene;
-                  white[6].position.set(
-                    plane[6][1].position.x,
-                    plane[6][1].position.y,
-                    plane[6][1].position.z
-                  );
-                  white[6].scale.set(0.6, 0.6, 0.6);
-                  white[6].identity = "w6p";
-                  white[6].name = "61";
-                  plane[6][1].name = "10";
-
-                  white[6].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[6]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  white[7] = object.scene;
-                  white[7].position.set(
-                    plane[7][1].position.x,
-                    plane[7][1].position.y,
-                    plane[7][1].position.z
-                  );
-                  white[7].scale.set(0.6, 0.6, 0.6);
-                  white[7].identity = "w7p";
-                  white[7].name = "71";
-                  plane[7][1].name = "10";
-
-                  white[7].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[7]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Rook/Rook.gltf",
-                function (object) {
-                  white[8] = object.scene;
-                  white[8].position.set(
-                    plane[0][0].position.x,
-                    plane[0][0].position.y,
-                    plane[0][0].position.z
-                  );
-                  white[8].scale.set(0.7, 0.7, 0.7);
-                  white[8].identity = "w0r";
-                  white[8].name = "00";
-                  plane[0][0].name = "50";
-
-                  white[8].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[8]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Rook/Rook.gltf",
-                function (object) {
-                  white[15] = object.scene;
-                  white[15].position.set(
-                    plane[7][0].position.x,
-                    plane[7][0].position.y,
-                    plane[7][0].position.z
-                  );
-                  white[15].scale.set(0.7, 0.7, 0.7);
-                  white[15].identity = "w7r";
-                  white[15].name = "70";
-                  plane[7][0].name = "50";
-
-                  white[15].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[15]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Knight/Knight.gltf",
+                "threejs/chess/Knight/Knight.gltf",
                 function (object) {
                   white[9] = object.scene;
                   white[9].position.set(
@@ -1086,7 +1056,7 @@ class chess extends Panel {
               );
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Knight/Knight.gltf",
+                "threejs/chess/Knight/Knight.gltf",
                 function (object) {
                   white[14] = object.scene;
                   white[14].position.set(
@@ -1110,7 +1080,7 @@ class chess extends Panel {
               );
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Bishop/Bishop.gltf",
+                "threejs/chess/Bishop/Bishop.gltf",
                 function (object) {
                   white[10] = object.scene;
                   white[10].position.set(
@@ -1134,7 +1104,7 @@ class chess extends Panel {
               );
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Bishop/Bishop.gltf",
+                "threejs/chess/Bishop/Bishop.gltf",
                 function (object) {
                   white[13] = object.scene;
                   white[13].position.set(
@@ -1157,297 +1127,261 @@ class chess extends Panel {
                 }
               );
               //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/King/King.gltf",
-                function (object) {
-                  white[12] = object.scene;
-                  white[12].position.set(
-                    plane[4][0].position.x,
-                    plane[4][0].position.y,
-                    plane[4][0].position.z
-                  );
-                  white[12].scale.set(0.7, 0.7, 0.7);
-                  white[12].identity = "w4k";
-                  white[12].name = "40";
-                  plane[4][0].name = "100";
+              loader.load("threejs/chess/King/King.gltf", function (object) {
+                white[12] = object.scene;
+                white[12].position.set(
+                  plane[4][0].position.x,
+                  plane[4][0].position.y,
+                  plane[4][0].position.z
+                );
+                white[12].scale.set(0.7, 0.7, 0.7);
+                white[12].identity = "w4k";
+                white[12].name = "40";
+                plane[4][0].name = "100";
 
-                  white[12].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[12]);
-                }
-              );
+                white[12].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[12]);
+              });
               //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Queen/Queen.gltf",
-                function (object) {
-                  white[11] = object.scene;
-                  white[11].position.set(
-                    plane[3][0].position.x,
-                    plane[3][0].position.y,
-                    plane[3][0].position.z
-                  );
-                  white[11].scale.set(0.7, 0.7, 0.7);
-                  white[11].identity = "w3q";
-                  white[11].name = "30";
-                  plane[3][0].name = "90";
+              loader.load("threejs/chess/Queen/Queen.gltf", function (object) {
+                white[11] = object.scene;
+                white[11].position.set(
+                  plane[3][0].position.x,
+                  plane[3][0].position.y,
+                  plane[3][0].position.z
+                );
+                white[11].scale.set(0.7, 0.7, 0.7);
+                white[11].identity = "w3q";
+                white[11].name = "30";
+                plane[3][0].name = "90";
 
-                  white[11].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = wMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(white[11]);
-                }
-              );
+                white[11].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = wMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(white[11]);
+              });
               // Creo i pezzi neri, per cui vale quando detto per i bianchi
               //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[0] = object.scene;
-                  black[0].position.set(
-                    plane[0][6].position.x,
-                    plane[0][6].position.y,
-                    plane[0][6].position.z
-                  );
-                  black[0].scale.set(0.6, 0.6, 0.6);
-                  black[0].identity = "b0p";
-                  black[0].name = "06";
-                  plane[0][6].name = "-10";
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[0] = object.scene;
+                black[0].position.set(
+                  plane[0][6].position.x,
+                  plane[0][6].position.y,
+                  plane[0][6].position.z
+                );
+                black[0].scale.set(0.6, 0.6, 0.6);
+                black[0].identity = "b0p";
+                black[0].name = "06";
+                plane[0][6].name = "-10";
 
-                  black[0].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[0]);
-                }
-              );
+                black[0].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[0]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[1] = object.scene;
+                black[1].position.set(
+                  plane[1][6].position.x,
+                  plane[1][6].position.y,
+                  plane[1][6].position.z
+                );
+                black[1].scale.set(0.6, 0.6, 0.6);
+                black[1].identity = "b1p";
+                black[1].name = "16";
+                plane[1][6].name = "-10";
+
+                black[1].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[1]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[2] = object.scene;
+                black[2].position.set(
+                  plane[2][6].position.x,
+                  plane[2][6].position.y,
+                  plane[2][6].position.z
+                );
+                black[2].scale.set(0.6, 0.6, 0.6);
+                black[2].identity = "b2p";
+                black[2].name = "26";
+                plane[2][6].name = "-10";
+
+                black[2].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[2]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[3] = object.scene;
+                black[3].position.set(
+                  plane[3][6].position.x,
+                  plane[3][6].position.y,
+                  plane[3][6].position.z
+                );
+                black[3].scale.set(0.6, 0.6, 0.6);
+                black[3].identity = "b3p";
+                black[3].name = "36";
+                plane[3][6].name = "-10";
+
+                black[3].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[3]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[4] = object.scene;
+                black[4].position.set(
+                  plane[4][6].position.x,
+                  plane[4][6].position.y,
+                  plane[4][6].position.z
+                );
+                black[4].scale.set(0.6, 0.6, 0.6);
+                black[4].identity = "b4p";
+                black[4].name = "46";
+                plane[4][6].name = "-10";
+
+                black[4].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[4]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[5] = object.scene;
+                black[5].position.set(
+                  plane[5][6].position.x,
+                  plane[5][6].position.y,
+                  plane[5][6].position.z
+                );
+                black[5].scale.set(0.6, 0.6, 0.6);
+                black[5].identity = "b5p";
+                black[5].name = "56";
+                plane[5][6].name = "-10";
+
+                black[5].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[5]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[6] = object.scene;
+                black[6].position.set(
+                  plane[6][6].position.x,
+                  plane[6][6].position.y,
+                  plane[6][6].position.z
+                );
+                black[6].scale.set(0.6, 0.6, 0.6);
+                black[6].identity = "b6p";
+                black[6].name = "66";
+                plane[6][6].name = "-10";
+
+                black[6].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[6]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Pawn/Pawn.gltf", function (object) {
+                black[7] = object.scene;
+                black[7].position.set(
+                  plane[7][6].position.x,
+                  plane[7][6].position.y,
+                  plane[7][6].position.z
+                );
+                black[7].scale.set(0.6, 0.6, 0.6);
+                black[7].identity = "b7p";
+                black[7].name = "76";
+                plane[7][6].name = "-10";
+
+                black[7].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[7]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Rook/Rook.gltf", function (object) {
+                black[8] = object.scene;
+                black[8].position.set(
+                  plane[0][7].position.x,
+                  plane[0][7].position.y,
+                  plane[0][7].position.z
+                );
+                black[8].scale.set(0.7, 0.7, 0.7);
+                black[8].identity = "b0r";
+                black[8].name = "07";
+                plane[0][7].name = "-50";
+
+                black[8].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[8]);
+              });
+              //@ts-ignore
+              loader.load("threejs/chess/Rook/Rook.gltf", function (object) {
+                black[15] = object.scene;
+                black[15].position.set(
+                  plane[7][7].position.x,
+                  plane[7][7].position.y,
+                  plane[7][7].position.z
+                );
+                black[15].scale.set(0.7, 0.7, 0.7);
+                black[15].identity = "b7r";
+                black[15].name = "77";
+                plane[7][7].name = "-50";
+
+                black[15].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[15]);
+              });
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[1] = object.scene;
-                  black[1].position.set(
-                    plane[1][6].position.x,
-                    plane[1][6].position.y,
-                    plane[1][6].position.z
-                  );
-                  black[1].scale.set(0.6, 0.6, 0.6);
-                  black[1].identity = "b1p";
-                  black[1].name = "16";
-                  plane[1][6].name = "-10";
-
-                  black[1].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[1]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[2] = object.scene;
-                  black[2].position.set(
-                    plane[2][6].position.x,
-                    plane[2][6].position.y,
-                    plane[2][6].position.z
-                  );
-                  black[2].scale.set(0.6, 0.6, 0.6);
-                  black[2].identity = "b2p";
-                  black[2].name = "26";
-                  plane[2][6].name = "-10";
-
-                  black[2].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[2]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[3] = object.scene;
-                  black[3].position.set(
-                    plane[3][6].position.x,
-                    plane[3][6].position.y,
-                    plane[3][6].position.z
-                  );
-                  black[3].scale.set(0.6, 0.6, 0.6);
-                  black[3].identity = "b3p";
-                  black[3].name = "36";
-                  plane[3][6].name = "-10";
-
-                  black[3].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[3]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[4] = object.scene;
-                  black[4].position.set(
-                    plane[4][6].position.x,
-                    plane[4][6].position.y,
-                    plane[4][6].position.z
-                  );
-                  black[4].scale.set(0.6, 0.6, 0.6);
-                  black[4].identity = "b4p";
-                  black[4].name = "46";
-                  plane[4][6].name = "-10";
-
-                  black[4].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[4]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[5] = object.scene;
-                  black[5].position.set(
-                    plane[5][6].position.x,
-                    plane[5][6].position.y,
-                    plane[5][6].position.z
-                  );
-                  black[5].scale.set(0.6, 0.6, 0.6);
-                  black[5].identity = "b5p";
-                  black[5].name = "56";
-                  plane[5][6].name = "-10";
-
-                  black[5].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[5]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[6] = object.scene;
-                  black[6].position.set(
-                    plane[6][6].position.x,
-                    plane[6][6].position.y,
-                    plane[6][6].position.z
-                  );
-                  black[6].scale.set(0.6, 0.6, 0.6);
-                  black[6].identity = "b6p";
-                  black[6].name = "66";
-                  plane[6][6].name = "-10";
-
-                  black[6].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[6]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Pawn/Pawn.gltf",
-                function (object) {
-                  black[7] = object.scene;
-                  black[7].position.set(
-                    plane[7][6].position.x,
-                    plane[7][6].position.y,
-                    plane[7][6].position.z
-                  );
-                  black[7].scale.set(0.6, 0.6, 0.6);
-                  black[7].identity = "b7p";
-                  black[7].name = "76";
-                  plane[7][6].name = "-10";
-
-                  black[7].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[7]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Rook/Rook.gltf",
-                function (object) {
-                  black[8] = object.scene;
-                  black[8].position.set(
-                    plane[0][7].position.x,
-                    plane[0][7].position.y,
-                    plane[0][7].position.z
-                  );
-                  black[8].scale.set(0.7, 0.7, 0.7);
-                  black[8].identity = "b0r";
-                  black[8].name = "07";
-                  plane[0][7].name = "-50";
-
-                  black[8].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[8]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Rook/Rook.gltf",
-                function (object) {
-                  black[15] = object.scene;
-                  black[15].position.set(
-                    plane[7][7].position.x,
-                    plane[7][7].position.y,
-                    plane[7][7].position.z
-                  );
-                  black[15].scale.set(0.7, 0.7, 0.7);
-                  black[15].identity = "b7r";
-                  black[15].name = "77";
-                  plane[7][7].name = "-50";
-
-                  black[15].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[15]);
-                }
-              );
-              //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Knight/Knight.gltf",
+                "threejs/chess/Knight/Knight.gltf",
                 function (object) {
                   black[9] = object.scene;
                   black[9].position.set(
@@ -1471,7 +1405,7 @@ class chess extends Panel {
               );
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Knight/Knight.gltf",
+                "threejs/chess/Knight/Knight.gltf",
                 function (object) {
                   black[14] = object.scene;
                   black[14].position.set(
@@ -1495,7 +1429,7 @@ class chess extends Panel {
               );
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Bishop/Bishop.gltf",
+                "threejs/chess/Bishop/Bishop.gltf",
                 function (object) {
                   black[10] = object.scene;
                   black[10].position.set(
@@ -1519,7 +1453,7 @@ class chess extends Panel {
               );
               //@ts-ignore
               loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Bishop/Bishop.gltf",
+                "threejs/chess/Bishop/Bishop.gltf",
                 function (object) {
                   black[13] = object.scene;
                   black[13].position.set(
@@ -1542,53 +1476,47 @@ class chess extends Panel {
                 }
               );
               //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/King/King.gltf",
-                function (object) {
-                  black[12] = object.scene;
-                  black[12].position.set(
-                    plane[4][7].position.x,
-                    plane[4][7].position.y,
-                    plane[4][7].position.z
-                  );
-                  black[12].scale.set(0.7, 0.7, 0.7);
-                  black[12].identity = "b4k";
-                  black[12].name = "47";
-                  plane[4][7].name = "-100";
+              loader.load("threejs/chess/King/King.gltf", function (object) {
+                black[12] = object.scene;
+                black[12].position.set(
+                  plane[4][7].position.x,
+                  plane[4][7].position.y,
+                  plane[4][7].position.z
+                );
+                black[12].scale.set(0.7, 0.7, 0.7);
+                black[12].identity = "b4k";
+                black[12].name = "47";
+                plane[4][7].name = "-100";
 
-                  black[12].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[12]);
-                }
-              );
+                black[12].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[12]);
+              });
               //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/doric-pub/Dangle/c293e07a1c297ecaedc83492a3a8740354a07d4a/example/src/three.js/models/chess/Queen/Queen.gltf",
-                function (object) {
-                  black[11] = object.scene;
-                  black[11].position.set(
-                    plane[3][7].position.x,
-                    plane[3][7].position.y,
-                    plane[3][7].position.z
-                  );
-                  black[11].scale.set(0.7, 0.7, 0.7);
-                  black[11].identity = "b3q";
-                  black[11].name = "37";
-                  plane[3][7].name = "-90";
+              loader.load("threejs/chess/Queen/Queen.gltf", function (object) {
+                black[11] = object.scene;
+                black[11].position.set(
+                  plane[3][7].position.x,
+                  plane[3][7].position.y,
+                  plane[3][7].position.z
+                );
+                black[11].scale.set(0.7, 0.7, 0.7);
+                black[11].identity = "b3q";
+                black[11].name = "37";
+                plane[3][7].name = "-90";
 
-                  black[11].traverse((child, i) => {
-                    if (child.isMesh) {
-                      child.material = bMaterial;
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                  scene.add(black[11]);
-                }
-              );
+                black[11].traverse((child, i) => {
+                  if (child.isMesh) {
+                    child.material = bMaterial;
+                    child.material.side = THREE.DoubleSide;
+                  }
+                });
+                scene.add(black[11]);
+              });
             }
 
             fillBoard();

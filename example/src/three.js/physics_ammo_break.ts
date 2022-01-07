@@ -17,7 +17,7 @@ import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 import { ConvexObjectBreaker } from "./jsm/misc/ConvexObjectBreaker.js";
 import { ConvexGeometry } from "./jsm/geometries/ConvexGeometry.js";
-import { TextureLoader } from "./dangle/TextureLoader";
+import { TextureLoader } from "./dangle/remote/TextureLoader";
 
 import AmmoLib from "./js/libs/ammo";
 const AmmoRet: any = {};
