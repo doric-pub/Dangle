@@ -40,8 +40,8 @@ import {
 import { DOMParser } from '@xmldom/xmldom'
 import querySelector from "query-selector";
 
-import { FileLoader } from '../../dangle/FileLoader.js';
-import { TextureLoader } from '../../dangle/TextureLoader.js';
+import { FileLoader } from '../../dangle/assets/FileLoader.js';
+import { TextureLoader } from '../../dangle/assets/TextureLoader.js';
 import { TGALoader } from '../loaders/TGALoader.js';
 
 class ColladaLoader extends Loader {

@@ -64,27 +64,24 @@ class webgl_loader_collada_kinematics extends Panel {
               const loader = new ColladaLoader();
               // loader.load( './models/collada/kawada-hironx.dae', function ( collada ) {
               //@ts-ignore
-              loader.load(
-                "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/collada/abb_irb52_7_120.dae",
-                function (collada) {
-                  dae = collada.scene;
+              loader.load("threejs/abb_irb52_7_120.dae", function (collada) {
+                dae = collada.scene;
 
-                  dae.traverse(function (child) {
-                    if (child.isMesh) {
-                      // model does not have normals
-                      child.material.flatShading = true;
-                    }
-                  });
+                dae.traverse(function (child) {
+                  if (child.isMesh) {
+                    // model does not have normals
+                    child.material.flatShading = true;
+                  }
+                });
 
-                  dae.scale.x = dae.scale.y = dae.scale.z = 10.0;
-                  dae.updateMatrix();
+                dae.scale.x = dae.scale.y = dae.scale.z = 10.0;
+                dae.updateMatrix();
 
-                  kinematics = collada.kinematics;
+                kinematics = collada.kinematics;
 
-                  init();
-                  animate();
-                }
-              );
+                init();
+                animate();
+              });
 
               function init() {
                 camera = new THREE.PerspectiveCamera(

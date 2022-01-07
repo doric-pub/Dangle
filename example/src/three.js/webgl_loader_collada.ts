@@ -82,7 +82,7 @@ class webgl_loader_collada extends Panel {
                 // collada
 
                 const loader = new ColladaLoader(loadingManager);
-                loader.setPath('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/collada/elf/')
+                loader.setPath("threejs/elf/");
                 loader.load(
                   "elf.dae",
                   function (collada) {
