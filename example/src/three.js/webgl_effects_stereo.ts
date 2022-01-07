@@ -8,7 +8,6 @@ import {
   GestureContainer,
   gestureContainer,
   Color,
-  RemoteResource,
   imageDecoder,
   AssetsResource,
 } from "doric";

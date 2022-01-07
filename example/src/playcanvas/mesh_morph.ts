@@ -6,8 +6,6 @@ import {
   Gravity,
   navbar,
   stack,
-  RemoteResource,
-  imageDecoder,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
