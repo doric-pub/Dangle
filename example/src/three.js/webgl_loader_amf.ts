@@ -151,7 +151,7 @@ class webgl_loader_amf extends Panel {
             const loader = new AMFLoader();
             //@ts-ignore
             loader.load(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/amf/rook.amf",
+              "threejs/rook.amf",
               function (amfobject) {
                 scene.add(amfobject);
                 render();

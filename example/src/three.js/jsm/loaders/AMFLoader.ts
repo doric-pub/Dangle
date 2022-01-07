@@ -9,7 +9,7 @@ import {
 	MeshPhongMaterial
 } from 'three';
 import * as fflate from '../libs/fflate.module.js';
-import { FileLoader } from '../../dangle/FileLoader.js';
+import { FileLoader } from '../../dangle/assets/FileLoader.js';
 import { DOMParser } from '@xmldom/xmldom'
 
 /**
