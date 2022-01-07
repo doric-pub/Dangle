@@ -8,8 +8,8 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
-  RemoteResource,
   imageDecoder,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -131,14 +131,14 @@ class webgl_decals extends Panel {
           // const decalDiffuse = textureLoader.load( 'textures/decal/decal-diffuse.png' );
           var decalDiffuse;
           {
-            const remoteResource = new RemoteResource(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/decal/decal-diffuse.png"
+            const assetsResource = new AssetsResource(
+              "threejs/decal/decal-diffuse.png"
             );
             const imageInfo = await imageDecoder(context).getImageInfo(
-              remoteResource
+              assetsResource
             );
             const imagePixels = await imageDecoder(context).decodeToPixels(
-              remoteResource
+              assetsResource
             );
 
             decalDiffuse = new THREE.DataTexture(
@@ -152,14 +152,14 @@ class webgl_decals extends Panel {
           // const decalNormal = textureLoader.load( 'textures/decal/decal-normal.jpg' );
           var decalNormal;
           {
-            const remoteResource = new RemoteResource(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/decal/decal-normal.jpg"
+            const assetsResource = new AssetsResource(
+              "threejs/decal/decal-normal.jpg"
             );
             const imageInfo = await imageDecoder(context).getImageInfo(
-              remoteResource
+              assetsResource
             );
             const imagePixels = await imageDecoder(context).decodeToPixels(
-              remoteResource
+              assetsResource
             );
 
             decalNormal = new THREE.DataTexture(
@@ -172,14 +172,14 @@ class webgl_decals extends Panel {
 
           var mapTexture;
           {
-            const remoteResource = new RemoteResource(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/LeePerrySmith/Map-COL.jpg"
+            const assetsResource = new AssetsResource(
+              "threejs/LeePerrySmith/Map-COL.jpg"
             );
             const imageInfo = await imageDecoder(context).getImageInfo(
-              remoteResource
+              assetsResource
             );
             const imagePixels = await imageDecoder(context).decodeToPixels(
-              remoteResource
+              assetsResource
             );
 
             mapTexture = new THREE.DataTexture(
@@ -191,14 +191,14 @@ class webgl_decals extends Panel {
           }
           var specularMapTexture;
           {
-            const remoteResource = new RemoteResource(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/LeePerrySmith/Map-SPEC.jpg"
+            const assetsResource = new AssetsResource(
+              "threejs/LeePerrySmith/Map-SPEC.jpg"
             );
             const imageInfo = await imageDecoder(context).getImageInfo(
-              remoteResource
+              assetsResource
             );
             const imagePixels = await imageDecoder(context).decodeToPixels(
-              remoteResource
+              assetsResource
             );
 
             specularMapTexture = new THREE.DataTexture(
@@ -210,14 +210,14 @@ class webgl_decals extends Panel {
           }
           var normalMapTexture;
           {
-            const remoteResource = new RemoteResource(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/LeePerrySmith/Infinite-Level_02_Tangent_SmoothUV.jpg"
+            const assetsResource = new AssetsResource(
+              "threejs/LeePerrySmith/Infinite-Level_02_Tangent_SmoothUV.jpg"
             );
             const imageInfo = await imageDecoder(context).getImageInfo(
-              remoteResource
+              assetsResource
             );
             const imagePixels = await imageDecoder(context).decodeToPixels(
-              remoteResource
+              assetsResource
             );
 
             normalMapTexture = new THREE.DataTexture(
@@ -420,7 +420,7 @@ class webgl_decals extends Panel {
 
             //@ts-ignore
             loader.load(
-              "https://raw.githubusercontent.com/doric-pub/Dangle/e24039e99278ab657ba91ee8b524fb9240876649/example/src/three.js/models/LeePerrySmith/LeePerrySmith.gltf",
+              "threejs/LeePerrySmith/LeePerrySmith.gltf",
               function (gltf) {
                 mesh = gltf.scene.children[0];
                 mesh.material = new THREE.MeshPhongMaterial({
