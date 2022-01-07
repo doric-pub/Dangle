@@ -6,8 +6,6 @@ import {
   Gravity,
   navbar,
   stack,
-  gestureContainer,
-  GestureContainer,
   Color,
   hlayout,
   text,
@@ -18,47 +16,24 @@ import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 import * as THREE from "three";
 import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 import { VLayout } from "doric/lib/src/widget/layouts";
-import { Switch, switchView } from "doric/lib/src/widget/switch";
+import { switchView } from "doric/lib/src/widget/switch";
 
 @Entry
 class webgl_animation_skinning_blending extends Panel {
   private container?: VLayout;
-  private gestureView?: GestureContainer;
-
-  private pauseOrContinueText?: Text;
-  private singleStepText?: Text;
-  private deactivateText?: Text;
-  private activateText?: Text;
 
   private walkToIdleText?: Text;
   private idleToWalkText?: Text;
   private walkToRunText?: Text;
   private runToWalkText?: Text;
 
-  private showFocusValue?: Switch;
-
   onShow() {
     navbar(context).setTitle("webgl_animation_skinning_blending");
   }
   build(rootView: Group) {
-    this.container = vlayout([
-      (this.gestureView = gestureContainer([], {
-        layoutConfig: layoutConfig().just(),
-        width: 300,
-        height: 300,
-        backgroundColor: Color.BLACK,
-      })),
-    ])
-      .apply({
-        layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
-        space: 10,
-        gravity: Gravity.CenterX,
-      })
-      .in(rootView);
-    //
     let self = this;
 
-    vlayout([
+    this.container = vlayout([
       stack(
         [
           dangleView({
@@ -155,43 +130,40 @@ class webgl_animation_skinning_blending extends Panel {
                 //@ts-ignore
                 const loader = new GLTFLoader();
                 //@ts-ignore
-                loader.load(
-                  "https://raw.githubusercontent.com/doric-pub/Dangle/98bc198cc5871ec33f5aa28231cb80cdd96ea1aa/example/src/three.js/models/Soldier/Soldier.gltf",
-                  function (gltf) {
-                    model = gltf.scene;
-                    scene.add(model);
+                loader.load("threejs/Soldier/Soldier.gltf", function (gltf) {
+                  model = gltf.scene;
+                  scene.add(model);
 
-                    model.traverse(function (object) {
-                      if (object.isMesh) object.castShadow = true;
-                    });
+                  model.traverse(function (object) {
+                    if (object.isMesh) object.castShadow = true;
+                  });
 
-                    //
+                  //
 
-                    skeleton = new THREE.SkeletonHelper(model);
-                    skeleton.visible = false;
-                    scene.add(skeleton);
+                  skeleton = new THREE.SkeletonHelper(model);
+                  skeleton.visible = false;
+                  scene.add(skeleton);
 
-                    //
+                  //
 
-                    createPanel();
+                  createPanel();
 
-                    //
+                  //
 
-                    const animations = gltf.animations;
+                  const animations = gltf.animations;
 
-                    mixer = new THREE.AnimationMixer(model);
+                  mixer = new THREE.AnimationMixer(model);
 
-                    idleAction = mixer.clipAction(animations[0]);
-                    walkAction = mixer.clipAction(animations[3]);
-                    runAction = mixer.clipAction(animations[1]);
+                  idleAction = mixer.clipAction(animations[0]);
+                  walkAction = mixer.clipAction(animations[3]);
+                  runAction = mixer.clipAction(animations[1]);
 
-                    actions = [idleAction, walkAction, runAction];
+                  actions = [idleAction, walkAction, runAction];
 
-                    activateAllActions();
+                  activateAllActions();
 
-                    animate();
-                  }
-                );
+                  animate();
+                });
 
                 renderer = new THREE.WebGLRenderer({
                   antialias: true,
@@ -251,12 +223,12 @@ class webgl_animation_skinning_blending extends Panel {
                             width: 200,
                             textColor: Color.WHITE,
                           }),
-                          (self.showFocusValue = switchView({
+                          switchView({
                             state: true,
                             onSwitch: (state) => {
                               showModel(state);
                             },
-                          })),
+                          }),
                         ],
                         {
                           space: 20,
@@ -273,18 +245,18 @@ class webgl_animation_skinning_blending extends Panel {
                             width: 200,
                             textColor: Color.WHITE,
                           }),
-                          (self.showFocusValue = switchView({
+                          switchView({
                             onSwitch: (state) => {
                               showSkeleton(state);
                             },
-                          })),
+                          }),
                         ],
                         {
                           space: 20,
                           backgroundColor: Color.BLACK,
                         }
                       ),
-                      (self.deactivateText = text({
+                      text({
                         text: "deactivate all",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
                         width: 120,
@@ -294,8 +266,8 @@ class webgl_animation_skinning_blending extends Panel {
                         onClick: () => {
                           deactivateAllActions();
                         },
-                      })),
-                      (self.activateText = text({
+                      }),
+                      text({
                         text: "activate all",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
                         width: 120,
@@ -305,9 +277,8 @@ class webgl_animation_skinning_blending extends Panel {
                         onClick: () => {
                           activateAllActions();
                         },
-                      })),
-
-                      (self.pauseOrContinueText = text({
+                      }),
+                      text({
                         text: "pause/continue",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
                         width: 120,
@@ -317,8 +288,8 @@ class webgl_animation_skinning_blending extends Panel {
                         onClick: () => {
                           pauseContinue();
                         },
-                      })),
-                      (self.singleStepText = text({
+                      }),
+                      text({
                         text: "make single step",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
                         width: 120,
@@ -328,8 +299,7 @@ class webgl_animation_skinning_blending extends Panel {
                         onClick: () => {
                           toSingleStepMode();
                         },
-                      })),
-
+                      }),
                       (self.walkToIdleText = text({
                         text: "from walk to idle",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
