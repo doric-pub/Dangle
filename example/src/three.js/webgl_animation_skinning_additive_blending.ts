@@ -191,63 +191,60 @@ class webgl_animation_skinning_additive_blending extends Panel {
             //@ts-ignore
             const loader = new GLTFLoader();
             //@ts-ignore
-            loader.load(
-              "https://raw.githubusercontent.com/doric-pub/Dangle/645b2789eb464156970f9bedcf902cdc929dab70/example/src/three.js/models/Xbot/Xbot.gltf",
-              function (gltf) {
-                model = gltf.scene;
-                scene.add(model);
+            loader.load("threejs/Xbot/Xbot.gltf", function (gltf) {
+              model = gltf.scene;
+              scene.add(model);
 
-                model.traverse(function (object) {
-                  if (object.isMesh) object.castShadow = true;
-                });
+              model.traverse(function (object) {
+                if (object.isMesh) object.castShadow = true;
+              });
 
-                skeleton = new THREE.SkeletonHelper(model);
-                skeleton.visible = false;
-                scene.add(skeleton);
+              skeleton = new THREE.SkeletonHelper(model);
+              skeleton.visible = false;
+              scene.add(skeleton);
 
-                const animations = gltf.animations;
-                mixer = new THREE.AnimationMixer(model);
+              const animations = gltf.animations;
+              mixer = new THREE.AnimationMixer(model);
 
-                numAnimations = animations.length;
+              numAnimations = animations.length;
 
-                for (let i = 0; i !== numAnimations; ++i) {
-                  let clip = animations[i];
-                  const name = clip.name;
+              for (let i = 0; i !== numAnimations; ++i) {
+                let clip = animations[i];
+                const name = clip.name;
 
-                  if (baseActions[name]) {
-                    const action = mixer.clipAction(clip);
-                    activateAction(action);
-                    baseActions[name].action = action;
-                    //@ts-ignore
-                    allActions.push(action);
-                  } else if (additiveActions[name]) {
-                    // Make the clip additive and remove the reference frame
+                if (baseActions[name]) {
+                  const action = mixer.clipAction(clip);
+                  activateAction(action);
+                  baseActions[name].action = action;
+                  //@ts-ignore
+                  allActions.push(action);
+                } else if (additiveActions[name]) {
+                  // Make the clip additive and remove the reference frame
 
-                    THREE.AnimationUtils.makeClipAdditive(clip);
+                  THREE.AnimationUtils.makeClipAdditive(clip);
 
-                    if (clip.name.endsWith("_pose")) {
-                      clip = THREE.AnimationUtils.subclip(
-                        clip,
-                        clip.name,
-                        2,
-                        3,
-                        30
-                      );
-                    }
-
-                    const action = mixer.clipAction(clip);
-                    activateAction(action);
-                    additiveActions[name].action = action;
-                    //@ts-ignore
-                    allActions.push(action);
+                  if (clip.name.endsWith("_pose")) {
+                    clip = THREE.AnimationUtils.subclip(
+                      clip,
+                      clip.name,
+                      2,
+                      3,
+                      30
+                    );
                   }
+
+                  const action = mixer.clipAction(clip);
+                  activateAction(action);
+                  additiveActions[name].action = action;
+                  //@ts-ignore
+                  allActions.push(action);
                 }
-
-                createPanel();
-
-                animate();
               }
-            );
+
+              createPanel();
+
+              animate();
+            });
 
             renderer = new THREE.WebGLRenderer({
               antialias: true,
