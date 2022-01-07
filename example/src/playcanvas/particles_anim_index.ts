@@ -6,8 +6,8 @@ import {
   Gravity,
   navbar,
   stack,
-  RemoteResource,
   imageDecoder,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -63,14 +63,14 @@ class particles_anim_index extends Panel {
               global.window.innerWidth = width;
               global.window.innerHeight = height;
 
-              const remoteResource = new RemoteResource(
-                "https://raw.githubusercontent.com/playcanvas/engine/dev/examples/assets/textures/particles-numbers.png"
+              const assetsResource = new AssetsResource(
+                "playcanvas/particles-numbers.png"
               );
               const imageInfo = await imageDecoder(context).getImageInfo(
-                remoteResource
+                assetsResource
               );
               const imagePixels = await imageDecoder(context).decodeToPixels(
-                remoteResource
+                assetsResource
               );
               const array = new Uint8Array(imagePixels);
 
