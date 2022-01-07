@@ -6,9 +6,9 @@ import {
   Gravity,
   navbar,
   stack,
-  RemoteResource,
   loge,
   resourceLoader,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -105,10 +105,8 @@ class zeekr_001 extends Panel {
                 if (index < 10) {
                   position = "0" + index.toString();
                 }
-                const resource = new RemoteResource(
-                  "http://192.168.24.83:8080/assets/models/car-" +
-                    position +
-                    ".obj"
+                const resource = new AssetsResource(
+                  "threejs/zeekr_001/models/car-" + position + ".obj"
                 );
                 resourceLoader(context)
                   .load(resource)
