@@ -174,7 +174,7 @@ class webgl_animation_keyframes extends Panel {
           const loader = new GLTFLoader();
           try {
             loader.load(
-              "https://raw.githubusercontent.com/greggman/doodles/master/models/littlest_tokyo/scene.gltf",
+              "threejs/LittlestTokyo/LittlestTokyo.gltf",
               function (gltf) {
                 const model = gltf.scene;
                 model.position.set(1, 1, 0);
