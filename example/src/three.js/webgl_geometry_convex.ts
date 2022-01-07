@@ -8,8 +8,8 @@ import {
   gestureContainer,
   GestureContainer,
   Color,
-  RemoteResource,
   imageDecoder,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -167,14 +167,12 @@ class webgl_geometry_convex extends Panel {
 
             // const loader = new THREE.TextureLoader();
             // const texture = loader.load( 'textures/sprites/disc.png' );
-            const remoteResource = new RemoteResource(
-              "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/sprites/disc.png"
-            );
+            const assetsResource = new AssetsResource("threejs/disc.png");
             const imageInfo = await imageDecoder(context).getImageInfo(
-              remoteResource
+              assetsResource
             );
             const imagePixels = await imageDecoder(context).decodeToPixels(
-              remoteResource
+              assetsResource
             );
 
             const texture = new THREE.DataTexture(
