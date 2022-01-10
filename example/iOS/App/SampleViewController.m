@@ -69,6 +69,7 @@
         
         [self.tableDataArr addObject:@"three.js/webgl_effects_anaglyph"];
         [self.tableDataArr addObject:@"three.js/webgl_effects_parallaxbarrier"];
+        [self.tableDataArr addObject:@"three.js/webgl_effects_parallaxbarrier_instanced_mesh"];
         [self.tableDataArr addObject:@"three.js/webgl_effects_peppersghost"];
         [self.tableDataArr addObject:@"three.js/webgl_effects_stereo"];
 
