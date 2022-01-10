@@ -126,16 +126,16 @@ class point_cloud_simulation extends Panel {
                   varying vec4 outColor;
                   void main(void)
                   {
-                      // Transform the geometry
-                      mat4 modelViewProj = matrix_viewProjection * matrix_model;
-                      gl_Position = modelViewProj * aPosition;
-                      // vertex in world space
-                      vec4 vertexWorld = matrix_model * aPosition;
-                      // point sprite size depends on its distance to camera
-                      float dist = 25.0 - length(vertexWorld.xyz - view_position);
-                      gl_PointSize = clamp(dist * 2.0 - 1.0, 1.0, 15.0);
-                      // color depends on position of particle
-                      outColor = vec4(vertexWorld.y * 0.1, 0.1, vertexWorld.z * 0.1, 1);
+                    // Transform the geometry
+                    mat4 modelViewProj = matrix_viewProjection * matrix_model;
+                    gl_Position = modelViewProj * aPosition;
+                    // vertex in world space
+                    vec4 vertexWorld = matrix_model * aPosition;
+                    // point sprite size depends on its distance to camera
+                    float dist = 25.0 - length(vertexWorld.xyz - view_position);
+                    gl_PointSize = clamp(dist * 2.0 - 1.0, 1.0, 15.0);
+                    // color depends on position of particle
+                    outColor = vec4(vertexWorld.y * 0.1, 0.1, vertexWorld.z * 0.1, 1);
                   }
                 `,
                 fshader: `
@@ -143,11 +143,11 @@ class point_cloud_simulation extends Panel {
                   varying vec4 outColor;
                   void main(void)
                   {
-                      // color supplied by vertex shader
-                      gl_FragColor = outColor;
-                      // make point round instead of square - make pixels outside of the circle black, using provided gl_PointCoord
-                      vec2 dist = gl_PointCoord.xy - vec2(0.5, 0.5);
-                      gl_FragColor.a = 1.0 - smoothstep(0.4, 0.5, sqrt(dot(dist, dist)));
+                    // color supplied by vertex shader
+                    gl_FragColor = outColor;
+                    // make point round instead of square - make pixels outside of the circle black, using provided gl_PointCoord
+                    vec2 dist = gl_PointCoord.xy - vec2(0.5, 0.5);
+                    gl_FragColor.a = 1.0 - smoothstep(0.4, 0.5, sqrt(dot(dist, dist)));
                   }
                 `,
               });

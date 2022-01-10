@@ -167,13 +167,13 @@ class transform_feedback extends Panel {
                     varying vec4 outColor;
                     void main(void)
                     {
-                        // Transform the geometry (ignore life time which is stored in .w of position)
-                        vec4 worldPosition = vec4(aPosition.xyz, 1);
-                        gl_Position = matrix_viewProjection * worldPosition;
-                        // point sprite size
-                        gl_PointSize = 2.0;
-                        // color depends on position of particle
-                        outColor = vec4(worldPosition.y * 0.25, 0.1, worldPosition.z * 0.2, 1);
+                      // Transform the geometry (ignore life time which is stored in .w of position)
+                      vec4 worldPosition = vec4(aPosition.xyz, 1);
+                      gl_Position = matrix_viewProjection * worldPosition;
+                      // point sprite size
+                      gl_PointSize = 2.0;
+                      // color depends on position of particle
+                      outColor = vec4(worldPosition.y * 0.25, 0.1, worldPosition.z * 0.2, 1);
                     }
                   `,
                   fshader: `
@@ -182,8 +182,8 @@ class transform_feedback extends Panel {
                     varying vec4 outColor;
                     void main(void)
                     {
-                        // color supplied by vertex shader
-                        gl_FragColor = outColor;
+                      // color supplied by vertex shader
+                      gl_FragColor = outColor;
                     }
                   `,
                 });
@@ -237,12 +237,12 @@ class transform_feedback extends Panel {
                       liveTime -= deltaTime;
                       // if particle is too old, regenerate it
                       if (liveTime <= 0.0) {
-                          // random life time
-                          liveTime = rand(pos.xy) * 2.0;
-                          // random position
-                          pos.x = rand(pos.xz) * areaSize - 0.5 * areaSize;
-                          pos.y = rand(pos.xy) * 4.0;
-                          pos.z = rand(pos.yz) * areaSize - 0.5 * areaSize;
+                        // random life time
+                        liveTime = rand(pos.xy) * 2.0;
+                        // random position
+                        pos.x = rand(pos.xz) * areaSize - 0.5 * areaSize;
+                        pos.y = rand(pos.xy) * 4.0;
+                        pos.z = rand(pos.yz) * areaSize - 0.5 * areaSize;
                       }
                       // write out updated particle
                       out_vertex_position = vec4(pos, liveTime);
