@@ -86,6 +86,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_effects_parallaxbarrier_instanced_mesh",
                         "three.js/webgl_effects_peppersghost",
                         "three.js/webgl_effects_stereo",
+                        "three.js/webgl_effects_stereo_instanced_mesh",
 
                         "three.js/webgl_framebuffer_texture",
 

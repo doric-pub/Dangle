@@ -55,6 +55,7 @@ export default [
     "src/three.js/webgl_effects_parallaxbarrier_instanced_mesh",
     "src/three.js/webgl_effects_peppersghost",
     "src/three.js/webgl_effects_stereo",
+    "src/three.js/webgl_effects_stereo_instanced_mesh",
 
     "src/three.js/webgl_framebuffer_texture",
 
