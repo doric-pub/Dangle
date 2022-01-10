@@ -6,25 +6,25 @@ import {
   Gravity,
   navbar,
   stack,
-  RemoteResource,
-  imageDecoder,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class point_cloud_simulation extends Panel {
@@ -37,30 +37,29 @@ class point_cloud_simulation extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
@@ -75,7 +74,7 @@ class point_cloud_simulation extends Panel {
               // Create an Entity with a camera component
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                clearColor: new pc.Color(0, 0, 0)
+                clearColor: new pc.Color(0, 0, 0),
               });
 
               // Add entity into scene hierarchy
@@ -95,7 +94,6 @@ class point_cloud_simulation extends Panel {
 
               // helper function to update vertex of the mesh
               function updateMesh(mesh: pc.Mesh) {
-
                 // Set current positions on mesh - this reallocates vertex buffer if more space is needed to test it.
                 // For best performance, we could preallocate enough space using mesh.Clear.
                 // Also turn off bounding box generation, as we set up large box manually
@@ -109,7 +107,10 @@ class point_cloud_simulation extends Panel {
               updateMesh(mesh);
 
               // set large bounding box so we don't need to update it each frame
-              mesh.aabb = new pc.BoundingBox(new pc.Vec3(0, 0, 0), new pc.Vec3(15, 15, 15));
+              mesh.aabb = new pc.BoundingBox(
+                new pc.Vec3(0, 0, 0),
+                new pc.Vec3(15, 15, 15)
+              );
 
               // create shader using vertex and fragment shaders
               const shader = new pc.Shader(app.graphicsDevice, {
@@ -163,19 +164,16 @@ class point_cloud_simulation extends Panel {
               // Create Entity to render the mesh instances using a render component
               const entity = new pc.Entity();
               entity.addComponent("render", {
-                type: 'asset',
+                type: "asset",
                 meshInstances: [meshInstance],
                 material: material,
-                castShadows: false
+                castShadows: false,
               });
               app.root.addChild(entity);
 
               // Set an update function on the app's update event
-              let time = 0, previousTime;
-
-
-
-
+              let time = 0,
+                previousTime;
 
               app.on("update", function (dt) {
                 previousTime = time;
@@ -188,10 +186,17 @@ class point_cloud_simulation extends Panel {
                 const delta = new pc.Vec3();
                 const next = new pc.Vec3();
                 for (let i = 0; i < maxNumPoints; i++) {
-
                   // read positions from buffers
-                  old.set(oldPositions[i * 3], oldPositions[i * 3 + 1], oldPositions[i * 3 + 2]);
-                  pos.set(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+                  old.set(
+                    oldPositions[i * 3],
+                    oldPositions[i * 3 + 1],
+                    oldPositions[i * 3 + 2]
+                  );
+                  pos.set(
+                    positions[i * 3],
+                    positions[i * 3 + 1],
+                    positions[i * 3 + 2]
+                  );
 
                   // verlet integration to move them
                   delta.sub2(pos, old);
@@ -199,8 +204,7 @@ class point_cloud_simulation extends Panel {
 
                   // boundary collision to keep them inside a sphere. If outside, simply move them in opposite direction
                   dist = next.length();
-                  if (dist > 15)
-                    next.copy(old);
+                  if (dist > 15) next.copy(old);
 
                   // write out changed positions
                   positions[i * 3] = next.x;
@@ -214,21 +218,25 @@ class point_cloud_simulation extends Panel {
 
                 // once a second change how many points are visible
                 if (Math.round(time) !== Math.round(previousTime))
-                  visiblePoints = Math.floor(50000 + Math.random() * maxNumPoints - 50000);
+                  visiblePoints = Math.floor(
+                    50000 + Math.random() * maxNumPoints - 50000
+                  );
 
                 // update mesh vertices
                 updateMesh(mesh);
 
                 // Rotate the camera around
                 const cameraTime = time * 0.2;
-                const cameraPos = new pc.Vec3(20 * Math.sin(cameraTime), 10, 20 * Math.cos(cameraTime));
+                const cameraPos = new pc.Vec3(
+                  20 * Math.sin(cameraTime),
+                  10,
+                  20 * Math.cos(cameraTime)
+                );
                 camera.setLocalPosition(cameraPos);
                 camera.lookAt(pc.Vec3.ZERO);
 
                 gl.endFrame();
               });
-
-
 
               //#endregion
             },

@@ -109,9 +109,13 @@ export default [
     "src/playcanvas/batching_dynamic",
 
     "src/playcanvas/clustered_lighting",
+    "src/playcanvas/clustered_omni_shadows",
+    "src/playcanvas/clustered_spot_shadows",
+    "src/playcanvas/component_properties",
 
     "src/playcanvas/grab_pass",
 
+    "src/playcanvas/hardware_instancing",
     "src/playcanvas/hello_world",
     "src/playcanvas/hierarchy",
 
@@ -126,21 +130,16 @@ export default [
 
     "src/playcanvas/painter",
     "src/playcanvas/particles_anim_index",
+    "src/playcanvas/particles_random_sprites",
     "src/playcanvas/particles_snow",
+    "src/playcanvas/particles_spark",
+    "src/playcanvas/point_cloud_simulation",
+    "src/playcanvas/portal",
 
+    "src/playcanvas/shader_burn",
     "src/playcanvas/shapes",
 
-
-    "src/playcanvas/point_cloud_simulation",
-    "src/playcanvas/particles_spark",
-    "src/playcanvas/particles_random_sprites",
-    "src/playcanvas/hardware_instancing",
-    "src/playcanvas/component_properties",
-    "src/playcanvas/portal",
-    "src/playcanvas/shader_burn",
     "src/playcanvas/transform_feedback",
-    "src/playcanvas/clustered_omni_shadows",
-    "src/playcanvas/clustered_spot_shadows",
     
     // Babylon.js
     "src/babylon.js/hello_world",

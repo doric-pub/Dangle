@@ -11,20 +11,22 @@ import {
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class transform_feedback extends Panel {
@@ -37,28 +39,29 @@ class transform_feedback extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the application and start the update loop
@@ -73,10 +76,11 @@ class transform_feedback extends Panel {
 
               // create small 2D texture representing movement direction (wind)
               const textureResolution = 10;
-              const textureData = new Uint8ClampedArray(textureResolution * textureResolution * 4);
+              const textureData = new Uint8ClampedArray(
+                textureResolution * textureResolution * 4
+              );
 
               for (let i = 0; i < textureResolution * textureResolution; i++) {
-
                 // rgb store biased movement direction
                 textureData[i * 4] = 127 + Math.random() * 50 - 25;
                 textureData[i * 4 + 1] = 127 + Math.random() * 50 - 25;
@@ -96,7 +100,7 @@ class transform_feedback extends Panel {
                 minFilter: pc.FILTER_LINEAR,
                 magFilter: pc.FILTER_LINEAR,
                 addressU: pc.ADDRESS_CLAMP_TO_EDGE,
-                addressV: pc.ADDRESS_CLAMP_TO_EDGE
+                addressV: pc.ADDRESS_CLAMP_TO_EDGE,
               });
 
               // initialize it with data
@@ -107,7 +111,7 @@ class transform_feedback extends Panel {
               // Create main camera, which renders the world
               const camera = new pc.Entity();
               camera.addComponent("camera", {
-                clearColor: new pc.Color(0.1, 0.1, 0.1)
+                clearColor: new pc.Color(0.1, 0.1, 0.1),
               });
               app.root.addChild(camera);
 
@@ -117,13 +121,15 @@ class transform_feedback extends Panel {
               const areaSize = 30;
 
               // resolve parameters to simulation shader parameters
-              const areaSizeUniform = app.graphicsDevice.scope.resolve("areaSize");
-              const deltaTimeUniform = app.graphicsDevice.scope.resolve("deltaTime");
-              const directionSampler = app.graphicsDevice.scope.resolve("directionSampler");
+              const areaSizeUniform =
+                app.graphicsDevice.scope.resolve("areaSize");
+              const deltaTimeUniform =
+                app.graphicsDevice.scope.resolve("deltaTime");
+              const directionSampler =
+                app.graphicsDevice.scope.resolve("directionSampler");
 
               // @ts-ignore engine-tsd
               if (app.graphicsDevice.webgl2) {
-
                 // simulated particles
                 const maxNumPoints = 200000;
                 const positions = new Float32Array(4 * maxNumPoints);
@@ -144,7 +150,10 @@ class transform_feedback extends Panel {
                 mesh.update(pc.PRIMITIVE_POINTS, false);
 
                 // set large bounding box so we don't need to update it each frame
-                mesh.aabb = new pc.BoundingBox(new pc.Vec3(0, 0, 0), new pc.Vec3(100, 100, 100));
+                mesh.aabb = new pc.BoundingBox(
+                  new pc.Vec3(0, 0, 0),
+                  new pc.Vec3(100, 100, 100)
+                );
 
                 // Create the shader from the vertex and fragment shaders which is used to render point sprites
                 shader = new pc.Shader(app.graphicsDevice, {
@@ -192,14 +201,15 @@ class transform_feedback extends Panel {
                 // create an entity used to render the mesh instance using a render component
                 const entity = new pc.Entity();
                 entity.addComponent("render", {
-                  type: 'asset',
-                  meshInstances: [meshInstance]
+                  type: "asset",
+                  meshInstances: [meshInstance],
                 });
                 app.root.addChild(entity);
 
                 // set up transform feedback. This creates a clone of the vertex buffer, and sets up rendering to ping pong between them
                 tf = new pc.TransformFeedback(mesh.vertexBuffer);
-                shader = pc.TransformFeedback.createShader(app.graphicsDevice,
+                shader = pc.TransformFeedback.createShader(
+                  app.graphicsDevice,
                   `
 // vertex shader used to move particles during transform-feedback simulation step
 // input and output is vec4, containing position in .xyz and lifetime in .w
@@ -237,35 +247,37 @@ void main(void) {
     // write out updated particle
     out_vertex_position = vec4(pos, liveTime);
 }
-`
-                  ,
-                  "transformShaderExample");
+`,
+                  "transformShaderExample"
+                );
               }
 
               // update things each frame
               let time = 0;
 
-
               // app.start();
               //#endregion
 
-              app.on('update', dt => {
+              app.on("update", (dt) => {
                 // rotate camera around
-            time += dt;
-            camera.setLocalPosition(9 * Math.sin(time * 0.2), 6, 25 * Math.cos(time * 0.2));
-            camera.lookAt(new pc.Vec3(0, 3, 0));
+                time += dt;
+                camera.setLocalPosition(
+                  9 * Math.sin(time * 0.2),
+                  6,
+                  25 * Math.cos(time * 0.2)
+                );
+                camera.lookAt(new pc.Vec3(0, 3, 0));
 
-            // if transform feedback was initialized
-            if (tf) {
+                // if transform feedback was initialized
+                if (tf) {
+                  // set up simulation parameters
+                  areaSizeUniform.setValue(areaSize);
+                  deltaTimeUniform.setValue(dt);
+                  directionSampler.setValue(texture);
 
-                // set up simulation parameters
-                areaSizeUniform.setValue(areaSize);
-                deltaTimeUniform.setValue(dt);
-                directionSampler.setValue(texture);
-
-                // execute simulation
-                tf.process(shader);
-            }
+                  // execute simulation
+                  tf.process(shader);
+                }
                 gl.endFrame();
               });
             },

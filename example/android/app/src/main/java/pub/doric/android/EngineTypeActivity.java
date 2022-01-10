@@ -144,9 +144,13 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "playcanvas/batching_dynamic",
 
                         "playcanvas/clustered_lighting",
+                        "playcanvas/clustered_omni_shadows",
+                        "playcanvas/clustered_spot_shadows",
+                        "playcanvas/component_properties",
 
                         "playcanvas/grab_pass",
 
+                        "playcanvas/hardware_instancing",
                         "playcanvas/hello_world",
                         "playcanvas/hierarchy",
 
@@ -159,24 +163,18 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "playcanvas/mesh_morph",
                         "playcanvas/model_texture_box",
 
-
                         "playcanvas/painter",
                         "playcanvas/particles_anim_index",
+                        "playcanvas/particles_random_sprites",
                         "playcanvas/particles_snow",
+                        "playcanvas/particles_spark",
+                        "playcanvas/point_cloud_simulation",
+                        "playcanvas/portal",
 
+                        "playcanvas/shader_burn",
                         "playcanvas/shapes",
 
-                        "playcanvas/point_cloud_simulation",
-                        "playcanvas/particles_spark",
-                        "playcanvas/particles_random_sprites",
-                        "playcanvas/hardware_instancing",
-                        "playcanvas/component_properties",
-                        "playcanvas/portal",
-                        "playcanvas/shader_burn",
                         "playcanvas/transform_feedback",
-                        "playcanvas/clustered_omni_shadows",
-                        "playcanvas/clustered_spot_shadows",
-
                 };
                 break;
             case TYPE_BABYLON_JS:

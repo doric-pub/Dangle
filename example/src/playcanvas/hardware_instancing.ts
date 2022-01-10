@@ -6,25 +6,25 @@ import {
   Gravity,
   navbar,
   stack,
-  RemoteResource,
-  imageDecoder,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
-const global = new Function('return this')()
+const global = new Function("return this")();
 global.window = {
   devicePixelRatio: 1,
-  addEventListener: (() => { }) as any,
+  addEventListener: (() => {}) as any,
   navigator: {
-    appVersion: '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    appVersion:
+      "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
   },
   requestAnimationFrame: vsync(context).requestAnimationFrame,
-  cancelAnimationFrame: vsync(context).cancelAnimationFrame
-}
-global.navigator = global.window.navigator
+  cancelAnimationFrame: vsync(context).cancelAnimationFrame,
+};
+global.navigator = global.window.navigator;
 
-import * as pc from 'playcanvas'
+import * as pc from "playcanvas";
 
 @Entry
 class hardware_instancing extends Panel {
@@ -37,30 +37,29 @@ class hardware_instancing extends Panel {
         [
           dangleView({
             onReady: async (gl: DangleWebGLRenderingContext) => {
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
-              const canvas =
-                ({
-                  width: width,
-                  height: height,
-                  style: {},
-                  addEventListener: (() => { }) as any,
-                  removeEventListener: (() => { }) as any,
-                  clientHeight: height,
-                  getContext: (() => { return gl }) as any,
-                  getBoundingClientRect: (() => {
-                    return {
-                      width: width,
-                      height: height,
-                    }
-                  }) as any
-                } as HTMLCanvasElement);
+              const canvas = {
+                width: width,
+                height: height,
+                style: {},
+                addEventListener: (() => {}) as any,
+                removeEventListener: (() => {}) as any,
+                clientHeight: height,
+                getContext: (() => {
+                  return gl;
+                }) as any,
+                getBoundingClientRect: (() => {
+                  return {
+                    width: width,
+                    height: height,
+                  };
+                }) as any,
+              } as HTMLCanvasElement;
 
-              global.window.innerWidth = width
-              global.window.innerHeight = height
-
-
+              global.window.innerWidth = width;
+              global.window.innerHeight = height;
 
               //#region code to impl
               // Create the app and start the update loop
@@ -81,8 +80,7 @@ class hardware_instancing extends Panel {
 
               // Create an Entity with a camera component
               const camera = new pc.Entity();
-              camera.addComponent("camera", {
-              });
+              camera.addComponent("camera", {});
               app.root.addChild(camera);
 
               // Move the camera back to see the cubes
@@ -103,7 +101,7 @@ class hardware_instancing extends Panel {
               const box = new pc.Entity();
               box.addComponent("render", {
                 material: material,
-                type: "cylinder"
+                type: "cylinder",
               });
 
               // add the box entity to the hierarchy
@@ -125,8 +123,16 @@ class hardware_instancing extends Panel {
 
                 for (let i = 0; i < instanceCount; i++) {
                   // generate random positions / scales and rotations
-                  pos.set(Math.random() * radius - radius * 0.5, Math.random() * radius - radius * 0.5, Math.random() * radius - radius * 0.5);
-                  scl.set(0.1 + Math.random() * 0.1, 0.1 + Math.random() * 0.3, 0.1 + Math.random() * 0.1);
+                  pos.set(
+                    Math.random() * radius - radius * 0.5,
+                    Math.random() * radius - radius * 0.5,
+                    Math.random() * radius - radius * 0.5
+                  );
+                  scl.set(
+                    0.1 + Math.random() * 0.1,
+                    0.1 + Math.random() * 0.3,
+                    0.1 + Math.random() * 0.1
+                  );
                   rot.setFromEulerAngles(i * 30, i * 50, i * 70);
                   matrix.setTRS(pos, rot, scl);
 
@@ -136,7 +142,13 @@ class hardware_instancing extends Panel {
                 }
 
                 // create static vertex buffer containing the matrices
-                const vertexBuffer = new pc.VertexBuffer(app.graphicsDevice, pc.VertexFormat.defaultInstancingFormat, instanceCount, pc.BUFFER_STATIC, matrices);
+                const vertexBuffer = new pc.VertexBuffer(
+                  app.graphicsDevice,
+                  pc.VertexFormat.defaultInstancingFormat,
+                  instanceCount,
+                  pc.BUFFER_STATIC,
+                  matrices
+                );
 
                 // initialize instancing using the vertex buffer on meshInstance of the created box
                 //@ts-ignore
@@ -147,22 +159,18 @@ class hardware_instancing extends Panel {
               // Set an update function on the app's update event
               let angle = 0;
 
-
-
-
-
-
               app.on("update", function (dt) {
-
                 // orbit camera around
                 angle += dt * 0.2;
-                camera.setLocalPosition(8 * Math.sin(angle), 0, 8 * Math.cos(angle));
+                camera.setLocalPosition(
+                  8 * Math.sin(angle),
+                  0,
+                  8 * Math.cos(angle)
+                );
                 camera.lookAt(pc.Vec3.ZERO);
 
                 gl.endFrame();
               });
-
-
 
               //#endregion
             },
