@@ -129,6 +129,18 @@ export default [
     "src/playcanvas/particles_snow",
 
     "src/playcanvas/shapes",
+
+
+    "src/playcanvas/point_cloud_simulation",
+    "src/playcanvas/particles_spark",
+    "src/playcanvas/particles_random_sprites",
+    "src/playcanvas/hardware_instancing",
+    "src/playcanvas/component_properties",
+    "src/playcanvas/portal",
+    "src/playcanvas/shader_burn",
+    "src/playcanvas/transform_feedback",
+    "src/playcanvas/clustered_omni_shadows",
+    "src/playcanvas/clustered_spot_shadows",
     
     // Babylon.js
     "src/babylon.js/hello_world",

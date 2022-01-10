@@ -165,6 +165,18 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "playcanvas/particles_snow",
 
                         "playcanvas/shapes",
+
+                        "playcanvas/point_cloud_simulation",
+                        "playcanvas/particles_spark",
+                        "playcanvas/particles_random_sprites",
+                        "playcanvas/hardware_instancing",
+                        "playcanvas/component_properties",
+                        "playcanvas/portal",
+                        "playcanvas/shader_burn",
+                        "playcanvas/transform_feedback",
+                        "playcanvas/clustered_omni_shadows",
+                        "playcanvas/clustered_spot_shadows",
+
                 };
                 break;
             case TYPE_BABYLON_JS:

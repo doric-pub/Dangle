@@ -147,6 +147,17 @@
         [self.tableDataArr addObject:@"playcanvas/particles_snow"];
 
         [self.tableDataArr addObject:@"playcanvas/shapes"];
+
+        [self.tableDataArr addObject:@"playcanvas/point_cloud_simulation"];
+        [self.tableDataArr addObject:@"playcanvas/particles_spark"];
+        [self.tableDataArr addObject:@"playcanvas/particles_random_sprites"];
+        [self.tableDataArr addObject:@"playcanvas/hardware_instancing"];
+        [self.tableDataArr addObject:@"playcanvas/component_properties"];
+        [self.tableDataArr addObject:@"playcanvas/portal"];
+        [self.tableDataArr addObject:@"playcanvas/shader_burn"];
+        [self.tableDataArr addObject:@"playcanvas/clustered_omni_shadows"];
+        [self.tableDataArr addObject:@"playcanvas/particles_snow"];
+        [self.tableDataArr addObject:@"playcanvas/clustered_spot_shadows"];
     } else if ([self.engineType isEqual: @"Babylon.js"]) {
         [self.tableDataArr addObject:@"babylon.js/hello_world"];
     }
