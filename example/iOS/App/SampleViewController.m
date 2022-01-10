@@ -106,6 +106,8 @@
 
         [self.tableDataArr addObject:@"three.js/webgl_materials_car"];
 
+        [self.tableDataArr addObject:@"three.js/webgl_pmrem_test"];
+
         [self.tableDataArr addObject:@"three.js/webgl_points_dynamic"];
         [self.tableDataArr addObject:@"three.js/webgl_points_sprites"];
         [self.tableDataArr addObject:@"three.js/webgl_points_waves"];

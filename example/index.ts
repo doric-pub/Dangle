@@ -88,6 +88,8 @@ export default [
 
     "src/three.js/webgl_materials_car",
 
+    "src/three.js/webgl_pmrem_test",
+
     "src/three.js/webgl_points_dynamic",
     "src/three.js/webgl_points_sprites",
     "src/three.js/webgl_points_waves",

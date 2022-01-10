@@ -119,6 +119,8 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/webgl_materials_car",
 
+                        "three.js/webgl_pmrem_test",
+
                         "three.js/webgl_points_dynamic",
                         "three.js/webgl_points_sprites",
                         "three.js/webgl_points_waves",
