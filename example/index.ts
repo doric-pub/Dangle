@@ -50,6 +50,7 @@ export default [
     "src/three.js/webgl_depth_texture",
 
     "src/three.js/webgl_effects_anaglyph",
+    "src/three.js/webgl_effects_anaglyph_instanced_mesh",
     "src/three.js/webgl_effects_parallaxbarrier",
     "src/three.js/webgl_effects_parallaxbarrier_instanced_mesh",
     "src/three.js/webgl_effects_peppersghost",
