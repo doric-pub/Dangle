@@ -128,6 +128,8 @@ public class EngineTypeActivity extends AppCompatActivity {
 
                         "three.js/webgl_shaders_ocean",
 
+                        "three.js/webgl2_multisampled_renderbuffers",
+
                         "three.js/webxr_vr_rollercoaster",
 
                         "three.js/zeekr_001",

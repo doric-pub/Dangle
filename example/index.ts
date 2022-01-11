@@ -97,6 +97,8 @@ export default [
 
     "src/three.js/webgl_shaders_ocean",
 
+    "src/three.js/webgl2_multisampled_renderbuffers",
+
     "src/three.js/webxr_vr_rollercoaster",
 
     "src/three.js/zeekr_001",

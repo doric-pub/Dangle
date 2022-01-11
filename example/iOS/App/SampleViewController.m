@@ -115,6 +115,8 @@
 
         [self.tableDataArr addObject:@"three.js/webgl_shaders_ocean"];
 
+        [self.tableDataArr addObject:@"three.js/webgl2_multisampled_renderbuffers"];
+
         [self.tableDataArr addObject:@"three.js/webxr_vr_rollercoaster"];
 
         [self.tableDataArr addObject:@"three.js/zeekr_001"];
