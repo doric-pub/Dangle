@@ -23,7 +23,7 @@
     self.tableDataArr = [NSMutableArray array];
     
     if ([self.engineType isEqual: @"MDN_WebGL"]) {
-        for(int i = 1; i <= 6; i++) {
+        for(int i = 1; i <= 7; i++) {
             [self.tableDataArr addObject:[NSString stringWithFormat:@"mdn_webgl/Sample%i", i]];
         }
     } else if ([self.engineType isEqual: @"Three.js"]) {

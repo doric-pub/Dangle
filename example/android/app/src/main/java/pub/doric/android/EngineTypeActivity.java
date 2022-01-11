@@ -36,6 +36,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "mdn_webgl/Sample4",
                         "mdn_webgl/Sample5",
                         "mdn_webgl/Sample6",
+                        "mdn_webgl/Sample7",
                 };
                 break;
             case TYPE_THREE_JS:

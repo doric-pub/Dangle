@@ -7,6 +7,7 @@ export default [
     "src/mdn_webgl/Sample4",
     "src/mdn_webgl/Sample5",
     "src/mdn_webgl/Sample6",
+    "src/mdn_webgl/Sample7",
 
     // Three.js
     "src/three.js/chess",
