@@ -7,6 +7,9 @@ import {
   navbar,
   stack,
   Color,
+  VLayout,
+  text,
+  hlayout,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -15,11 +18,14 @@ import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 
 @Entry
 class webgl_animation_skinning_morph extends Panel {
+  private container?: VLayout;
+
   onShow() {
     navbar(context).setTitle("webgl_animation_skinning_morph");
   }
   build(rootView: Group) {
-    vlayout([
+    const self = this;
+    self.container = vlayout([
       stack(
         [
           dangleView({
@@ -51,13 +57,7 @@ class webgl_animation_skinning_morph extends Panel {
 
               //#region code to impl
 
-              let container,
-                clock,
-                gui,
-                mixer,
-                actions,
-                activeAction,
-                previousAction;
+              let clock, gui, mixer, actions, activeAction, previousAction;
               let camera, scene, renderer, model, face;
 
               const api = { state: "Walking" };
@@ -120,7 +120,7 @@ class webgl_animation_skinning_morph extends Panel {
                     model = gltf.scene;
                     scene.add(model);
 
-                    // createGUI(model, gltf.animations);
+                    createGUI(model, gltf.animations);
                   },
                   undefined,
                   function (e) {
@@ -176,63 +176,144 @@ class webgl_animation_skinning_morph extends Panel {
                   }
                 }
 
-                // gui = new GUI();
-
                 // states
-
-                const statesFolder = gui.addFolder("States");
-
-                const clipCtrl = statesFolder.add(api, "state").options(states);
-
-                clipCtrl.onChange(function () {
-                  fadeToAction(api.state, 0.5);
-                });
-
-                statesFolder.open();
+                self.container?.addChild(
+                  hlayout(
+                    [
+                      text({
+                        text: states[0],
+                        onClick: () => {
+                          api.state = states[0];
+                          fadeToAction(api.state, 0.5);
+                        },
+                        backgroundColor: Color.GRAY,
+                        textColor: Color.WHITE,
+                        width: 75,
+                        layoutConfig: layoutConfig().justWidth().fitHeight(),
+                      }),
+                      text({
+                        text: states[1],
+                        onClick: () => {
+                          api.state = states[1];
+                          fadeToAction(api.state, 0.5);
+                        },
+                        backgroundColor: Color.GRAY,
+                        textColor: Color.WHITE,
+                        width: 75,
+                        layoutConfig: layoutConfig().justWidth().fitHeight(),
+                      }),
+                      text({
+                        text: states[2],
+                        onClick: () => {
+                          api.state = states[2];
+                          fadeToAction(api.state, 0.5);
+                        },
+                        backgroundColor: Color.GRAY,
+                        textColor: Color.WHITE,
+                        width: 75,
+                        layoutConfig: layoutConfig().justWidth().fitHeight(),
+                      }),
+                      text({
+                        text: states[3],
+                        onClick: () => {
+                          api.state = states[3];
+                          fadeToAction(api.state, 0.5);
+                        },
+                        backgroundColor: Color.GRAY,
+                        textColor: Color.WHITE,
+                        width: 75,
+                        layoutConfig: layoutConfig().justWidth().fitHeight(),
+                      }),
+                    ],
+                    {
+                      space: 20,
+                    }
+                  )
+                );
+                self.container?.addChild(
+                  hlayout(
+                    [
+                      text({
+                        text: states[4],
+                        onClick: () => {
+                          api.state = states[4];
+                          fadeToAction(api.state, 0.5);
+                        },
+                        backgroundColor: Color.GRAY,
+                        textColor: Color.WHITE,
+                        width: 75,
+                        layoutConfig: layoutConfig().justWidth().fitHeight(),
+                      }),
+                      text({
+                        text: states[5],
+                        onClick: () => {
+                          api.state = states[5];
+                          fadeToAction(api.state, 0.5);
+                        },
+                        backgroundColor: Color.GRAY,
+                        textColor: Color.WHITE,
+                        width: 75,
+                        layoutConfig: layoutConfig().justWidth().fitHeight(),
+                      }),
+                      text({
+                        text: states[6],
+                        onClick: () => {
+                          api.state = states[6];
+                          fadeToAction(api.state, 0.5);
+                        },
+                        backgroundColor: Color.GRAY,
+                        textColor: Color.WHITE,
+                        width: 75,
+                        layoutConfig: layoutConfig().justWidth().fitHeight(),
+                      }),
+                    ],
+                    { space: 20 }
+                  )
+                );
 
                 // emotes
 
-                const emoteFolder = gui.addFolder("Emotes");
+                // const emoteFolder = gui.addFolder("Emotes");
 
-                function createEmoteCallback(name) {
-                  api[name] = function () {
-                    fadeToAction(name, 0.2);
+                // function createEmoteCallback(name) {
+                //   api[name] = function () {
+                //     fadeToAction(name, 0.2);
 
-                    mixer.addEventListener("finished", restoreState);
-                  };
+                //     mixer.addEventListener("finished", restoreState);
+                //   };
 
-                  emoteFolder.add(api, name);
-                }
+                //   emoteFolder.add(api, name);
+                // }
 
-                function restoreState() {
-                  mixer.removeEventListener("finished", restoreState);
+                // function restoreState() {
+                //   mixer.removeEventListener("finished", restoreState);
 
-                  fadeToAction(api.state, 0.2);
-                }
+                //   fadeToAction(api.state, 0.2);
+                // }
 
-                for (let i = 0; i < emotes.length; i++) {
-                  createEmoteCallback(emotes[i]);
-                }
+                // for (let i = 0; i < emotes.length; i++) {
+                //   createEmoteCallback(emotes[i]);
+                // }
 
-                emoteFolder.open();
+                // emoteFolder.open();
 
                 // expressions
 
-                face = model.getObjectByName("Head_4");
+                // face = model.getObjectByName("Head_4");
 
-                const expressions = Object.keys(face.morphTargetDictionary);
-                const expressionFolder = gui.addFolder("Expressions");
+                // const expressions = Object.keys(face.morphTargetDictionary);
+                // const expressionFolder = gui.addFolder("Expressions");
 
-                for (let i = 0; i < expressions.length; i++) {
-                  expressionFolder
-                    .add(face.morphTargetInfluences, i, 0, 1, 0.01)
-                    .name(expressions[i]);
-                }
+                // for (let i = 0; i < expressions.length; i++) {
+                //   expressionFolder
+                //     .add(face.morphTargetInfluences, i, 0, 1, 0.01)
+                //     .name(expressions[i]);
+                // }
 
-                activeAction = actions["Walking"];
-                activeAction.play();
+                // activeAction = actions["Walking"];
+                // activeAction.play();
 
-                expressionFolder.open();
+                // expressionFolder.open();
               }
 
               function fadeToAction(name, duration) {
