@@ -51,6 +51,7 @@
         [self.tableDataArr addObject:@"three.js/webgl_animation_keyframes"];
         [self.tableDataArr addObject:@"three.js/webgl_animation_skinning_additive_blending"];
         [self.tableDataArr addObject:@"three.js/webgl_animation_skinning_blending"];
+        [self.tableDataArr addObject:@"three.js/webgl_animation_skinning_morph"];
 
         [self.tableDataArr addObject:@"three.js/webgl_buffergeometry_instancing"];
 

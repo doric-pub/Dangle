@@ -33,6 +33,7 @@ export default [
     "src/three.js/webgl_animation_keyframes",
     "src/three.js/webgl_animation_skinning_additive_blending",
     "src/three.js/webgl_animation_skinning_blending",
+    "src/three.js/webgl_animation_skinning_morph",
 
     "src/three.js/webgl_buffergeometry_instancing",
 
