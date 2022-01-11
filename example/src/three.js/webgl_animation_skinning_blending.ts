@@ -65,7 +65,7 @@ class webgl_animation_skinning_blending extends Panel {
 
               //#region code to impl
 
-              let scene, renderer, camera, stats;
+              let scene, renderer, camera;
               let model, skeleton, mixer, clock;
 
               const crossFadeControls = [];
@@ -80,8 +80,6 @@ class webgl_animation_skinning_blending extends Panel {
               init();
 
               function init() {
-                // const container = document.getElementById( 'container' );
-
                 camera = new THREE.PerspectiveCamera(
                   45,
                   window.innerWidth / window.innerHeight,
@@ -173,10 +171,6 @@ class webgl_animation_skinning_blending extends Panel {
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.shadowMap.enabled = true;
-                // container.appendChild( renderer.domElement );
-
-                // stats = new Stats();
-                // container.appendChild( stats.dom );
 
                 window.addEventListener("resize", onWindowResize);
               }
@@ -215,91 +209,112 @@ class webgl_animation_skinning_blending extends Panel {
                     [
                       hlayout(
                         [
-                          text({
-                            text: "show model",
-                            layoutConfig: layoutConfig()
-                              .justWidth()
-                              .fitHeight(),
-                            width: 200,
-                            textColor: Color.WHITE,
-                          }),
-                          switchView({
-                            state: true,
-                            onSwitch: (state) => {
-                              showModel(state);
-                            },
-                          }),
+                          hlayout(
+                            [
+                              text({
+                                text: "show model",
+                                textColor: Color.GRAY,
+                              }),
+                              switchView({
+                                state: true,
+                                onSwitch: (state) => {
+                                  showModel(state);
+                                },
+                              }),
+                            ],
+                            {
+                              space: 20,
+                              gravity: Gravity.CenterY,
+                            }
+                          ),
+                          hlayout(
+                            [
+                              text({
+                                text: "show skeleton",
+                                textColor: Color.GRAY,
+                              }),
+                              switchView({
+                                onSwitch: (state) => {
+                                  showSkeleton(state);
+                                },
+                              }),
+                            ],
+                            {
+                              space: 20,
+                              gravity: Gravity.CenterY,
+                            }
+                          ),
                         ],
                         {
                           space: 20,
-                          backgroundColor: Color.BLACK,
                         }
                       ),
                       hlayout(
                         [
                           text({
-                            text: "show skeleton",
+                            text: "deactivate all",
                             layoutConfig: layoutConfig()
                               .justWidth()
                               .fitHeight(),
-                            width: 200,
+                            width: 120,
+                            backgroundColor: Color.GRAY,
                             textColor: Color.WHITE,
+
+                            onClick: () => {
+                              deactivateAllActions();
+                            },
                           }),
-                          switchView({
-                            onSwitch: (state) => {
-                              showSkeleton(state);
+                          text({
+                            text: "activate all",
+                            layoutConfig: layoutConfig()
+                              .justWidth()
+                              .fitHeight(),
+                            width: 120,
+                            backgroundColor: Color.GRAY,
+                            textColor: Color.WHITE,
+
+                            onClick: () => {
+                              activateAllActions();
                             },
                           }),
                         ],
                         {
                           space: 20,
-                          backgroundColor: Color.BLACK,
                         }
                       ),
-                      text({
-                        text: "deactivate all",
-                        layoutConfig: layoutConfig().justWidth().fitHeight(),
-                        width: 120,
-                        backgroundColor: Color.GRAY,
-                        textColor: Color.WHITE,
+                      hlayout(
+                        [
+                          text({
+                            text: "pause/continue",
+                            layoutConfig: layoutConfig()
+                              .justWidth()
+                              .fitHeight(),
+                            width: 120,
+                            backgroundColor: Color.GRAY,
+                            textColor: Color.WHITE,
 
-                        onClick: () => {
-                          deactivateAllActions();
-                        },
-                      }),
-                      text({
-                        text: "activate all",
-                        layoutConfig: layoutConfig().justWidth().fitHeight(),
-                        width: 120,
-                        backgroundColor: Color.GRAY,
-                        textColor: Color.WHITE,
+                            onClick: () => {
+                              pauseContinue();
+                            },
+                          }),
+                          text({
+                            text: "make single step",
+                            layoutConfig: layoutConfig()
+                              .justWidth()
+                              .fitHeight(),
+                            width: 120,
+                            backgroundColor: Color.GRAY,
+                            textColor: Color.WHITE,
 
-                        onClick: () => {
-                          activateAllActions();
-                        },
-                      }),
-                      text({
-                        text: "pause/continue",
-                        layoutConfig: layoutConfig().justWidth().fitHeight(),
-                        width: 120,
-                        backgroundColor: Color.GRAY,
-                        textColor: Color.WHITE,
-
-                        onClick: () => {
-                          pauseContinue();
-                        },
-                      }),
-                      text({
-                        text: "make single step",
-                        layoutConfig: layoutConfig().justWidth().fitHeight(),
-                        width: 120,
-                        backgroundColor: Color.GRAY,
-                        textColor: Color.WHITE,
-
-                        onClick: () => {
-                          toSingleStepMode();
-                        },
-                      }),
+                            onClick: () => {
+                              toSingleStepMode();
+                            },
+                          }),
+                        ],
+                        {
+                          space: 20,
+                        }
+                      ),
                       (self.walkToIdleText = text({
                         text: "from walk to idle",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
@@ -327,8 +342,8 @@ class webgl_animation_skinning_blending extends Panel {
                         text: "from idle to walk",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
                         width: 120,
-                        backgroundColor: Color.GRAY,
-                        textColor: Color.BLACK,
+                        backgroundColor: Color.BLACK,
+                        textColor: Color.GRAY,
 
                         onClick: () => {
                           prepareCrossFade(idleAction, walkAction, 0.5);
@@ -365,15 +380,15 @@ class webgl_animation_skinning_blending extends Panel {
                           self.walkToRunText!!.backgroundColor = Color.BLACK;
 
                           self.runToWalkText!!.textColor = Color.WHITE;
-                          self.runToWalkText!!.backgroundColor = Color.BLACK;
+                          self.runToWalkText!!.backgroundColor = Color.GRAY;
                         },
                       })),
                       (self.runToWalkText = text({
                         text: "from run to walk",
                         layoutConfig: layoutConfig().justWidth().fitHeight(),
                         width: 120,
-                        backgroundColor: Color.GRAY,
-                        textColor: Color.BLACK,
+                        backgroundColor: Color.BLACK,
+                        textColor: Color.GRAY,
 
                         onClick: () => {
                           prepareCrossFade(runAction, walkAction, 5.0);
@@ -634,9 +649,9 @@ class webgl_animation_skinning_blending extends Panel {
       ),
     ])
       .apply({
-        layoutConfig: layoutConfig().fit().configAlignment(Gravity.CenterX),
+        layoutConfig: layoutConfig().most(),
         space: 20,
-        gravity: Gravity.CenterX,
+        gravity: Gravity.Center,
       })
       .in(rootView);
   }
