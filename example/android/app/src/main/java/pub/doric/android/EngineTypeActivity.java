@@ -193,6 +193,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "webgl_shaders/random_pixels",
                         "webgl_shaders/classic_2d_noise",
                         "webgl_shaders/rain_drops",
+                        "webgl_shaders/geometric_tile",
                 };
                 break;
             default:
