@@ -23,24 +23,23 @@ import { CinematicCamera } from "./jsm/cameras/CinematicCamera";
 
 @Entry
 class webgl_camera_cinematic extends Panel {
-
-  private vContainer?: VLayout
-  private gestureView?: GestureContainer
-  private focalLengthValue?: Stack
-  private fstopValue?: Stack
-  private focalDepthValue?: Stack
-  private showFocusValue?: Switch
+  private vContainer?: VLayout;
+  private gestureView?: GestureContainer;
+  private focalLengthValue?: Stack;
+  private fstopValue?: Stack;
+  private focalDepthValue?: Stack;
+  private showFocusValue?: Switch;
 
   onShow() {
     navbar(context).setTitle("webgl_camera_cinematic");
   }
   build(rootView: Group) {
     this.vContainer = vlayout([
-      this.gestureView = gestureContainer([], {
+      (this.gestureView = gestureContainer([], {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
+      })),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -49,32 +48,33 @@ class webgl_camera_cinematic extends Panel {
       })
       .in(rootView);
 
-    let self = this
-    let effectController
-    let matChanger
+    let self = this;
+    let effectController;
+    let matChanger;
     this.gestureView.addChild(
       dangleView({
         onReady: (gl: DangleWebGLRenderingContext) => {
-          const width = gl.drawingBufferWidth
-          const height = gl.drawingBufferHeight
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
 
-          const inputCanvas = 
-          ({
+          const inputCanvas = {
             width: width,
             height: height,
             style: {},
             addEventListener: (() => {}) as any,
             removeEventListener: (() => {}) as any,
             clientHeight: height,
-            getContext: (() => {return gl}) as any,
-          } as HTMLCanvasElement);
+            getContext: (() => {
+              return gl;
+            }) as any,
+          } as HTMLCanvasElement;
 
           let window = {
             innerWidth: width,
             innerHeight: height,
             devicePixelRatio: 1,
-            addEventListener: (() => {}) as any
-          }
+            addEventListener: (() => {}) as any,
+          };
           //#region code to impl
 
           let camera, scene, raycaster, renderer, stats;
@@ -83,49 +83,60 @@ class webgl_camera_cinematic extends Panel {
           let INTERSECTED;
           const radius = 100;
           let theta = 0;
-    
+
           init();
           animate();
-    
+
           function init() {
-    
-            camera = new CinematicCamera( 60, window.innerWidth / window.innerHeight, 1, 1000, window );
-            camera.setLens( 5 );
-            camera.position.set( 2, 1, 500 );
-    
+            camera = new CinematicCamera(
+              60,
+              window.innerWidth / window.innerHeight,
+              1,
+              1000,
+              window
+            );
+            camera.setLens(5);
+            camera.position.set(2, 1, 500);
+
             scene = new THREE.Scene();
-            scene.background = new THREE.Color( 0xf0f0f0 );
-    
-            scene.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
-    
-            const light = new THREE.DirectionalLight( 0xffffff, 0.35 );
-            light.position.set( 1, 1, 1 ).normalize();
-            scene.add( light );
-    
-            const geometry = new THREE.BoxGeometry( 20, 20, 20 );
-    
-            for ( let i = 0; i < 1500; i ++ ) {
-    
-              const object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
-    
+            scene.background = new THREE.Color(0xf0f0f0);
+
+            scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+
+            const light = new THREE.DirectionalLight(0xffffff, 0.35);
+            light.position.set(1, 1, 1).normalize();
+            scene.add(light);
+
+            const geometry = new THREE.BoxGeometry(20, 20, 20);
+
+            for (let i = 0; i < 1500; i++) {
+              const object = new THREE.Mesh(
+                geometry,
+                new THREE.MeshLambertMaterial({
+                  color: Math.random() * 0xffffff,
+                })
+              );
+
               object.position.x = Math.random() * 800 - 400;
               object.position.y = Math.random() * 800 - 400;
               object.position.z = Math.random() * 800 - 400;
-    
-              scene.add( object );
-    
+
+              scene.add(object);
             }
-    
+
             raycaster = new THREE.Raycaster();
-    
-            renderer = new THREE.WebGLRenderer( { antialias: true, canvas: inputCanvas } );
-            renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setSize( window.innerWidth, window.innerHeight );
+
+            renderer = new THREE.WebGLRenderer({
+              antialias: true,
+              canvas: inputCanvas,
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             // document.body.appendChild( renderer.domElement );
-    
+
             // stats = new Stats();
             // document.body.appendChild( stats.dom );
-    
+
             // document.addEventListener( 'mousemove', onDocumentMouseMove );
             self.gestureView!!.onTouchMove = ({ x, y }) => {
               onDocumentMouseMove({
@@ -133,11 +144,10 @@ class webgl_camera_cinematic extends Panel {
                 clientY: y * Environment.screenScale,
               });
             };
-    
-            window.addEventListener( 'resize', onWindowResize );
-    
+
+            window.addEventListener("resize", onWindowResize);
+
             effectController = {
-    
               focalLength: 15,
               // jsDepthCalculation: true,
               // shaderFocus: false,
@@ -161,130 +171,119 @@ class webgl_camera_cinematic extends Panel {
               // pentagon: false,
               //
               // dithering: 0.0001
-    
             };
-    
-            matChanger = function ( ) {
-    
-              for ( const e in effectController ) {
-    
-                if ( e in camera.postprocessing.bokeh_uniforms ) {
-    
-                  camera.postprocessing.bokeh_uniforms[ e ].value = effectController[ e ];
-    
+
+            matChanger = function () {
+              for (const e in effectController) {
+                if (e in camera.postprocessing.bokeh_uniforms) {
+                  camera.postprocessing.bokeh_uniforms[e].value =
+                    effectController[e];
                 }
-    
               }
-    
-              camera.postprocessing.bokeh_uniforms[ 'znear' ].value = camera.near;
-              camera.postprocessing.bokeh_uniforms[ 'zfar' ].value = camera.far;
-              camera.setLens( effectController.focalLength, camera.frameHeight, effectController.fstop, camera.coc );
-              effectController[ 'focalDepth' ] = camera.postprocessing.bokeh_uniforms[ 'focalDepth' ].value;
-    
+
+              camera.postprocessing.bokeh_uniforms["znear"].value = camera.near;
+              camera.postprocessing.bokeh_uniforms["zfar"].value = camera.far;
+              camera.setLens(
+                effectController.focalLength,
+                camera.frameHeight,
+                effectController.fstop,
+                camera.coc
+              );
+              effectController["focalDepth"] =
+                camera.postprocessing.bokeh_uniforms["focalDepth"].value;
             };
-    
+
             //
-    
+
             // const gui = new GUI();
-    
+
             // gui.add( effectController, 'focalLength', 1, 135, 0.01 ).onChange( matChanger );
             // gui.add( effectController, 'fstop', 1.8, 22, 0.01 ).onChange( matChanger );
             // gui.add( effectController, 'focalDepth', 0.1, 100, 0.001 ).onChange( matChanger );
             // gui.add( effectController, 'showFocus', true ).onChange( matChanger );
-    
+
             matChanger();
-    
-            window.addEventListener( 'resize', onWindowResize );
-    
+
+            window.addEventListener("resize", onWindowResize);
           }
-    
+
           function onWindowResize() {
-    
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-    
-            renderer.setSize( window.innerWidth, window.innerHeight );
-    
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
           }
-    
-          function onDocumentMouseMove( event ) {
-    
+
+          function onDocumentMouseMove(event) {
             // event.preventDefault();
-    
-            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-            mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
           }
-    
+
           function animate() {
-    
             // requestAnimationFrame( animate, renderer.domElement );
-            vsync(context).requestAnimationFrame( animate );
-    
+            vsync(context).requestAnimationFrame(animate);
+
             render();
             // stats.update();
 
             gl.endFrame();
           }
-    
-    
+
           function render() {
-    
             theta += 0.1;
-    
-            camera.position.x = radius * Math.sin( THREE.MathUtils.degToRad( theta ) );
-            camera.position.y = radius * Math.sin( THREE.MathUtils.degToRad( theta ) );
-            camera.position.z = radius * Math.cos( THREE.MathUtils.degToRad( theta ) );
-            camera.lookAt( scene.position );
-    
+
+            camera.position.x =
+              radius * Math.sin(THREE.MathUtils.degToRad(theta));
+            camera.position.y =
+              radius * Math.sin(THREE.MathUtils.degToRad(theta));
+            camera.position.z =
+              radius * Math.cos(THREE.MathUtils.degToRad(theta));
+            camera.lookAt(scene.position);
+
             camera.updateMatrixWorld();
-    
+
             // find intersections
-    
-            raycaster.setFromCamera( mouse, camera );
-    
-            const intersects = raycaster.intersectObjects( scene.children, false );
-    
-            if ( intersects.length > 0 ) {
-    
-              const targetDistance = intersects[ 0 ].distance;
-    
-              camera.focusAt( targetDistance ); // using Cinematic camera focusAt method
-    
-              if ( INTERSECTED != intersects[ 0 ].object ) {
-    
-                if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-    
-                INTERSECTED = intersects[ 0 ].object;
+
+            raycaster.setFromCamera(mouse, camera);
+
+            const intersects = raycaster.intersectObjects(
+              scene.children,
+              false
+            );
+
+            if (intersects.length > 0) {
+              const targetDistance = intersects[0].distance;
+
+              camera.focusAt(targetDistance); // using Cinematic camera focusAt method
+
+              if (INTERSECTED != intersects[0].object) {
+                if (INTERSECTED)
+                  INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
+                INTERSECTED = intersects[0].object;
                 INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-                INTERSECTED.material.emissive.setHex( 0xff0000 );
-    
+                INTERSECTED.material.emissive.setHex(0xff0000);
               }
-    
             } else {
-    
-              if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-    
+              if (INTERSECTED)
+                INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
               INTERSECTED = null;
-    
             }
-    
+
             //
-    
-            if ( camera.postprocessing.enabled ) {
-    
-              camera.renderCinematic( scene, renderer );
-    
+
+            if (camera.postprocessing.enabled) {
+              camera.renderCinematic(scene, renderer);
             } else {
-    
               scene.overrideMaterial = null;
-    
+
               renderer.clear();
-              renderer.render( scene, camera );
-    
+              renderer.render(scene, camera);
             }
-    
-          }        
+          }
 
           //#endregion
         },
@@ -292,133 +291,156 @@ class webgl_camera_cinematic extends Panel {
         layoutConfig: layoutConfig().just(),
         width: 300,
         height: 300,
-      }),
-    )
+      })
+    );
 
     this.vContainer.addChild(
-      hlayout([
-        text({
-          text: "focalLength",
-          layoutConfig: layoutConfig().justWidth().fitHeight(),
-          width: 90,
-        }),
-        gestureContainer([
-          this.focalLengthValue = stack([], {
-            layoutConfig: layoutConfig().just(),
-            width: 135,
-            height: 25,
-            x: 15 - 135,
-            backgroundColor: Color.parse("#2FA1D6"),
-          })
-        ], {
-          onPan: (dx, dy) => {
-            this.focalLengthValue!!.x -= dx
-            if (this.focalLengthValue!!.x <= 1 - 135) {
-              this.focalLengthValue!!.x = 1 - 135
-            } else if (this.focalLengthValue!!.x >= 0) {
-              this.focalLengthValue!!.x = 0
+      hlayout(
+        [
+          text({
+            text: "focalLength",
+            layoutConfig: layoutConfig().justWidth().fitHeight(),
+            width: 90,
+          }),
+          gestureContainer(
+            [
+              (this.focalLengthValue = stack([], {
+                layoutConfig: layoutConfig().just(),
+                width: 135,
+                height: 25,
+                x: 15 - 135,
+                backgroundColor: Color.parse("#2FA1D6"),
+              })),
+            ],
+            {
+              onPan: (dx, dy) => {
+                this.focalLengthValue!!.x -= dx;
+                if (this.focalLengthValue!!.x <= 1 - 135) {
+                  this.focalLengthValue!!.x = 1 - 135;
+                } else if (this.focalLengthValue!!.x >= 0) {
+                  this.focalLengthValue!!.x = 0;
+                }
+                effectController.focalLength = this.focalLengthValue!!.x + 135;
+                matChanger();
+              },
+              layoutConfig: layoutConfig().just(),
+              width: 135,
+              height: 25,
+              backgroundColor: Color.parse("#303030"),
             }
-            effectController.focalLength = this.focalLengthValue!!.x + 135
-            matChanger()
-          },
-          layoutConfig: layoutConfig().just(),
-          width: 135,
-          height: 25,
-          backgroundColor: Color.parse("#303030"),
-        })
-      ], {
-        space: 20,
-      })
-    )
+          ),
+        ],
+        {
+          space: 20,
+        }
+      )
+    );
 
     this.vContainer.addChild(
-      hlayout([
-        text({
-          text: "fstop",
-          layoutConfig: layoutConfig().justWidth().fitHeight(),
-          width: 90,
-        }),
-        gestureContainer([
-          this.fstopValue = stack([], {
-            layoutConfig: layoutConfig().just(),
-            width: 135 ,
-            height: 25,
-            x: 2.8 * 135 / 22 - 135,
-            backgroundColor: Color.parse("#2FA1D6"),
-          })
-        ], {
-          onPan: (dx, dy) => {
-            this.fstopValue!!.x -= dx
-            if (this.fstopValue!!.x <= 1.8 * 135 / 22 - 135) {
-              this.fstopValue!!.x = 1.8 * 135 / 22 - 135
-            } else if (this.fstopValue!!.x >= 0) {
-              this.fstopValue!!.x = 0
+      hlayout(
+        [
+          text({
+            text: "fstop",
+            layoutConfig: layoutConfig().justWidth().fitHeight(),
+            width: 90,
+          }),
+          gestureContainer(
+            [
+              (this.fstopValue = stack([], {
+                layoutConfig: layoutConfig().just(),
+                width: 135,
+                height: 25,
+                x: (2.8 * 135) / 22 - 135,
+                backgroundColor: Color.parse("#2FA1D6"),
+              })),
+            ],
+            {
+              onPan: (dx, dy) => {
+                this.fstopValue!!.x -= dx;
+                if (this.fstopValue!!.x <= (1.8 * 135) / 22 - 135) {
+                  this.fstopValue!!.x = (1.8 * 135) / 22 - 135;
+                } else if (this.fstopValue!!.x >= 0) {
+                  this.fstopValue!!.x = 0;
+                }
+                effectController.fstop =
+                  ((this.fstopValue!!.x + 135) * 22) / 135;
+                matChanger();
+              },
+              layoutConfig: layoutConfig().just(),
+              width: 135,
+              height: 25,
+              backgroundColor: Color.parse("#303030"),
             }
-            effectController.fstop = (this.fstopValue!!.x + 135) * 22 / 135
-            matChanger()
-          },
-          layoutConfig: layoutConfig().just(),
-          width: 135,
-          height: 25,
-          backgroundColor: Color.parse("#303030"),
-        })
-      ], {
-        space: 20,
-      })
-    )
+          ),
+        ],
+        {
+          space: 20,
+        }
+      )
+    );
 
     this.vContainer.addChild(
-      hlayout([
-        text({
-          text: "focalDepth",
-          layoutConfig: layoutConfig().justWidth().fitHeight(),
-          width: 90,
-        }),
-        gestureContainer([
-          this.focalDepthValue = stack([], {
-            layoutConfig: layoutConfig().just(),
-            width: 135 ,
-            height: 25,
-            x: 3 * 135 / 100 - 135,
-            backgroundColor: Color.parse("#2FA1D6"),
-          })
-        ], {
-          onPan: (dx, dy) => {
-            this.focalDepthValue!!.x -= dx
-            if (this.focalDepthValue!!.x <= 0.1 * 135 / 100 - 135) {
-              this.focalDepthValue!!.x = 0.1 * 135 / 100 - 135
-            } else if (this.focalDepthValue!!.x >= 0) {
-              this.focalDepthValue!!.x = 0
+      hlayout(
+        [
+          text({
+            text: "focalDepth",
+            layoutConfig: layoutConfig().justWidth().fitHeight(),
+            width: 90,
+          }),
+          gestureContainer(
+            [
+              (this.focalDepthValue = stack([], {
+                layoutConfig: layoutConfig().just(),
+                width: 135,
+                height: 25,
+                x: (3 * 135) / 100 - 135,
+                backgroundColor: Color.parse("#2FA1D6"),
+              })),
+            ],
+            {
+              onPan: (dx, dy) => {
+                this.focalDepthValue!!.x -= dx;
+                if (this.focalDepthValue!!.x <= (0.1 * 135) / 100 - 135) {
+                  this.focalDepthValue!!.x = (0.1 * 135) / 100 - 135;
+                } else if (this.focalDepthValue!!.x >= 0) {
+                  this.focalDepthValue!!.x = 0;
+                }
+                effectController.focalDepth =
+                  ((this.focalDepthValue!!.x + 135) * 100) / 135;
+                matChanger();
+              },
+              layoutConfig: layoutConfig().just(),
+              width: 135,
+              height: 25,
+              backgroundColor: Color.parse("#303030"),
             }
-            effectController.focalDepth = (this.focalDepthValue!!.x + 135) * 100 / 135
-            matChanger()
-          },
-          layoutConfig: layoutConfig().just(),
-          width: 135,
-          height: 25,
-          backgroundColor: Color.parse("#303030"),
-        })
-      ], {
-        space: 20,
-      })
-    )
+          ),
+        ],
+        {
+          space: 20,
+        }
+      )
+    );
 
     this.vContainer.addChild(
-      hlayout([
-        text({
-          text: "showFocus",
-          layoutConfig: layoutConfig().justWidth().fitHeight(),
-          width: 90,
-        }),
-        this.showFocusValue = switchView({
-          onSwitch: (state) => {
-            effectController.showFocus = state
-            matChanger()
-          }
-        })
-      ], {
-        space: 20,
-      })
-    )
+      hlayout(
+        [
+          text({
+            text: "showFocus",
+            layoutConfig: layoutConfig().justWidth().fitHeight(),
+            width: 90,
+          }),
+          (this.showFocusValue = switchView({
+            onSwitch: (state) => {
+              effectController.showFocus = state;
+              matChanger();
+            },
+          })),
+        ],
+        {
+          space: 20,
+        }
+      )
+    );
   }
 }

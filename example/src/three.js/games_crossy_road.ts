@@ -24,8 +24,8 @@ class games_crossy_road extends Panel {
   private s?: GestureContainer;
   private d?: GestureContainer;
 
-  private end?: Text
-  private counter?: Text
+  private end?: Text;
+  private counter?: Text;
 
   onShow() {
     navbar(context).setTitle("games_crossy_road");
@@ -37,9 +37,8 @@ class games_crossy_road extends Panel {
         [
           dangleView({
             onReady: (gl: DangleWebGLRenderingContext) => {
-
-              const width = gl.drawingBufferWidth
-              const height = gl.drawingBufferHeight
+              const width = gl.drawingBufferWidth;
+              const height = gl.drawingBufferHeight;
 
               const inputCanvas = {
                 width: width,
@@ -709,10 +708,10 @@ class games_crossy_road extends Panel {
               //   endDOM.style.visibility = 'hidden';
               // });
               self.end!!.onClick = () => {
-                lanes.forEach(lane => scene.remove( lane.mesh ));
+                lanes.forEach((lane) => scene.remove(lane.mesh));
                 initaliseValues();
                 self.end!!.hidden = true;
-              }
+              };
 
               // document.getElementById('forward').addEventListener("click", () => move('forward'));
               self.w!!.onTouchDown = () => {
@@ -926,13 +925,13 @@ class games_crossy_road extends Panel {
                       case "forward": {
                         currentLane++;
                         // counterDOM.innerHTML = currentLane;
-                        self.counter!!.text = '' + currentLane
+                        self.counter!!.text = "" + currentLane;
                         break;
                       }
                       case "backward": {
                         currentLane--;
                         // counterDOM.innerHTML = currentLane;
-                        self.counter!!.text = '' + currentLane
+                        self.counter!!.text = "" + currentLane;
                         break;
                       }
                       case "left": {
@@ -969,7 +968,7 @@ class games_crossy_road extends Panel {
                       vechicle.position.x + (vechicleLength * zoom) / 2;
                     if (chickenMaxX > carMinX && chickenMinX < carMaxX) {
                       // endDOM.style.visibility = 'visible';
-                      self.end!!.hidden = false
+                      self.end!!.hidden = false;
                     }
                   });
                 }
@@ -987,20 +986,20 @@ class games_crossy_road extends Panel {
             width: 300,
             height: 300,
           }),
-          this.end = text({
-            text: 'Retry',
+          (this.end = text({
+            text: "Retry",
             width: 100,
             height: 60,
             backgroundColor: Color.RED,
             layoutConfig: layoutConfig().just().configAlignment(Gravity.Center),
-          }),
-          this.counter = text({
-            text: '0',
+          })),
+          (this.counter = text({
+            text: "0",
             width: 50,
             height: 20,
             backgroundColor: Color.WHITE,
             layoutConfig: layoutConfig().just().configAlignment(Gravity.Right),
-          }),
+          })),
         ],
         {
           layoutConfig: layoutConfig().just(),
@@ -1073,7 +1072,7 @@ class games_crossy_road extends Panel {
         gravity: Gravity.Center,
       })
       .in(rootView);
-    
-    this.end.hidden = true
+
+    this.end.hidden = true;
   }
 }
