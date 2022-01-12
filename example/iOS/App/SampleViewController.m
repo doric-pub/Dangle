@@ -169,6 +169,8 @@
         [self.tableDataArr addObject:@"webgl_shaders/classic_2d_noise"];
         [self.tableDataArr addObject:@"webgl_shaders/rain_drops"];
         [self.tableDataArr addObject:@"webgl_shaders/geometric_tile"];
+    } else if ([self.engineType isEqual: @"regl"]) {
+        [self.tableDataArr addObject:@"regl/basic"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {

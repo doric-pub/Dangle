@@ -154,4 +154,7 @@ export default [
     "src/webgl_shaders/classic_2d_noise",
     "src/webgl_shaders/rain_drops",
     "src/webgl_shaders/geometric_tile",
+
+    // regl
+    "src/regl/basic",
 ];

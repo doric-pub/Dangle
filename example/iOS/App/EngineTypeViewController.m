@@ -29,6 +29,7 @@
     [self.tableDataArr addObject:@"PlayCanvas"];
     [self.tableDataArr addObject:@"Babylon.js"];
     [self.tableDataArr addObject:@"WebGL Shaders"];
+    [self.tableDataArr addObject:@"regl"];
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
         it.width = self.view.width;

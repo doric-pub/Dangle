@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 EngineTypeActivity.TYPE_PLAYCANVAS,
                 EngineTypeActivity.TYPE_BABYLON_JS,
                 EngineTypeActivity.TYPE_WEBGL_SHADERS,
+                EngineTypeActivity.TYPE_REGL,
         };
         EngineTypeAdapter engineTypeAdapter = new EngineTypeAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

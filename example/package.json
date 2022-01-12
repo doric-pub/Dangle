@@ -21,6 +21,7 @@
     "opentype.js": "^1.3.4",
     "playcanvas": "^1.51.4",
     "query-selector": "^2.0.0",
+    "regl": "^2.1.0",
     "rollup": "^2.61.1",
     "stardust-core": "^0.2.4",
     "stardust-webgl": "^0.2.4",

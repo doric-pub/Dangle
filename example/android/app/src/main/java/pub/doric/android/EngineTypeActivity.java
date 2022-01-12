@@ -17,6 +17,7 @@ public class EngineTypeActivity extends AppCompatActivity {
     public static final String TYPE_PLAYCANVAS = "PlayCanvas";
     public static final String TYPE_BABYLON_JS = "Babylon.js";
     public static final String TYPE_WEBGL_SHADERS = "WebGL Shaders";
+    public static final String TYPE_REGL = "regl";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,6 +195,11 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "webgl_shaders/classic_2d_noise",
                         "webgl_shaders/rain_drops",
                         "webgl_shaders/geometric_tile",
+                };
+                break;
+            case TYPE_REGL:
+                dataSet = new String[]{
+                        "regl/basic",
                 };
                 break;
             default:
