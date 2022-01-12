@@ -166,6 +166,7 @@
         [self.tableDataArr addObject:@"babylon.js/hello_world"];
     } else if ([self.engineType isEqual: @"WebGL Shaders"]) {
         [self.tableDataArr addObject:@"webgl_shaders/random_pixels"];
+        [self.tableDataArr addObject:@"webgl_shaders/classic_2d_noise"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {

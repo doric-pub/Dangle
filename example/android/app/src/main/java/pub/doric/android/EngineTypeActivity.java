@@ -191,6 +191,7 @@ public class EngineTypeActivity extends AppCompatActivity {
             case TYPE_WEBGL_SHADERS:
                 dataSet = new String[]{
                         "webgl_shaders/random_pixels",
+                        "webgl_shaders/classic_2d_noise",
                 };
                 break;
             default:
