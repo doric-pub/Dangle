@@ -152,4 +152,5 @@ export default [
     // WebGL Shaders
     "src/webgl_shaders/random_pixels",
     "src/webgl_shaders/classic_2d_noise",
+    "src/webgl_shaders/rain_drops",
 ];
