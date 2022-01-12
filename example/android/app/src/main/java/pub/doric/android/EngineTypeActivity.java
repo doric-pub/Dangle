@@ -200,6 +200,7 @@ public class EngineTypeActivity extends AppCompatActivity {
             case TYPE_REGL:
                 dataSet = new String[]{
                         "regl/basic",
+                        "regl/batch",
                 };
                 break;
             default:
