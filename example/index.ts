@@ -158,4 +158,5 @@ export default [
     // regl
     "src/regl/basic",
     "src/regl/batch",
+    "src/regl/bunny",
 ];

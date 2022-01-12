@@ -201,6 +201,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                 dataSet = new String[]{
                         "regl/basic",
                         "regl/batch",
+                        "regl/bunny",
                 };
                 break;
             default:

@@ -172,6 +172,7 @@
     } else if ([self.engineType isEqual: @"regl"]) {
         [self.tableDataArr addObject:@"regl/basic"];
         [self.tableDataArr addObject:@"regl/batch"];
+        [self.tableDataArr addObject:@"regl/bunny"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
