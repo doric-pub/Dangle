@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     self.tableDataArr = [NSMutableArray array];
     
-    if ([self.engineType isEqual: @"MDN_WebGL"]) {
+    if ([self.engineType isEqual: @"MDN WebGL"]) {
         for(int i = 1; i <= 7; i++) {
             [self.tableDataArr addObject:[NSString stringWithFormat:@"mdn_webgl/Sample%i", i]];
         }
@@ -164,6 +164,8 @@
         [self.tableDataArr addObject:@"playcanvas/transform_feedback"];
     } else if ([self.engineType isEqual: @"Babylon.js"]) {
         [self.tableDataArr addObject:@"babylon.js/hello_world"];
+    } else if ([self.engineType isEqual: @"WebGL Shaders"]) {
+        [self.tableDataArr addObject:@"webgl_shaders/random_pixels"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {

@@ -16,6 +16,7 @@ public class EngineTypeActivity extends AppCompatActivity {
     public static final String TYPE_STARTDUST = "Stardust";
     public static final String TYPE_PLAYCANVAS = "PlayCanvas";
     public static final String TYPE_BABYLON_JS = "Babylon.js";
+    public static final String TYPE_WEBGL_SHADERS = "WebGL Shaders";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -185,6 +186,11 @@ public class EngineTypeActivity extends AppCompatActivity {
             case TYPE_BABYLON_JS:
                 dataSet = new String[]{
                         "babylon.js/hello_world",
+                };
+                break;
+            case TYPE_WEBGL_SHADERS:
+                dataSet = new String[]{
+                        "webgl_shaders/random_pixels",
                 };
                 break;
             default:

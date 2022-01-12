@@ -148,4 +148,7 @@ export default [
     
     // Babylon.js
     "src/babylon.js/hello_world",
+
+    // WebGL Shaders
+    "src/webgl_shaders/random_pixels",
 ];

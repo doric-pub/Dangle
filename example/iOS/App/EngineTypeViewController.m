@@ -23,11 +23,12 @@
 - (void)viewDidLoad {
     self.tableDataArr = [NSMutableArray array];
     
-    [self.tableDataArr addObject:@"MDN_WebGL"];
+    [self.tableDataArr addObject:@"MDN WebGL"];
     [self.tableDataArr addObject:@"Three.js"];
     [self.tableDataArr addObject:@"Stardust"];
     [self.tableDataArr addObject:@"PlayCanvas"];
     [self.tableDataArr addObject:@"Babylon.js"];
+    [self.tableDataArr addObject:@"WebGL Shaders"];
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
         it.width = self.view.width;
