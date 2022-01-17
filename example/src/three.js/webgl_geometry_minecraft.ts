@@ -207,6 +207,7 @@ class webgl_geometry_minecraft extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            texture.needsUpdate = true;
             texture.magFilter = THREE.NearestFilter;
 
             const mesh = new THREE.Mesh(

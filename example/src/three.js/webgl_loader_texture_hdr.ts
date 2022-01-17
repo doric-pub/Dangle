@@ -92,31 +92,28 @@ class webgl_loader_texture_hdr extends Panel {
                 );
 
                 //@ts-ignore
-                new RGBELoader()
-                  .setDataType(THREE.UnsignedByteType) // alt: FloatType, HalfFloatType
-                  //@ts-ignore
-                  .load(
-                    "threejs/memorial.hdr",
-                    function (texture, textureData) {
-                      //console.log( textureData );
-                      //console.log( texture );
+                new RGBELoader().load(
+                  "threejs/memorial.hdr",
+                  function (texture, textureData) {
+                    //console.log( textureData );
+                    //console.log( texture );
 
-                      const material = new THREE.MeshBasicMaterial({
-                        map: texture,
-                      });
+                    const material = new THREE.MeshBasicMaterial({
+                      map: texture,
+                    });
 
-                      const quad = new THREE.PlaneGeometry(
-                        (1.5 * textureData.width) / textureData.height,
-                        1.5
-                      );
+                    const quad = new THREE.PlaneGeometry(
+                      (1.5 * textureData.width) / textureData.height,
+                      1.5
+                    );
 
-                      const mesh = new THREE.Mesh(quad, material);
+                    const mesh = new THREE.Mesh(quad, material);
 
-                      scene.add(mesh);
+                    scene.add(mesh);
 
-                      render();
-                    }
-                  );
+                    render();
+                  }
+                );
 
                 //
 

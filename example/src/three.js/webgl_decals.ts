@@ -147,6 +147,7 @@ class webgl_decals extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            decalDiffuse.needsUpdate = true;
           }
 
           // const decalNormal = textureLoader.load( 'textures/decal/decal-normal.jpg' );
@@ -168,6 +169,7 @@ class webgl_decals extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            decalNormal.needsUpdate = true;
           }
 
           var mapTexture;
@@ -188,6 +190,7 @@ class webgl_decals extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            mapTexture.needsUpdate = true;
           }
           var specularMapTexture;
           {
@@ -207,6 +210,7 @@ class webgl_decals extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            specularMapTexture.needsUpdate = true;
           }
           var normalMapTexture;
           {
@@ -226,6 +230,7 @@ class webgl_decals extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            normalMapTexture.needsUpdate = true;
           }
 
           const decalMaterial = new THREE.MeshPhongMaterial({

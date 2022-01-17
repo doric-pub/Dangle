@@ -289,6 +289,7 @@ class games_crossy_road extends Panel {
                   height,
                   THREE.RGBAFormat
                 );
+                texture.needsUpdate = true;
 
                 // const canvas = document.createElement( "canvas" );
                 // canvas.width = width;

@@ -137,6 +137,7 @@ class webgl_loader_obj extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            texture.needsUpdate = true;
 
             // const textureLoader = new THREE.TextureLoader( manager );
             // const texture = textureLoader.load( 'textures/uv_grid_opengl.jpg' );

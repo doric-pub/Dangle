@@ -181,6 +181,7 @@ class webgl_geometry_convex extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            texture.needsUpdate = true;
 
             group = new THREE.Group();
             scene.add(group);

@@ -84,6 +84,7 @@ class webgl_geometry_cube extends Panel {
                   imageInfo.height,
                   THREE.RGBAFormat
                 );
+                texture.needsUpdate = true;
 
                 const geometry = new THREE.BoxGeometry(200, 200, 200);
                 const material = new THREE.MeshBasicMaterial({ map: texture });

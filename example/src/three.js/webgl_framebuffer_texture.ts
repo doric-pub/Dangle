@@ -175,13 +175,10 @@ class webgl_framebuffer_texture extends Panel {
 
             //
 
-            const data = new Uint8Array(textureSize * textureSize * 3);
-
-            texture = new THREE.DataTexture(
-              data,
+            texture = new THREE.FramebufferTexture(
               textureSize,
               textureSize,
-              THREE.RGBFormat
+              THREE.RGBAFormat
             );
             texture.minFilter = THREE.NearestFilter;
             texture.magFilter = THREE.NearestFilter;
@@ -204,13 +201,14 @@ class webgl_framebuffer_texture extends Panel {
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.autoClear = false;
-            // document.body.appendChild( renderer.domElement );
+            // document.body.appendChild(renderer.domElement);
 
             //
 
-            // const selection = document.getElementById( 'selection' );
+            // const selection = document.getElementById("selection");
             const controls = new OrbitControls(camera, renderer.domElement);
-            (<any>controls).enablePan = false;
+            //@ts-ignore
+            controls.enablePan = false;
 
             //
 
