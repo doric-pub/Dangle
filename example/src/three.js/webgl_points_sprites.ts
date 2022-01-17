@@ -121,6 +121,7 @@ class webgl_points_sprites extends Panel {
                 imageInfo.height,
                 THREE.RGBAFormat
               );
+              sprite1.needsUpdate = true;
             }
             var sprite2;
             {
@@ -140,6 +141,7 @@ class webgl_points_sprites extends Panel {
                 imageInfo.height,
                 THREE.RGBAFormat
               );
+              sprite2.needsUpdate = true;
             }
             var sprite3;
             {
@@ -159,6 +161,7 @@ class webgl_points_sprites extends Panel {
                 imageInfo.height,
                 THREE.RGBAFormat
               );
+              sprite3.needsUpdate = true;
             }
             var sprite4;
             {
@@ -178,6 +181,7 @@ class webgl_points_sprites extends Panel {
                 imageInfo.height,
                 THREE.RGBAFormat
               );
+              sprite4.needsUpdate = true;
             }
             var sprite5;
             {
@@ -197,6 +201,7 @@ class webgl_points_sprites extends Panel {
                 imageInfo.height,
                 THREE.RGBAFormat
               );
+              sprite5.needsUpdate = true;
             }
 
             for (let i = 0; i < 10000; i++) {

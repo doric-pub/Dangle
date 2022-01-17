@@ -364,6 +364,7 @@ class webgl_materials_car extends Panel {
               imageInfo.height,
               THREE.RGBAFormat
             );
+            shadow.needsUpdate = true;
 
             // const dracoLoader = new DRACOLoader();
             // dracoLoader.setDecoderPath( 'js/libs/draco/gltf/' );
