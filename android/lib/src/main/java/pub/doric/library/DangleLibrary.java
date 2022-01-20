@@ -1,5 +1,7 @@
 package pub.doric.library;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -10,12 +12,16 @@ import pub.doric.DoricRegistry;
 
 @DoricComponent
 public class DangleLibrary extends DoricLibrary {
+
+    public static final String TAG = "DangleLibrary";
+
     @Override
     public void load(DoricRegistry registry) {
         try {
             InputStream is = Doric.application().getAssets().open("bundle_dangle.js");
             byte[] bytes = new byte[is.available()];
-            is.read(bytes);
+            int result = is.read(bytes);
+            Log.d(TAG, String.valueOf(result));
             String content = new String(bytes);
             registry.registerJSBundle("dangle", content);
         } catch (IOException e) {

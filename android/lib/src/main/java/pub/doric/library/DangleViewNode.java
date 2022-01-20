@@ -1,5 +1,7 @@
 package pub.doric.library;
 
+import android.view.View;
+
 import com.github.pengfeizhou.jscore.JSExecutor;
 import com.github.pengfeizhou.jscore.JSIRuntime;
 import com.github.pengfeizhou.jscore.JSValue;
@@ -14,10 +16,13 @@ import pub.doric.dangle.GLView;
 import pub.doric.engine.DoricJSEngine;
 import pub.doric.engine.DoricNativeJSExecutor;
 import pub.doric.extension.bridge.DoricPlugin;
+import pub.doric.library.compat.GLWebView;
 import pub.doric.shader.ViewNode;
 
 @DoricPlugin(name = "DangleView")
-public class DangleViewNode extends ViewNode<GLView> {
+public class DangleViewNode extends ViewNode<View> {
+
+    private static boolean compatible = true;
 
     private String onPrepared;
 
@@ -54,7 +59,7 @@ public class DangleViewNode extends ViewNode<GLView> {
     }
 
     @Override
-    protected void blend(GLView view, String name, JSValue prop) {
+    protected void blend(View view, String name, JSValue prop) {
         if ("onPrepared".equals(name)) {
             if (prop.isString()) {
                 onPrepared = prop.asString().value();
@@ -67,16 +72,29 @@ public class DangleViewNode extends ViewNode<GLView> {
     }
 
     @Override
-    protected GLView build() {
-        GLView glView = new GLView(getContext());
-        glView.setOnSurfaceAvailable(new GLView.OnSurfaceAvailable() {
-            @Override
-            public void invoke() {
-                if (onPrepared != null) {
-                    callJSResponse(onPrepared, glView.getDangleCtxId());
+    protected View build() {
+        if (compatible) {
+            GLWebView glWebView = new GLWebView(getContext());
+            glWebView.prepare(new GLWebView.OnAvailable() {
+                @Override
+                public void prepared() {
+                    if (onPrepared != null) {
+                        callJSResponse(onPrepared, "webview");
+                    }
                 }
-            }
-        });
-        return glView;
+            });
+            return glWebView;
+        } else {
+            GLView glView = new GLView(getContext());
+            glView.setOnSurfaceAvailable(new GLView.OnSurfaceAvailable() {
+                @Override
+                public void invoke() {
+                    if (onPrepared != null) {
+                        callJSResponse(onPrepared, glView.getDangleCtxId());
+                    }
+                }
+            });
+            return glView;
+        }
     }
 }

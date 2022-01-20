@@ -1,6 +1,7 @@
 package pub.doric.android;
 
 import android.content.Context;
+import android.webkit.WebView;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
@@ -14,6 +15,7 @@ public class MainApplication extends MultiDexApplication {
         super.onCreate();
         Doric.init(this);
         Doric.registerLibrary(new DangleLibrary());
+        WebView.setWebContentsDebuggingEnabled(true);
     }
 
     @Override

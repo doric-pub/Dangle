@@ -19,7 +19,7 @@ class Sample1 extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: DangleWebGLRenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth;
               const height = gl.drawingBufferHeight;
 
