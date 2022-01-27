@@ -45,8 +45,8 @@ android {
 }
 
 afterEvaluate {
-    cleanJSBundle.exec()
-    buildJSBundle.exec()
+//    cleanJSBundle.exec()
+//    buildJSBundle.exec()
 }
 
 task cleanJSBundle(type: Exec) {

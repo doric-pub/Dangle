@@ -23,7 +23,6 @@ allprojects {
     configurations.all {
         resolutionStrategy {
             dependencySubstitution {
-                substitute module('com.github.penfeizhou:jsc4a') with project(":jsc4a")
             }
         }
     }

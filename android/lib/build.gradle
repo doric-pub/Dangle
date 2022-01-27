@@ -40,9 +40,6 @@ android {
 }
 
 dependencies {
-    api ("pub.doric:core:$doricSDKVersion") {
-        exclude group: 'com.github.penfeizhou', module: 'jsc4a'
-    }
-    implementation 'com.github.penfeizhou:jsc4a:0.2.5'
+    api "pub.doric:core:$doricSDKVersion"
     implementation project(":dangle")
 }
