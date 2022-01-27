@@ -16,13 +16,14 @@ import pub.doric.dangle.GLView;
 import pub.doric.engine.DoricJSEngine;
 import pub.doric.engine.DoricNativeJSExecutor;
 import pub.doric.extension.bridge.DoricPlugin;
+import pub.doric.library.compat.GLInjection;
 import pub.doric.library.compat.GLWebView;
 import pub.doric.shader.ViewNode;
 
 @DoricPlugin(name = "DangleView")
 public class DangleViewNode extends ViewNode<View> {
 
-    private static boolean compatible = true;
+    private static boolean compatible = false;
 
     private String onPrepared;
 
@@ -74,12 +75,13 @@ public class DangleViewNode extends ViewNode<View> {
     @Override
     protected View build() {
         if (compatible) {
+            GLInjection.inject();
             GLWebView glWebView = new GLWebView(getContext());
             glWebView.prepare(new GLWebView.OnAvailable() {
                 @Override
                 public void prepared() {
                     if (onPrepared != null) {
-                        callJSResponse(onPrepared, "webview");
+                        callJSResponse(onPrepared, "webview-" + glWebView.getWebViewId());
                     }
                 }
             });
