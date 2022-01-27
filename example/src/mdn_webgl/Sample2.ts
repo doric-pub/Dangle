@@ -20,7 +20,7 @@ class Sample2 extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: DangleWebGLRenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               (gl as any).canvas = {
                 clientWidth: gl.drawingBufferWidth,
                 clientHeight: gl.drawingBufferHeight,
