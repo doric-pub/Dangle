@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#include <Engine/DanglePlatformUtils.h>
+#include "DanglePlatformUtils.h"
 
 namespace dangle {
     namespace gl_cpp {

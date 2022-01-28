@@ -1,7 +1,7 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
-#import <Extension/DangleView.h>
-#import <Extension/DangleContext.h>
+#import "DangleView.h"
+#import "DangleContext.h"
 
 #include <OpenGLES/ES2/glext.h>
 #include <OpenGLES/ES3/gl.h>
