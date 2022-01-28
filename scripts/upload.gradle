@@ -1,7 +1,7 @@
 apply plugin: 'maven'
 
 Properties properties = new Properties()
-properties.load(project.rootProject.file(project.getProjectDir().parent +'/scripts/maven.properties').newDataInputStream())
+properties.load(project.rootProject.file(project.getProjectDir().parent +'/../scripts/maven.properties').newDataInputStream())
 properties.load(new FileInputStream("${projectDir}/pom.properties"))
 
 if (project.rootProject.file("local.properties").exists()) {
@@ -21,9 +21,6 @@ if (apiKey == null || apiKey.length() == 0) {
 if (repo == null || repo.length() == 0) {
     repo = properties.releasesRepository
 }
-
-apply plugin: 'maven'
-
 uploadArchives {
     repositories {
         mavenDeployer {

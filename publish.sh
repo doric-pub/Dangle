@@ -41,4 +41,4 @@ cd $CURRENT_DIR/ && npm publish
 echo "Publish Android"
 cd $CURRENT_DIR/example/android && ./gradlew clean :PublishAll
 echo "Publish iOS"
-cd $CURRENT_DIR && pod trunk push Dangle.podspec --allow-warnings
+cd $CURRENT_DIR && pod trunk push Dangle.podspec --allow-warnings --verbose
