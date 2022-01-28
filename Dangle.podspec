@@ -18,20 +18,23 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = '10.0'
   
     s.source_files = 'iOS/Classes/**/*'
-    
+    s.default_subspec = 'Extension'
+
+    s.subspec 'jsi' do |mm|
+        mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
+        mm.header_dir = 'jsi'
+    end
+
     s.subspec 'Engine' do |mm|
         mm.source_files = 'common/dangle/**/*'
         mm.header_dir = 'Engine'
+        mm.dependency 'jsi'
     end
 
     s.subspec 'Extension' do |mm|
         mm.source_files = 'iOS/Dangle/**/*'
         mm.header_dir = 'Extension'
-    end
-
-    s.subspec 'jsi' do |mm|
-        mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
-        mm.header_dir = 'jsi'
+        mm.dependency 'Engine'
     end
     
     s.resource     =  "dist/**/*"
