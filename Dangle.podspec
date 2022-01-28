@@ -1,15 +1,16 @@
 Pod::Spec.new do |s|
     s.name             = 'Dangle'
     s.version          = '0.1.0'
-    s.summary          = 'Doric extension library'
+    s.summary          = 'Doric Almost Native Graphics Layer Engine'
   
-    #s.description      = <<-DESC
-    #                         DESC
+    s.description      = <<-DESC
+    Doric extension library for almost native graphics layer engine
+                            DESC
 
-    s.homepage         = 'http://xxx'
+    s.homepage         = 'https://github.com/doric-pub/Dangle'
     s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
-    s.author           = { 'xxx' => 'xxx@xxx' }
-    s.source           = { :git => 'git@xxx', :tag => s.version.to_s }
+    s.author           = { 'dev' => 'dev@doric.pub' }
+    s.source           = { :git => 'https://github.com/doric-pub/Dangle.git', :tag => s.version.to_s }
     s.frameworks = 'OpenGLES'
 
     s.compiler_flags = '-x objective-c++ -std=c++1z -fno-aligned-allocation'
