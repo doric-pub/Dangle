@@ -20,9 +20,19 @@ allprojects {
         maven { url 'https://jitpack.io' }
         jcenter()
     }
-    configurations.all {
-        resolutionStrategy {
-            dependencySubstitution {
+    def needReplaceLocal = true
+    gradle.startParameter.taskNames.each {
+        if (it.contains('uploadArchives')) {
+            needReplaceLocal = false
+        }
+    }
+    if (needReplaceLocal) {
+        configurations.all {
+            resolutionStrategy {
+                dependencySubstitution {
+                    substitute module('pub.doric.dangle:engine') with project(":dangle")
+                    substitute module('pub.doric.dangle:extension') with project(":lib")
+                }
             }
         }
     }

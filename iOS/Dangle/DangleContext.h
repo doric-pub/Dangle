@@ -1,7 +1,7 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
 #import <OpenGLES/EAGL.h>
-#import <DANGLE_CPP/UDangle.h>
+#import <Engine/UDangle.h>
 
 @class DangleContext;
 
@@ -17,16 +17,16 @@
 @interface DangleContext : NSObject
 
 - (instancetype)initWithDelegate:(id<DangleContextDelegate>)delegate;
-- (void)initialize:(nullable void(^)(BOOL))callback;
+- (void)initialize:(nullable void (^)(BOOL))callback;
 - (BOOL)isInitialized;
 - (nullable EAGLContext *)createSharedEAGLContext;
-- (void)runAsync:(nonnull void(^)(void))callback;
-- (void)runInEAGLContext:(nonnull EAGLContext*)context callback:(nonnull void(^)(void))callback;
+- (void)runAsync:(nonnull void (^)(void))callback;
+- (void)runInEAGLContext:(nonnull EAGLContext *)context callback:(nonnull void (^)(void))callback;
 - (void)destroy;
 
 // "protected"
-@property (nonatomic, assign) UDangleContextId contextId;
-@property (nonatomic, strong, nonnull) EAGLContext *eaglCtx;
-@property (nonatomic, weak, nullable) id <DangleContextDelegate> delegate;
+@property(nonatomic, assign) UDangleContextId contextId;
+@property(nonatomic, strong, nonnull) EAGLContext *eaglCtx;
+@property(nonatomic, weak, nullable) id<DangleContextDelegate> delegate;
 
 @end

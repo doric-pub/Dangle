@@ -1,4 +1,4 @@
-#import <DANGLE/DangleView.h>
+#import <Extension/DangleView.h>
 
 #import "DangleViewNode.h"
 #import "DangleSingleton.h"

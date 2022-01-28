@@ -1,6 +1,6 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
-#import <DANGLE_CPP/UDangle.h>
+#import <Engine/UDangle.h>
 #import "DangleContext.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -10,13 +10,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init;
 - (UDangleContextId)dangleCtxId;
 
-@property (nonatomic, assign) NSNumber *msaaSamples;
+@property(nonatomic, assign) NSNumber *msaaSamples;
 
 // "protected"
-@property (nonatomic, strong, nullable) DangleContext *glContext;
-@property (nonatomic, strong, nullable) EAGLContext *uiEaglCtx;
+@property(nonatomic, strong, nullable) DangleContext *glContext;
+@property(nonatomic, strong, nullable) EAGLContext *uiEaglCtx;
 
-@property (nonatomic, copy) void (^onSurfaceAvailable)();
+@property(nonatomic, copy) void (^onSurfaceAvailable)();
 
 @end
 
