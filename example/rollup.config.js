@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 import json from "@rollup/plugin-json";
 import image from "@rollup/plugin-image";
-import dsv from '@rollup/plugin-dsv';
+import dsv from "@rollup/plugin-dsv";
 
 {
   function searchImages(dir, images) {
@@ -23,10 +23,10 @@ import dsv from '@rollup/plugin-dsv';
     });
     return images;
   }
-  
+
   const allImages = [];
   searchImages("src", allImages);
-  
+
   function mkdirsSync(dirname) {
     if (fs.existsSync(dirname)) {
       return true;
@@ -37,12 +37,12 @@ import dsv from '@rollup/plugin-dsv';
       }
     }
   }
-  
+
   allImages.forEach((value) => {
     let path = __dirname + "/build/" + value;
     let index = path.lastIndexOf("/");
     mkdirsSync(path.substring(0, index));
-  
+
     fs.copyFile(
       __dirname + "/" + value,
       __dirname + "/build/" + value,
@@ -69,10 +69,10 @@ import dsv from '@rollup/plugin-dsv';
     });
     return dsvs;
   }
-  
+
   const allDSVs = [];
   searchDSVs("src", allDSVs);
-  
+
   function mkdirsSync(dirname) {
     if (fs.existsSync(dirname)) {
       return true;
@@ -83,12 +83,12 @@ import dsv from '@rollup/plugin-dsv';
       }
     }
   }
-  
+
   allDSVs.forEach((value) => {
     let path = __dirname + "/build/" + value;
     let index = path.lastIndexOf("/");
     mkdirsSync(path.substring(0, index));
-  
+
     fs.copyFile(
       __dirname + "/" + value,
       __dirname + "/build/" + value,
@@ -115,10 +115,10 @@ import dsv from '@rollup/plugin-dsv';
     });
     return jsFiles;
   }
-  
+
   const allJSFiles = [];
   searchJSFiles("src", allJSFiles);
-  
+
   function mkdirsSync(dirname) {
     if (fs.existsSync(dirname)) {
       return true;
@@ -129,12 +129,12 @@ import dsv from '@rollup/plugin-dsv';
       }
     }
   }
-  
+
   allJSFiles.forEach((value) => {
     let path = __dirname + "/build/" + value;
     let index = path.lastIndexOf("/");
     mkdirsSync(path.substring(0, index));
-  
+
     fs.copyFile(
       __dirname + "/" + value,
       __dirname + "/build/" + value,
@@ -190,12 +190,12 @@ export default allFiles
         image(),
         dsv(),
       ],
-      external: ["reflect-metadata", "doric", "templatelibrary"],
+      external: ["reflect-metadata", "doric", "dangle"],
       onwarn: function (warning) {
         if (warning.code === "THIS_IS_UNDEFINED") {
           return;
         }
-        if (warning.code === 'CIRCULAR_DEPENDENCY') {
+        if (warning.code === "CIRCULAR_DEPENDENCY") {
           return;
         }
         console.warn(warning.message);

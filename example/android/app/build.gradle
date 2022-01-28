@@ -1,8 +1,3 @@
-import groovy.json.JsonSlurper
-
-def model = new JsonSlurper().parse(new File(project.rootDir.parentFile.parent + File.separator + "package.json"))
-def doricSDKVersion = model.dependencies.doric.replace("^", "").replace(">=", "")
-
 apply plugin: 'com.android.application'
 
 android {
@@ -36,7 +31,7 @@ android {
         implementation 'androidx.appcompat:appcompat:1.3.1'
         implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
         implementation project(":lib")
-        implementation("pub.doric:devkit:$doricSDKVersion")
+        implementation("pub.doric:devkit:${rootProject.ext.DoricVersion}")
         def multidex_version = "2.0.1"
         implementation "androidx.multidex:multidex:$multidex_version"
     }
