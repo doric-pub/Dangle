@@ -3,17 +3,17 @@
 #ifdef __APPLE__
 
 namespace dangle {
-namespace gl_cpp {
-void DangleiOSLog(const char *msg, ...) __attribute__((format(printf, 1, 2)));
+    namespace gl_cpp {
+        void DangleiOSLog(const char *msg, ...) __attribute__((format(printf, 1, 2)));
 
-typedef struct {
-  long majorVersion;
-  long minorVersion;
-  long patchVersion;
-} DangleiOSOperatingSystemVersion;
+        typedef struct {
+            long majorVersion;
+            long minorVersion;
+            long patchVersion;
+        } DangleiOSOperatingSystemVersion;
 
-DangleiOSOperatingSystemVersion DangleiOSGetOperatingSystemVersion(void);
-} // namespace gl_cpp
+        DangleiOSOperatingSystemVersion DangleiOSGetOperatingSystemVersion(void);
+    } // namespace gl_cpp
 } // namespace dangle
 
 #endif

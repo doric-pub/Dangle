@@ -18,12 +18,12 @@
 
 - (UIView *)build {
     DangleView *dangleView = [[DangleView alloc] init];
-    __weak DangleView* weakView = dangleView;
+    __weak DangleView *weakView = dangleView;
     __weak __typeof(self) _self = self;
     dangleView.onSurfaceAvailable = ^void() {
-        __strong DangleView* strongView = weakView;
+        __strong DangleView *strongView = weakView;
         __strong __typeof(_self) self = _self;
-        
+
         [self callJSResponse:self.onPrepared, @(strongView.glContext.contextId), nil];
     };
     return dangleView;

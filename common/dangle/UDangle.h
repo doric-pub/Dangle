@@ -5,11 +5,15 @@
 #include <GLES3/gl3.h>
 #endif
 #ifdef __APPLE__
+
 #include <OpenGLES/ES3/gl.h>
+
 #endif
 
 #ifdef __cplusplus
+
 #include <functional>
+
 #else
 #include <stdbool.h>
 #endif

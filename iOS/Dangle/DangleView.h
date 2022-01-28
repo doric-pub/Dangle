@@ -8,6 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DangleView : UIView <DangleContextDelegate>
 
 - (instancetype)init;
+
 - (UDangleContextId)dangleCtxId;
 
 @property(nonatomic, assign) NSNumber *msaaSamples;

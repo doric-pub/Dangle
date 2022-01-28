@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The proxy target.
  */
-@property (nullable, nonatomic, weak, readonly) id target;
+@property(nullable, nonatomic, weak, readonly) id target;
 
 /**
  Creates a new weak proxy for target.

@@ -41,22 +41,22 @@
     return _syncQueue;
 }
 
-- (void)handleDisplayLink: (CADisplayLink*)displayLink {
+- (void)handleDisplayLink:(CADisplayLink *)displayLink {
     __weak __typeof(self) _self = self;
-    
+
     dispatch_async(self.syncQueue, ^{
         __strong __typeof(_self) self = _self;
-        
+
         if (self.doricContext.destroyed) {
             NSException *exception = [NSException exceptionWithName:@"" reason:@"doric context destroyed when vsync" userInfo:@{}];
             [self.doricContext.driver.registry onException:exception inContext:self.doricContext];
             return;
         }
-        
-        [self.requestIDs enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+
+        [self.requestIDs enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSString *_Nonnull obj, BOOL *_Nonnull stop) {
             DoricPromise *currentPromise = [[DoricPromise alloc] initWithContext:self.doricContext callbackId:obj];
             [currentPromise resolve:@(displayLink.timestamp * 1000L)];
-            
+
             [self.requestIDs removeObject:obj];
         }];
     });
@@ -64,10 +64,10 @@
 
 - (void)requestAnimationFrame:(NSString *)requestID withPromise:(DoricPromise *)promise {
     __weak __typeof(self) _self = self;
-    
+
     dispatch_async(self.syncQueue, ^{
         __strong __typeof(_self) self = _self;
-        
+
         [self.requestIDs addObject:requestID];
     });
     [promise resolve:requestID];
@@ -75,12 +75,12 @@
 
 - (void)cancelAnimationFrame:(NSString *)requestID withPromise:(DoricPromise *)promise {
     __weak __typeof(self) _self = self;
-    
+
     dispatch_async(self.syncQueue, ^{
         __strong __typeof(_self) self = _self;
-        
+
         BOOL result = [self.requestIDs containsObject:requestID];
-        
+
         if (result) {
             [self.requestIDs removeObject:requestID];
             [promise resolve:requestID];
@@ -88,7 +88,7 @@
             [promise reject:@"requestID does not exist"];
         }
     });
-    
+
 }
 
 - (void)dealloc {

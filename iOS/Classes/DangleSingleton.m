@@ -32,7 +32,7 @@
     DoricNativeDriver *nativeDriver = DoricSingleton.instance.nativeDriver;
     DoricJSEngine *engine = nativeDriver.jsExecutor;
     DoricJSCoreExecutor *jscExecutor = engine.jsExecutor;
-    std::unique_ptr<facebook::jsi::Runtime> runtime = facebook::jsc::makeJSCRuntime(jscExecutor.jsContext.JSGlobalContextRef);
+    std::unique_ptr < facebook::jsi::Runtime > runtime = facebook::jsc::makeJSCRuntime(jscExecutor.jsContext.JSGlobalContextRef);
     _jsRuntimePtr = runtime.release();
 }
 
