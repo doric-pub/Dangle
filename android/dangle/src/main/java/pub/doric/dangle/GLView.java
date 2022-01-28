@@ -5,7 +5,6 @@ import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.view.TextureView;
 
-import androidx.annotation.Keep;
 
 public class GLView extends TextureView implements TextureView.SurfaceTextureListener {
 
@@ -82,7 +81,6 @@ public class GLView extends TextureView implements TextureView.SurfaceTextureLis
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
     }
 
-    @Keep
     public void flush() {
         if (!mOnSurfaceCreateCalled) return;
         mGLContext.flush();
