@@ -41,7 +41,7 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         String[] segments = localDataSet[position].split("/");
         viewHolder.getTextView().setText(segments[segments.length - 1]);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

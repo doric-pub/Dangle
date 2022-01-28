@@ -41,7 +41,7 @@ public class EngineTypeAdapter extends RecyclerView.Adapter<EngineTypeAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         viewHolder.getTextView().setText(localDataSet[position]);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
