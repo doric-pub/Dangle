@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
     #s.default_subspec = 'Extension'
 
     s.subspec 'jsi' do |mm|
-        mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
+        mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
         mm.header_dir = 'jsi'
     end
 
