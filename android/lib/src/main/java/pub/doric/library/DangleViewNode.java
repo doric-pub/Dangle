@@ -68,7 +68,7 @@ public class DangleViewNode extends ViewNode<GLView> {
 
     @Override
     protected GLView build() {
-        GLView glView = new GLView(getContext());
+        final GLView glView = new GLView(getContext());
         glView.setOnSurfaceAvailable(new GLView.OnSurfaceAvailable() {
             @Override
             public void invoke() {
