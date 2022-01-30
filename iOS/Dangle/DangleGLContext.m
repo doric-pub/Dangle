@@ -1,19 +1,19 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
-#import "DangleContext.h"
+#import "DangleGLContext.h"
 
 #include <OpenGLES/ES3/gl.h>
 #include <OpenGLES/ES3/glext.h>
 
 #include "DangleSingleton.h"
 
-@interface DangleContext ()
+@interface DangleGLContext ()
 
 @property(nonatomic, strong) dispatch_queue_t glQueue;
 
 @end
 
-@implementation DangleContext
+@implementation DangleGLContext
 
 - (instancetype)initWithDelegate:(id <DangleContextDelegate>)delegate {
     if (self = [super init]) {
@@ -67,7 +67,7 @@
         __weak __typeof__(self) weakSelf = self;
 
         [self ensureRunOnJSThread:^{
-            DangleContext *self = weakSelf;
+            DangleGLContext *self = weakSelf;
 
             if (!self) {
                 return;

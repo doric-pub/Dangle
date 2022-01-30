@@ -3,21 +3,21 @@
 #import <OpenGLES/EAGL.h>
 #import <Engine/UDangle.h>
 
-@class DangleContext;
+@class DangleGLContext;
 
 @protocol DangleContextDelegate <NSObject>
 
-- (void)glContextFlushed:(nonnull DangleContext *)context;
+- (void)glContextFlushed:(nonnull DangleGLContext *)context;
 
-- (void)glContextInitialized:(nonnull DangleContext *)context;
+- (void)glContextInitialized:(nonnull DangleGLContext *)context;
 
-- (void)glContextWillDestroy:(nonnull DangleContext *)context;
+- (void)glContextWillDestroy:(nonnull DangleGLContext *)context;
 
 - (UDangleObjectId)glContextGetDefaultFramebuffer;
 
 @end
 
-@interface DangleContext : NSObject
+@interface DangleGLContext : NSObject
 
 - (instancetype)initWithDelegate:(id <DangleContextDelegate>)delegate;
 

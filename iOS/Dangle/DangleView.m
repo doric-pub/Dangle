@@ -1,7 +1,7 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
 #import "DangleView.h"
-#import "DangleContext.h"
+#import "DangleGLContext.h"
 
 #include <OpenGLES/ES2/glext.h>
 #include <OpenGLES/ES3/gl.h>
@@ -50,7 +50,7 @@
         };
 
         // Initialize GL context
-        _glContext = [[DangleContext alloc] initWithDelegate:self];
+        _glContext = [[DangleGLContext alloc] initWithDelegate:self];
         _uiEaglCtx = [_glContext createSharedEAGLContext];
         [_glContext initialize:nil];
 
@@ -270,7 +270,7 @@
 #pragma mark - DangleContextDelegate
 
 // [GL thread]
-- (void)glContextFlushed:(nonnull DangleContext *)context {
+- (void)glContextFlushed:(nonnull DangleGLContext *)context {
     // blit framebuffers if endFrame was called
     if (UDangleContextNeedsRedraw(_glContext.contextId)) {
         // actually draw isn't yet finished, but it's here to prevent blitting the same thing multiple times
@@ -281,12 +281,12 @@
 }
 
 // [JS thread]
-- (void)glContextInitialized:(nonnull DangleContext *)context {
+- (void)glContextInitialized:(nonnull DangleGLContext *)context {
     [self maybeCallSurfaceCreated];
 }
 
 // [GL thread]
-- (void)glContextWillDestroy:(nonnull DangleContext *)context {
+- (void)glContextWillDestroy:(nonnull DangleGLContext *)context {
     // Destroy GL objects owned by us
     [self deleteViewBuffers];
 }
