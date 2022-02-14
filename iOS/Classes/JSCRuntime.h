@@ -7,6 +7,8 @@
 
 #pragma once
 
+#ifdef __cplusplus
+
 #include "jsi.h"
 #include <memory.h>
 #include <JavaScriptCore/JSContextRef.h>
@@ -18,3 +20,4 @@ namespace facebook {
 
     } // namespace jsc
 } // namespace facebook
+#endif

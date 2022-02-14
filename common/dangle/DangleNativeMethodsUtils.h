@@ -12,6 +12,8 @@
 
 #endif
 
+#ifdef __cplusplus
+
 #include "jsi.h"
 #include <type_traits>
 
@@ -267,3 +269,5 @@ namespace dangle {
         }
     } // namespace gl_cpp
 } // namespace dangle
+
+#endif

@@ -1,6 +1,6 @@
 {
   "name": "dangle",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "dist/bundle_dangle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

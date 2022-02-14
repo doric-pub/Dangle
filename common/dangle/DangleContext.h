@@ -14,6 +14,7 @@
 
 #include "TypedArrayApi.h"
 
+#ifdef __cplusplus
 #include <exception>
 #include <future>
 #include <sstream>
@@ -294,3 +295,4 @@ namespace dangle {
 } // namespace gl_cpp
 } // namespace dangle
 #include "DangleContext-inl.h"
+#endif

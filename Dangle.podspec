@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'Dangle'
-    s.version          = '0.0.10'
+    s.version          = '0.0.11'
     s.summary          = 'Doric Almost Native Graphics Layer Engine'
   
     s.description      = <<-DESC
@@ -21,32 +21,12 @@ Pod::Spec.new do |s|
     }
     s.ios.deployment_target = '10.0'
   
-    # s.source_files = 'iOS/Classes/**/*','common/**/*','iOS/Dangle/**/*'
-    s.source_files = 'iOS/Classes/**/*'
+    s.source_files = 'iOS/Classes/**/*','common/dangle/**/*','iOS/Dangle/**/*','common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
     #s.default_subspec = 'Extension'
-
-    s.subspec 'jsi' do |mm|
-        mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
-        # mm.source_files = 'common/jsi/*.{h,m,cpp}'
-        mm.header_mappings_dir = 'common'
-        mm.public_header_files = 'common/jsi/**/*.h'
-        mm.xcconfig = { 'ALWAYS_SEARCH_USER_PATHS' => 'NO' }
-    end
-
-    s.subspec 'Engine' do |mm|
-        mm.source_files = 'common/dangle/**/*'
-        mm.dependency 'Dangle/jsi'
-        mm.header_dir = 'Engine'
-    end
-
-    s.subspec 'Extension' do |mm|
-        mm.source_files = 'iOS/Dangle/**/*'
-        mm.dependency 'Dangle/Engine'
-        mm.header_dir = 'Extension'
-    end
     
     s.resource     =  "dist/**/*"
-    s.public_header_files = 'iOS/Classes/**/*.h','common/**/*.h','iOS/Dangle/**/*.h'
+    # s.public_header_files = 'iOS/Classes/**/*.h','iOS/Dangle/**/*.h'
+    s.public_header_files = 'iOS/Classes/**/*.h','common/dangle/**/*.h','iOS/Dangle/**/*.h','common/jsi/jsi.h','common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
     s.dependency 'DoricCore'
     
 end

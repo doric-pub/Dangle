@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#ifdef __cplusplus
 
 #include <chrono>
 #include <iosfwd>
@@ -114,3 +115,4 @@ class JSI_EXPORT Instrumentation {
 
 } // namespace jsi
 } // namespace facebook
+#endif // _MSC_VER

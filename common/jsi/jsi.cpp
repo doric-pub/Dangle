@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#include <cassert>
+#ifdef __cplusplus
+//#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <stdexcept>
@@ -488,3 +489,4 @@ JSError::~JSError() {}
 
 } // namespace jsi
 } // namespace facebook
+#endif
