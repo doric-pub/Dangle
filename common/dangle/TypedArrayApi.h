@@ -1,6 +1,7 @@
 #pragma once
 
-#include <jsi/jsi.h>
+//#include <jsi/jsi.h>
+#include "jsi.h"
 
 namespace jsi = facebook::jsi;
 namespace dangle {

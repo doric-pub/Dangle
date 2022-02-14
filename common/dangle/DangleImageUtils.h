@@ -10,7 +10,8 @@
 
 #endif
 
-#include <jsi/jsi.h>
+//#include <jsi/jsi.h>
+#include "jsi.h"
 #include <vector>
 
 namespace dangle {

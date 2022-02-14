@@ -12,7 +12,8 @@
 
 #endif
 
-#include <jsi/jsi.h>
+//#include <jsi/jsi.h>
+#include "jsi.h"
 #include <type_traits>
 
 #include "DangleJSIUtils.h"

@@ -21,7 +21,8 @@
 #include <vector>
 #include <set>
 
-#include <jsi/jsi.h>
+//#include <jsi/jsi.h>
+#include "jsi.h"
 
 #include "DangleNativeMethodsUtils.h"
 #include "DangleJSIUtils.h"

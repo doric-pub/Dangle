@@ -1314,4 +1314,5 @@ class JSI_EXPORT JSError : public JSIException {
 } // namespace jsi
 } // namespace facebook
 
-#include <jsi/jsi-inl.h>
+//#include <jsi/jsi-inl.h>
+#include "jsi-inl.h"

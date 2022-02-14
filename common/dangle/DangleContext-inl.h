@@ -12,7 +12,8 @@
 
 #endif
 
-#include <jsi/jsi.h>
+//#include <jsi/jsi.h>
+#include "jsi.h"
 
 namespace dangle {
     namespace gl_cpp {

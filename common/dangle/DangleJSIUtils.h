@@ -1,6 +1,7 @@
 #pragma once
 
-#include <jsi/jsi.h>
+//#include <jsi/jsi.h>
+#include "jsi.h"
 #include <vector>
 
 #include "DanglePlatformUtils.h"
