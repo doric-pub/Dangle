@@ -21,33 +21,32 @@ Pod::Spec.new do |s|
     }
     s.ios.deployment_target = '10.0'
   
-    s.source_files = 'iOS/Classes/**/*','common/**/*','iOS/Dangle/**/*'
+    # s.source_files = 'iOS/Classes/**/*','common/**/*','iOS/Dangle/**/*'
+    s.source_files = 'iOS/Classes/**/*'
     #s.default_subspec = 'Extension'
 
-    # s.subspec 'jsi' do |mm|
-    #     mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
-    #     # mm.source_files = 'common/jsi/*.{h,m,cpp}'
-    #     mm.header_mappings_dir = 'common'
-    #     mm.public_header_files = 'common/jsi/**/*.h'
-    #     mm.xcconfig = { 'ALWAYS_SEARCH_USER_PATHS' => 'NO' }
-    # end
+    s.subspec 'jsi' do |mm|
+        mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
+        # mm.source_files = 'common/jsi/*.{h,m,cpp}'
+        mm.header_mappings_dir = 'common'
+        mm.public_header_files = 'common/jsi/**/*.h'
+        mm.xcconfig = { 'ALWAYS_SEARCH_USER_PATHS' => 'NO' }
+    end
 
-    # s.subspec 'Engine' do |mm|
-    #     mm.source_files = 'common/dangle/**/*'
-    #     mm.dependency 'Dangle/jsi'
-    #     mm.header_dir = 'Engine'
-    # end
+    s.subspec 'Engine' do |mm|
+        mm.source_files = 'common/dangle/**/*'
+        mm.dependency 'Dangle/jsi'
+        mm.header_dir = 'Engine'
+    end
 
-    # s.subspec 'Extension' do |mm|
-    #     mm.source_files = 'iOS/Dangle/**/*'
-    #     mm.dependency 'Dangle/Engine'
-    #     mm.header_dir = 'Extension'
-    # end
+    s.subspec 'Extension' do |mm|
+        mm.source_files = 'iOS/Dangle/**/*'
+        mm.dependency 'Dangle/Engine'
+        mm.header_dir = 'Extension'
+    end
     
     s.resource     =  "dist/**/*"
     s.public_header_files = 'iOS/Classes/**/*.h','common/**/*.h','iOS/Dangle/**/*.h'
     s.dependency 'DoricCore'
-    # s.pod_target_xcconfig = { 'VALID_ARCHS' => 'x86_64 armv7 arm64' }
-    # s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 x86_64 armv7 i386' }
-    # s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 x86_64 armv7 i386' }
+    
 end

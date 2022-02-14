@@ -2,7 +2,6 @@
 
 #include "jsi.h"
 #include <vector>
-
 #include "DanglePlatformUtils.h"
 #include "TypedArrayApi.h"
 

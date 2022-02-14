@@ -8,9 +8,7 @@
 #include "JSCRuntime.h"
 
 #include <JavaScriptCore/JavaScript.h>
-//#include <jsi/jsilib.h>
 #include "jsilib.h"
-
 #include <array>
 #include <atomic>
 #include <condition_variable>

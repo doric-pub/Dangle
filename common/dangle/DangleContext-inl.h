@@ -12,7 +12,6 @@
 
 #endif
 
-//#include <jsi/jsi.h>
 #include "jsi.h"
 
 namespace dangle {
