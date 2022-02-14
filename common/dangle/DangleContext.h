@@ -26,7 +26,7 @@
 
 #include "DangleNativeMethodsUtils.h"
 #include "DangleJSIUtils.h"
-#include "TypedArrayApi.h"
+//#include "TypedArrayApi.h"
 
 // Constants in WebGL that aren't in OpenGL ES
 // https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Constants

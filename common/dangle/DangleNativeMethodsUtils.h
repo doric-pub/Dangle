@@ -17,7 +17,7 @@
 #include <type_traits>
 
 #include "DangleJSIUtils.h"
-#include "TypedArrayApi.h"
+//#include "TypedArrayApi.h"
 
 namespace jsi = facebook::jsi;
 namespace dangle {
