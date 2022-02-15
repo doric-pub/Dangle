@@ -64,38 +64,44 @@ public class GLContext {
         final GLContext glContext = this;
 
         {
-            Dangle.getInstance().getJSHandler().post(() -> {
-                try {
-                    Field ptrField = JSIRuntime.class.getDeclaredField("jsiPtr");
-                    ptrField.setAccessible(true);
-                    long jsContextRef = ptrField.getLong(JSIRuntime.class);
+            Dangle.getInstance().getJSHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Field ptrField = JSIRuntime.class.getDeclaredField("jsiPtr");
+                        ptrField.setAccessible(true);
+                        long jsContextRef = ptrField.getLong(JSIRuntime.class);
 
-                    if (jsContextRef != 0) {
-                        mDangleCtxId = ContextCreate(jsContextRef);
+                        if (jsContextRef != 0) {
+                            mDangleCtxId = ContextCreate(jsContextRef);
+                        }
+
+                        ContextSetFlushMethod(mDangleCtxId, glContext);
+                        completionCallback.run();
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
                     }
-
-                    ContextSetFlushMethod(mDangleCtxId, glContext);
-                    completionCallback.run();
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    e.printStackTrace();
                 }
             });
         }
     }
 
     public void flush() {
-        runAsync(() -> {
-            // mDangleCtxId may be unset if we get here (on the GL thread) before DangleContextCreate(...) is
-            // called on the JS thread (see above in the implementation of `initialize(...)`)
+        runAsync(new Runnable() {
+            @Override
+            public void run() {
+                // mDangleCtxId may be unset if we get here (on the GL thread) before DangleContextCreate(...) is
+                // called on the JS thread (see above in the implementation of `initialize(...)`)
 
-            if (mDangleCtxId > 0) {
-                ContextFlush(mDangleCtxId);
+                if (mDangleCtxId > 0) {
+                    ContextFlush(mDangleCtxId);
 
-                if (!isHeadless() && ContextNeedsRedraw(mDangleCtxId)) {
-                    if (!swapBuffers(mEGLSurface)) {
-                        Log.e("DANGLE", "Cannot swap buffers!");
+                    if (!isHeadless() && ContextNeedsRedraw(mDangleCtxId)) {
+                        if (!swapBuffers(mEGLSurface)) {
+                            Log.e("DANGLE", "Cannot swap buffers!");
+                        }
+                        ContextDrawEnded(mDangleCtxId);
                     }
-                    ContextDrawEnded(mDangleCtxId);
                 }
             }
         });
