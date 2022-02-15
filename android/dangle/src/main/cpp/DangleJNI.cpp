@@ -4,7 +4,7 @@
 #include <jni.h>
 #include <thread>
 
-#include <jsi/jsi.h>
+#include "jsi.h"
 #include "UDangle.h"
 
 jint ContextCreate([[maybe_unused]] JNIEnv *env, [[maybe_unused]] jclass clazz, jlong jsiPtr) {

@@ -16,7 +16,7 @@ set(CMAKE_CXX_STANDARD 17)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
-set(JSI_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../../common)
+set(JSI_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../../common/jsi)
 include_directories(${JSI_INCLUDE})
 
 set(NATIVE_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../../common/dangle)
