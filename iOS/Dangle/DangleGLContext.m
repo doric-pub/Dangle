@@ -1,10 +1,8 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
 #import "DangleGLContext.h"
-
 #include <OpenGLES/ES3/gl.h>
 #include <OpenGLES/ES3/glext.h>
-
 #include "DangleSingleton.h"
 
 @interface DangleGLContext ()

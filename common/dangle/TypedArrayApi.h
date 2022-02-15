@@ -1,6 +1,8 @@
 #pragma once
 
-#include <jsi/jsi.h>
+#include "jsi.h"
+
+#ifdef __cplusplus
 
 namespace jsi = facebook::jsi;
 namespace dangle {
@@ -174,3 +176,5 @@ namespace dangle {
         }
     } // namespace gl_cpp
 } // namespace dangle
+
+#endif

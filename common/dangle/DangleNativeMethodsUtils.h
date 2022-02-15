@@ -12,11 +12,13 @@
 
 #endif
 
-#include <jsi/jsi.h>
+#ifdef __cplusplus
+
+#include "jsi.h"
 #include <type_traits>
 
 #include "DangleJSIUtils.h"
-#include "TypedArrayApi.h"
+//#include "TypedArrayApi.h"
 
 namespace jsi = facebook::jsi;
 namespace dangle {
@@ -267,3 +269,5 @@ namespace dangle {
         }
     } // namespace gl_cpp
 } // namespace dangle
+
+#endif

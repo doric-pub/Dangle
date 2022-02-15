@@ -1,7 +1,7 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
 #import <OpenGLES/EAGL.h>
-#import <Engine/UDangle.h>
+#include "UDangle.h"
 
 @class DangleGLContext;
 

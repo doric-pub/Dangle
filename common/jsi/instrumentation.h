@@ -6,14 +6,14 @@
  */
 
 #pragma once
+#ifdef __cplusplus
 
 #include <chrono>
 #include <iosfwd>
 #include <string>
 #include <tuple>
 #include <unordered_map>
-
-#include <jsi/jsi.h>
+#include "jsi.h"
 
 namespace facebook {
 namespace jsi {
@@ -115,3 +115,4 @@ class JSI_EXPORT Instrumentation {
 
 } // namespace jsi
 } // namespace facebook
+#endif // _MSC_VER

@@ -1,8 +1,8 @@
 #pragma once
+#ifdef __cplusplus
 
-#include <jsi/jsi.h>
+#include "jsi.h"
 #include <vector>
-
 #include "DanglePlatformUtils.h"
 #include "TypedArrayApi.h"
 
@@ -74,3 +74,4 @@ namespace dangle {
 
     } // namespace gl_cpp
 } // namespace dangle
+#endif

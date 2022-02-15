@@ -10,7 +10,9 @@
 
 #endif
 
-#include <jsi/jsi.h>
+#ifdef __cplusplus
+
+#include "jsi.h"
 #include <vector>
 
 namespace dangle {
@@ -22,3 +24,4 @@ namespace dangle {
 
     } // namespace gl_cpp
 } // namespace dangle
+#endif

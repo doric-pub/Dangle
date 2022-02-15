@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef __APPLE__
-
+#ifdef __cplusplus
 namespace dangle {
     namespace gl_cpp {
         void DangleiOSLog(const char *msg, ...) __attribute__((format(printf, 1, 2)));
@@ -15,7 +15,7 @@ namespace dangle {
         DangleiOSOperatingSystemVersion DangleiOSGetOperatingSystemVersion(void);
     } // namespace gl_cpp
 } // namespace dangle
-
+#endif
 #endif
 
 #ifdef __ANDROID__

@@ -6,8 +6,9 @@
  */
 
 #pragma once
+#ifdef __cplusplus
 
-#include <jsi/jsi.h>
+#include "jsi.h"
 
 namespace facebook {
 namespace jsi {
@@ -57,3 +58,4 @@ class SourceJavaScriptPreparation final : public jsi::PreparedJavaScript,
 
 } // namespace jsi
 } // namespace facebook
+#endif
