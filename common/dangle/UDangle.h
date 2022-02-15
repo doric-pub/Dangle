@@ -18,10 +18,10 @@
 #include <stdbool.h>
 #endif
 
-// NOTE: The symbols exposed by this header are named with a `UEX` prefix rather than an `EX`
+// NOTE: The symbols exposed by this header are named with a `UDangle` prefix rather than an `Dangle`
 //       prefix so that they are unaffected by the automated iOS versioning script when
 //       referenced in versioned Objective-C code. The Dangle C/C++ library is not versioned
-//       and there is only one copy of its code in the binary form of the Expo application.
+//       and there is only one copy of its code in the binary form of the Doric application.
 
 #ifdef __cplusplus
 extern "C" {

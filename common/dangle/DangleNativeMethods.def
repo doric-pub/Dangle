@@ -273,5 +273,5 @@ NATIVE_WEBGL2_METHOD(bindVertexArray)
 NATIVE_METHOD(getSupportedExtensions)
 NATIVE_METHOD(getExtension)
 
-// Exponent extensions
+// Dangle extensions
 NATIVE_METHOD(endFrame)

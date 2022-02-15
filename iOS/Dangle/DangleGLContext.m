@@ -17,7 +17,7 @@
     if (self = [super init]) {
         self.delegate = delegate;
 
-        _glQueue = dispatch_queue_create("host.exp.gl", DISPATCH_QUEUE_SERIAL);
+        _glQueue = dispatch_queue_create("host.dangle.gl", DISPATCH_QUEUE_SERIAL);
         _eaglCtx = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3] ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     }
     return self;
