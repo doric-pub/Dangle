@@ -82,11 +82,13 @@
 }
 
 - (void)layoutSubviews {
-    [self resizeViewBuffersToWidth:self.contentScaleFactor * self.frame.size.width
+    bool sizeChanged = [self resizeViewBuffersToWidth:self.contentScaleFactor * self.frame.size.width
                             height:self.contentScaleFactor * self.frame.size.height];
 
     _isLayouted = YES;
-    [self maybeCallSurfaceCreated];
+    if (sizeChanged) {
+        [self maybeCallSurfaceCreated];
+    }
 }
 
 - (void)runOnUIThread:(void (^)(void))callback {
@@ -118,12 +120,12 @@
     }
 }
 
-- (void)resizeViewBuffersToWidth:(short)width height:(short)height {
+- (bool)resizeViewBuffersToWidth:(short)width height:(short)height {
     CGSize newViewBuffersSize = CGSizeMake(width, height);
 
     // Don't resize if size hasn't changed and the current size is not zero
     if (CGSizeEqualToSize(newViewBuffersSize, _viewBuffersSize) && !CGSizeEqualToSize(_viewBuffersSize, CGSizeZero)) {
-        return;
+        return false;
     }
 
     // update viewBuffersSize on UI thread (before actual resize takes place)
@@ -196,6 +198,7 @@
 
         // TODO(nikki): Notify JS component of resize
     }];
+    return true;
 }
 
 // TODO(nikki): Should all this be done in `dealloc` instead?
