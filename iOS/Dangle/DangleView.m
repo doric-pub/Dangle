@@ -43,7 +43,7 @@
 
         // Initialize properties of our backing CAEAGLLayer
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *) self.layer;
-        eaglLayer.opaque = YES;
+        eaglLayer.opaque = NO;
         eaglLayer.drawableProperties = @{
                 kEAGLDrawablePropertyRetainedBacking: @(YES),
                 kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8,
