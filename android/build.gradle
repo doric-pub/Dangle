@@ -42,7 +42,7 @@ dependencies {
     api "pub.doric:core:${rootProject.ext.DoricVersion}"
 }
 
-def script = project.getProjectDir().parent + "/../scripts/upload.gradle"
+def script = project.getProjectDir().parent + "/scripts/upload.gradle"
 if (new File(script).exists()) {
     apply from: rootProject.file(script)
 }
