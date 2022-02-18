@@ -40,26 +40,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-def version = new File(project.getProjectDir().parent + "/../version").text.trim()
-println("Publish version: " + version)
-import groovy.json.JsonSlurper
-
-def model = new JsonSlurper().parse(new File(project.getProjectDir().parent + "/../package.json"))
-def doricSDKVersion = model.dependencies.doric.replace("^", "").replace(">=", "")
-
-println("Doric Version:" + doricSDKVersion)
-
-ext {
-    LibVersion = version
-    DoricVersion = doricSDKVersion
-}
-
-
-task publishDangle dependsOn(":lib:uploadArchives") {
-    println "dangle published"
-}
-
-task PublishAll dependsOn(publishDangle) {
-    println "All published"
-}

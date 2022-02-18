@@ -21,12 +21,15 @@ if (apiKey == null || apiKey.length() == 0) {
 if (repo == null || repo.length() == 0) {
     repo = properties.releasesRepository
 }
+
+apply plugin: 'maven'
+
 uploadArchives {
     repositories {
         mavenDeployer {
             pom.groupId = properties.groupId
             pom.artifactId = properties.artifactId
-            pom.version = project.rootProject.ext.LibVersion
+            pom.version = project.ext.Version
 
             pom.project {
                 description 'git rev-parse HEAD'.execute([], projectDir).text.trim()

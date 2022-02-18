@@ -1,3 +1,30 @@
+import groovy.json.JsonSlurper
+
+def model = new JsonSlurper().parse(new File(project.getProjectDir().parent + File.separator + "package.json"))
+def doricSDKVersion = model.dependencies.doric.replace("^", "").replace(">=","")
+
+println("Doric Version:" + doricSDKVersion)
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+    }
+}
+
 apply plugin: 'com.android.library'
 
 android {
@@ -39,7 +66,14 @@ dependencies {
     implementation 'com.facebook.soloader:soloader:0.10.1'
 
     api 'com.github.penfeizhou:jsc4a:0.3.5'
-    api "pub.doric:core:${rootProject.ext.DoricVersion}"
+    api "pub.doric:core:${doricSDKVersion}"
+}
+
+def version = new File(project.getProjectDir().parent + "/version").text.trim()
+println("Publish version:" + version)
+
+ext {
+    Version = version
 }
 
 def script = project.getProjectDir().parent + "/scripts/upload.gradle"
