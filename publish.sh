@@ -39,6 +39,6 @@ npm install
 echo "Publish JS"
 cd $CURRENT_DIR/ && npm publish 
 echo "Publish Android"
-cd $CURRENT_DIR/example/android && ./gradlew clean :PublishAll
+cd $CURRENT_DIR/example/android && ./gradlew clean :lib:uploadArchives 
 echo "Publish iOS"
 cd $CURRENT_DIR && pod trunk push Dangle.podspec --allow-warnings --verbose
