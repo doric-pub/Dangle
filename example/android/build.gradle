@@ -30,8 +30,7 @@ allprojects {
         configurations.all {
             resolutionStrategy {
                 dependencySubstitution {
-                    substitute module('pub.doric.dangle:engine') with project(":dangle")
-                    substitute module('pub.doric.dangle:extension') with project(":lib")
+                    substitute module('pub.doric:dangle') with project(":lib")
                 }
             }
         }

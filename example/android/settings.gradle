@@ -2,7 +2,4 @@ include ':app'
 rootProject.name='Dangle'
 
 include ":lib"
-project(":lib").projectDir = file("../../android/lib")
-
-include ":dangle"
-project(":dangle").projectDir = file("../../android/dangle")
+project(":lib").projectDir = file("../../android")

@@ -16,10 +16,10 @@ set(CMAKE_CXX_STANDARD 17)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
-set(JSI_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../../common/jsi)
+set(JSI_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../common/jsi)
 include_directories(${JSI_INCLUDE})
 
-set(NATIVE_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../../common/dangle)
+set(NATIVE_INCLUDE ${CMAKE_SOURCE_DIR}/../../../../common/dangle)
 include_directories(${NATIVE_INCLUDE})
 
 add_library( # Sets the name of the library.
@@ -29,14 +29,14 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        ${CMAKE_SOURCE_DIR}../../../../../../common/jsi/jsi.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../common/jsi/jsi.cpp
 
         DangleJNI.cpp
-        ${CMAKE_SOURCE_DIR}../../../../../../common/dangle/DangleContext.cpp
-        ${CMAKE_SOURCE_DIR}../../../../../../common/dangle/DangleImageUtils.cpp
-        ${CMAKE_SOURCE_DIR}../../../../../../common/dangle/DangleNativeMethods.cpp
-        ${CMAKE_SOURCE_DIR}../../../../../../common/dangle/TypedArrayApi.cpp
-        ${CMAKE_SOURCE_DIR}../../../../../../common/dangle/UDangle.cpp)
+        ${CMAKE_SOURCE_DIR}../../../../../common/dangle/DangleContext.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../common/dangle/DangleImageUtils.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../common/dangle/DangleNativeMethods.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../common/dangle/TypedArrayApi.cpp
+        ${CMAKE_SOURCE_DIR}../../../../../common/dangle/UDangle.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

@@ -6,7 +6,7 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import pub.doric.Doric;
-import pub.doric.library.DangleLibrary;
+import pub.doric.dangle.library.DangleLibrary;
 
 public class MainApplication extends MultiDexApplication {
     @Override

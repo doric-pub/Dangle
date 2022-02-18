@@ -1,4 +1,4 @@
-package pub.doric.library;
+package pub.doric.dangle.library;
 
 import android.view.Choreographer;
 

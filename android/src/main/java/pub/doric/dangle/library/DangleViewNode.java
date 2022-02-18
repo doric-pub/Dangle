@@ -1,4 +1,4 @@
-package pub.doric.library;
+package pub.doric.dangle.library;
 
 import com.github.pengfeizhou.jscore.JSExecutor;
 import com.github.pengfeizhou.jscore.JSIRuntime;

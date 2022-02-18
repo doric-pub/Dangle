@@ -1,4 +1,4 @@
-package pub.doric.library;
+package pub.doric.dangle.library;
 
 import java.io.IOException;
 import java.io.InputStream;

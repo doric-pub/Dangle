@@ -3,6 +3,9 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+    sourceSets {
+        main.assets.srcDirs += "../dist"
+    }
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
@@ -36,6 +39,7 @@ dependencies {
     implementation 'com.facebook.soloader:soloader:0.10.1'
 
     api 'com.github.penfeizhou:jsc4a:0.3.5'
+    api "pub.doric:core:${rootProject.ext.DoricVersion}"
 }
 
 def script = project.getProjectDir().parent + "/../scripts/upload.gradle"
