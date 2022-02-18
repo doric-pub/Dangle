@@ -1,5 +1,5 @@
 import { BridgeContext, Property, View, layoutConfig } from "doric";
-import { DangleWebGLRenderingContext } from "..";
+import { DangleWebGLRenderingContext } from "./GLView.types";
 import { getGl } from "./GLView";
 
 export interface IDangleView {

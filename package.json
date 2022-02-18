@@ -2,6 +2,7 @@
   "name": "dangle",
   "version": "0.1.4",
   "main": "dist/bundle_dangle.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "doric build",
