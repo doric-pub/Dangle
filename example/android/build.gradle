@@ -56,14 +56,10 @@ ext {
 }
 
 
-task publishDangle dependsOn(":dangle:uploadArchives") {
+task publishDangle dependsOn(":lib:uploadArchives") {
     println "dangle published"
 }
 
-task publishExtension dependsOn(publishDangle, ":lib:uploadArchives") {
-    println "extension published"
-}
-
-task PublishAll dependsOn(publishDangle, publishExtension) {
+task PublishAll dependsOn(publishDangle) {
     println "All published"
 }
