@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'Dangle'
-    s.version          = '0.1.3'
+    s.version          = '0.1.4'
     s.summary          = 'Doric Almost Native Graphics Layer Engine'
   
     s.description      = <<-DESC
