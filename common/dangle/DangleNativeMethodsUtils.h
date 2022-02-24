@@ -6,9 +6,9 @@
 #endif
 #ifdef __APPLE__
 
-#include <OpenGLES/EAGL.h>
-#include <OpenGLES/ES3/gl.h>
-#include <OpenGLES/ES3/glext.h>
+#include <MetalANGLE/EGL/egl.h>
+#include <MetalANGLE/GLES2/gl2ext.h>
+#include <MetalANGLE/GLES3/gl3.h>
 
 #endif
 

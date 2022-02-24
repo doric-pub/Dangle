@@ -3,9 +3,10 @@
 #import "DangleView.h"
 #import "DangleGLContext.h"
 
-#include <OpenGLES/ES2/glext.h>
-#include <OpenGLES/ES3/gl.h>
-#include <OpenGLES/ES3/glext.h>
+#define GL_GLEXT_PROTOTYPES 1
+#import <MetalANGLE/MGLKit.h>
+#include <MetalANGLE/GLES2/gl2ext.h>
+#include <MetalANGLE/GLES3/gl3.h>
 
 @interface DangleView ()
 
@@ -30,7 +31,7 @@
 
 // Specify that we want this UIView to be backed by a CAEAGLLayer
 + (Class)layerClass {
-    return [CAEAGLLayer class];
+    return [MGLLayer class];
 }
 
 - (instancetype)init {
@@ -42,17 +43,18 @@
         self.contentScaleFactor = [UIScreen mainScreen].scale;
 
         // Initialize properties of our backing CAEAGLLayer
-        CAEAGLLayer *eaglLayer = (CAEAGLLayer *) self.layer;
+        MGLLayer *eaglLayer = (MGLLayer *) self.layer;
         eaglLayer.opaque = NO;
-        eaglLayer.drawableProperties = @{
-                kEAGLDrawablePropertyRetainedBacking: @(YES),
-                kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8,
-        };
+        eaglLayer.retainedBacking = YES;
+        eaglLayer.drawableColorFormat = MGLDrawableColorFormatRGBA8888;
+        eaglLayer.contentsScale = self.contentScaleFactor;
 
         // Initialize GL context
         _glContext = [[DangleGLContext alloc] initWithDelegate:self];
         _uiEaglCtx = [_glContext createSharedEAGLContext];
         [_glContext initialize:nil];
+        
+        _glContext.layer = eaglLayer;
 
         // View buffers will be created on layout event
         _msaaFramebuffer = _msaaRenderbuffer = _viewFramebuffer = _viewColorbuffer = _viewDepthStencilbuffer = 0;
@@ -155,7 +157,6 @@
 
         [self runOnUIThread:^{
             glBindRenderbuffer(GL_RENDERBUFFER, self->_viewColorbuffer);
-            [self->_uiEaglCtx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *) self.layer];
         }];
 
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -229,7 +230,6 @@
             // bind renderbuffer and present it on the layer
             [_glContext runAsync:^{
                 glBindRenderbuffer(GL_RENDERBUFFER, self->_viewColorbuffer);
-                [self->_uiEaglCtx presentRenderbuffer:GL_RENDERBUFFER];
             }];
 
             // mark renderbuffer as presented
@@ -254,7 +254,7 @@
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _viewFramebuffer);
 
         // glBlitFramebuffer works only on OpenGL ES 3.0, so we need a fallback to Apple's extension for OpenGL ES 2.0
-        if (_glContext.eaglCtx.API == kEAGLRenderingAPIOpenGLES3) {
+        if (_glContext.eaglCtx.API == kMGLRenderingAPIOpenGLES3) {
             glBlitFramebuffer(0, 0, _layerWidth, _layerHeight, 0, 0, _layerWidth, _layerHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
         } else {
             glResolveMultisampleFramebufferAPPLE();

@@ -1,8 +1,7 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
 #import "DangleGLContext.h"
-#include <OpenGLES/ES3/gl.h>
-#include <OpenGLES/ES3/glext.h>
+#include <MetalANGLE/GLES3/gl3.h>
 #include "DangleSingleton.h"
 
 @interface DangleGLContext ()
@@ -18,7 +17,7 @@
         self.delegate = delegate;
 
         _glQueue = dispatch_queue_create("host.dangle.gl", DISPATCH_QUEUE_SERIAL);
-        _eaglCtx = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3] ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        _eaglCtx = [[MGLContext alloc] initWithAPI:kMGLRenderingAPIOpenGLES3] ?: [[MGLContext alloc] initWithAPI:kMGLRenderingAPIOpenGLES2];
     }
     return self;
 }
@@ -27,15 +26,18 @@
     return _contextId != 0;
 }
 
-- (EAGLContext *)createSharedEAGLContext {
-    return [[EAGLContext alloc] initWithAPI:[_eaglCtx API] sharegroup:[_eaglCtx sharegroup]];
+- (MGLContext *)createSharedEAGLContext {
+    return [[MGLContext alloc] initWithAPI:[_eaglCtx API] sharegroup:[_eaglCtx sharegroup]];
 }
 
-- (void)runInEAGLContext:(EAGLContext *)context callback:(void (^)(void))callback {
-    [EAGLContext setCurrentContext:context];
+- (void)runInEAGLContext:(MGLContext *)context callback:(void (^)(void))callback {
+    [MGLContext setCurrentContext:context forLayer:self.layer];
+    glBindFramebuffer(GL_FRAMEBUFFER, self.layer.defaultOpenGLFrameBufferID);
     callback();
     glFlush();
-    [EAGLContext setCurrentContext:nil];
+    
+    [context present:self.layer];
+    [MGLContext setCurrentContext:nil];
 }
 
 - (void)runAsync:(void (^)(void))callback {

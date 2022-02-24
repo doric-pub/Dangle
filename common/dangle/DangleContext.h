@@ -8,10 +8,6 @@
 #endif
 #ifdef __APPLE__
 
-#include <OpenGLES/EAGL.h>
-#include <OpenGLES/ES3/gl.h>
-#include <OpenGLES/ES3/glext.h>
-
 #endif
 
 #include "TypedArrayApi.h"

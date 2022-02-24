@@ -6,7 +6,7 @@
 #endif
 #ifdef __APPLE__
 
-#include <OpenGLES/ES3/gl.h>
+#include <MetalANGLE/GLES3/gl3.h>
 
 #endif
 

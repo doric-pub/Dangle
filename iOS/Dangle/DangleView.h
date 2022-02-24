@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // "protected"
 @property(nonatomic, strong, nullable) DangleGLContext *glContext;
-@property(nonatomic, strong, nullable) EAGLContext *uiEaglCtx;
+@property(nonatomic, strong, nullable) MGLContext *uiEaglCtx;
 
 @property(nonatomic, copy) void (^onSurfaceAvailable)();
 

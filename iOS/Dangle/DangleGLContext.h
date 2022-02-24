@@ -1,6 +1,6 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
-#import <OpenGLES/EAGL.h>
+#import <MetalANGLE/MGLKit.h>
 #include "UDangle.h"
 
 @class DangleGLContext;
@@ -25,17 +25,18 @@
 
 - (BOOL)isInitialized;
 
-- (nullable EAGLContext *)createSharedEAGLContext;
+- (nullable MGLContext *)createSharedEAGLContext;
 
 - (void)runAsync:(nonnull void (^)(void))callback;
 
-- (void)runInEAGLContext:(nonnull EAGLContext *)context callback:(nonnull void (^)(void))callback;
+- (void)runInEAGLContext:(nonnull MGLContext *)context callback:(nonnull void (^)(void))callback;
 
 - (void)destroy;
 
 // "protected"
 @property(nonatomic, assign) UDangleContextId contextId;
-@property(nonatomic, strong, nonnull) EAGLContext *eaglCtx;
+@property(nonatomic, strong, nonnull) MGLContext *eaglCtx;
 @property(nonatomic, weak, nullable) id <DangleContextDelegate> delegate;
+@property (nonatomic, strong) MGLLayer *layer;
 
 @end
