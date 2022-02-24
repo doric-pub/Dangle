@@ -1,17 +1,20 @@
 <div align="center" style="position: relative;">
- <a href="https://doric.pub">
-    <img alt="Doric" src="https://doric.pub/logo.png" width="200" />
- </a>
- <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/WebGL_Logo.svg" width="50" style="position: absolute; margin-left: -35px; margin-top: 10px;"/>
+    <img width="40" />
+    <a href="https://doric.pub">
+        <img alt="Doric" src="https://doric.pub/logo.png" width="200" />
+    </a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/WebGL_Logo.svg" width="40" />
 </div>
 
+<br />
+
 <div align="center">
-<a href="https://github.com/doric-pub/Dangle/blob/master/LICENSE">
-    <img alt="license" src="https://img.shields.io/npm/l/dangle" />
-</a>
-<a href="https://github.com/doric-pub/Dangle/actions">
-    <img alt="Actions" src="https://github.com/doric-pub/Dangle/workflows/Release/badge.svg" />
-</a>
+    <a href="https://github.com/doric-pub/Dangle/blob/master/LICENSE">
+        <img alt="license" src="https://img.shields.io/npm/l/dangle" />
+    </a>
+    <a href="https://github.com/doric-pub/Dangle/actions">
+        <img alt="Actions" src="https://github.com/doric-pub/Dangle/workflows/Release/badge.svg" />
+    </a>
 </div>
 
 <div align="center">
@@ -57,10 +60,12 @@ Dangle 目前支持了一系列的使用 JavaScript 函数库或者 API 并基�
 
 ### Three.js
 
-<img src="https://user-images.githubusercontent.com/5223226/155498825-74c14707-f89b-44e3-90e1-d314e99c5a74.png" width="150"/>
-<img src="https://user-images.githubusercontent.com/5223226/155499186-5452082d-0f35-4727-8869-483c8d9e5f68.png" width="150"/>
-<img src="https://user-images.githubusercontent.com/5223226/155499292-83bf9d1f-e421-4e37-bf51-7efb5ba01df8.png" width="150"/>
-<img src="https://user-images.githubusercontent.com/5223226/155500063-19c6c53d-94e2-4697-998f-5d5020c2e38f.png" width="150"/>
-<img src="https://user-images.githubusercontent.com/5223226/155500228-e140124d-81c4-4adf-b9f8-e40ea1badff7.png" width="150"/>
-<img src="https://user-images.githubusercontent.com/5223226/155500352-03f8c4fc-18cd-4b12-b681-9d8260a15f6c.png" width="150"/>
-<img src="https://user-images.githubusercontent.com/5223226/155500522-d926a0be-aaff-43b0-b43c-6161ff892b67.png" width="150"/>
+<div>
+    <img src="https://user-images.githubusercontent.com/5223226/155498825-74c14707-f89b-44e3-90e1-d314e99c5a74.png" width="150"/>
+    <img src="https://user-images.githubusercontent.com/5223226/155499186-5452082d-0f35-4727-8869-483c8d9e5f68.png" width="150"/>
+    <img src="https://user-images.githubusercontent.com/5223226/155499292-83bf9d1f-e421-4e37-bf51-7efb5ba01df8.png" width="150"/>
+    <img src="https://user-images.githubusercontent.com/5223226/155500063-19c6c53d-94e2-4697-998f-5d5020c2e38f.png" width="150"/>
+    <img src="https://user-images.githubusercontent.com/5223226/155500228-e140124d-81c4-4adf-b9f8-e40ea1badff7.png" width="150"/>
+    <img src="https://user-images.githubusercontent.com/5223226/155500352-03f8c4fc-18cd-4b12-b681-9d8260a15f6c.png" width="150"/>
+    <img src="https://user-images.githubusercontent.com/5223226/155500522-d926a0be-aaff-43b0-b43c-6161ff892b67.png" width="150"/>
+</div>
