@@ -56,6 +56,16 @@ Dangle 目前支持了一系列的使用 JavaScript 函数库或者 API 并基�
 
 遵从 Doric 提供的 Resource 体系，可以高效管理和动态加载较大或者较为复杂的 3D 模型
 
+## RoadMap
+
+### 支持 iOS Metal 渲染
+
+目前由于 iOS 会逐步废弃 OpenGL ES，所以后续的在 iOS 侧的渲染方式会从 CAEAGLLayer 逐步演变为 <a href="https://github.com/kakashidinho/metalangle">MetalAngle</a> 的 <a href="https://github.com/kakashidinho/metalangle/blob/master/ios/xcode/MGLKit/MGLLayer.h">MGLLayer</a>，但目前由于 MetalAngle 对于 OpenGL ES 3.0 的转换只完成了 90%左右，因此暂时还无法做到全部支持，具体的代码可参考本项目的 <a href="https://github.com/doric-pub/Dangle/tree/feature/metal_angle">feature/metal_angle</a> 分支
+
+### 支持 <a href="https://github.com/doric-pub/Doric/tree/master/doric-Qt">Doric Qt</a>
+
+Qt 作为业界主流的 PC 业务客户端开发框架，Dangle 未来会考虑支持在 Windows 平台以 Direct X 的方式支持渲染，当然依然需要依托于 <a href="https://chromium.googlesource.com/angle/angle">Angle</a> 项目的 OpenGL 到 D3D 的转换
+
 ## 示例展示
 
 ### Three.js
