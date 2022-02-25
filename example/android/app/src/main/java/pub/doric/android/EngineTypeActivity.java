@@ -45,6 +45,8 @@ public class EngineTypeActivity extends AppCompatActivity {
                 dataSet = new String[]{
                         "three.js/chess",
 
+                        "three.js/d3_force",
+
                         "three.js/games_crossy_road",
                         "three.js/games_fps",
 

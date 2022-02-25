@@ -29,6 +29,8 @@
     } else if ([self.engineType isEqual: @"Three.js"]) {
         [self.tableDataArr addObject:@"three.js/chess"];
 
+        [self.tableDataArr addObject:@"three.js/d3_force"];
+
         [self.tableDataArr addObject:@"three.js/games_crossy_road"];
         [self.tableDataArr addObject:@"three.js/games_fps"];
 

@@ -12,6 +12,8 @@ export default [
     // Three.js
     "src/three.js/chess",
 
+    "src/three.js/d3_force",
+
     "src/three.js/games_crossy_road",
     "src/three.js/games_fps",
 
