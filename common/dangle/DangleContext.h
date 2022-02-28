@@ -119,6 +119,10 @@ namespace dangle {
                     std::function<unsigned int(void)> &&op) noexcept {
                 auto dangleObjId = createObject();
                 addToNextBatch([=] {
+                    if (destroy) {
+                        DangleSysLog("addFutureToNextBatch, find object after DangleContext destroyed");
+                        return;
+                    }
                     assert(objects.find(dangleObjId) == objects.end());
                     mapObject(dangleObjId, op());
                 });
@@ -168,7 +172,7 @@ namespace dangle {
 
             inline GLuint lookupObject(UDangleObjectId dangleObjId) noexcept {
                 if (destroy) {
-                    DangleSysLog("Lookup object after DangleContext destroyed");
+                    DangleSysLog("lookupObject, find object after DangleContext destroyed");
                     return 0;
                 }
                 auto iter = objects.find(dangleObjId);
