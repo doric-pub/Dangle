@@ -18,6 +18,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 import { Octree } from "./jsm/math/Octree.js";
 import { Capsule } from "./jsm/math/Capsule.js";
+import { OctreeHelper } from "./jsm/helpers/OctreeHelper";
 
 @Entry
 class games_fps extends Panel {
@@ -30,6 +31,8 @@ class games_fps extends Panel {
   private space?: GestureContainer;
 
   private shoot?: GestureContainer;
+
+  private debug?: GestureContainer;
 
   onShow() {
     navbar(context).setTitle("games_fps");
@@ -111,6 +114,17 @@ class games_fps extends Panel {
           layoutConfig: layoutConfig().just(),
         }),
       ])),
+      (this.debug = gestureContainer([
+        text({
+          width: 100,
+          height: 50,
+          text: "Debug",
+          textSize: 30,
+          textAlignment: new Gravity().center(),
+          backgroundColor: Color.parse("#ffff00"),
+          layoutConfig: layoutConfig().just(),
+        }),
+      ])),
     ])
       .apply({
         layoutConfig: layoutConfig().fit().configAlignment(Gravity.Center),
@@ -152,28 +166,22 @@ class games_fps extends Panel {
           const clock = new THREE.Clock();
 
           const scene = new THREE.Scene();
-          scene.background = new THREE.Color(0x88ccff);
+          scene.background = new THREE.Color(0x88ccee);
+          scene.fog = new THREE.Fog(0x88ccee, 0, 50);
 
           const camera = new THREE.PerspectiveCamera(
-            75,
+            70,
             window.innerWidth / window.innerHeight,
             0.1,
             1000
           );
           camera.rotation.order = "YXZ";
 
-          const ambientlight = new THREE.AmbientLight(0x6688cc);
-          scene.add(ambientlight);
-
-          const fillLight1 = new THREE.DirectionalLight(0xff9999, 0.5);
-          fillLight1.position.set(-1, 1, 2);
+          const fillLight1 = new THREE.HemisphereLight(0x4488bb, 0x002244, 0.5);
+          fillLight1.position.set(2, 1, 1);
           scene.add(fillLight1);
 
-          const fillLight2 = new THREE.DirectionalLight(0x8888ff, 0.2);
-          fillLight2.position.set(0, -1, 0);
-          scene.add(fillLight2);
-
-          const directionalLight = new THREE.DirectionalLight(0xffffaa, 1.2);
+          const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
           directionalLight.position.set(-5, 25, -1);
           directionalLight.castShadow = true;
           directionalLight.shadow.camera.near = 0.01;
@@ -196,16 +204,8 @@ class games_fps extends Panel {
           renderer.setSize(window.innerWidth, window.innerHeight);
           renderer.shadowMap.enabled = true;
           renderer.shadowMap.type = THREE.VSMShadowMap;
-
-          // const container = document.getElementById( 'container' );
-
-          // container.appendChild( renderer.domElement );
-
-          // const stats = new Stats();
-          // stats.domElement.style.position = 'absolute';
-          // stats.domElement.style.top = '0px';
-
-          // container.appendChild( stats.domElement );
+          renderer.outputEncoding = THREE.sRGBEncoding;
+          renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
           const GRAVITY = 30;
 
@@ -214,15 +214,12 @@ class games_fps extends Panel {
 
           const STEPS_PER_FRAME = 5;
 
-          const sphereGeometry = new THREE.SphereGeometry(
+          const sphereGeometry = new THREE.IcosahedronGeometry(
             SPHERE_RADIUS,
-            32,
-            32
+            5
           );
-          const sphereMaterial = new THREE.MeshStandardMaterial({
-            color: 0x888855,
-            roughness: 0.8,
-            metalness: 0.5,
+          const sphereMaterial = new THREE.MeshLambertMaterial({
+            color: 0xbbbb44,
           });
 
           const spheres: any[] = [];
@@ -255,7 +252,7 @@ class games_fps extends Panel {
           ) as any;
 
           const playerVelocity = new THREE.Vector3();
-          const playerDirection = new THREE.Vector3() as any;
+          const playerDirection = new THREE.Vector3();
 
           let playerOnFloor = false;
           let mouseTime = 0;
@@ -591,10 +588,18 @@ class games_fps extends Panel {
                   child.receiveShadow = true;
 
                   if (child.material.map) {
-                    child.material.map.anisotropy = 8;
+                    child.material.map.anisotropy = 4;
                   }
                 }
               });
+
+              const helper = new OctreeHelper(worldOctree);
+              helper.visible = false;
+              scene.add(helper);
+
+              self.debug!!.onTouchDown = () => {
+                helper.visible = !helper.visible;
+              };
 
               animate();
             }

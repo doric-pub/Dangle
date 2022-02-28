@@ -22,6 +22,7 @@ import * as THREE from "three";
 import { OrbitControls } from "./jsm/controls/OrbitControls";
 import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
 import { RoomEnvironment } from "./jsm/environments/RoomEnvironment";
+import { RGBELoader } from "./jsm/loaders/RGBELoader";
 
 @Entry
 class webgl_materials_car extends Panel {
@@ -247,17 +248,19 @@ class webgl_materials_car extends Panel {
             camera.position.set(4.25, 1.4, -4.5);
 
             controls = new OrbitControls(camera, inputCanvas);
+            controls.enableDamping = true;
+            controls.maxDistance = 9;
             controls.target.set(0, 0.5, 0);
             controls.update();
 
-            const pmremGenerator = new THREE.PMREMGenerator(renderer);
-
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xeeeeee);
-            scene.environment = pmremGenerator.fromScene(
-              new RoomEnvironment()
-            ).texture;
-            scene.fog = new THREE.Fog(0xeeeeee, 10, 50);
+            scene.background = new THREE.Color(0x333333);
+            //@ts-ignore
+            scene.environment = new RGBELoader().load(
+              "threejs/ferrari/venice_sunset_1k.hdr"
+            );
+            scene.environment.mapping = THREE.EquirectangularReflectionMapping;
+            scene.fog = new THREE.Fog(0x333333, 10, 15);
 
             {
               const skyColor = 0xffffff;
@@ -270,7 +273,6 @@ class webgl_materials_car extends Panel {
               );
               scene.add(light);
             }
-
             {
               const color = 0xffffff;
               const intensity = 1.5;
@@ -279,8 +281,8 @@ class webgl_materials_car extends Panel {
               scene.add(light);
             }
 
-            grid = new THREE.GridHelper(100, 40, 0x000000, 0x000000);
-            grid.material.opacity = 0.1;
+            grid = new THREE.GridHelper(20, 40, 0xffffff, 0xffffff);
+            grid.material.opacity = 0.2;
             grid.material.depthWrite = false;
             grid.material.transparent = true;
             scene.add(grid);
@@ -289,10 +291,11 @@ class webgl_materials_car extends Panel {
 
             const bodyMaterial = new THREE.MeshPhysicalMaterial({
               color: 0xff0000,
-              metalness: 0.6,
-              roughness: 0.4,
-              clearcoat: 0.05,
-              clearcoatRoughness: 0.05,
+              metalness: 1.0,
+              roughness: 0.5,
+              clearcoat: 1.0,
+              clearcoatRoughness: 0.03,
+              sheen: 0.5,
             });
 
             const detailsMaterial = new THREE.MeshStandardMaterial({
@@ -303,10 +306,9 @@ class webgl_materials_car extends Panel {
 
             const glassMaterial = new THREE.MeshPhysicalMaterial({
               color: 0xffffff,
-              metalness: 0,
-              roughness: 0.1,
-              transmission: 0.9,
-              transparent: true,
+              metalness: 0.25,
+              roughness: 0,
+              transmission: 1.0,
             });
 
             // const bodyColorInput = document.getElementById( 'body-color' );
@@ -428,13 +430,15 @@ class webgl_materials_car extends Panel {
           }
 
           function render() {
+            controls.update();
+
             const time = -Date.now() / 1000;
 
             for (let i = 0; i < wheels.length; i++) {
-              wheels[i].rotation.x = time * Math.PI;
+              wheels[i].rotation.x = time * Math.PI * 2;
             }
 
-            grid.position.z = -time % 5;
+            grid.position.z = -time % 1;
 
             renderer.render(scene, camera);
 

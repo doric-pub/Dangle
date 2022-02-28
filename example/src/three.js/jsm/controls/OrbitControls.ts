@@ -582,12 +582,6 @@ class OrbitControls extends EventDispatcher {
 
 		}
 
-		function handleMouseUp( /*event*/ ) {
-
-			// no-op
-
-		}
-
 		function handleMouseWheel( event ) {
 
 			if ( event.deltaY < 0 ) {
@@ -794,12 +788,6 @@ class OrbitControls extends EventDispatcher {
 
 		}
 
-		function handleTouchEnd( /*event*/ ) {
-
-			// no-op
-
-		}
-
 		//
 		// event handlers - FSM: listen for events and reset state
 		//
@@ -851,30 +839,20 @@ class OrbitControls extends EventDispatcher {
 
 		function onPointerUp( event ) {
 
-			if ( scope.enabled === false ) return;
+		    removePointer( event );
 
-			if ( event.pointerType === 'touch' ) {
+		    if ( pointers.length === 0 ) {
 
-				onTouchEnd();
+		        scope.domElement.releasePointerCapture( event.pointerId );
 
-			} else {
+		        scope.domElement.removeEventListener( 'pointermove', onPointerMove );
+		        scope.domElement.removeEventListener( 'pointerup', onPointerUp );
 
-				onMouseUp( event );
+		    }
 
-			}
+		    scope.dispatchEvent( _endEvent );
 
-			removePointer( event );
-
-			//
-
-			if ( pointers.length === 0 ) {
-
-				scope.domElement.releasePointerCapture( event.pointerId );
-
-				scope.domElement.removeEventListener( 'pointermove', onPointerMove );
-				scope.domElement.removeEventListener( 'pointerup', onPointerUp );
-
-			}
+		    state = STATE.NONE;
 
 		}
 
@@ -1015,19 +993,9 @@ class OrbitControls extends EventDispatcher {
 
 		}
 
-		function onMouseUp( event ) {
-
-			handleMouseUp( event );
-
-			scope.dispatchEvent( _endEvent );
-
-			state = STATE.NONE;
-
-		}
-
 		function onMouseWheel( event ) {
 
-			if ( scope.enabled === false || scope.enableZoom === false || ( state !== STATE.NONE && state !== STATE.ROTATE ) ) return;
+			if ( scope.enabled === false || scope.enableZoom === false || state !== STATE.NONE ) return;
 
 			event.preventDefault();
 
@@ -1182,16 +1150,6 @@ class OrbitControls extends EventDispatcher {
 					state = STATE.NONE;
 
 			}
-
-		}
-
-		function onTouchEnd( event ) {
-
-			handleTouchEnd( event );
-
-			scope.dispatchEvent( _endEvent );
-
-			state = STATE.NONE;
 
 		}
 

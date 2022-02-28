@@ -109,6 +109,7 @@ class webgl_loader_collada extends Panel {
                 //
 
                 renderer = new THREE.WebGLRenderer({ canvas: inputCanvas });
+                renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 // container.appendChild(renderer.domElement);

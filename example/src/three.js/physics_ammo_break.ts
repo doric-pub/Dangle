@@ -403,6 +403,7 @@ class physics_ammo_break extends Panel {
             );
             mountainPoints.push(new THREE.Vector3(0, mountainHalfExtents.y, 0));
             const mountain = new THREE.Mesh(
+              //@ts-ignore
               new ConvexGeometry(mountainPoints),
               createMaterial(0xb03814)
             );
@@ -768,6 +769,7 @@ class physics_ammo_break extends Panel {
                   impactNormal,
                   1,
                   2,
+                  //@ts-ignore
                   1.5
                 );
 
@@ -791,13 +793,13 @@ class physics_ammo_break extends Panel {
               }
 
               if (breakable1 && !collided1 && maxImpulse > fractureImpulse) {
-                //@ts-ignore
                 const debris = convexBreaker.subdivideByImpact(
                   threeObject1,
                   impactPoint,
                   impactNormal,
                   1,
                   2,
+                  //@ts-ignore
                   1.5
                 );
 

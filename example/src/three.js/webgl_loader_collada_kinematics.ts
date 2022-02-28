@@ -118,6 +118,7 @@ class webgl_loader_collada_kinematics extends Panel {
                 particleLight.add(pointLight);
 
                 renderer = new THREE.WebGLRenderer({ canvas: inputCanvas });
+                renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
 

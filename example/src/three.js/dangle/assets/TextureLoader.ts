@@ -1,5 +1,6 @@
 import { AssetsResource, imageDecoder, resourceLoader } from "doric";
-import THREE, { Loader } from "three";
+import * as THREE from "three";
+import { Loader } from "three";
 
 class TextureLoader extends Loader {
   constructor(manager) {
@@ -32,7 +33,7 @@ class TextureLoader extends Loader {
           data: new Uint8ClampedArray(imagePixels),
           width: imageInfo.width,
           height: imageInfo.height,
-        }
+        };
 
         texture.needsUpdate = true;
 

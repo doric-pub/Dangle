@@ -62,10 +62,32 @@ class FileLoader extends Loader {
 			onError: onError,
 		} );
 
+		// record states ( avoid data race )
+		//@ts-ignore
+		const mimeType = this.mimeType;
+		//@ts-ignore
+		const responseType = this.responseType;
+
 		// start the fetch
 		const assetsResource = new AssetsResource(url)
 		resourceLoader(context).load(assetsResource)
-			.then((data) => {
+			.then( response => {
+
+				switch ( responseType ) {
+
+					case 'arraybuffer':
+
+						return response;
+
+					default:
+
+						return response;
+
+				}
+
+			} )
+			.then( data => {
+
 				// Add to cache only on HTTP success, so that we do not cache
 				// error response bodies as proper responses to requests.
 				Cache.add( url, data );
@@ -80,24 +102,38 @@ class FileLoader extends Loader {
 
 				}
 
-				this.manager.itemEnd( url );
-			})
-			.catch((reason) => {
+			} )
+			.catch( err => {
+
 				// Abort errors and other errors are handled the same
 
 				const callbacks = loading[ url ];
+
+				if ( callbacks === undefined ) {
+
+					// When onLoad was called and url was deleted in `loading`
+					this.manager.itemError( url );
+					throw err;
+
+				}
+
 				delete loading[ url ];
 
 				for ( let i = 0, il = callbacks.length; i < il; i ++ ) {
 
 					const callback = callbacks[ i ];
-					if ( callback.onError ) callback.onError( reason );
+					if ( callback.onError ) callback.onError( err );
 
 				}
 
 				this.manager.itemError( url );
+
+			} )
+			.finally( () => {
+
 				this.manager.itemEnd( url );
-			})
+
+			} );
 
 		this.manager.itemStart( url );
 

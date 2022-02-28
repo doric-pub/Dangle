@@ -13,14 +13,14 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "doric": "^0.10.0",
-    "doric-cli": "^0.10.0",
-    "rollup": "^2.60.1",
-    "typescript": "^4.5.2"
+    "doric": "^0.10.3",
+    "doric-cli": "^0.10.3",
+    "rollup": "^2.68.0",
+    "typescript": "^4.5.5"
   },
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
-    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-commonjs": "^21.0.2",
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.1.3"

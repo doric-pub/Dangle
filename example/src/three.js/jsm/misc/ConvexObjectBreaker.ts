@@ -95,7 +95,7 @@ class ConvexObjectBreaker {
 	 *
 	 * Returns the array of pieces
 	 */
-	subdivideByImpact( object, pointOfImpact, normal, maxRadialIterations, maxRandomIterations,...others:any ) {
+	subdivideByImpact( object, pointOfImpact, normal, maxRadialIterations, maxRandomIterations ) {
 
 		const debris = [];
 

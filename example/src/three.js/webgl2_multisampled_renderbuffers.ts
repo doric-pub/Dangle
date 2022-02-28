@@ -126,15 +126,12 @@ class webgl2_multisampled_renderbuffers extends Panel {
 
                 //
 
-                const parameters = {
-                  format: THREE.RGBFormat,
-                };
-
                 const size = renderer.getDrawingBufferSize(new THREE.Vector2());
-                const renderTarget = new THREE.WebGLMultisampleRenderTarget(
+                const renderTarget = new THREE.WebGLRenderTarget(
                   size.width,
                   size.height,
-                  parameters
+                  //@ts-ignore
+                  { samples: 4 }
                 );
 
                 //@ts-ignore

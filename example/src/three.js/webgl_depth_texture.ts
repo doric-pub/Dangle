@@ -139,18 +139,18 @@ class webgl_depth_texture extends Panel {
               renderer.extensions.has("WEBGL_depth_texture") === false
             ) {
               supportsExtension = false;
-              // document.querySelector( '#error' ).style.display = 'block';
+              // document.querySelector("#error").style.display = "block";
               return;
             }
 
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
-            // document.body.appendChild( renderer.domElement );
+            // document.body.appendChild(renderer.domElement);
 
             //
 
             // stats = new Stats();
-            // document.body.appendChild( stats.dom );
+            // document.body.appendChild(stats.dom);
 
             camera = new THREE.PerspectiveCamera(
               70,
@@ -176,10 +176,10 @@ class webgl_depth_texture extends Panel {
             window.addEventListener("resize", onWindowResize);
 
             //
-            // const gui = new GUI( { width: 300 } );
+            // const gui = new GUI({ width: 300 });
 
-            // gui.add( params, 'format', formats ).onChange( setupRenderTarget );
-            // gui.add( params, 'type', types ).onChange( setupRenderTarget );
+            // gui.add(params, "format", formats).onChange(setupRenderTarget);
+            // gui.add(params, "type", types).onChange(setupRenderTarget);
             // gui.open();
           }
 
@@ -195,13 +195,10 @@ class webgl_depth_texture extends Panel {
               window.innerWidth,
               window.innerHeight
             );
-            target.texture.format = THREE.RGBFormat;
             target.texture.minFilter = THREE.NearestFilter;
             target.texture.magFilter = THREE.NearestFilter;
-            target.texture.generateMipmaps = false;
             target.stencilBuffer =
               format === THREE.DepthStencilFormat ? true : false;
-            target.depthBuffer = true;
             //@ts-ignore
             target.depthTexture = new THREE.DepthTexture();
             target.depthTexture.format = format;

@@ -1,7 +1,8 @@
 //@ts-nocheck
 import {
 	BufferGeometry,
-	DataTexture3D,
+	//@ts-ignore
+	Data3DTexture,
 	Float32BufferAttribute,
 	Loader,
 	LinearFilter,
@@ -10,7 +11,7 @@ import {
 	NearestFilter,
 	RedFormat
 } from 'three';
-import { FileLoader } from '../../dangle/assets/FileLoader';
+import { FileLoader } from '../../dangle/assets/FileLoader'
 
 class VOXLoader extends Loader {
 
@@ -108,7 +109,7 @@ class VOXLoader extends Loader {
 
 			for ( let j = 0; j < 4; j ++ ) {
 
-				id += String.fromCharCode( data.getUint8( i ++, true ) );
+				id += String.fromCharCode( data.getUint8( i ++ ) );
 
 			}
 
@@ -267,7 +268,7 @@ class VOXMesh extends Mesh {
 
 }
 
-class VOXDataTexture3D extends DataTexture3D {
+class VOXData3DTexture extends Data3DTexture {
 
 	constructor( chunk ) {
 
@@ -303,4 +304,4 @@ class VOXDataTexture3D extends DataTexture3D {
 
 }
 
-export { VOXLoader, VOXMesh, VOXDataTexture3D };
+export { VOXLoader, VOXMesh, VOXData3DTexture };

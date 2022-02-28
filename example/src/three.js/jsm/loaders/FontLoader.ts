@@ -1,5 +1,4 @@
 //@ts-nocheck
-import { loge } from 'doric';
 import {
 	Loader,
 	ShapePath

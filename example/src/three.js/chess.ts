@@ -13,7 +13,6 @@ import {
   text,
   Color,
   LayoutSpec,
-  Text,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 

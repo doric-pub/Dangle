@@ -24,8 +24,6 @@ import {
 	Points,
 	PointsMaterial,
 	Quaternion,
-	RGBAFormat,
-	RGBFormat,
 	RepeatWrapping,
 	Scene,
 	ShapeUtils,
@@ -34,7 +32,6 @@ import {
 	Vector3
 } from 'three';
 import chevrotain from '../libs/chevrotain.module.min.js';
-
 import { FileLoader } from '../../dangle/assets/FileLoader.js';
 import { TextureLoader } from '../../dangle/assets/TextureLoader.js';
 
@@ -1271,6 +1268,7 @@ class VRMLLoader extends Loader {
 					color.r = value;
 					color.g = value;
 					color.b = value;
+					color.a = 1;
 					break;
 
 				case TEXTURE_TYPE.INTENSITY_ALPHA:
@@ -1287,6 +1285,7 @@ class VRMLLoader extends Loader {
 					color.r = parseInt( '0x' + hex.substring( 2, 4 ) );
 					color.g = parseInt( '0x' + hex.substring( 4, 6 ) );
 					color.b = parseInt( '0x' + hex.substring( 6, 8 ) );
+					color.a = 1;
 					break;
 
 				case TEXTURE_TYPE.RGBA:
@@ -1354,11 +1353,9 @@ class VRMLLoader extends Loader {
 						const height = fieldValues[ 1 ];
 						const num_components = fieldValues[ 2 ];
 
-						const useAlpha = ( num_components === 2 || num_components === 4 );
 						const textureType = getTextureType( num_components );
 
-						const size = ( ( useAlpha === true ) ? 4 : 3 ) * ( width * height );
-						const data = new Uint8Array( size );
+						const data = new Uint8Array( 4 * width * height );
 
 						const color = { r: 0, g: 0, b: 0, a: 0 };
 
@@ -1366,28 +1363,16 @@ class VRMLLoader extends Loader {
 
 							parseHexColor( fieldValues[ j ], textureType, color );
 
-							if ( useAlpha === true ) {
+							const stride = k * 4;
 
-								const stride = k * 4;
-
-								data[ stride + 0 ] = color.r;
-								data[ stride + 1 ] = color.g;
-								data[ stride + 2 ] = color.b;
-								data[ stride + 3 ] = color.a;
-
-							} else {
-
-								const stride = k * 3;
-
-								data[ stride + 0 ] = color.r;
-								data[ stride + 1 ] = color.g;
-								data[ stride + 2 ] = color.b;
-
-							}
+							data[ stride + 0 ] = color.r;
+							data[ stride + 1 ] = color.g;
+							data[ stride + 2 ] = color.b;
+							data[ stride + 3 ] = color.a;
 
 						}
 
-						texture = new DataTexture( data, width, height, ( useAlpha === true ) ? RGBAFormat : RGBFormat );
+						texture = new DataTexture( data, width, height );
 						texture.needsUpdate = true;
 						texture.__type = textureType; // needed for material modifications
 						break;

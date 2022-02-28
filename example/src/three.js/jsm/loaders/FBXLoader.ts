@@ -40,7 +40,7 @@ import {
 	VectorKeyframeTrack,
 	sRGBEncoding
 } from 'three';
-import * as fflate from '../libs/fflate.module';
+import * as fflate from '../libs/fflate.module.js';
 import { NURBSCurve } from '../curves/NURBSCurve.js';
 
 import { FileLoader } from '../../dangle/assets/FileLoader';
@@ -55,11 +55,10 @@ import { TextureLoader } from '../../dangle/assets/TextureLoader';
  *  Morph normals / blend shape normals
  *
  * FBX format references:
- * 	https://wiki.blender.org/index.php/User:Mont29/Foundation/FBX_File_Structure
- * 	http://help.autodesk.com/view/FBX/2017/ENU/?guid=__cpp_ref_index_html (C++ SDK reference)
+ * 	https://help.autodesk.com/view/FBX/2017/ENU/?guid=__cpp_ref_index_html (C++ SDK reference)
  *
- * 	Binary format specification:
- *		https://code.blender.org/2013/08/fbx-binary-file-format-specification/
+ * Binary format specification:
+ *	https://code.blender.org/2013/08/fbx-binary-file-format-specification/
  */
 
 

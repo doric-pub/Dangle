@@ -230,6 +230,7 @@ class webgl_geometry_convex extends Panel {
               transparent: true,
             });
 
+            //@ts-ignore
             const meshGeometry = new ConvexGeometry(vertices);
 
             const mesh1 = new THREE.Mesh(meshGeometry, meshMaterial);
