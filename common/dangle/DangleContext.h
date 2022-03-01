@@ -96,9 +96,11 @@ namespace dangle {
                 auto future = task.get_future();
                 addToNextBatch([&] {
                     task();
+                    blocked = false;
                 });
                 endNextBatch();
                 flushOnGLThread();
+                blocked = true;
                 future.wait();
             }
 
@@ -156,6 +158,8 @@ namespace dangle {
             // 'reserve' the id by incrementing the atomic counter. Since the mapping is only
             // set and read on the GL thread, this prevents us from having to maintain a
             // mutex on the mapping.
+
+            bool blocked = false;
 
         private:
             std::unordered_map<UDangleObjectId, GLuint> objects;
