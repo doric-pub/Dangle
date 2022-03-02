@@ -43,9 +43,10 @@ void UDangleContextDrawEnded(UDangleContextId dangleCtxId) {
 
 void UDangleContextDestroy(UDangleContextId dangleCtxId) {
     auto dangleCtx = DangleContext::ContextGet(dangleCtxId);
-    if (dangleCtx && dangleCtx->blocked) {
-        DangleSysLog("flush when JS thread blocked");
-        dangleCtx->flush();
+    if (dangleCtx && !dangleCtx->m_done) {
+        DangleSysLog("notify blocked JS thread");
+        dangleCtx->m_done = true;
+        dangleCtx->m_done_cv.notify_all();
     }
     DangleContext::ContextDestroy(dangleCtxId);
 }

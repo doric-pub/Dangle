@@ -92,16 +92,21 @@ namespace dangle {
             // [JS thread] Add a blocking operation to the 'next' batch -- waits for the
             // queued function to run before returning
             void addBlockingToNextBatch(Op &&op) noexcept {
-                std::packaged_task<void(void)> task(std::move(op));
-                auto future = task.get_future();
+                std::mutex mutex;
+                m_done = false;
+
                 addToNextBatch([&] {
-                    task();
-                    blocked = false;
+                    op();
+
+                    std::unique_lock<decltype(mutex)> lock(mutex);
+                    m_done = true;
+                    m_done_cv.notify_all();
                 });
+
+                std::unique_lock<decltype(mutex)> lock(mutex);
                 endNextBatch();
                 flushOnGLThread();
-                blocked = true;
-                future.wait();
+                m_done_cv.wait(lock, [&] { return m_done; });
             }
 
             // [JS thread] Enqueue a function and return an Dangle object that will get mapped
@@ -159,7 +164,8 @@ namespace dangle {
             // set and read on the GL thread, this prevents us from having to maintain a
             // mutex on the mapping.
 
-            bool blocked = false;
+            bool m_done = true;
+            std::condition_variable m_done_cv;
 
         private:
             std::unordered_map<UDangleObjectId, GLuint> objects;
