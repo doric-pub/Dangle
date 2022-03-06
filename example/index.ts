@@ -161,4 +161,7 @@ export default [
     "src/regl/basic",
     "src/regl/batch",
     "src/regl/bunny",
+
+    // spine
+    "src/spine/demo",
 ];

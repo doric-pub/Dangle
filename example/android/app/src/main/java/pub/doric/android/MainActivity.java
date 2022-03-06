@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 EngineTypeActivity.TYPE_BABYLON_JS,
                 EngineTypeActivity.TYPE_WEBGL_SHADERS,
                 EngineTypeActivity.TYPE_REGL,
+                EngineTypeActivity.TYPE_SPINE,
         };
         EngineTypeAdapter engineTypeAdapter = new EngineTypeAdapter(dataSet);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

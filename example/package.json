@@ -12,6 +12,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@esotericsoftware/spine-core": "4.0.20",
     "@tweenjs/tween.js": "^18.6.4",
     "@xmldom/xmldom": "^0.8.1",
     "babylonjs": "^4.2.1",
