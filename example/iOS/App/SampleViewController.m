@@ -175,6 +175,9 @@
         [self.tableDataArr addObject:@"regl/basic"];
         [self.tableDataArr addObject:@"regl/batch"];
         [self.tableDataArr addObject:@"regl/bunny"];
+    } else if ([self.engineType isEqual: @"spine"]) {
+        [self.tableDataArr addObject:@"spine/threejs/demo"];
+        [self.tableDataArr addObject:@"spine/webgl/demo"];
     }
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {

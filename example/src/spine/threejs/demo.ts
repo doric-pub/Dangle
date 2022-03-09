@@ -57,7 +57,7 @@ class demo extends Panel {
               var assetManager;
               var lastFrameTime = Date.now() / 1000;
 
-              var baseUrl = "spine/assets/";
+              var baseUrl = "spine/assets/threejs/";
               var skeletonFile = "raptor-pro.json";
               var atlasFile = skeletonFile
                 .replace("-pro", "")

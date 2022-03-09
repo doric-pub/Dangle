@@ -163,5 +163,6 @@ export default [
     "src/regl/bunny",
 
     // spine
-    "src/spine/demo",
+    "src/spine/threejs/demo",
+    "src/spine/webgl/demo",
 ];

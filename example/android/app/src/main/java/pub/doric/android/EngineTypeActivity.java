@@ -210,6 +210,7 @@ public class EngineTypeActivity extends AppCompatActivity {
             case TYPE_SPINE:
                 dataSet = new String[]{
                         "spine/threejs/demo",
+                        "spine/webgl/demo",
                 };
                 break;
             default:

@@ -30,6 +30,7 @@
     [self.tableDataArr addObject:@"Babylon.js"];
     [self.tableDataArr addObject:@"WebGL Shaders"];
     [self.tableDataArr addObject:@"regl"];
+    [self.tableDataArr addObject:@"spine"];
     
     self.tableView = [[UITableView new] also:^(UITableView *it) {
         it.width = self.view.width;
