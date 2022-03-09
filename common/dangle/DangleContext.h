@@ -1,8 +1,10 @@
 #include "UDangle.h"
 
 #ifdef __ANDROID__
+
 #include <GLES3/gl3.h>
 #include <GLES3/gl3ext.h>
+
 #endif
 #ifdef __APPLE__
 
@@ -15,6 +17,7 @@
 #include "TypedArrayApi.h"
 
 #ifdef __cplusplus
+
 #include <exception>
 #include <future>
 #include <sstream>
@@ -127,7 +130,8 @@ namespace dangle {
                 auto dangleObjId = createObject();
                 addToNextBatch([=] {
                     if (destroy) {
-                        DangleSysLog("addFutureToNextBatch, find object after DangleContext destroyed");
+                        DangleSysLog(
+                                "addFutureToNextBatch, find object after DangleContext destroyed");
                         return;
                     }
                     assert(objects.find(dangleObjId) == objects.end());
@@ -153,6 +157,7 @@ namespace dangle {
                     for (const auto &op: batch) {
                         op();
                     }
+                    glFlush();
                 }
             }
 
@@ -208,7 +213,9 @@ namespace dangle {
                 runtime.global()
                         .getProperty(runtime, "__DANGLEContexts")
                         .asObject(runtime)
-                        .setProperty(runtime, jsi::PropNameID::forUtf8(runtime, std::to_string(dangleCtxId)), jsGl);
+                        .setProperty(runtime,
+                                     jsi::PropNameID::forUtf8(runtime, std::to_string(dangleCtxId)),
+                                     jsGl);
 
                 // Clear everything to initial values
                 addToNextBatch([this] {
@@ -260,7 +267,8 @@ namespace dangle {
         private:
             // functions used to setup WebGLRenderer object (attaching methods and constants)
 
-            void installMethods(jsi::Runtime &runtime, jsi::Object &jsGl, UDangleContextId dangleCtxId);
+            void
+            installMethods(jsi::Runtime &runtime, jsi::Object &jsGl, UDangleContextId dangleCtxId);
 
             static void installConstants(jsi::Runtime &runtime, jsi::Object &jsGl);
 
@@ -270,26 +278,35 @@ namespace dangle {
             inline jsi::Value dangleCall(Func func, T &&... args);
 
             template<typename Func>
-            inline jsi::Value dangleGetActiveInfo(jsi::Runtime &runtime, UDangleObjectId fProgram, GLuint index, GLenum lengthParam, Func glFunc);
+            inline jsi::Value
+            dangleGetActiveInfo(jsi::Runtime &runtime, UDangleObjectId fProgram, GLuint index,
+                                GLenum lengthParam, Func glFunc);
 
             template<typename Func, typename T>
-            inline jsi::Value dangleUniformv(Func func, GLuint uniform, size_t dim, std::vector<T> &&data);
+            inline jsi::Value
+            dangleUniformv(Func func, GLuint uniform, size_t dim, std::vector<T> &&data);
 
             template<typename Func, typename T>
-            inline jsi::Value dangleUniformMatrixv(Func func, GLuint uniform, GLboolean transpose, size_t dim, std::vector<T> &&data);
+            inline jsi::Value
+            dangleUniformMatrixv(Func func, GLuint uniform, GLboolean transpose, size_t dim,
+                                 std::vector<T> &&data);
 
             template<typename Func, typename T>
             inline jsi::Value dangleVertexAttribv(Func func, GLuint index, std::vector<T> &&data);
 
             jsi::Value dangleIsObject(UDangleObjectId id, std::function<GLboolean(GLuint)> func);
 
-            jsi::Value dangleCreateObject(jsi::Runtime &runtime, const std::function<GLuint()> &func);
+            jsi::Value
+            dangleCreateObject(jsi::Runtime &runtime, const std::function<GLuint()> &func);
 
-            jsi::Value dangleGenObject(jsi::Runtime &runtime, const std::function<void(GLsizei, UDangleObjectId *)> &func);
+            jsi::Value dangleGenObject(jsi::Runtime &runtime,
+                                       const std::function<void(GLsizei, UDangleObjectId *)> &func);
 
-            jsi::Value dangleDeleteObject(UDangleObjectId id, const std::function<void(UDangleObjectId)> &func);
+            jsi::Value dangleDeleteObject(UDangleObjectId id,
+                                          const std::function<void(UDangleObjectId)> &func);
 
-            jsi::Value dangleDeleteObject(UDangleObjectId id, const std::function<void(GLsizei, const UDangleObjectId *)> &func);
+            jsi::Value dangleDeleteObject(UDangleObjectId id, const std::function<void(GLsizei,
+                                                                                       const UDangleObjectId *)> &func);
 
             static jsi::Value dangleUnimplemented(const std::string &name);
 
@@ -305,8 +322,9 @@ namespace dangle {
 
 #undef NATIVE_METHOD
 #undef NATIVE_WEBGL2_METHOD
-    };
-} // namespace gl_cpp
+        };
+    } // namespace gl_cpp
 } // namespace dangle
 #include "DangleContext-inl.h"
+
 #endif
