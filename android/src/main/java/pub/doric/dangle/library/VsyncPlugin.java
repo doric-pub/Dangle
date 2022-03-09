@@ -1,5 +1,6 @@
 package pub.doric.dangle.library;
 
+import android.util.Log;
 import android.view.Choreographer;
 
 import com.github.pengfeizhou.jscore.JSString;
@@ -36,8 +37,8 @@ public class VsyncPlugin extends DoricJavaPlugin {
             @Override
             public void doFrame(long frameTimeNanos) {
                 if (DoricContextManager.getContext(getDoricContext().getContextId()) == null) {
-                    DoricSingleton.getInstance().getNativeDriver().getRegistry()
-                            .onException(getDoricContext(), new Exception("doric context destroyed when vsync"));
+                    getDoricContext().getDriver().getRegistry()
+                            .onLog(Log.ERROR, "doric context destroyed when vsync");
                     return;
                 }
 
