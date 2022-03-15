@@ -7,10 +7,40 @@ export interface IDangleView {
 }
 
 export class DangleView extends View implements IDangleView {
+  enableCmdRecord = false;
+
+  glCmds: { cmd: string; args: any[] }[] = [];
+
   @Property
   private onPrepared = (contextId: number) => {
     if (this.onReady) {
-      this.onReady(getGl(contextId));
+      const gl = getGl(contextId);
+      if (this.enableCmdRecord) {
+        this.onReady(
+          new Proxy(gl, {
+            get: (target, key) => {
+              const ret = target[key];
+              if (typeof ret === "function") {
+                const self = this;
+                return function () {
+                  const params: any[] = [];
+                  for (let i = 0; i < arguments.length; i++) {
+                    params.push(arguments[i]);
+                  }
+                  self.glCmds.push({
+                    cmd: key as string,
+                    args: params,
+                  });
+                  return Reflect.apply(ret, gl, params);
+                };
+              }
+              return ret;
+            },
+          })
+        );
+      } else {
+        this.onReady(gl);
+      }
     }
   };
 

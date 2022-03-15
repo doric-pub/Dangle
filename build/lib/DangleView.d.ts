@@ -4,6 +4,11 @@ export interface IDangleView {
     onReady?: (gl: DangleWebGLRenderingContext) => void;
 }
 export declare class DangleView extends View implements IDangleView {
+    enableCmdRecord: boolean;
+    glCmds: {
+        cmd: string;
+        args: any[];
+    }[];
     private onPrepared;
     onReady?: (gl: DangleWebGLRenderingContext) => void;
 }
