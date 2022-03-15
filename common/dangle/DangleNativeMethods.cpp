@@ -94,8 +94,18 @@ namespace dangle::gl_cpp {
 
         switch (pname) {
             // Float32Array[0]
-            case GL_COMPRESSED_TEXTURE_FORMATS:
-                return TypedArray<TypedArrayKind::Float32Array>(runtime, {});
+            case GL_COMPRESSED_TEXTURE_FORMATS: {
+                GLint formatsNumber;
+                addBlockingToNextBatch([&] {
+                    glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &formatsNumber);
+                });
+
+                std::vector<TypedArrayBase::ContentType<TypedArrayKind::Float32Array>> glResults(formatsNumber);
+                addBlockingToNextBatch([&] {
+                    glGetFloatv(pname, glResults.data());
+                });
+                return TypedArray<TypedArrayKind::Float32Array>(runtime, glResults);
+            }
 
                 // FLoat32Array[2]
             case GL_ALIASED_LINE_WIDTH_RANGE:
@@ -594,7 +604,22 @@ namespace dangle::gl_cpp {
 
     UNIMPL_NATIVE_METHOD(compressedTexImage2D)
 
-    UNIMPL_NATIVE_METHOD(compressedTexSubImage2D)
+    NATIVE_METHOD(compressedTexSubImage2D) {
+        auto target = ARG(0, GLenum);
+        auto level = ARG(1, GLint);
+        auto xoffset = ARG(2, GLint);
+        auto yoffset = ARG(3, GLint);
+        auto width = ARG(4, GLuint); // GLsizei allows negative values
+        auto height = ARG(5, GLuint);
+        auto format = ARG(6, GLint);
+        DangleSysLog("%s", std::to_string(format).c_str());
+        auto &sizeOrData = ARG(7, const jsi::Value &);
+        auto data = rawTypedArray(runtime, sizeOrData.getObject(runtime));
+        addToNextBatch([=] {
+            glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.size(), data.data());
+        });
+        return nullptr;
+    }
 
     SIMPLE_NATIVE_METHOD(
             copyTexImage2D,
@@ -1632,6 +1657,37 @@ namespace dangle::gl_cpp {
 #define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
 #define GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT 0x84FF
 
+#define GL_COMPRESSED_RGB_ETC1_WEBGL 0x8D64
+
+#define GL_COMPRESSED_RGBA_ASTC_4x4_KHR 0x93B0
+#define GL_COMPRESSED_RGBA_ASTC_5x4_KHR 0x93B1
+#define GL_COMPRESSED_RGBA_ASTC_5x5_KHR 0x93B2
+#define GL_COMPRESSED_RGBA_ASTC_6x5_KHR 0x93B3
+#define GL_COMPRESSED_RGBA_ASTC_6x6_KHR 0x93B4
+#define GL_COMPRESSED_RGBA_ASTC_8x5_KHR 0x93B5
+#define GL_COMPRESSED_RGBA_ASTC_8x6_KHR 0x93B6
+#define GL_COMPRESSED_RGBA_ASTC_8x8_KHR 0x93B7
+#define GL_COMPRESSED_RGBA_ASTC_10x5_KHR 0x93B8
+#define GL_COMPRESSED_RGBA_ASTC_10x6_KHR 0x93B9
+#define GL_COMPRESSED_RGBA_ASTC_10x8_KHR 0x93BA
+#define GL_COMPRESSED_RGBA_ASTC_10x10_KHR 0x93BB
+#define GL_COMPRESSED_RGBA_ASTC_12x10_KHR 0x93BC
+#define GL_COMPRESSED_RGBA_ASTC_12x12_KHR 0x93BD
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR 0x93D0
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR 0x93D1
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR 0x93D2
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR 0x93D3
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR 0x93D4
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR 0x93D5
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR 0x93D6
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR 0x93D7
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR 0x93D8
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR 0x93D9
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x8_KHR 0x93DA
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR 0x93DB
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR 0x93DC
+#define GL_COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR 0x93DD
+
     NATIVE_METHOD(getExtension) {
         auto name = ARG(0, std::string);
 
@@ -1647,7 +1703,56 @@ namespace dangle::gl_cpp {
             result.setProperty(runtime, "TEXTURE_MAX_ANISOTROPY_EXT", jsi::Value(GL_TEXTURE_MAX_ANISOTROPY_EXT));
             result.setProperty(runtime, "MAX_TEXTURE_MAX_ANISOTROPY_EXT", jsi::Value(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
             return result;
+        } else if (name == "WEBGL_compressed_texture_etc1") {
+            jsi::Object result(runtime);
+            result.setProperty(runtime, "COMPRESSED_RGB_ETC1_WEBGL", jsi::Value(GL_COMPRESSED_RGB_ETC1_WEBGL));
+            return result;
+        } else if (name == "WEBGL_compressed_texture_etc") {
+            jsi::Object result(runtime);
+            result.setProperty(runtime, "COMPRESSED_R11_EAC", jsi::Value(GL_COMPRESSED_R11_EAC));
+            result.setProperty(runtime, "COMPRESSED_RG11_EAC", jsi::Value(GL_COMPRESSED_RG11_EAC));
+            result.setProperty(runtime, "COMPRESSED_RGB8_ETC2", jsi::Value(GL_COMPRESSED_RGB8_ETC2));
+            result.setProperty(runtime, "COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2", jsi::Value(GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2));
+            result.setProperty(runtime, "COMPRESSED_RGBA8_ETC2_EAC", jsi::Value(GL_COMPRESSED_RGBA8_ETC2_EAC));
+            result.setProperty(runtime, "COMPRESSED_SIGNED_R11_EAC", jsi::Value(GL_COMPRESSED_SIGNED_R11_EAC));
+            result.setProperty(runtime, "COMPRESSED_SIGNED_RG11_EAC", jsi::Value(GL_COMPRESSED_SIGNED_RG11_EAC));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ETC2_EAC", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ETC2", jsi::Value(GL_COMPRESSED_SRGB8_ETC2));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2", jsi::Value(GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2));
+            return result;
+        } else if (name == "WEBGL_compressed_texture_astc") {
+            jsi::Object result(runtime);
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_4x4_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_4x4_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_5x4_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_5x4_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_5x5_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_5x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_6x5_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_6x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_6x6_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_6x6_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_8x5_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_8x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_8x6_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_8x6_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_8x8_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_8x8_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_10x5_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_10x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_10x6_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_10x6_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_10x8_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_10x8_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_10x10_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_10x10_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_12x10_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_12x10_KHR));
+            result.setProperty(runtime, "COMPRESSED_RGBA_ASTC_12x12_KHR", jsi::Value(GL_COMPRESSED_RGBA_ASTC_12x12_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_10x8_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x8_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR));
+            result.setProperty(runtime, "COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR", jsi::Value(GL_COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR));
+            return result;
         }
+
         return jsi::Object(runtime);
     }
 
