@@ -609,10 +609,9 @@ namespace dangle::gl_cpp {
         auto level = ARG(1, GLint);
         auto xoffset = ARG(2, GLint);
         auto yoffset = ARG(3, GLint);
-        auto width = ARG(4, GLuint); // GLsizei allows negative values
+        auto width = ARG(4, GLuint);
         auto height = ARG(5, GLuint);
         auto format = ARG(6, GLint);
-        DangleSysLog("%s", std::to_string(format).c_str());
         auto &sizeOrData = ARG(7, const jsi::Value &);
         auto data = rawTypedArray(runtime, sizeOrData.getObject(runtime));
         addToNextBatch([=] {

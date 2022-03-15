@@ -195,14 +195,14 @@ class webgl_loader_texture_ktx extends Panel {
             },
           }).apply({
             layoutConfig: layoutConfig().just(),
-            width: 300,
-            height: 300,
+            width: Environment.screenWidth - 4,
+            height: 250,
           }),
         ],
         {
           layoutConfig: layoutConfig().just(),
-          width: 300,
-          height: 300,
+          width: Environment.screenWidth - 4,
+          height: 250,
           backgroundColor: Color.BLACK,
         }
       ),
