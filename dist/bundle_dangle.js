@@ -427,9 +427,36 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 class DangleView extends doric.View {
     constructor() {
         super(...arguments);
+        this.enableCmdRecord = false;
+        this.glCmds = [];
         this.onPrepared = (contextId) => {
             if (this.onReady) {
-                this.onReady(getGl(contextId));
+                const gl = getGl(contextId);
+                if (this.enableCmdRecord) {
+                    this.onReady(new Proxy(gl, {
+                        get: (target, key) => {
+                            const ret = target[key];
+                            if (typeof ret === "function") {
+                                const self = this;
+                                return function () {
+                                    const params = [];
+                                    for (let i = 0; i < arguments.length; i++) {
+                                        params.push(arguments[i]);
+                                    }
+                                    self.glCmds.push({
+                                        cmd: key,
+                                        args: params,
+                                    });
+                                    return Reflect.apply(ret, gl, params);
+                                };
+                            }
+                            return ret;
+                        },
+                    }));
+                }
+                else {
+                    this.onReady(gl);
+                }
             }
         };
     }
