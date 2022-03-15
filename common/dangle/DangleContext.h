@@ -45,6 +45,8 @@
 #define GL_DEPTH_STENCIL 0x84F9
 #define GL_DEPTH_STENCIL_ATTACHMENT 0x821A
 
+#define GL_COMPRESSED_RGB_ETC1_WEBGL 0x8D64
+
 namespace dangle {
     namespace gl_cpp {
 

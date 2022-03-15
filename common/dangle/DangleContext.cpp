@@ -180,6 +180,22 @@ namespace dangle::gl_cpp {
                 supportedExtensions.insert("WEBGL_compressed_texture_etc");
             }
 
+            GLint formatsNumber;
+            addBlockingToNextBatch([&] {
+                glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &formatsNumber);
+            });
+
+            std::vector<TypedArrayBase::ContentType<TypedArrayKind::Float32Array>> glResults(formatsNumber);
+            addBlockingToNextBatch([&] {
+                glGetFloatv(GL_COMPRESSED_TEXTURE_FORMATS, glResults.data());
+            });
+
+            for (float glResult : glResults) {
+                if (glResult == GL_COMPRESSED_RGB_ETC1_WEBGL) {
+                    supportedExtensions.insert("WEBGL_compressed_texture_etc1");
+                }
+            }
+
 #ifdef __APPLE__
             // All iOS devices support PVRTC compression format.
             supportedExtensions.insert("WEBGL_compressed_texture_pvrtc");
