@@ -602,7 +602,20 @@ namespace dangle::gl_cpp {
         return nullptr;
     }
 
-    UNIMPL_NATIVE_METHOD(compressedTexImage2D)
+    NATIVE_METHOD(compressedTexImage2D) {
+        auto target = ARG(0, GLenum);
+        auto level = ARG(1, GLint);
+        auto format = ARG(2, GLint);
+        auto width = ARG(3, GLuint);
+        auto height = ARG(4, GLuint);
+        auto border = ARG(5, GLuint);
+        auto &sizeOrData = ARG(6, const jsi::Value &);
+        auto data = rawTypedArray(runtime, sizeOrData.getObject(runtime));
+        addToNextBatch([=] {
+            glCompressedTexImage2D(target, level, format, width, height, border, data.size(), data.data());
+        });
+        return nullptr;
+    }
 
     NATIVE_METHOD(compressedTexSubImage2D) {
         auto target = ARG(0, GLenum);
