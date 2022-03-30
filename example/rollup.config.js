@@ -6,6 +6,7 @@ import path from "path";
 import json from "@rollup/plugin-json";
 import image from "@rollup/plugin-image";
 import dsv from "@rollup/plugin-dsv";
+import glslify from 'rollup-plugin-glslify';
 
 {
   function searchImages(dir, images) {
@@ -189,6 +190,7 @@ export default allFiles
         json(),
         image(),
         dsv(),
+        glslify(),
       ],
       external: ["reflect-metadata", "doric", "dangle"],
       onwarn: function (warning) {
