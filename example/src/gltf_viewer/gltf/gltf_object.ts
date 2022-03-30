@@ -2,7 +2,7 @@ import { initGlForMembers, fromKeys } from "./utils";
 
 // base class for all gltf objects
 class GltfObject {
-  private extensions;
+  protected extensions;
   private extras;
 
   constructor() {

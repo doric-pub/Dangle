@@ -44,6 +44,7 @@ class gltfShader {
 
   destroy() {
     if (this.program !== undefined) {
+      // TODO
       //@ts-ignore
       this.deleteProgram(this.program);
     }
