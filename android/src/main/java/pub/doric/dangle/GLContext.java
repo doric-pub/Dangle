@@ -36,6 +36,8 @@ public class GLContext {
 
     private final BlockingQueue<Runnable> mEventQueue = new LinkedBlockingQueue<>();
 
+    private boolean mBusy;
+
     public int getContextId() {
         return mDangleCtxId;
     }
@@ -74,6 +76,7 @@ public class GLContext {
 
                         if (jsContextRef != 0) {
                             mDangleCtxId = ContextCreate(jsContextRef);
+                            Dangle.getInstance().getGLContexts().put(mDangleCtxId, GLContext.this);
                         }
 
                         ContextSetFlushMethod(mDangleCtxId, glContext);
@@ -90,6 +93,7 @@ public class GLContext {
         runAsync(new Runnable() {
             @Override
             public void run() {
+                mBusy = true;
                 // mDangleCtxId may be unset if we get here (on the GL thread) before DangleContextCreate(...) is
                 // called on the JS thread (see above in the implementation of `initialize(...)`)
 
@@ -103,6 +107,8 @@ public class GLContext {
                         ContextDrawEnded(mDangleCtxId);
                     }
                 }
+
+                mBusy = false;
             }
         });
     }
@@ -136,6 +142,7 @@ public class GLContext {
 
     public void destroy() {
         if (mGLThread != null) {
+            Dangle.getInstance().getGLContexts().remove(mDangleCtxId);
             ContextDestroy(mDangleCtxId);
 
             try {
@@ -146,6 +153,10 @@ public class GLContext {
             }
             mGLThread = null;
         }
+    }
+
+    public boolean isBusy() {
+        return mBusy;
     }
 
     // All actual GL calls are made on this thread

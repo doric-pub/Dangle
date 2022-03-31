@@ -12,7 +12,8 @@ import java.util.Set;
 
 import pub.doric.DoricContext;
 import pub.doric.DoricContextManager;
-import pub.doric.DoricSingleton;
+import pub.doric.dangle.Dangle;
+import pub.doric.dangle.GLContext;
 import pub.doric.extension.bridge.DoricMethod;
 import pub.doric.extension.bridge.DoricPlugin;
 import pub.doric.extension.bridge.DoricPromise;
@@ -39,6 +40,24 @@ public class VsyncPlugin extends DoricJavaPlugin {
                 if (DoricContextManager.getContext(getDoricContext().getContextId()) == null) {
                     getDoricContext().getDriver().getRegistry()
                             .onLog(Log.ERROR, "doric context destroyed when vsync");
+                    return;
+                }
+
+                boolean gpuBusy = false;
+                for (GLContext glContext : Dangle.getInstance().getGLContexts().values()) {
+                    if (glContext.isBusy()) {
+                        gpuBusy = true;
+                        break;
+                    } else {
+                        getDoricContext().getDriver().getRegistry()
+                                .onLog(Log.ERROR, "gpu is not busy");
+                    }
+                }
+
+                if (gpuBusy) {
+                    Choreographer.getInstance().postFrameCallback(this);
+                    getDoricContext().getDriver().getRegistry()
+                            .onLog(Log.ERROR, "may caused gpu davey");
                     return;
                 }
 

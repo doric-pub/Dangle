@@ -2,6 +2,9 @@ package pub.doric.dangle;
 
 import android.os.Handler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Dangle {
     private static class Inner {
         private static final Dangle sInstance = new Dangle();
@@ -23,5 +26,11 @@ public class Dangle {
 
     public Handler getJSHandler() {
         return mJSHandler;
+    }
+
+    private Map<Integer, GLContext> glContexts = new HashMap<>();
+
+    public Map<Integer, GLContext> getGLContexts() {
+        return glContexts;
     }
 }
