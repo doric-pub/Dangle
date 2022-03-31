@@ -49,15 +49,13 @@ public class VsyncPlugin extends DoricJavaPlugin {
                         gpuBusy = true;
                         break;
                     } else {
-                        getDoricContext().getDriver().getRegistry()
-                                .onLog(Log.ERROR, "gpu is not busy");
+                        Log.d("VsyncPlugin", "gpu is not busy");
                     }
                 }
 
                 if (gpuBusy) {
                     Choreographer.getInstance().postFrameCallback(this);
-                    getDoricContext().getDriver().getRegistry()
-                            .onLog(Log.ERROR, "may caused gpu davey");
+                    Log.d("VsyncPlugin", "may caused gpu davey");
                     return;
                 }
 
