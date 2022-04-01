@@ -36,7 +36,7 @@ class glTF extends GltfObject {
   private materials: any[];
   private animations: any[];
   private skins: any[];
-  private path;
+  path;
   private variants;
   diffuseEnvMap;
   lut;
@@ -45,6 +45,7 @@ class glTF extends GltfObject {
   sheenLUT;
   sheenELUT;
   mipCount;
+  ktxDecoder;
 
   constructor(file) {
     super();

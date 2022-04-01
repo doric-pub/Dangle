@@ -2,6 +2,7 @@ import { GltfObject } from "./gltf_object";
 import { AsyncFileReader } from "../ResourceLoader/async_file_reader";
 import { GL } from "../Renderer/webgl";
 import { ImageMimeType } from "./image_mime_type";
+import { AssetsResource, imageDecoder } from "doric";
 
 class gltfImage extends GltfObject {
   private uri;
@@ -94,12 +95,26 @@ class gltfImage extends GltfObject {
       this.mimeType === ImageMimeType.JPEG &&
       this.uri instanceof ArrayBuffer
     ) {
-      this.image = jpeg.decode(this.uri, { useTArray: true });
+      const resource = new AssetsResource(this.uri as any);
+      const imageInfo = await imageDecoder(context).getImageInfo(resource);
+      const imagePixels = await imageDecoder(context).decodeToPixels(resource);
+      this.image = {
+        width: imageInfo.width,
+        height: imageInfo.height,
+        data: imagePixels,
+      };
     } else if (
       this.mimeType === ImageMimeType.PNG &&
       this.uri instanceof ArrayBuffer
     ) {
-      this.image = png.decode(this.uri);
+      const resource = new AssetsResource(this.uri as any);
+      const imageInfo = await imageDecoder(context).getImageInfo(resource);
+      const imagePixels = await imageDecoder(context).decodeToPixels(resource);
+      this.image = {
+        width: imageInfo.width,
+        height: imageInfo.height,
+        data: imagePixels,
+      };
     } else {
       console.error("Unsupported image type " + this.mimeType);
       return false;
@@ -133,9 +148,23 @@ class gltfImage extends GltfObject {
         console.error("Could not load image from buffer view");
       });
     } else if (this.mimeType === ImageMimeType.JPEG) {
-      this.image = jpeg.decode(array, { useTArray: true });
+      const resource = new AssetsResource(this.uri as any);
+      const imageInfo = await imageDecoder(context).getImageInfo(resource);
+      const imagePixels = await imageDecoder(context).decodeToPixels(resource);
+      this.image = {
+        width: imageInfo.width,
+        height: imageInfo.height,
+        data: imagePixels,
+      };
     } else if (this.mimeType === ImageMimeType.PNG) {
-      this.image = png.decode(array);
+      const resource = new AssetsResource(this.uri as any);
+      const imageInfo = await imageDecoder(context).getImageInfo(resource);
+      const imagePixels = await imageDecoder(context).decodeToPixels(resource);
+      this.image = {
+        width: imageInfo.width,
+        height: imageInfo.height,
+        data: imagePixels,
+      };
     } else {
       console.error("Unsupported image type " + this.mimeType);
       return false;
