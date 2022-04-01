@@ -1,5 +1,6 @@
 import { getContainingFolder } from "./utils";
 import { GltfObject } from "./gltf_object";
+import { resourceLoader } from "doric";
 
 class gltfBuffer extends GltfObject {
   private uri;
@@ -30,7 +31,7 @@ class gltfBuffer extends GltfObject {
         !self.setBufferFromUri(gltf, resolve)
       ) {
         console.error("Was not able to resolve buffer with uri '%s'", self.uri);
-        resolve();
+        resolve(null);
       }
     });
   }
@@ -41,12 +42,10 @@ class gltfBuffer extends GltfObject {
     }
 
     const self = this;
-    axios
-      .get(getContainingFolder(gltf.path) + this.uri, {
-        responseType: "arraybuffer",
-      })
+    resourceLoader(context)
+      .load(getContainingFolder(gltf.path) + this.uri)
       .then(function (response) {
-        self.buffer = response.data;
+        self.buffer = response;
         callback();
       });
     return true;
@@ -70,6 +69,7 @@ class gltfBuffer extends GltfObject {
 
     const reader = new FileReader();
     reader.onloadend = function (event) {
+      //@ts-ignore
       self.buffer = event.target.result;
       callback();
     };
