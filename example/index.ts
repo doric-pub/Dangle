@@ -167,4 +167,7 @@ export default [
     "src/regl/basic",
     "src/regl/batch",
     "src/regl/bunny",
+
+    // gltf_viewer
+    "src/gltf_viewer/demo",
 ];

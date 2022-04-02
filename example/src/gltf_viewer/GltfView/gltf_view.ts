@@ -7,7 +7,7 @@ import { ResourceLoader } from "../ResourceLoader/resource_loader";
  * GltfView represents a view on a gltf, e.g. in a canvas
  */
 class GltfView {
-  private context;
+  private context: WebGL2RenderingContext;
   private renderer: gltfRenderer;
   /**
    * GltfView representing one WebGl 2.0 context or in other words one
@@ -16,7 +16,7 @@ class GltfView {
    * be shown on the same webpage.
    * @param {*} context WebGl 2.0 context. Get it from a canvas with `canvas.getContext("webgl2")`
    */
-  constructor(context) {
+  constructor(context: WebGL2RenderingContext) {
     this.context = context;
     this.renderer = new gltfRenderer(this.context);
   }

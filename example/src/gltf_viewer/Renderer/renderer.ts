@@ -29,9 +29,9 @@ class gltfRenderer {
   private initialized: boolean;
   private samples: number;
 
-  private opaqueRenderTexture: number;
-  private opaqueFramebuffer: number;
-  private opaqueDepthTexture: number;
+  private opaqueRenderTexture: WebGLTexture | null;
+  private opaqueFramebuffer: WebGLFramebuffer | null;
+  private opaqueDepthTexture: WebGLTexture | null;
   private opaqueFramebufferWidth: number;
   private opaqueFramebufferHeight: number;
 
@@ -60,7 +60,7 @@ class gltfRenderer {
 
   private preparedScene;
 
-  constructor(context) {
+  constructor(context: WebGL2RenderingContext) {
     this.shader = undefined; // current shader
 
     this.currentWidth = 0;

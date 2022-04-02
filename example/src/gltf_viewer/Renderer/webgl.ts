@@ -3,8 +3,8 @@ import { ImageMimeType } from "../gltf/image_mime_type";
 let GL: WebGL2RenderingContext;
 
 class gltfWebGl {
-  public context;
-  constructor(context) {
+  public context: WebGL2RenderingContext;
+  constructor(context: WebGL2RenderingContext) {
     this.context = context;
     if (GL === undefined) {
       GL = context;
@@ -23,14 +23,14 @@ class gltfWebGl {
     );
 
     if (EXT_texture_filter_anisotropic) {
-      this.context.anisotropy =
+      (this.context as any).anisotropy =
         EXT_texture_filter_anisotropic.TEXTURE_MAX_ANISOTROPY_EXT;
-      this.context.maxAnisotropy = this.context.getParameter(
+        (this.context as any).maxAnisotropy = this.context.getParameter(
         EXT_texture_filter_anisotropic.MAX_TEXTURE_MAX_ANISOTROPY_EXT
       );
-      this.context.supports_EXT_texture_filter_anisotropic = true;
+      (this.context as any).supports_EXT_texture_filter_anisotropic = true;
     } else {
-      this.context.supports_EXT_texture_filter_anisotropic = false;
+      (this.context as any).supports_EXT_texture_filter_anisotropic = false;
     }
   }
 
@@ -188,14 +188,14 @@ class gltfWebGl {
     const shader = this.context.createShader(
       isVert ? GL.VERTEX_SHADER : GL.FRAGMENT_SHADER
     );
-    this.context.shaderSource(shader, shaderSource);
-    this.context.compileShader(shader);
-    const compiled = this.context.getShaderParameter(shader, GL.COMPILE_STATUS);
+    this.context.shaderSource(shader!!, shaderSource);
+    this.context.compileShader(shader!!);
+    const compiled = this.context.getShaderParameter(shader!!, GL.COMPILE_STATUS);
 
     if (!compiled) {
       // output surrounding source code
       let info = "";
-      const messages = this.context.getShaderInfoLog(shader).split("\n");
+      const messages = this.context.getShaderInfoLog(shader!!)!!.split("\n");
       for (const message of messages) {
         const matches = message.match(
           /(WARNING|ERROR): ([0-9]*):([0-9]*):(.*)/i
@@ -231,12 +231,12 @@ class gltfWebGl {
 
   linkProgram(vertex, fragment) {
     let program = this.context.createProgram();
-    this.context.attachShader(program, vertex);
-    this.context.attachShader(program, fragment);
-    this.context.linkProgram(program);
+    this.context.attachShader(program!!, vertex);
+    this.context.attachShader(program!!, fragment);
+    this.context.linkProgram(program!!);
 
-    if (!this.context.getProgramParameter(program, GL.LINK_STATUS)) {
-      var info = this.context.getProgramInfoLog(program);
+    if (!this.context.getProgramParameter(program!!, GL.LINK_STATUS)) {
+      var info = this.context.getProgramInfoLog(program!!);
       throw new Error("Could not link WebGL program. \n\n" + info);
     }
 
@@ -284,11 +284,11 @@ class gltfWebGl {
       gltfSamplerObj.magFilter
     );
 
-    if (this.context.supports_EXT_texture_filter_anisotropic) {
+    if ((this.context as any).supports_EXT_texture_filter_anisotropic) {
       this.context.texParameterf(
         type,
-        this.context.anisotropy,
-        this.context.maxAnisotropy
+        (this.context as any).anisotropy,
+        (this.context as any).maxAnisotropy
       ); // => 16xAF
     }
   }

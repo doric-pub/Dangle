@@ -18,6 +18,7 @@ public class EngineTypeActivity extends AppCompatActivity {
     public static final String TYPE_BABYLON_JS = "Babylon.js";
     public static final String TYPE_WEBGL_SHADERS = "WebGL Shaders";
     public static final String TYPE_REGL = "regl";
+    public static final String TYPE_GLTF_VIEWER = "gltf viewer";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -210,6 +211,11 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "regl/basic",
                         "regl/batch",
                         "regl/bunny",
+                };
+                break;
+            case TYPE_GLTF_VIEWER:
+                dataSet = new String[]{
+                        "gltf_viewer/demo",
                 };
                 break;
             default:

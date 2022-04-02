@@ -6,7 +6,7 @@ import path from "path";
 import json from "@rollup/plugin-json";
 import image from "@rollup/plugin-image";
 import dsv from "@rollup/plugin-dsv";
-import glslify from 'rollup-plugin-glslify';
+import glslify from "rollup-plugin-glslify";
 
 {
   function searchImages(dir, images) {
@@ -132,6 +132,56 @@ import glslify from 'rollup-plugin-glslify';
   }
 
   allJSFiles.forEach((value) => {
+    let path = __dirname + "/build/" + value;
+    let index = path.lastIndexOf("/");
+    mkdirsSync(path.substring(0, index));
+
+    fs.copyFile(
+      __dirname + "/" + value,
+      __dirname + "/build/" + value,
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+  });
+}
+
+{
+  function searchShaderFiles(dir, shaderFiles) {
+    const files = fs.readdirSync(dir);
+    files.forEach((item, index) => {
+      var fullPath = path.join(dir, item);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        searchShaderFiles(path.join(dir, item), shaderFiles);
+      } else {
+        if (
+          fullPath.endsWith(".glsl") ||
+          fullPath.endsWith(".frag") ||
+          fullPath.endsWith(".vert")
+        ) {
+          shaderFiles.push(fullPath);
+        }
+      }
+    });
+    return shaderFiles;
+  }
+
+  const allShaderFiles = [];
+  searchShaderFiles("src", allShaderFiles);
+
+  function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
+      return true;
+    } else {
+      if (mkdirsSync(path.dirname(dirname))) {
+        fs.mkdirSync(dirname);
+        return true;
+      }
+    }
+  }
+
+  allShaderFiles.forEach((value) => {
     let path = __dirname + "/build/" + value;
     let index = path.lastIndexOf("/");
     mkdirsSync(path.substring(0, index));
