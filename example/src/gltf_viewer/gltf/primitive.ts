@@ -8,7 +8,7 @@ import { gltfSampler } from "./sampler";
 import { gltfBufferView } from "./buffer_view";
 import { GL } from "../Renderer/webgl";
 
-let DracoDecoder;
+import { DracoDecoder } from "../ResourceLoader/draco";
 
 class gltfPrimitive extends GltfObject {
   private attributes;
@@ -69,7 +69,7 @@ class gltfPrimitive extends GltfObject {
 
     if (this.extensions !== undefined) {
       if (this.extensions.KHR_draco_mesh_compression !== undefined) {
-        const dracoDecoder = new DracoDecoder();
+        const dracoDecoder = new DracoDecoder(undefined);
         if (dracoDecoder !== undefined && Object.isFrozen(dracoDecoder)) {
           let dracoGeometry = this.decodeDracoBufferToIntermediate(
             this.extensions.KHR_draco_mesh_compression,
@@ -665,7 +665,7 @@ class gltfPrimitive extends GltfObject {
     );
 
     // decode draco buffer to geometry intermediate
-    let dracoDecoder = new DracoDecoder();
+    let dracoDecoder = new DracoDecoder(undefined);
     let draco = dracoDecoder.module;
     let decoder = new draco.Decoder();
     let decoderBuffer = new draco.DecoderBuffer();

@@ -2,7 +2,7 @@ var DracoDecoderModule;
 class DracoDecoder {
   private static instance;
 
-  private module;
+  module;
   private initializingPromise;
 
   constructor(dracoLib) {
