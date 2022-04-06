@@ -20,7 +20,7 @@ class demo extends Panel {
       stack(
         [
           dangleView({
-            onReady: async (gl: DangleWebGLRenderingContext) => {
+            onReady: (gl: DangleWebGLRenderingContext) => {
               const width = gl.drawingBufferWidth;
               const height = gl.drawingBufferHeight;
 
@@ -39,6 +39,9 @@ class demo extends Panel {
               //#region code to impl
               const view = new GltfView(gl as WebGL2RenderingContext);
               const resourceLoader = view.createResourceLoader();
+              const state = view.createState();
+              state.renderingParameters.useDirectionalLightsWithDisabledIBL =
+                true;
               //#endregion
 
               gl.endFrame();

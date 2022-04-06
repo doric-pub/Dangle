@@ -10,8 +10,8 @@ import { iblSampler } from "../ibl_sampler";
 
 import { AsyncFileReader } from "./async_file_reader";
 
-let DracoDecoder;
-let KtxDecoder;
+import { DracoDecoder } from "./draco";
+import { KtxDecoder } from "./ktx";
 
 import { loadHDR } from "../libs/hdrpng";
 import { AssetsResource, resourceLoader } from "doric";

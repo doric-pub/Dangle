@@ -16,7 +16,7 @@ class GltfState {
   private animationIndices: any[];
   private animationTimer: AnimationTimer;
   private variant;
-  private renderingParameters;
+  renderingParameters;
   private _view;
 
   /**
