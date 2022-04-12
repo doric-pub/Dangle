@@ -9,7 +9,7 @@ class gltfCamera extends GltfObject {
   protected yfov: number;
   private xmag: number;
   private ymag: number;
-  protected aspectRatio;
+  aspectRatio;
   private name;
   private node;
   private nodeIndex;

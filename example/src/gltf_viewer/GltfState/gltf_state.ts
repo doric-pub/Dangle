@@ -8,13 +8,13 @@ class GltfState {
   static ToneMaps;
   static DebugOutput;
 
-  private gltf;
+  gltf;
   private environment;
-  private userCamera: UserCamera;
-  private sceneIndex: number;
-  private cameraIndex;
-  private animationIndices: any[];
-  private animationTimer: AnimationTimer;
+  userCamera: UserCamera;
+  sceneIndex: number;
+  cameraIndex;
+  animationIndices: any[];
+  animationTimer: AnimationTimer;
   private variant;
   renderingParameters;
   private _view;

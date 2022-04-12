@@ -34,7 +34,7 @@ class glTF extends GltfObject {
   private buffers: any[];
   private bufferViews: any[];
   private materials: any[];
-  private animations: any[];
+  animations: any[];
   private skins: any[];
   path;
   private variants;
