@@ -111,6 +111,7 @@
         [self.tableDataArr addObject:@"three.js/webgl_loader_3ds"];
 
         [self.tableDataArr addObject:@"three.js/webgl_materials_car"];
+        [self.tableDataArr addObject:@"three.js/webgl_materials_envmaps_hdr"];
 
         [self.tableDataArr addObject:@"three.js/webgl_pmrem_test"];
 

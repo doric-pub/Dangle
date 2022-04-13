@@ -94,6 +94,7 @@ export default [
     "src/three.js/webgl_loader_3ds",
 
     "src/three.js/webgl_materials_car",
+    "src/three.js/webgl_materials_envmaps_hdr",
 
     "src/three.js/webgl_pmrem_test",
 
