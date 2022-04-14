@@ -113,6 +113,8 @@
         [self.tableDataArr addObject:@"three.js/webgl_materials_car"];
         [self.tableDataArr addObject:@"three.js/webgl_materials_envmaps_hdr"];
 
+        [self.tableDataArr addObject:@"three.js/webgl_performance_shader"];
+
         [self.tableDataArr addObject:@"three.js/webgl_pmrem_test"];
 
         [self.tableDataArr addObject:@"three.js/webgl_points_dynamic"];
