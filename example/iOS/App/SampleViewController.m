@@ -100,6 +100,7 @@
         [self.tableDataArr addObject:@"three.js/webgl_loader_collada_kinematics"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_fbx"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_gltf"];
+        [self.tableDataArr addObject:@"three.js/webgl_loader_gltf_fullscreen"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_obj"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_texture_dds"];
         [self.tableDataArr addObject:@"three.js/webgl_loader_texture_hdr"];

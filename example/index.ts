@@ -83,6 +83,7 @@ export default [
     "src/three.js/webgl_loader_collada_kinematics",
     "src/three.js/webgl_loader_fbx",
     "src/three.js/webgl_loader_gltf",
+    "src/three.js/webgl_loader_gltf_fullscreen",
     "src/three.js/webgl_loader_obj",
     "src/three.js/webgl_loader_texture_dds",
     "src/three.js/webgl_loader_texture_hdr",

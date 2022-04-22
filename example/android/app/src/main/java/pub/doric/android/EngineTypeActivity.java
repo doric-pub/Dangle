@@ -116,6 +116,7 @@ public class EngineTypeActivity extends AppCompatActivity {
                         "three.js/webgl_loader_collada_kinematics",
                         "three.js/webgl_loader_fbx",
                         "three.js/webgl_loader_gltf",
+                        "three.js/webgl_loader_gltf_fullscreen",
                         "three.js/webgl_loader_obj",
                         "three.js/webgl_loader_texture_dds",
                         "three.js/webgl_loader_texture_hdr",
