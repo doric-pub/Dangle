@@ -265,7 +265,7 @@ class grab_pass extends Panel {
 
               // set up front to back sorting on opaque world layer - so when we get to render the glass,
               // object behind it would be rendered already
-              const worldLayer = app.scene.layers.getLayerByName("World");
+              const worldLayer = app.scene.layers.getLayerByName("World") as pc.Layer;
               worldLayer.opaqueSortMode = pc.SORTMODE_BACK2FRONT;
 
               // set it as offset map on the material

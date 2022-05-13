@@ -79,7 +79,7 @@ class layers extends Panel {
               });
 
               // get the world layer index
-              const worldLayer = app.scene.layers.getLayerByName("World");
+              const worldLayer = app.scene.layers.getLayerByName("World") as pc.Layer;
               const idx = app.scene.layers.getTransparentIndex(worldLayer);
 
               // insert the new layer after the world layer

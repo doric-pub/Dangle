@@ -77,14 +77,14 @@ class portal extends Panel {
 
               let t = 0;
 
-              Rotator.prototype.update = function (dt) {
+              (Rotator as any).prototype.update = function (dt) {
                 t += dt;
                 this.entity.setEulerAngles(0, Math.sin(t) * 20, 0);
               };
 
               const InsidePortal = pc.createScript("insidePortal");
 
-              InsidePortal.prototype.initialize = function () {
+              (InsidePortal as any).prototype.initialize = function () {
                 //@ts-ignore
                 const meshInstances = this.entity.model.meshInstances;
                 let mat, i;
@@ -111,7 +111,7 @@ class portal extends Panel {
 
               const OutsidePortal = pc.createScript("outsidePortal");
 
-              OutsidePortal.prototype.initialize = function () {
+              (OutsidePortal as any).prototype.initialize = function () {
                 //@ts-ignore
                 const meshInstances = this.entity.model.meshInstances;
                 let mat, i;
@@ -139,7 +139,7 @@ class portal extends Panel {
               const Portal = pc.createScript("portal");
 
               // initialize code called once per entity
-              Portal.prototype.initialize = function () {
+              (Portal as any).prototype.initialize = function () {
                 // We only want to write to the stencil buffer
                 //@ts-ignore
                 const mat = this.entity.model.meshInstances[0].material;

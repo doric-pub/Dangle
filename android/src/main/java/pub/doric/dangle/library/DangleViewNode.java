@@ -2,7 +2,9 @@ package pub.doric.dangle.library;
 
 import com.github.pengfeizhou.jscore.JSExecutor;
 import com.github.pengfeizhou.jscore.JSIRuntime;
+import com.github.pengfeizhou.jscore.JSONBuilder;
 import com.github.pengfeizhou.jscore.JSValue;
+import com.github.pengfeizhou.jscore.JavaValue;
 
 import java.lang.reflect.Field;
 
@@ -44,6 +46,11 @@ public class DangleViewNode extends ViewNode<GLView> {
                     ptrField.setAccessible(true);
                     long ptr = ptrField.getLong(jsExecutor);
                     JSIRuntime.create(ptr);
+
+                    jsExecutor.injectGlobalJSObject(
+                            "navigator",
+                            new JavaValue(new JSONBuilder().put("userAgent", "").toJSONObject())
+                    );
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
                 }

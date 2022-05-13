@@ -174,7 +174,7 @@ class painter extends Panel {
               material.update();
 
               // create a box which we use to display rendered texture in the world layer
-              const worldLayer = app.scene.layers.getLayerByName("World");
+              const worldLayer = app.scene.layers.getLayerByName("World") as pc.Layer;
               const box = createPrimitive(
                 "box",
                 new pc.Vec3(0, 0, 0),
