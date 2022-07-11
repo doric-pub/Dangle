@@ -1,6 +1,6 @@
 {
   "name": "dangle",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "main": "dist/bundle_dangle.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -12,8 +12,7 @@
     "ios": "cd example && doric run iOS"
   },
   "license": "Apache-2.0",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "doric": "^0.10.10",
     "doric-cli": "^0.10.10",
