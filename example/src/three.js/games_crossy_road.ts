@@ -44,8 +44,8 @@ class games_crossy_road extends Panel {
                 width: width,
                 height: height,
                 style: {},
-                addEventListener: (() => {}) as any,
-                removeEventListener: (() => {}) as any,
+                addEventListener: (() => { }) as any,
+                removeEventListener: (() => { }) as any,
                 clientHeight: height,
                 getContext: (() => {
                   return gl;
@@ -56,7 +56,7 @@ class games_crossy_road extends Panel {
                 innerWidth: width,
                 innerHeight: height,
                 devicePixelRatio: 1,
-                addEventListener: (() => {}) as any,
+                addEventListener: (() => { }) as any,
               };
 
               const requestAnimationFrame =
@@ -307,7 +307,7 @@ class games_crossy_road extends Panel {
 
               function Wheel() {
                 const wheel = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(12 * zoom, 33 * zoom, 12 * zoom),
+                  new THREE.BoxGeometry(12 * zoom, 33 * zoom, 12 * zoom),
                   new THREE.MeshPhongMaterial({
                     color: 0x333333,
                     flatShading: true,
@@ -321,11 +321,11 @@ class games_crossy_road extends Panel {
                 const car = new THREE.Group();
                 const color =
                   vechicleColors[
-                    Math.floor(Math.random() * vechicleColors.length)
+                  Math.floor(Math.random() * vechicleColors.length)
                   ];
 
                 const main = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(60 * zoom, 30 * zoom, 15 * zoom),
+                  new THREE.BoxGeometry(60 * zoom, 30 * zoom, 15 * zoom),
                   new THREE.MeshPhongMaterial({ color, flatShading: true })
                 );
                 main.position.z = 12 * zoom;
@@ -334,7 +334,7 @@ class games_crossy_road extends Panel {
                 car.add(main);
 
                 const cabin = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(33 * zoom, 24 * zoom, 12 * zoom),
+                  new THREE.BoxGeometry(33 * zoom, 24 * zoom, 12 * zoom),
                   [
                     new THREE.MeshPhongMaterial({
                       color: 0xcccccc,
@@ -392,11 +392,11 @@ class games_crossy_road extends Panel {
                 const truck = new THREE.Group();
                 const color =
                   vechicleColors[
-                    Math.floor(Math.random() * vechicleColors.length)
+                  Math.floor(Math.random() * vechicleColors.length)
                   ];
 
                 const base = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(100 * zoom, 25 * zoom, 5 * zoom),
+                  new THREE.BoxGeometry(100 * zoom, 25 * zoom, 5 * zoom),
                   new THREE.MeshPhongMaterial({
                     color: 0xb4c6fc,
                     flatShading: true,
@@ -406,7 +406,7 @@ class games_crossy_road extends Panel {
                 truck.add(base);
 
                 const cargo = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(75 * zoom, 35 * zoom, 40 * zoom),
+                  new THREE.BoxGeometry(75 * zoom, 35 * zoom, 40 * zoom),
                   new THREE.MeshPhongMaterial({
                     color: 0xb4c6fc,
                     flatShading: true,
@@ -419,7 +419,7 @@ class games_crossy_road extends Panel {
                 truck.add(cargo);
 
                 const cabin = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(25 * zoom, 30 * zoom, 30 * zoom),
+                  new THREE.BoxGeometry(25 * zoom, 30 * zoom, 30 * zoom),
                   [
                     new THREE.MeshPhongMaterial({ color, flatShading: true }), // back
                     new THREE.MeshPhongMaterial({
@@ -469,7 +469,7 @@ class games_crossy_road extends Panel {
                 const three = new THREE.Group();
 
                 const trunk = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(15 * zoom, 15 * zoom, 20 * zoom),
+                  new THREE.BoxGeometry(15 * zoom, 15 * zoom, 20 * zoom),
                   new THREE.MeshPhongMaterial({
                     color: 0x4d2926,
                     flatShading: true,
@@ -484,7 +484,7 @@ class games_crossy_road extends Panel {
                   threeHeights[Math.floor(Math.random() * threeHeights.length)];
 
                 const crown = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(
+                  new THREE.BoxGeometry(
                     30 * zoom,
                     30 * zoom,
                     height * zoom
@@ -506,7 +506,7 @@ class games_crossy_road extends Panel {
                 const chicken = new THREE.Group();
 
                 const body = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(
+                  new THREE.BoxGeometry(
                     chickenSize * zoom,
                     chickenSize * zoom,
                     20 * zoom
@@ -522,7 +522,7 @@ class games_crossy_road extends Panel {
                 chicken.add(body);
 
                 const rowel = new THREE.Mesh(
-                  new THREE.BoxBufferGeometry(2 * zoom, 4 * zoom, 2 * zoom),
+                  new THREE.BoxGeometry(2 * zoom, 4 * zoom, 2 * zoom),
                   new THREE.MeshPhongMaterial({
                     color: 0xf0619a,
                     flatShading: true,
@@ -541,7 +541,7 @@ class games_crossy_road extends Panel {
 
                 const createSection = (color) =>
                   new THREE.Mesh(
-                    new THREE.PlaneBufferGeometry(
+                    new THREE.PlaneGeometry(
                       boardWidth * zoom,
                       positionWidth * zoom
                     ),
@@ -568,7 +568,7 @@ class games_crossy_road extends Panel {
 
                 const createSection = (color) =>
                   new THREE.Mesh(
-                    new THREE.BoxBufferGeometry(
+                    new THREE.BoxGeometry(
                       boardWidth * zoom,
                       positionWidth * zoom,
                       3 * zoom
@@ -654,7 +654,7 @@ class games_crossy_road extends Panel {
                       occupiedPositions.add(position);
                       vechicle.position.x =
                         (position * positionWidth * 2 + positionWidth / 2) *
-                          zoom -
+                        zoom -
                         (boardWidth * zoom) / 2;
                       //@ts-ignore
                       if (!this.direction) vechicle.rotation.z = Math.PI;
@@ -686,7 +686,7 @@ class games_crossy_road extends Panel {
                       occupiedPositions.add(position);
                       vechicle.position.x =
                         (position * positionWidth * 3 + positionWidth / 2) *
-                          zoom -
+                        zoom -
                         (boardWidth * zoom) / 2;
                       //@ts-ignore
                       if (!this.direction) vechicle.rotation.z = Math.PI;
@@ -841,13 +841,13 @@ class games_crossy_road extends Panel {
                           vechicle.position.x < aBitBeforeTheBeginingOfLane
                             ? aBitAfterTheEndOFLane
                             : (vechicle.position.x -=
-                                (lane.speed / 16) * delta);
+                              (lane.speed / 16) * delta);
                       } else {
                         vechicle.position.x =
                           vechicle.position.x > aBitAfterTheEndOFLane
                             ? aBitBeforeTheBeginingOfLane
                             : (vechicle.position.x +=
-                                (lane.speed / 16) * delta);
+                              (lane.speed / 16) * delta);
                       }
                     });
                   }
@@ -895,7 +895,7 @@ class games_crossy_road extends Panel {
                     case "left": {
                       const positionX =
                         (currentColumn * positionWidth + positionWidth / 2) *
-                          zoom -
+                        zoom -
                         (boardWidth * zoom) / 2 -
                         moveDeltaDistance;
                       camera.position.x = initialCameraPositionX + positionX;
@@ -908,7 +908,7 @@ class games_crossy_road extends Panel {
                     case "right": {
                       const positionX =
                         (currentColumn * positionWidth + positionWidth / 2) *
-                          zoom -
+                        zoom -
                         (boardWidth * zoom) / 2 +
                         moveDeltaDistance;
                       camera.position.x = initialCameraPositionX + positionX;

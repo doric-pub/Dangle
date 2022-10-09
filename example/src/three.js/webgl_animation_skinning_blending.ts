@@ -10,13 +10,13 @@ import {
   hlayout,
   text,
   Text,
+  VLayout,
+  switchView,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
 import * as THREE from "three";
 import { GLTFLoader } from "./jsm/loaders/GLTFLoader";
-import { VLayout } from "doric/lib/src/widget/layouts";
-import { switchView } from "doric/lib/src/widget/switch";
 
 @Entry
 class webgl_animation_skinning_blending extends Panel {
@@ -45,8 +45,8 @@ class webgl_animation_skinning_blending extends Panel {
                 width: width,
                 height: height,
                 style: {},
-                addEventListener: (() => {}) as any,
-                removeEventListener: (() => {}) as any,
+                addEventListener: (() => { }) as any,
+                removeEventListener: (() => { }) as any,
                 clientHeight: height,
                 getContext: (() => {
                   return gl;
@@ -57,7 +57,7 @@ class webgl_animation_skinning_blending extends Panel {
                 innerWidth: width,
                 innerHeight: height,
                 devicePixelRatio: 1,
-                addEventListener: (() => {}) as any,
+                addEventListener: (() => { }) as any,
               };
 
               const requestAnimationFrame =

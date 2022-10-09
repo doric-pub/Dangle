@@ -7,6 +7,7 @@ import {
   navbar,
   resourceLoader,
   stack,
+  AssetsResource,
 } from "doric";
 import { dangleView, DangleWebGLRenderingContext, vsync } from "dangle";
 
@@ -19,7 +20,6 @@ import { BloomPass } from "./jsm/postprocessing/BloomPass";
 import { FilmPass } from "./jsm/postprocessing/FilmPass";
 import { FocusShader } from "./jsm/shaders/FocusShader";
 import { OBJLoader } from "./jsm/loaders/OBJLoader";
-import { AssetsResource } from "doric/lib/src/util/resource";
 
 @Entry
 class webgl_points_dynamic extends Panel {

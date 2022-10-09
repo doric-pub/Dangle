@@ -28,7 +28,7 @@ public class Dangle {
         return mJSHandler;
     }
 
-    private Map<Integer, GLContext> glContexts = new HashMap<>();
+    private final Map<Integer, GLContext> glContexts = new HashMap<>();
 
     public Map<Integer, GLContext> getGLContexts() {
         return glContexts;

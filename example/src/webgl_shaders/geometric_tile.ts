@@ -60,9 +60,9 @@ class geometric_tile extends Panel {
                     };
                   }
                 }) as any,
-                removeEventListener: (() => {}) as any,
-                setPointerCapture: (() => {}) as any,
-                releasePointerCapture: (() => {}) as any,
+                removeEventListener: (() => { }) as any,
+                setPointerCapture: (() => { }) as any,
+                releasePointerCapture: (() => { }) as any,
                 clientHeight: height,
                 getContext: (() => {
                   return gl;
@@ -73,7 +73,7 @@ class geometric_tile extends Panel {
                 innerWidth: width,
                 innerHeight: height,
                 devicePixelRatio: 1,
-                addEventListener: (() => {}) as any,
+                addEventListener: (() => { }) as any,
               };
 
               const requestAnimationFrame =
@@ -105,7 +105,7 @@ class geometric_tile extends Panel {
                 clock = new THREE.Clock(true);
 
                 // Create the plane geometry
-                var geometry = new THREE.PlaneBufferGeometry(2, 2);
+                var geometry = new THREE.PlaneGeometry(2, 2);
 
                 // Define the shader uniforms
                 uniforms = {

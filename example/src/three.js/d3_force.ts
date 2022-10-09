@@ -32,8 +32,8 @@ class d3_force extends Panel {
                 width: width,
                 height: height,
                 style: {},
-                addEventListener: (() => {}) as any,
-                removeEventListener: (() => {}) as any,
+                addEventListener: (() => { }) as any,
+                removeEventListener: (() => { }) as any,
                 clientHeight: height,
                 getContext: (() => {
                   return gl;
@@ -44,7 +44,7 @@ class d3_force extends Panel {
                 innerWidth: width,
                 innerHeight: height,
                 devicePixelRatio: 1,
-                addEventListener: (() => {}) as any,
+                addEventListener: (() => { }) as any,
               };
 
               //#region code to impl
@@ -73,7 +73,7 @@ class d3_force extends Panel {
               camera.position.z = 5;
 
               data.nodes.forEach((node: any) => {
-                node.geometry = new THREE.CircleBufferGeometry(5, 32);
+                node.geometry = new THREE.CircleGeometry(5, 32);
                 node.material = new THREE.MeshBasicMaterial({
                   color: colour(node.id),
                 });
