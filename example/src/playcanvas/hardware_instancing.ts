@@ -89,7 +89,7 @@ class hardware_instancing extends Panel {
               // create standard material and enable instancing on it
               const material = new pc.StandardMaterial();
               material.onUpdateShader = function (options) {
-                options.useInstancing = true;
+                options.litOptions.useInstancing = true;
                 return options;
               };
               material.shininess = 60;
@@ -144,7 +144,9 @@ class hardware_instancing extends Panel {
                 // create static vertex buffer containing the matrices
                 const vertexBuffer = new pc.VertexBuffer(
                   app.graphicsDevice,
-                  pc.VertexFormat.defaultInstancingFormat,
+                  pc.VertexFormat.getDefaultInstancingFormat(
+                    app.graphicsDevice
+                  ),
                   instanceCount,
                   pc.BUFFER_STATIC,
                   matrices

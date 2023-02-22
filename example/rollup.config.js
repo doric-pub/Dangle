@@ -40,6 +40,7 @@ import dsv from "@rollup/plugin-dsv";
 
   allImages.forEach((value) => {
     let path = __dirname + "/build/" + value;
+    path = path.split("\\").join("/");
     let index = path.lastIndexOf("/");
     mkdirsSync(path.substring(0, index));
 
@@ -86,6 +87,7 @@ import dsv from "@rollup/plugin-dsv";
 
   allDSVs.forEach((value) => {
     let path = __dirname + "/build/" + value;
+    path = path.split("\\").join("/");
     let index = path.lastIndexOf("/");
     mkdirsSync(path.substring(0, index));
 
@@ -132,6 +134,7 @@ import dsv from "@rollup/plugin-dsv";
 
   allJSFiles.forEach((value) => {
     let path = __dirname + "/build/" + value;
+    path = path.split("\\").join("/");
     let index = path.lastIndexOf("/");
     mkdirsSync(path.substring(0, index));
 
@@ -152,7 +155,7 @@ function readDirs(dirPath, files) {
     });
   } else {
     for (let bundle of bundles) {
-      if (dirPath.match(new RegExp(`^${bundle}`))) {
+      if (dirPath.split("\\").join("/").match(new RegExp(`^${bundle}`))) {
         files.push(dirPath);
       }
     }

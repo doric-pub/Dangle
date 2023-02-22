@@ -199,8 +199,9 @@ class webgl_geometry_convex extends Panel {
               BufferGeometryUtils.mergeVertices(dodecahedronGeometry);
 
             const vertices: any[] = [];
-            const positionAttribute =
-              dodecahedronGeometry.getAttribute("position");
+            const positionAttribute = dodecahedronGeometry.getAttribute(
+              "position"
+            ) as THREE.BufferAttribute;
 
             for (let i = 0; i < positionAttribute.count; i++) {
               const vertex = new THREE.Vector3();

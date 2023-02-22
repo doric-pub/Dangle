@@ -26,7 +26,7 @@ class batch extends Panel {
 
               // Calling the regl module with no arguments creates a full screen canvas and
               // WebGL context, and then uses this context to initialize a new REGL instance
-              const regl = REGL(gl);
+              const regl = REGL(gl as WebGLRenderingContext);
 
               // Next we create our command
               const draw = regl({

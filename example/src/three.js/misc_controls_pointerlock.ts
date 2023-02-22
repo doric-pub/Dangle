@@ -319,7 +319,8 @@ class misc_controls_pointerlock extends Panel {
 
             // vertex displacement
 
-            let position = floorGeometry.attributes.position;
+            let position = floorGeometry.attributes
+              .position as THREE.BufferAttribute;
 
             for (let i = 0, l = position.count; i < l; i++) {
               vertex.fromBufferAttribute(position, i);
@@ -333,7 +334,8 @@ class misc_controls_pointerlock extends Panel {
 
             (<any>floorGeometry) = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
 
-            position = floorGeometry.attributes.position;
+            position = floorGeometry.attributes
+              .position as THREE.BufferAttribute;
             const colorsFloor: any[] = [];
 
             for (let i = 0, l = position.count; i < l; i++) {
@@ -365,7 +367,7 @@ class misc_controls_pointerlock extends Panel {
               20
             ).toNonIndexed();
 
-            position = boxGeometry.attributes.position;
+            position = boxGeometry.attributes.position as THREE.BufferAttribute;
             const colorsBox: any[] = [];
 
             for (let i = 0, l = position.count; i < l; i++) {

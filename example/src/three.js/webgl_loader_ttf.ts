@@ -203,7 +203,7 @@ class webgl_loader_ttf extends Panel {
             };
 
             self.inputView!!.onTextChange = (value) => {
-              text = value;
+              text = value as string;
 
               refreshText();
             };

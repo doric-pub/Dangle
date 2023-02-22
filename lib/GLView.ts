@@ -204,7 +204,7 @@ const wrapMethods = gl => {
     Reflect.apply(orig, gl, [program && program.id, shader && shader.id])
   );
   wrap('getAttachedShaders', orig => program =>
-    Reflect.apply(orig, gl, [program && program.id]).map(id => wrapObject(WebGLShader, id))
+    (Reflect.apply(orig, gl, [program && program.id]) as any).map(id => wrapObject(WebGLShader, id))
   );
   wrap('getProgramParameter', orig => (program, pname) =>
     Reflect.apply(orig, gl, [program && program.id, pname])
@@ -327,12 +327,12 @@ const wrapMethods = gl => {
   });
   wrap('getUniformIndices', orig => (program, uniformNames) => {
     // according to WebGL2 specs, it returns Array instead of Uint32Array
-    const uintArray = Reflect.apply(orig, gl, [objectId(program), uniformNames]);
+    const uintArray = Reflect.apply(orig, gl, [objectId(program), uniformNames]) as any;
     return Array.from(uintArray);
   });
   wrap('getActiveUniforms', orig => (program, uniformIndices, pname) => {
     // according to WebGL2 specs, it returns Array instead of Int32Array
-    const intArray = Reflect.apply(orig, gl, [objectId(program), new Uint32Array(uniformIndices), pname]);
+    const intArray = Reflect.apply(orig, gl, [objectId(program), new Uint32Array(uniformIndices), pname]) as any;
     const boolResult = pname === gl.UNIFORM_IS_ROW_MAJOR;
     const arr = Array.from(intArray);
     return boolResult ? arr.map(val => !!val) : arr;
