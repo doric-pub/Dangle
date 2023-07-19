@@ -175,11 +175,7 @@ class webgl_framebuffer_texture extends Panel {
 
             //
 
-            texture = new THREE.FramebufferTexture(
-              textureSize,
-              textureSize,
-              THREE.RGBAFormat
-            );
+            texture = new THREE.FramebufferTexture(textureSize, textureSize);
             texture.minFilter = THREE.NearestFilter;
             texture.magFilter = THREE.NearestFilter;
 

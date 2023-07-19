@@ -86,7 +86,7 @@ class clustered_lighting extends Panel {
               //#region code to impl
               // Create the app and start the update loop
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
@@ -140,7 +140,7 @@ class clustered_lighting extends Panel {
               material.bumpiness = 1;
 
               // enable specular
-              material.shininess = 50;
+              material.gloss = 50;
               material.metalness = 0.3;
               material.useMetalness = true;
 

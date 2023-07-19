@@ -94,7 +94,7 @@ class particles_random_sprites extends Panel {
               );
               const array = new Uint8Array(imagePixels);
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,

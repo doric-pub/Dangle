@@ -89,7 +89,7 @@ class clustered_spot_shadows extends Panel {
               // Create the application and start the update loop
               const app = new pc.Application(canvas, {});
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
@@ -173,7 +173,7 @@ class clustered_spot_shadows extends Panel {
 
               // ground material
               const groundMaterial = new pc.StandardMaterial();
-              groundMaterial.shininess = 25;
+              groundMaterial.gloss = 25;
               groundMaterial.metalness = 0.4;
               groundMaterial.useMetalness = true;
 

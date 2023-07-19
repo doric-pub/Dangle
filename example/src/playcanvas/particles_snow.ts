@@ -79,7 +79,7 @@ class particles_random_sprites extends Panel {
               //#region code to impl
               // Create the app and start the update loop
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,

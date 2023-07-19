@@ -90,7 +90,7 @@ class clustered_omni_shadows extends Panel {
               const app = new pc.Application(canvas, {});
               app.start();
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture1 = new pc.Texture(graphicsDevice, {
                 width: imageInfo1.width,
@@ -176,7 +176,7 @@ class clustered_omni_shadows extends Panel {
                 material.bumpiness = 0.7;
 
                 // enable specular
-                material.shininess = 40;
+                material.gloss = 40;
                 material.metalness = 0.3;
                 material.useMetalness = true;
 

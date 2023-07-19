@@ -80,7 +80,7 @@ class component_properties extends Panel {
 
               // app.start();
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,

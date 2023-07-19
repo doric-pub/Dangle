@@ -78,7 +78,7 @@ class mesh_generation extends Panel {
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
@@ -234,7 +234,7 @@ class mesh_generation extends Panel {
               // create material
               const material = new pc.StandardMaterial();
               material.diffuseMap = assets.playcanvasGrey.resource;
-              material.shininess = 50;
+              material.gloss = 50;
               material.metalness = 0.3;
               material.useMetalness = true;
               material.update();

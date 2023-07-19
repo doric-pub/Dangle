@@ -78,14 +78,14 @@ class batching_dynamic extends Panel {
               // create two material
               const material1 = new pc.StandardMaterial();
               material1.diffuse = new pc.Color(1, 1, 0);
-              material1.shininess = 40;
+              material1.gloss = 40;
               material1.metalness = 0.5;
               material1.useMetalness = true;
               material1.update();
 
               const material2 = new pc.StandardMaterial();
               material2.diffuse = new pc.Color(0, 1, 1);
-              material2.shininess = 40;
+              material2.gloss = 40;
               material2.metalness = 0.5;
               material2.useMetalness = true;
               material2.update();

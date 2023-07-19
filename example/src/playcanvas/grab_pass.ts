@@ -78,7 +78,7 @@ class grab_pass extends Panel {
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,

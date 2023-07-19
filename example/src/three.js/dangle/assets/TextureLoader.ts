@@ -33,7 +33,6 @@ class TextureLoader extends Loader {
           data: new Uint8ClampedArray(imagePixels),
           width: imageInfo.width,
           height: imageInfo.height,
-          colorSpace: "srgb",
         };
 
         texture.needsUpdate = true;

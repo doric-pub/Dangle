@@ -76,7 +76,7 @@ class mesh_decals extends Panel {
               // Create the app and start the update loop
               const app = new pc.Application(canvas, {});
 
-              const graphicsDevice = new pc.GraphicsDevice(canvas);
+              const graphicsDevice = new pc.GraphicsDevice(canvas, {});
 
               const texture = new pc.Texture(graphicsDevice, {
                 width: imageInfo.width,
@@ -104,7 +104,7 @@ class mesh_decals extends Panel {
 
               // create material for the plane
               const planeMaterial = new pc.StandardMaterial();
-              planeMaterial.shininess = 60;
+              planeMaterial.gloss = 60;
               planeMaterial.metalness = 0.3;
               planeMaterial.useMetalness = true;
               planeMaterial.update();

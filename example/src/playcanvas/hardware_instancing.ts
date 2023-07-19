@@ -92,7 +92,7 @@ class hardware_instancing extends Panel {
                 options.litOptions.useInstancing = true;
                 return options;
               };
-              material.shininess = 60;
+              material.gloss = 60;
               material.metalness = 0.7;
               material.useMetalness = true;
               material.update();
