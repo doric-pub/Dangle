@@ -113,6 +113,8 @@ export default [
 
     "src/three.js/zeekr_001",
 
+    "src/three.js/line_chart",
+
     // Stardust
     "src/stardust/hello_world",
     "src/stardust/daily_activities",
