@@ -24,7 +24,7 @@
     "plotly.js": "^2.24.3",
     "query-selector": "^2.0.0",
     "regl": "^2.1.0",
-    "rollup": "^3.26.3",
+    "rollup": "^2.79.1",
     "stardust-core": "^0.2.4",
     "stardust-webgl": "^0.2.4",
     "three": "^0.154.0",

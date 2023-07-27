@@ -185,9 +185,9 @@ namespace dangle::gl_cpp {
                 glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &formatsNumber);
             });
 
-            std::vector<TypedArrayBase::ContentType<TypedArrayKind::Float32Array>> glResults(formatsNumber);
+            std::vector<GLint> glResults(formatsNumber);
             addBlockingToNextBatch([&] {
-                glGetFloatv(GL_COMPRESSED_TEXTURE_FORMATS, glResults.data());
+                glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, glResults.data());
             });
 
             for (float glResult : glResults) {

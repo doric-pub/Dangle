@@ -27,6 +27,8 @@
             [self.tableDataArr addObject:[NSString stringWithFormat:@"mdn_webgl/Sample%i", i]];
         }
     } else if ([self.engineType isEqual: @"Three.js"]) {
+        [self.tableDataArr addObject:@"three.js/line_chart"];
+        
         [self.tableDataArr addObject:@"three.js/chess"];
 
         [self.tableDataArr addObject:@"three.js/d3_force"];
