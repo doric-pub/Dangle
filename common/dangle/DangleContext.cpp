@@ -80,7 +80,7 @@ namespace dangle::gl_cpp {
             return this->glNativeMethod_##name(runtime, jsThis, jsArgv, argc);     \
           }                                                                        \
         } catch (const std::exception &e) {                                        \
-          throw std::runtime_error(std::string("[" #name "] error: ") + e.what()); \
+          return jsi::Value::null();                                               \
         }                                                                          \
       });
 
