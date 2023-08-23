@@ -97,21 +97,25 @@ namespace dangle {
             // [JS thread] Add a blocking operation to the 'next' batch -- waits for the
             // queued function to run before returning
             void addBlockingToNextBatch(Op &&op) noexcept {
-                std::mutex mutex;
-                m_done = false;
+                try {
+                    std::mutex mutex;
+                    m_done = false;
 
-                addToNextBatch([&] {
-                    op();
+                    addToNextBatch([&] {
+                        op();
+
+                        std::unique_lock<decltype(mutex)> lock(mutex);
+                        m_done = true;
+                        m_done_cv.notify_all();
+                    });
 
                     std::unique_lock<decltype(mutex)> lock(mutex);
-                    m_done = true;
-                    m_done_cv.notify_all();
-                });
-
-                std::unique_lock<decltype(mutex)> lock(mutex);
-                endNextBatch();
-                flushOnGLThread();
-                m_done_cv.wait(lock, [&] { return m_done; });
+                    endNextBatch();
+                    flushOnGLThread();
+                    m_done_cv.wait(lock, [&] { return m_done; });
+                } catch (const std::exception &e) {
+                    DangleSysLog("addBlockingToNextBatch std::exception");
+                }
             }
 
             // [JS thread] Enqueue a function and return an Dangle object that will get mapped
