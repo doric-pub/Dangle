@@ -102,8 +102,11 @@ namespace dangle {
                     m_done = false;
 
                     addToNextBatch([&] {
-                        op();
-
+                        if (!destroy) {
+                            op();
+                        } else {
+                            DangleSysLog("addToNextBatch after DangleContext destroyed");
+                        }
                         std::unique_lock<decltype(mutex)> lock(mutex);
                         m_done = true;
                         m_done_cv.notify_all();
@@ -153,6 +156,10 @@ namespace dangle {
 
             // [GL thread] Do all the remaining work we can do on the GL thread
             void flush(void) {
+                if (destroy) {
+                    DangleSysLog("flush after DangleContext destroyed");
+                    return;
+                }
                 // Keep a copy and clear backlog to minimize lock time
                 std::vector<Batch> copy;
                 {

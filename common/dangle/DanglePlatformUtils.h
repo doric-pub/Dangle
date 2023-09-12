@@ -26,7 +26,7 @@ namespace dangle {
 
 #ifdef DANGLE_DEBUG
 #ifdef __ANDROID__
-#define DangleSysLog(fmt, ...) __android_log_print(ANDROID_LOG_ERROR, "Dangle", fmt, ##__VA_ARGS__)
+#define DangleSysLog(fmt, ...) __android_log_print(ANDROID_LOG_ERROR, "DangleJNI", fmt, ##__VA_ARGS__)
 #endif
 #ifdef __APPLE__
 #define DangleSysLog(fmt, ...) DangleiOSLog("Dangle: " fmt, ##__VA_ARGS__)
