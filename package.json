@@ -1,6 +1,6 @@
 {
   "name": "dangle",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "main": "dist/bundle_dangle.js",
   "types": "build/index.d.ts",
   "scripts": {
