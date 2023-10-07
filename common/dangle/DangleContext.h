@@ -97,6 +97,11 @@ namespace dangle {
             // [JS thread] Add a blocking operation to the 'next' batch -- waits for the
             // queued function to run before returning
             void addBlockingToNextBatch(Op &&op) noexcept {
+                if (destroy) {
+                    DangleSysLog("addBlockingToNextBatch after DangleContext destroyed");
+                    return;
+                }
+
                 try {
                     std::mutex mutex;
                     m_done = false;
