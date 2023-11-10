@@ -69,6 +69,7 @@ namespace dangle {
             using Op = std::function<void(void)>;
 
             bool destroy = false;
+            std::mutex destroyMutex;
 
             // Ops are combined into batches:
             //   1. A batch is always executed entirely in one go on the GL thread
@@ -97,6 +98,8 @@ namespace dangle {
             // [JS thread] Add a blocking operation to the 'next' batch -- waits for the
             // queued function to run before returning
             void addBlockingToNextBatch(Op &&op) noexcept {
+                std::unique_lock<std::mutex> lock(destroyMutex);
+
                 if (destroy) {
                     DangleSysLog("addBlockingToNextBatch after DangleContext destroyed");
                     return;
@@ -258,6 +261,11 @@ namespace dangle {
                         glViewport(0, 0, 300, 150);
                     }
                 });
+            }
+
+            ~DangleContext() {
+                std::unique_lock<std::mutex> lock(destroyMutex);
+                DangleSysLog("~DangleContext()");
             }
 
             static DangleContext *ContextGet(UDangleContextId dangleCtxId);
