@@ -217,7 +217,7 @@ namespace dangle {
 
             // --- Init/destroy and JS object binding ------------------------------------
         private:
-            std::set<const std::string> supportedExtensions;
+            std::set<std::string> supportedExtensions;
             bool supportsWebGL2 = false;
 
         public:
